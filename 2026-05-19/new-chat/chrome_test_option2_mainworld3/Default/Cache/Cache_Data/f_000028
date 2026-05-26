@@ -1,0 +1,686 @@
+@charset "utf-8";
+/* .calendarbox{ margin-top: 10px} */
+.w2calendar_class1{ height: auto} /* footer 날짜부분 잘림현상 */
+.w2inputCalendar_div{position:relative;width:100%;max-width:13.5rem;height:2.6rem !important;overflow:visible; margin: 0.2rem 0.6rem 0.2rem 0;}
+.w2inputCalendar_div_input{width:100% !important;max-width:13.5rem !important;padding-right:0; background-color: #fff;}
+.w2inputCalendar_divInput{
+  width:100% !important;
+  height:100% !important;
+  padding:0 1rem;
+  border:0.1rem solid #ccc;
+  border-radius:0.4rem;
+  background-color: #fff;
+  text-align:left;
+  font-size:1.4rem;
+  box-sizing:border-box;
+  font-family: inherit;
+  background: url(/kn/com/images/components/ic_line_calendar_gray.svg) no-repeat right center;
+  /* background-size: 2rem; */
+  color: #555;
+  outline: 0;
+}
+.w2inputCalendar_div_img{position:absolute;top:0;right:0rem;width:2.6rem;}
+.w2inputCalendar_div_img button{position:relative;width:100%;height:100%;top:-0.3rem;background:none !important}
+.w2inputCalendar_div.from-to {width: 12rem !important;}
+.w2inputCalendar_div.from-to .w2inputCalendar_divInput{width: 12rem !important;}
+.w2calendar{
+  width:33.3rem;
+  height:35rem;
+  margin: 0 0;
+  background-color:#fff;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+  padding: 3rem;
+  border: 0.1rem solid #4876ef;
+  border-radius: 0.4rem;
+  position: absolute;
+  }/*캘린더 아이콘 눌렀을때*/
+/* .w2calendar:after{
+  display: block;
+  content: '';
+  position: absolute;
+  top:-0.7rem;
+  left: 1.4rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: #fff;
+  border: 0.1rem solid #4876ef;
+  border-top-right-radius: 0.2rem;
+  border-bottom:0;
+  border-left:0;
+  transform: rotate(-45deg);
+} */
+.w2calendar_header{position: relative;width: 100%;height:3.6rem;background-color:#fff;text-align:center;display:flex;justify-content:space-between;align-items:center;}/*캘린더 아이콘 누를시 캘린더헤더*/
+.w2calendar_header .w2calendar_header_last_year,
+.w2calendar_header .w2calendar_header_last_month,
+.w2calendar_header .w2calendar_header_next_month,
+.w2calendar_header .w2calendar_header_next_year {position:relative;height:3.2rem;left:0;top:0;background-size: 2.2rem;padding: 0 1.4rem;}
+.w2calendar_header_last_year{background-image: url('/kn/com/images/components/ic_double_arr_left_blue.svg');}/*큰캘린더 년도옮기기 왼쪽이미지*/
+.w2calendar_header_last_month{background-image: url('/kn/com/images/components/ic_arr_left_blue.svg');}/*큰캘린더 달옮기기 왼쪽이미지*/
+.w2calendar_header_next_month{background-image: url('/kn/com/images/components/ic_arr_right_blue.svg');}/*큰캘린더 달옮기기 오른쪽이미지*/
+.w2calendar_header_next_year{background-image: url('/kn/com/images/components/ic_double_arr_right_blue.svg');}/*큰캘린더 년도옮기기 오른쪽이미지*/
+.w2calendar_header .w2selectbox {height:3.2rem;line-height:2rem;font-size:1.5rem;font-weight:600;position: relative;left: 0;top: 0;border: none;}
+.w2calendar_header .w2selectbox  * {font-size:1.5rem;font-weight:600;}
+.w2calendar_header .w2selectbox .w2selectbox_col_button:after{visibility:hidden;}
+.w2calendar_selectbox_year_native,
+.w2calendar_selectbox_month_native{flex:1;height:3.2rem;border:0;font-size:1.5rem;color:#000;appearance:none; -webkit-appearance:none;
+  background-image: url('/kn/com/images/components/ic_arr_down_blue.svg');background-repeat: no-repeat;background-size: 2.3rem; background-position: right top 0.5rem;
+  background-color: transparent;font-family: inherit;}/* 큰캘린더 헤더 글자설정 */
+.w2calendar_selectbox_year.w2selectbox_body_over  {flex:2;}
+.w2calendar_selectbox_month {flex:1;}
+.w2calendar_selectbox_year_native,
+.w2calendar_selectbox_month_native {width:auto;flex:1;padding:0 2rem 0 1rem;margin:0 1.4rem 0 0;font-weight:600;position: relative;left: 0;top: 0;}
+.w2calendar_selectbox_year_native {flex:2;}
+.w2calendar_selectbox_month_native {flex:1;margin-right:0;}
+.w2calendar_selectbox_year_native option,
+.w2calendar_selectbox_month_native option{color:#000;font-weight: 500;padding-left: 2rem;text-align: center;}/* 큰캘린더 셀렉트박스 글자설정 */
+.w2calendar_header button {position:relative;right:0;left:0;top:0;clear:both;padding:0 1rem;margin:0;}
+
+.w2calendar_content{padding: 2rem 0;border-top: 0.1rem solid #4876ef;border-bottom: 0.1rem solid #4876ef; }
+.w2calendar_content,
+.w2calendar_content .w2calendar_col_date{background-color:#fff;color:#555;background-image: none;}
+.w2calendar_content .w2calendar_col_day,
+.w2calendar_content .w2calendar_col_date{height:2.6rem;font-size: 1.3rem;line-height:1.2;font-weight: 400;}
+.w2calendar_content .w2calendar_col_day:hover button,
+.w2calendar_content .w2calendar_col_date:hover button{background:none;color:#4876ef;}
+.w2calendar_class1 .w2calendar_date_over,
+.w2calendar_class1 .w2calendar_date_over button,
+.w2calendar_content .w2calendar_date_over{font-weight: 500;color:#4876ef;background-color: transparent;background-image: none;}
+.w2calendar_class1 .w2calendar_date_over button {color:#fff;}
+.w2calendar_content .w2calendar_selected{position:relative;color:#fff;background:#4876ef !important;font-weight:normal;height: 2.5rem; border-radius: 0.4rem; }
+.inner-left .w2calendar_content .w2calendar_selected button{color: #ffffff;font-weight:normal;width:100%;height:2.5rem;border-top-left-radius: 0.4rem;border-top-right-radius: 0;border-bottom-left-radius: 0.4rem;border-bottom-right-radius: 0;background: none;background-color: #4876ef;position: inherit;right: 0.1rem;top: -0.05rem;}
+.inner-right .w2calendar_content .w2calendar_selected button{color: #ffffff;font-weight:normal;width:100%;height:2.5rem;border-top-left-radius: 0;border-top-right-radius: 0.4rem;border-bottom-left-radius: 0;border-bottom-right-radius: 0.4rem;background: none;background-color: #4876ef;position: inherit;left: 0.1rem;top: -0.05rem;}
+.w2calendar_content .w2calendar_selected button,
+.w2calendar_content .w2calendar_selected:hover button{color: #fff;min-width: 2.6rem;background-color:#4876ef;transform: translateY(0.1rem);border-radius: 0.4rem;padding-bottom: 0.2rem;}
+.w2calendar_class1 .w2calendar_selected, .w2calendar_class1 .w2calendar_selected button {background:transparent;}
+/* .w2calendar_content .w2calendar_selected:before{content:'';position:absolute;left:50%;top:0;z-index:-1;width:25px;height:25px;background:#1875f0;border-radius:50%;transform:translate(-48%, 0)} */
+.w2calendar_content .w2calendar_col_day {position:relative;background:#f8f8f8;font-size:0;text-indent:-1000%;background-image:none;}
+.w2calendar_content .w2calendar_col_day:before {content:"월";display:block;width:100%;text-indent:0;font-size:1.2rem;color:#333;font-weight:300;position:absolute;left:0;top:0;padding:0;line-height:2.6rem;text-align:center;}
+.w2calendar_content .w2calendar_day0:before {content:"일";color:#d02211;}
+.w2calendar_content .w2calendar_day1:before {content:"월";}
+.w2calendar_content .w2calendar_day2:before {content:"화";}
+.w2calendar_content .w2calendar_day3:before {content:"수";}
+.w2calendar_content .w2calendar_day4:before {content:"목";}
+.w2calendar_content .w2calendar_day5:before {content:"금";}
+.w2calendar_content .w2calendar_day6:before {content:"토";color:#4876ef;}
+.w2calendar_class1 .w2calendar_day_0,
+.w2calendar_class1 .w2calendar_day_0 button,
+.w2calendar_class1 .w2calendar_day_6,
+.w2calendar_class1 .w2calendar_day_6 button {color:inherit;font-weight:inherit;opacity:.8}
+.w2calendar_class1 .w2calendar_col_day:before
+.w2calendar_class1 .w2calendar_day0,
+.w2calendar_class1 .w2calendar_day1,
+.w2calendar_class1 .w2calendar_day2,
+.w2calendar_class1 .w2calendar_day3,
+.w2calendar_class1 .w2calendar_day4,
+.w2calendar_class1 .w2calendar_day5,
+.w2calendar_class1 .w2calendar_day6 {display:none;}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day {position:relative;width:100%;height:100%;display: block;background: #f8f8f8;}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day:before {content:"월";display:block;width:100%;text-indent:0;font-size:1.2rem;color:#333;font-weight: 400;position:absolute;left:0;top:0;padding:0;line-height:2.6rem;text-align:center;}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day0:before {content:"월";}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day1:before {content:"화";}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day2:before {content:"수";}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day3:before {content:"목";}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day4:before {content:"금";}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day5:before {content:"토";color:#4876ef;}
+.w2calendar_class1 .w2calendar_col_day .w2calendar_day6:before {content:"일";color:#d02211;}
+
+.w2calendar_date_disable button {opacity: 0.5;}
+
+.w2calendar_footer{display: block;}
+.w2calendar_footer .w2calendar_go_today {display:inline-block; height:2.4rem; min-width: 5.4rem; padding: 0 0.5rem; margin: 0.4rem 0 0 0; text-indent: initial; background-image: none; background-color:#fff; border:0.1rem solid #ccc; border-radius:0.4rem; font-size:1.2rem; font-weight:normal; text-align:center; color: #555; box-sizing:border-box; cursor:pointer;}
+.w2calendar_footer_date {display: none; padding:0.45rem 0  0 0.5rem; font-size: 1.3rem;}
+.w2calendar_footer_date_mobile{position:static;width:auto;visibility:visible;font-size:14px;text-align:center;padding: 3px 0 0 5px;}
+.w2calendar_selectbox_hour_mobile,
+.w2calendar_selectbox_minute_mobile{width:40px;height:26px;border:0px;font-size:14px}
+.w2calendar_time_confirm{position:relative;width:18px;height:18px;border:1px solid #00aa91;border-radius:3px;background-color:#00aa91;background-image:none}
+.w2calendar_time_confirm:before{content:'';position:absolute;left:4px;top:4px;width:8px;height:4px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)}
+.w2calendar_time_cancel{position:relative;width:18px;height:18px;border:1px solid #ddd;border-radius:3px;background-color:#ddd;background-image:none}
+.w2calendar_time_cancel:before{content:'';position:absolute;left:-3px;top:-3px;width:24px;height:24px;background:linear-gradient(#00aa91, #00aa91), linear-gradient(#00aa91, #00aa91);background-size:50% 2px, 2px 50%;background-repeat:no-repeat;background-position:center;transform:rotate(45deg)}
+.w2calendar_col_date.w2calendar_date.w2calendar_date_off.w2calendar_date_lastmonth,
+.w2calendar_col_date.w2calendar_date.w2calendar_date_off.w2calendar_date_nextmonth{opacity:.3;}
+.w2calendar_col_date button{font-family: 'Roboto', 'NotoSansCJKkr', 'Malgun Gothic', 'Dotum', sans-serif; font-size: 1.3rem;}
+.w2inputCalendar_divInput.w2inputCalendar_focus{border-color: #4876ef;background: url(/kn/com/images/components/ic_line_calendar_blue.svg) no-repeat right center;}
+.w2calendar_classYearMonth_class1 { width:40.3rem !important; height:9.6rem !important; }
+
+.w2calendar_classYearMonth_class1 .w2inputCalendar_header_btn_ok_div,
+.w2calendar_classYear_class1 .w2calendar_header_btn_ok_yearType,
+.w2calendar_classYearMonth_class1 .w2inputCalendar_header_btn_close_div,
+.w2calendar_classYear_class1 .w2calendar_header_btn_close_yearType {
+    min-width: 2.6rem;
+    height: 2.6rem;
+    margin:0.2rem 0;
+    border: 0.1rem solid #ccc;
+    border-radius: 0.4rem;
+    color: transparent;
+    font-size: 0;
+    background-size: 1.8rem;
+}
+.w2calendar_classYearMonth_class1 .w2inputCalendar_header_btn_ok_div,
+.w2calendar_classYear_class1 .w2calendar_header_btn_ok_yearType {
+    background-image: url('/kn/com/images/components/ic_check_thin.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #ffffff;
+}
+.w2calendar_classYearMonth_class1 .w2inputCalendar_header_btn_close_div,
+.w2calendar_classYear_class1 .w2calendar_header_btn_close_yearType  {
+    background-image: url('/kn/com/images/components/ic_close_lightgray.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #ffffff;
+    margin-left: 0.4rem;
+}
+.w2calendar_classYear_class1 .w2calendar_header_btn_ok_yearType ,
+.w2calendar_classYear_class1 .w2calendar_header_btn_close_yearType {position:unset; top:unset; right:unset;}
+.w2calendar_classYear_class1 { height:9.6rem !important; }
+.w2calendar_classYearMonth_class1 .w2inputCalendar_header_btn_ok_div {margin-left:1rem;}
+.w2calendar_classYearMonth_class1 .w2inputCalendar_header_btn_close_div {margin-right:1rem;}
+.w2calendar_classYear_class1 .w2calendar_header_btn_ok_yearType {margin-left:2rem;}
+.w2calendar_classYear_class1 .w2calendar_header_btn_close_yearType {margin-right:1rem;}
+
+.w2calendar_header_next_year_yearType{height:3.2rem;top:0.25rem;left:auto;right:0.8rem;background-image: url('/kn/com/images/components/ic_double_arr_right_blue.svg');background-size: 2.2rem;}/*큰캘린더 년도옮기기 오른쪽이미지*/
+
+.month_wrap{width: 51.6rem;}
+.from-to.wave{
+  height: 2.6rem;
+  line-height: 2.6rem;
+  margin: 0.2rem 0;
+}
+.selectRange1{background-color: #eef5ff !important;}
+
+/* calendar with time picker */
+/* .cal_time_picker {width: calc(100% - 12.6rem); margin-right: 0.6rem;}
+
+
+.calendar_txt{
+  width: 12.5rem !important;
+} */
+
+.w2inputCalendar_divInput.w2inputCalendar_readOnly{
+  border: 0;
+  outline: none;
+  background-image: none;
+}
+
+/* w2scheduleCalendar 목록, 캘린더 토글 시 show hide */
+.hidden .w2scheduleCalendar {transform: scale(0);}
+
+/*From-to calendar*/
+.inputcal-fromto-wrap{position: relative;display: inline-block;}
+
+/* M->개월로 변경됨에 따른 여백조정 0106 keh 수정  */
+
+ .inputcal-fromto-wrap-inner{
+  display: inline-block;
+  width: 21.8rem;
+  height: 2.6rem;
+  margin: 0.4rem .4rem 0.4rem 0;
+  box-shadow: 0 0 0 .08rem #ccc inset;
+  border-radius: 0.4rem;
+  background-color: #fff;
+}
+
+ .inputcal-fromto-wrap-inner[disabled="disabled"] {
+  background-color: #f9f9f9;
+}
+
+
+.inputcal-fromto-wrap-inner .w2input{
+  border: 0;
+  margin: 0;
+  height: 2.4rem;
+  /* width: 9.5rem; */
+  width: 9.1rem;
+  letter-spacing: -0.015rem;
+  color: #555;
+  background-color: transparent;
+  padding:0 0.6rem;
+  text-align:center
+}
+
+.inputcal-fromto-wrap-inner .w2input[disabled="disabled"]{
+    margin-top: 1px;
+    margin-left: 1px;
+    width: 90px;
+}
+
+.inputcal-fromto-wrap-inner span.from-to.wave{margin-left:0; padding-top:unset}
+.inputcal-fromto-wrap-inner .w2input{padding:0 0.9rem}
+.w2radio.month  input[type=radio]+label{padding:0 0.4rem}
+.w2radio.month .w2radio_item{margin-right:0.3rem}
+
+
+/* M->개월로 변경됨에 따른 여백조정 0106 keh 수정  */
+
+
+
+
+.inputcal-fromto-wrap-inner .w2input:focus{
+  box-shadow: none;
+  border: 0;
+}
+.inputcal-fromto-wrap-inner .from-to.wave{
+  margin-top: 0;
+  height: 2.4rem;
+}
+.inputcal-fromto-wrap-inner .btn.cal{
+  height: 2.6rem;
+  width: 2.6rem;
+  border: 0;
+  background: url(/kn/com/images/components/ic_line_calendar_gray.svg) no-repeat right center;
+}
+.inputcal-fromto-wrap-inner .btn.cal[disabled="disabled"] {
+  border-right: none !important;
+}
+
+.inputcal-fromto-wrap-inner.focus{
+  border-color: #4876ef;
+  -webkit-box-shadow: 0 0 0 0.2rem #d4e3fc;
+  box-shadow: 0 0 0 0.2rem #d4e3fc;
+}
+.inputcal-fromto-wrap-inner.focus .btn.cal{
+  background: url(/kn/com/images/components/ic_line_calendar_blue.svg) no-repeat right center;
+}
+.cal-inner-wrap{
+  width: 63.8rem;
+  height: auto;
+  border: 0.1rem solid #4876ef;
+  border-radius: 0.4rem;
+  padding: 3rem 3rem 5rem 3rem;
+  background-color: #fff;
+  position: absolute;
+  top: 3.5rem;
+  z-index: 5000;
+}
+.cal-inner-wrap-top{
+    top: -40.4rem;
+}
+/* .cal-inner-wrap:after{
+  display: block;
+  content: '';
+  position: absolute;
+  top:-0.7rem;
+  left: 1.4rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: #fff;
+  border: 0.1rem solid #4876ef;
+  border-top-right-radius: 0.2rem;
+  border-bottom:0;
+  border-left:0;
+  transform: rotate(-45deg);
+} */
+.cal-inner-wrap .inner-left,.cal-inner-wrap .inner-right{
+  width: calc(50% - 1.5rem);
+  height: auto;
+  background-color: transparent;
+  display: inline-block;
+/*  position: absolute; */
+}
+.cal-inner-wrap .inner-left{margin-right: 3rem;}
+.cal-inner-wrap .inner-left .w2calendar,.cal-inner-wrap .inner-right .w2calendar{
+  margin-top: 0;
+  width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  position: static;
+}
+.cal-inner-wrap .inner-left .w2calendar:after,.cal-inner-wrap .inner-right .w2calendar:after{display: none;}
+.cal-inner-wrap .inner-left .w2textbox,.cal-inner-wrap .inner-right .w2textbox{
+  width: 100%;
+  height: 3.2rem;
+  background-color: #eef5ff;
+  text-align: center;
+  line-height: 3.2rem;
+  font-size: 1.4rem;
+}
+.cal-inner-wrap .btn_wrap{
+  position: absolute;
+  right: 3rem;
+  bottom: 1.5rem;
+}
+.cal-inner-wrap .btn_wrap .btn_cm{
+  width: 10rem;
+  color: #fff;
+  border: 0;
+}
+.cal-inner-wrap .btn_wrap .btn_cm:last-child{margin-right: 0;}
+.cal-inner-wrap .btn_wrap .btn_cm.success{background-color: #4876ef;}
+.cal-inner-wrap .btn_wrap .btn_cm.delete{background-color: #555;}
+
+/*year calendar*/
+.w2input.calendar-year{
+  width: 6rem;
+  height: 2.6rem;
+  border-right: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  margin-right: 0;
+}
+.w2input.calendar-year:focus{
+  border-right: 0;
+  -webkit-box-shadow: -0.1rem -0.1rem 0 0.1rem #d4e3fc , -0.1rem 0.1rem 0 0.1rem #d4e3fc;
+  box-shadow: -0.2rem -0.1rem 0 0.1rem #d4e3fc , -0.2rem 0.1rem 0 0.1 rem #d4e3fc;
+}
+.btn_sm.calendar{
+  width: 2.6rem;
+  height: 2.6rem;
+  border-color: #ccc;
+  border-left: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  background: url(/kn/com/images/components/ic_line_calendar_gray.svg) no-repeat right -0.1rem center;
+  background-color: #fff;
+}
+.btn_sm.calendar:focus{box-shadow: none;}
+.btn_sm.calendar:hover{
+  /* background: url(/kn/com/images/components/ic_line_calendar_focus.svg) no-repeat right -0.1rem center;
+  border-color: #4876ef; */
+}
+.w2input.calendar-year:focus+ .btn_sm.calendar{
+  -webkit-box-shadow: 0.2rem -0.1rem 0 0.2rem #d4e3fc , 0.2rem 0.1rem 0 0.2rem #d4e3fc;
+  box-shadow: 0.1rem -0.1rem 0 0.1rem #d4e3fc , 0.1rem 0.1rem 0 0.1rem #d4e3fc;
+  background: url(/kn/com/images/components/ic_line_calendar_blue.svg) no-repeat right -0.1rem center;
+  border-color: #4876ef;
+}
+/* z-index 변경 1108 keh 변경*/
+.cal-inner-wrap-year{
+  position: absolute;
+  z-index: 5000;
+  width: 33.4rem;
+  height: 21.8rem;
+  border: 0.1rem solid #4876ef;
+  border-radius: 0.4rem;
+  background-color: #fff;
+  padding: 3rem;
+  font-family: inherit;
+  top: 3.3rem;
+}
+.cal-inner-wrap-year-top{
+  top: -22.1rem;
+}
+/* z-index 변경 1108 keh 변경*/
+.cal-inner-wrap-year .inner-tit{height: 3.2rem;}
+.cal-inner-wrap-year .inner-tit .btn{
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 0;
+  background-color: transparent;
+}
+.cal-inner-wrap-year .inner-tit .w2input{
+  width: 3.3rem;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 1.4rem;
+  color: #000;
+}
+.cal-inner-wrap-year .inner-tit .w2input:focus{
+  border: 0;
+  box-shadow: none;
+}
+.cal-inner-wrap-year .inner-tit .wave{
+  height: 3.2rem;
+  line-height: 3.2rem;
+  margin: 0 1.5rem;
+}
+.cal-inner-wrap-year .inner-tit .btn.arr-down{
+  background-image: url('/kn/com/images/components/ic_arr_down_blue.svg');
+}
+.cal-inner-wrap-year .inner-tit .btn.arr-up{
+  background-image: url('/kn/com/images/components/ic_arr_up_blue.svg');
+}
+.cal-inner-wrap-year .inner-content{
+  width: 100%;
+  height: 12.2rem;
+  border-top: 0.1rem solid #4876ef;
+  border-bottom: 0.1rem solid #4876ef;
+  padding: 2rem 0;
+}
+.cal-inner-wrap-year .inner-content .btn.year{
+  /* width: 5rem; */
+  width:8rem;
+  height: 2.6rem;
+  border: 0;
+  border-radius: 0.4rem;
+  color: #191919;
+  background-color: transparent;
+  margin: 0 0.22rem;
+  font-size: 1.4rem;
+
+}
+.cal-inner-wrap-year .inner-content .btn.year:focus{
+  background-color: #4876ef;
+  color: #fff;
+}
+.cal-inner-wrap-year .inner-content .btn.year.w2trigger_disabled{color: #bbb;}
+
+
+/*year-month calendar*/
+.w2input.calendar-year-month{
+  width: 8rem;
+  height: 2.6rem;
+  border-right: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  margin-right: 0;
+}
+.w2input.calendar-year-month:focus{
+  border-right: 0;
+  -webkit-box-shadow: -0.1rem -0.1rem 0 0.2rem #d4e3fc , -0.1rem 0.1rem 0 0.2rem #d4e3fc;
+  box-shadow: -0.1rem -0.1rem 0 0.1rem #d4e3fc , -0.1rem 0.1rem 0 0.1rem #d4e3fc;
+}
+.btn_sm.calendar:focus{box-shadow: none;}
+.w2input.calendar-year-month:focus+ .btn_sm.calendar{
+  -webkit-box-shadow: 0.2rem -0.1rem 0 0.2rem #d4e3fc , 0.2rem 0.1rem 0 0.2rem #d4e3fc;
+  box-shadow: 0.1rem -0.1rem 0 0.1rem #d4e3fc , 0.1rem 0.1rem 0 0.1rem #d4e3fc;
+  background: url(/kn/com/images/components/ic_line_calendar_blue.svg) no-repeat right -0.1rem center;
+  border-color: #4876ef;
+}
+.cal-inner-wrap-year-month{
+  width: 33.4rem;
+  height: 21.8rem;
+  border: 0.1rem solid #4876ef;
+  border-radius: 0.4rem;
+  background-color: #fff;
+  padding: 3rem;
+  font-family: inherit;
+  top: 3.3rem;
+  position: absolute;
+  z-index: 99;
+}
+.cal-inner-wrap-year-month-top{
+  top: -22.1rem;
+}
+.cal-inner-wrap-year-month .inner-tit{height: 3.2rem;}
+.cal-inner-wrap-year-month .inner-tit .btn{
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 0;
+  background-color: transparent;
+}
+.cal-inner-wrap-year-month .inner-tit .w2input{
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 1.4rem;
+  color: #000;
+}
+.cal-inner-wrap-year-month .inner-tit .w2input:focus{
+  border: 0;
+  box-shadow: none;
+}
+.cal-inner-wrap-year-month .inner-tit .btn.arr-down{
+  background-image: url('/kn/com/images/components/ic_arr_down_blue.svg');
+}
+.cal-inner-wrap-year-month .inner-tit .btn.arr-up{
+  background-image: url('/kn/com/images/components/ic_arr_up_blue.svg');
+}
+.cal-inner-wrap-year-month .inner-content{
+  width: 100%;
+  height: 12.2rem;
+  border-top: 0.1rem solid #4876ef;
+  border-bottom: 0.1rem solid #4876ef;
+  padding: 2rem;
+}
+.cal-inner-wrap-year-month .inner-content .btn.year-month{
+  width: 5rem;
+  height: 2.6rem;
+  border: 0;
+  border-radius: 0.4rem;
+  color: #191919;
+  background-color: transparent;
+  margin: 0 0.4rem;
+  font-size: 1.4rem;
+}
+.cal-inner-wrap-year-month .inner-content .btn.year-month:focus{
+  background-color: #4876ef;
+  color: #fff;
+}
+
+/* 분문 캘린더 - 디자인 미정 */
+/* .w2scheduleCalendar.fc h2{color:#4876ef;font-size:2rem;}
+.w2scheduleCalendar.fc th{padding:2rem 0;font-weight:normal;}
+.w2scheduleCalendar.fc th:first-of-type{border-left:0;}
+.w2scheduleCalendar.fc th:last-of-type{border-right:0;}
+.w2scheduleCalendar.fc.fc-unthemed th,
+.w2scheduleCalendar.fc.fc-unthemed td,
+.w2scheduleCalendar.fc.fc-unthemed tbody,
+.w2scheduleCalendar.fc.fc-unthemed .fc-divider,
+.w2scheduleCalendar.fc.fc-unthemed .fc-row,
+.w2scheduleCalendar.fc.fc-unthemed .fc-popover{padding:.3rem .5rem;border-width:0;}
+.fc-view-container{border:.1rem solid #ccc;}
+.fc-head,
+.w2scheduleCalendar.fc{border-bottom:.1rem solid #ccc !important;}
+.fc-sun{background:#fff !important;font-weight:bold !important;color:#d02121 !important;}
+.fc-sat{background:#fff !important;font-weight:bold !important;color:#5a82cf !important;}
+.fc-today{background:#faebd7 !important;}
+.fc-ltr .fc-basic-view .fc-day-number{text-align:left;}
+.fc .fc-state-default{background:#ccc;text-shadow:none;border:.1rem solid #ccc;}
+.fc .fc-state-down,
+.fc .fc-state-active{box-shadow:none;color:#4876ef;}
+
+.fc-toolbar .fc-icon{font-family:monospace;color: #4876ef;}
+.fc-toolbar .fc-icon-right-single-arrow:after,
+.fc-toolbar .fc-icon-left-single-arrow:after{font-weight:normal;}
+
+.w2scheduleCalendar .fc-toolbar .fc-center{z-index: 9;}
+.w2scheduleCalendar .fc-toolbar .fc-right{display: none;}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-button-group .fc-today-button{display: none;}
+.w2scheduleCalendar .fc-toolbar{position: relative;}
+.w2scheduleCalendar .fc-toolbar .fc-left{position:absolute;top:0.2rem;left:50%;width: 19.8rem;transform:translateX(-50%);}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-prev-button{width: 2.6rem; height: 2.6rem;border: 0;}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-next-button{width: 2.6rem; height: 2.6rem;margin-left: 14.4rem;border: 0;}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-prev-button .fc-icon,.w2scheduleCalendar .fc-toolbar .fc-left .fc-next-button .fc-icon{margin: 0 -0.3rem;}
+.fc-icon-right-single-arrow:after,.fc-icon-left-single-arrow:after{font-size: 280%;}
+.fc-state-default{box-shadow: none;} */
+
+/*년 스케줄 달력*/
+.year_schedule{margin-top: -3.7rem;}
+.year_schedule .btn_wrap{display: inline-block;margin-bottom: 0.6rem;font-size: 2rem; position: relative; left:50%; top:0; transform: translateX(-50%); }
+.year_schedule .btn_wrap .btn_sm{border: 0; margin: 0;}
+.year_schedule .btn_wrap .btn_sm:hover{background-color: transparent;}
+.year_schedule .btn_wrap .btn_sm:focus{background-color: transparent;border: 0; box-shadow: none;}
+.year_schedule .btn_wrap .btn_sm.prev{background-image: url('/kn/com/images/components/ic_schedule_arr_left.svg');background-repeat: no-repeat;background-position: center center;font-size: 0;}
+.year_schedule .btn_wrap .btn_sm.next{background-image: url('/kn/com/images/components/ic_schedule_arr_right.svg');background-repeat: no-repeat;background-position: center center;font-size: 0;}
+.year_schedule .btn_wrap .btn_sm.prev:hover{background-image: url('/kn/com/images/components/ic_schedule_arr_left_hover.svg');}
+.year_schedule .btn_wrap .btn_sm.next:hover{background-image: url('/kn/com/images/components/ic_schedule_arr_right_hover.svg');}
+.year_schedule .btn_wrap .btn_sm.prev:focus{background-image: url('/kn/com/images/components/ic_schedule_arr_left_focus.svg');}
+.year_schedule .btn_wrap .btn_sm.next:focus{background-image: url('/kn/com/images/components/ic_schedule_arr_right_focus.svg');}
+.year_schedule .btn_wrap span {margin-left: 3.5rem;}
+.year_schedule .btn_wrap .w2textbox {display: inline;line-height: 2.7rem;margin-right: 3.5rem;}
+.year_schedule .month_caledar{background-color: #fff; border: 0.1rem solid #ccc; border-radius: 0.4rem; }
+.year_schedule .month_caledar ol {border-bottom: 0.1rem solid #ccc;}
+.year_schedule .month_caledar ol:last-child{border-bottom: 0}
+.year_schedule .month_caledar ol >li{display: inline-block; background-color: transparent; width: 25%; min-height: 15.8rem; padding: 1.5rem;border-right: 0.1rem solid #ccc;position: relative; vertical-align: top;}
+.year_schedule .month_caledar ol >li .hide{position: absolute; left:1.5rem; top:14.8rem;width: 100%; padding: 2rem; border: 0.1rem solid #4876ef; border-radius: 0.4rem;background-color: #fff;z-index: 1;}
+.year_schedule .month_caledar ol >li:last-child{border-right: 0;}
+.year_schedule .month_caledar ol >li:hover{background-color: #f4f6f8;}
+.year_schedule .month_caledar ol >li.edge_tl{border-top-left-radius: 0.4rem;}
+.year_schedule .month_caledar ol >li.edge_bl{border-bottom-left-radius: 0.4rem;}
+.year_schedule .month_caledar ol >li.edge_tr{border-top-right-radius: 0.4rem;}
+.year_schedule .month_caledar ol >li.edge_br{border-bottom-right-radius: 0.4rem;}
+.year_schedule .month_caledar ol >li.focus{background-color: #f4f6f8; -webkit-box-shadow: none !important;box-shadow: none !important;border-color: #ccc !important; }
+.year_schedule .month_caledar ol li .tit {margin-bottom: 0.5rem;font-size: 1.8rem; height:2.3rem; }
+.year_schedule .month_caledar ol li .tit h4 {float: left;}
+.year_schedule .month_caledar ol li .tit .num{float: right; color: #ff0000;}
+.year_schedule .month_caledar ol li ul li p {width: 100%;line-height:2.5rem;font-size:1.4rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+/* .year_schedule .month_caledar ol li ul li p:hover{color: #ff0000; text-decoration: underline; } */
+
+/*캘린더 udc*/
+.udc_iptcal{display: inline-block;}
+
+/* data test */
+.w2scheduleCalendar.fc{height:98.5rem !important;}
+.fc-body .w2scheduleCalendar.fc.fc-unthemed .fc-row{height:13rem;}
+.fc-view.fc-month-view.fc-basic-view .w2scheduleCalendar.fc.fc-unthemed .fc-row{height:3rem;}
+.fc-view-container,
+.fc-view{height:80rem !important;}
+.fc-row .fc-bg{min-height:13.3rem; height: auto;}
+.fc-basic-view .fc-body .fc-row{min-height:13.2rem !important;}
+.fc-scroller.fc-day-grid-container{height:auto !important;}
+.fc-day-grid-event{padding:.3rem .1rem !important;}
+/* .fc-event-container.fc-limited{display: none;} */
+.fc-ltr .fc-basic-view .fc-day-top .fc-day-number{float: left !important; font-size: 1.4rem;}
+.fc-more-cell{position: relative;}
+.fc-more{position: absolute; top:-9.5rem; right: 1rem;font-size: 1.4rem;color: #ff0000;}
+.schRsvtCalendar .fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end{background-color: transparent;color: #555;border: 0;line-height: 1.7rem;font-size: 1.4rem;}
+.fc-head{background-color: #f4f6f8;}
+.fc-day-header.fc-widget-header{padding:1rem 0;border-top: 0;font-size: 1.4rem; font-weight: 500;}
+.fc-sun{background:transparent !important;font-weight:bold !important;color:#d02121 !important;}
+.fc-sat{background:transparent !important;font-weight:bold !important;color:#5a82cf !important;}
+.fc-highlight{background: #d9e3eb !important; }
+.w2scheduleCalendar .fc-toolbar .fc-right{display: none;}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-button-group .fc-today-button{display: none;}
+.w2scheduleCalendar .fc-toolbar{position: relative;}
+.w2scheduleCalendar .fc-toolbar .fc-left{position:absolute;top:0.2rem;left:50%;width: 19.8rem;transform:translateX(-50%);}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-prev-button{width: 2.6rem; height: 2.6rem;border: 0;background-image: url('/kn/com/images/components/ic_schedule_arr_left.svg');background-repeat: no-repeat;background-position: center center;}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-next-button{width: 2.6rem; height: 2.6rem;margin-left: 14.4rem;border: 0;background-image: url('/kn/com/images/components/ic_schedule_arr_right.svg');background-repeat: no-repeat;background-position: center center;}
+.w2scheduleCalendar .fc-toolbar .fc-left .fc-prev-button .fc-icon,.w2scheduleCalendar .fc-toolbar .fc-left .fc-next-button .fc-icon{margin: 0 -0.3rem;}
+.fc-icon-right-single-arrow:after,.fc-icon-left-single-arrow:after{display: none;}
+.fc-state-default{box-shadow: none !important;}
+.fc-toolbar .fc-icon{font-family:monospace;color: #4876ef;}
+.fc-toolbar .fc-icon-right-single-arrow:after,
+.fc-toolbar .fc-icon-left-single-arrow:after{font-weight:normal;}
+.fc .fc-state-default{background:#fff;text-shadow:none;border:.1rem solid #ccc;}
+.fc-state-down{box-shadow: none !important;}
+.fc-popover.fc-more-popover{width:28.9rem !important;padding: 1rem 1rem 2rem; transform: translate(1rem, 11rem);border-radius: 0.4rem;border: 0.1rem solid #4876ef !important;}
+.fc-more-popover .fc-event-container{padding: 2rem;}
+.fc-event-container{padding: 0 1rem !important;}
+.fc-content{text-overflow: ellipsis;}
+/* .fc-header.fc-widget-header{display: none;} */
+.fc-day-top{padding: 0.5rem 1rem 0 1rem !important;}
+.fc-unthemed td.fc-today{background: #feefeb !important; }
+.fc-popover .fc-header {margin: 0 0 1rem; padding: 0 1.5rem !important; background: none !important;}
+
+/*타이틀 + 캘린더 설정*/
+.w2group.dfbox + .w2scheduleCalendar.fc.fc-unthemed.fc-ltr{margin-top:-3.3rem;}
+.w2group.dfbox + .w2scheduleCalendar.fc.fc-unthemed.fc-ltr .fc-toolbar.fc-header-toolbar{margin-bottom: 0.3rem;}
+.w2group.dfbox + .w2scheduleCalendar.fc.fc-unthemed.fc-ltr .fc-toolbar.fc-header-toolbar .fc-center h2{font-size: 1.4rem;line-height: 2.6rem;}
+
+/*FromTo 캘린더 개월수 없음 설정*/
+.non_month {display:inline-block;}
+.non_month .w2radio.type.month{display: none;}
+
+@media only screen and (max-width: 1279px)  {
+  .lybox.resize .cal-inner-wrap {position:fixed;top:0;left:0;width:calc(100vw - 12.6rem)!important;margin-top:-9rem;z-index:10000;box-shadow:0 3px 3px rgba(0,0,0,.3);}
+  .lybox.resize .ly_column.popup table.w2tb.tb tr   .cal-inner-wrap tr > * ,
+  .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr  .cal-inner-wrap tr > *  {flex:1;}
+
+}
+@media only screen and (max-width: 1023px)  {
+  .lybox.resize .cal-inner-wrap {position:fixed;top:0;left:0;width:calc(100vw - 4rem)!important;margin-top:-9.5rem;z-index:10000;box-shadow:0 3px 3px rgba(0,0,0,.3);}
+  .lybox.resize .ly_column.popup table.w2tb.tb tr   .cal-inner-wrap tr > * ,
+  .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr  .cal-inner-wrap tr > *  {flex:1;}
+}
+@media only screen and (min-width: 320px) and (max-width: 767px)  {
+  .lybox.resize .cal-inner-wrap {position:fixed;top:0;left:0;width:calc(100vw - 4rem)!important;margin-top:calc(100vh - 126vh);z-index:10000;box-shadow:0 3px 3px rgba(0,0,0,.3);}
+  .lybox.resize .ly_column.popup table.w2tb.tb tr   .cal-inner-wrap tr > * ,
+  .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr  .cal-inner-wrap tr > *  {flex:1;line-height: 2.6rem;}
+}
+
+

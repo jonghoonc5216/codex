@@ -1,0 +1,887 @@
+/*amd /layout/nara/GnbBtm.xml 54637 74412305781a801b5ece8c0ea47f7826a5ecd5cb06c67687947716d1f119877e */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:aliasDataList',A:{scope:'/dlPrtlFtreL',id:'adlPrtlFtreL','ev:ondataload':'scwin.dataList1_ondataload'}},{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlRelSrchKyWrdL',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'keyword',name:'연관검색어',dataType:'text'}}]},{T:1,N:'w2:data',A:{use:'false'}}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlSrchParamM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'searchKeyword',name:'검색어',dataType:'text'}},{T:1,N:'w2:key',A:{id:'areaCd',name:'name2',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlRelPrcmInfoL',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'bizNo',name:'연관조달번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bizOrd',name:'연관조달차수',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bizNm',name:'연관조달명',dataType:'text'}}]},{T:1,N:'w2:data',A:{use:'false'}}]}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){/********************************************************************************
+ * 설명 : 화면 초기화에 필요한 로직을 수행한다.
+ **********************************************************************************/
+scwin.onpageload = function() {
+    // 현재 사이트의 CI 로고 변경
+    scwin.setLogoImage();
+
+    // 비축, 회계, 법무심사일 경우 검색 버튼 비노출, 결재 노출
+    scwin.setTotalSearchButton();
+
+    // 고객센터일 경우 고객센터 버튼 숨김
+    scwin.setHelpDeskButton();
+
+    scwin.fnCallGnbBtn();
+
+    // 나의나라장터 메뉴 버튼 제어
+    if (com.gfnIsLogin()) {
+        grpBeforeLogin.addClass("hide");
+        grpAfterLogin.removeClass("hide");
+        btnMyPage.removeClass("hide");
+
+        // 전자문서함 노출
+        grpDocument.removeClass("hide");
+
+        // 조달청인 경우에만 나라장터 캐비닛 버튼 노출
+        if (_gcm.Global.getUsrInfo("usrTyCd") === "이030001") {
+            grpEcabinet.removeClass("hide");
+            grpApprove.removeClass("hide");
+        } else {
+            grpEcabinet.addClass("hide");
+            grpApprove.addClass("hide");
+        }
+
+        grpDocument.removeClass("hide");
+
+        let usrInfo = com.gfnGetUsrInfo();
+
+        let prmsLgnLvelCnt = usrInfo.prmsLgnLvelCnt+"";
+        let loginMthd = "";
+        // 1:비로그인, 2:ID/PASS, 3:인증서, 4:FIDO, 5:간편인증, 6:모바일신분증
+        if (prmsLgnLvelCnt === "1") {
+            loginMthd = "비로그인";
+        } else if (prmsLgnLvelCnt === "2") {
+            loginMthd = "ID/PASS";
+        } else if (prmsLgnLvelCnt === "3") {
+            loginMthd = "인증서";
+        } else if (prmsLgnLvelCnt === "4") {
+            loginMthd = "FIDO";
+        } else if (prmsLgnLvelCnt === "5") {
+            loginMthd = "간편인증";
+        } else if (prmsLgnLvelCnt === "6") {
+            loginMthd = "모바일신분증";
+        }
+        loginMthd = loginMthd + "를 이용한<br/>로그인중입니다."
+        spnUsrNm.setValue(usrInfo.usrNm);
+        txaLogin.setValue(loginMthd);
+
+        spnGrpNm.setValue((usrInfo.grpNm === null || usrInfo.grpNm === undefined) ? "" : usrInfo.grpNm);
+
+    } else {
+        grpBeforeLogin.addClass("hide");
+        grpAfterLogin.addClass("hide");
+        grpEcabinet.addClass("hide");
+        grpApprove.addClass("hide");
+
+        // 전자문서함 숨김
+        grpDocument.addClass("hide");
+
+        // 마이페이지 숨김
+        btnMyPage.addClass("hide");
+    }
+
+    comUtil.gfnSetRecentSearchList(); // 최근 검색
+};
+
+/********************************************************************************
+* 설명 : 현재 사이트의 CI 로고 변경
+********************************************************************************/
+scwin.setLogoImage = function() {
+    const contxtSeCd = com.gfnGetContxtSeCd();
+
+    // 평가의원일 경우 통합검색 버튼 안보이게
+    if (contxtSeCd !== "콘010012") {
+        btnTotalSrch.removeClass("hide");
+    }
+
+    btnLogo.removeClass("logo");
+    btnLogo.removeClass("logo_accounting");
+    btnLogo.removeClass("logo_reserve");
+    btnLogo.removeClass("logo_legalScreening");
+
+    switch (contxtSeCd) {
+        case "콘010006" : // 나라장터
+            btnLogo.addClass("logo");
+            btnLogo.setTitle("나라장터");
+            btnLogo.setValue("나라장터");
+            break;
+        case "콘010001" : // 비축
+            btnLogo.addClass("logo_reserve");
+            btnLogo.setTitle("나라장터 비축");
+            btnLogo.setValue("나라장터 비축");
+            break;
+        case "콘010002" : // 회계
+            btnLogo.addClass("logo_accounting");
+            btnLogo.setTitle("나라장터 회계");
+            btnLogo.setValue("나라장터 회계");
+            break;
+        case "콘010003" : // 법무심사
+            btnLogo.addClass("logo_legalScreening");
+            btnLogo.setTitle("나라장터 법무심사");
+            btnLogo.setValue("나라장터 법무심사");
+            break;
+        case "콘010011" : // 조달청 기관운영
+            btnLogo.addClass("logo");
+            btnLogo.setTitle("나라장터 조달청 기관운영");
+            btnLogo.setValue("나라장터 조달청 기관운영");
+            break;
+        case "콘010004" : // 운영자 : 변경 필요!!
+            btnLogo.addClass("logo_customer");
+            btnLogo.setTitle("나라장터 운영자");
+            btnLogo.setValue("나라장터 운영자");
+            break;
+        case "콘010010" : // 고객센터 MOS730014 임시 변환
+            btnLogo.addClass("logo_customer");
+            btnLogo.setTitle("나라장터 고객센터");
+            btnLogo.setValue("나라장터 고객센터");
+            break;
+        case "콘010009" : // 조달데이터 허브
+            btnLogo.addClass("logo");
+            btnLogo.setTitle("조달데이터 허브");
+            btnLogo.setValue("조달데이터 허브");
+            break;
+        default:
+            btnLogo.addClass("logo");
+            btnLogo.setTitle("나라장터");
+            btnLogo.setValue("나라장터");
+            break;
+    }
+};
+
+/********************************************************************************
+* 설명 : 비축, 회계, 법무심사일 경우 검색 버튼 비노출, 결재 노출
+********************************************************************************/
+scwin.setTotalSearchButton = function() {
+    const contxtSeCd = com.gfnGetContxtSeCd();
+    if (contxtSeCd === "콘010001" || contxtSeCd === "콘010002" || contxtSeCd === "콘010003") {
+        btnTotalSrch.hide();
+        grpApprove.removeClass("hide");
+    }
+};
+
+/********************************************************************************
+* 설명 : 고객센터일 경우 검색 버튼 비노출
+********************************************************************************/
+scwin.setHelpDeskButton = function() {
+    const contxtSeCd = com.gfnGetContxtSeCd();
+    if (contxtSeCd === "콘010010") {
+        btnHelpDesk.hide();
+    }
+};
+
+/********************************************************************************
+* 설명 : 통합검색 버튼 클릭 이벤트
+********************************************************************************/
+scwin.btnSrch_onclick = function(e) {
+    $('.popup-content.srch').slideToggle();
+    this.toggleClass('close');
+    $('.popup-srch.bg').toggleClass('appear');
+    scwin.getSrchky();
+    // if($('.popup-srch.bg').hasClass('appear')) {
+    //     $('.popup-srch.bg').removeClass('appear');
+    // } else {
+    //     $('.popup-srch.bg').addClass('appear');
+    // }
+};
+
+/********************************************************************************
+* 설명 : 통합검색 배경 클릭 이벤트
+********************************************************************************/
+scwin.popBg_onclick = function(e) {
+    this.removeClass('appear');
+    $('.srch-wrap .btn.srch.close').removeClass('close');
+    $('.popup-content.srch').slideToggle();
+};
+
+/********************************************************************************
+* 설명 : 통합검색 닫힘 버튼 키보드 컨트롤 (탭 키 이동 시) 포커스 아웃 이벤트
+********************************************************************************/
+scwin.closeSrchPopup_onblur = function(e) {
+    document.querySelector('.srch-wrap .popup-content.srch').style.display = "none";
+    document.querySelector('.srch-wrap .popup-srch.bg').classList.remove("appear");
+};
+
+/********************************************************************************
+* 설명 : 통합검색 닫기 버튼 클릭 이벤트
+********************************************************************************/
+scwin.closeSrchPopup_onclick = function(e) {
+    $('.srch-wrap .btn.srch.close').removeClass('close');
+    $('.popup-content.srch').slideToggle();
+    $('.popup-srch.bg').toggleClass('appear');
+};
+
+/********************************************************************************
+* 설명 : 통합검색 키보드 컨트롤 (Tab + Shift 키로 통합검색 버튼이 포커스 됬을 시) 포커스 이벤트
+********************************************************************************/
+scwin.btnTotalSrch_onfocus = function(e) {
+    document.querySelector('.user-wrap.after-login .popup-content.user').style.display = "none";
+    document.querySelector('.user-wrap.after-login .popup-content.user').setAttribute("aria-hidden","true");
+    document.querySelector('.user-wrap.after-login .btn.remote.usr').setAttribute("aria-selected","false");
+};
+
+/********************************************************************************
+* 설명 : 통합검색 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnTotalSrch_onmouseleave = function(e) {
+    const toolTip = window.document.querySelector('.srch-wrap .tooltip.total-srch');
+    toolTip.setAttribute("aria-hidden","true");
+};
+
+/********************************************************************************
+* 설명 : 통합검색 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnTotalSrch_onmouseenter = function(e) {
+    const toolTip = window.document.querySelector('.srch-wrap .tooltip.total-srch');
+    toolTip.setAttribute("aria-hidden","false");
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 컨텐츠 show hide 속성 aria-selected, aria-hidden 이벤트
+********************************************************************************/
+scwin.grpAfterLogin_onmouseleave = function(e) {
+    document.querySelector(".user-wrap.after-login .btn.remote.usr").setAttribute("aria-selected","false");
+    document.querySelector('.user-wrap.after-login .popup-content.user').setAttribute("aria-hidden","true");
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 컨텐츠 show hide 속성 mouse enter 이벤트
+********************************************************************************/
+scwin.grpAfterLogin_onmouseenter = function(e) {
+    document.querySelector(".user-wrap.after-login .btn.remote.usr").setAttribute("aria-selected","true");
+    document.querySelector('.user-wrap.after-login .popup-content.user').setAttribute("aria-hidden","false");
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 키보드 컨트롤 (탭 키 이동 시) 포커스 blur 이벤트
+********************************************************************************/
+scwin.btnUserInfo_onblur = function(e) {
+    document.querySelector('.user-wrap.after-login .tooltip.user').setAttribute("aria-hidden","true");
+    document.querySelector('.user-wrap.after-login .popup-content.user').style.display = "none";
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 키보드 컨트롤 (탭 키 이동 시) 포커스 이벤트
+********************************************************************************/
+scwin.btnUserInfo_onfocus = function(e) {
+    document.querySelector(".user-wrap.after-login .btn.remote.usr").setAttribute("aria-selected","true");
+    document.querySelector('.user-wrap.after-login .popup-content.user').setAttribute("aria-hidden","false");
+    document.querySelector('.user-wrap.after-login .popup-content.user').style.display = "block";
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnUserInfo_onmouseleave = function(e) {
+    $p.clearTimeout("tiemGrpUserPopup");
+    $p.setTimeout(function() {
+        document.querySelector('.user-wrap.after-login .tooltip.user').setAttribute("aria-hidden","true");
+        document.querySelector('.user-wrap.after-login .popup-content.user').style.display = "none";
+    }, {delay : 200, key : "tiemGrpUserPopup"});
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnUserInfo_onmouseenter = function(e) {
+    $p.clearTimeout("tiemGrpUserPopup");
+    if (document.querySelector('.user-wrap.after-login .popup-content.user').style.display === "none") {
+        document.querySelector(".user-wrap.after-login .btn.remote.usr").setAttribute("aria-selected","true");
+        document.querySelector('.user-wrap.after-login .tooltip.user').setAttribute("aria-hidden","false");
+        document.querySelector('.user-wrap.after-login .popup-content.user').style.display = "block";
+    }
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터(로그인 전 화면) 툴팁 mouseleave 이벤트
+********************************************************************************/
+scwin.userGuide_onmouseout = function(e) {
+    const toolTipGuide = window.document.querySelector('.user-wrap .tooltip.user-guide');
+    toolTipGuide.setAttribute("aria-hidden","true");
+    //toolTipGuide.setAttribute("aria-hidden","false");
+    toolTipGuide.classList.remove("on");
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터(로그인 전 화면) 클릭 이벤트
+********************************************************************************/
+scwin.btnUserLogin_onclick = function(e) {
+    // 로그아웃 상태면 로그인 페이지로 이동
+    if (!com.gfnIsLogin()) {
+        com.gfnSSOLogin();
+    }
+
+    const toolTipGuide = window.document.querySelector('.user-wrap .tooltip.user-guide');
+    toolTipGuide.setAttribute("aria-hidden","false");
+    toolTipGuide.classList.add("on");
+};
+
+/********************************************************************************
+* 설명 : 나라장터캐비닛 키보드 컨트롤 (탭 키 이동 시) 포커스 될 시 나의나라장터 컨텐츠 hide 처리 이벤트
+********************************************************************************/
+scwin.grpEcabinet_onfocus = function(e) {
+    document.querySelector('.user-wrap.after-login .popup-content.user').setAttribute("aria-hidden","true");
+    document.querySelector('.user-wrap.after-login .popup-content.user').style.display = "none";
+};
+
+/********************************************************************************
+* 설명 : 나라장터캐비닛 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.grpEcabinet_onmouseleave = function(e) {
+    const toolTipCabinet = window.document.querySelector('.btn.e-cabinet .tooltip.e-cabinet');
+    toolTipCabinet.setAttribute("aria-hidden","true");
+};
+
+/********************************************************************************
+* 설명 : 나라장터캐비닛 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.grpEcabinet_onmouseenter = function(e) {
+    const toolTipCabinet = window.document.querySelector('.btn.e-cabinet .tooltip.e-cabinet');
+    toolTipCabinet.setAttribute("aria-hidden","false");
+};
+
+/********************************************************************************
+* 설명 : 모바일 메뉴 show hide 클릭 이벤트
+********************************************************************************/
+scwin.btnMenuOpen_onclick = function(e) {
+    // let siteBtn = window.document.querySelector('.gnb-btm-wrap .btn.menu-open.mobile');
+    let sitemenu = window.document.querySelector('.section.gnb');
+    sitemenu.classList.toggle('mobile-gnb-show');
+    // siteBtn.classList.toggle('active');
+    document.querySelector('body').style.overflow = 'hidden';
+};
+
+/********************************************************************************
+* 설명 : Home 클릭 이벤트
+********************************************************************************/
+scwin.btnLogo_onclick = function() {
+    const contxtSeCd = com.gfnGetContxtSeCd();
+    if(contxtSeCd == "콘010012"){ // 평가위원 사이트의 경우 로고 클릭시 나라장터로 이동
+        let menuCangVal = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "01104", true)[0]?.lnkUrl;
+        document.location.href = menuCangVal;
+    } else {
+        com.gfnOpenMenu(_gcm.Global.getMainMenuCangVal());
+    }
+};
+
+/********************************************************************************
+* 설명 : My-User 클릭 이벤트
+********************************************************************************/
+scwin.btnMyUser_onclick = function() {
+    let usrTyCd = com.gfnGetUsrInfo("usrTyCd");
+    let menuCangVal = _gcm.Global.getMainMenuCangVal();
+
+    // Main Page 로드 - 추후 메인 페이지로 수정 필요
+    if (!comUtil.gfnIsEmpty(usrTyCd)) {
+        console.log(usrTyCd);
+        if (usrTyCd === "이030001") {
+            menuCangVal = "FCOA005_01";	// 조달청
+        } else if (usrTyCd === "이030002") {
+            menuCangVal = "FCOA005_01";	// 수요기관
+        } else if (usrTyCd === "이030003"|| usrTyCd === "이030008") { // 누리장터 민간수요자 추가
+            menuCangVal = "FCOA006_01";	// 조달업체
+        }
+    }
+
+    com.gfnOpenMenu(menuCangVal);
+};
+
+/********************************************************************************
+* 설명 : on 활성화
+********************************************************************************/
+scwin.btnOnRefresh = function(e) {
+    const searchValue = inpGlobalSearch.getValue();
+    const listSearchButton = com.gfnGetChildren(boxSearch, {includePlugin : "trigger", recursive:true});
+    listSearchButton.forEach(function(i, v) {
+        i.removeClass('on');
+    });
+
+    listSearchButton.forEach(function(i,v) {
+        if (searchValue == i.getValue()) {
+            i.addClass('on');
+        }
+    });
+};
+
+/**
+ * ==============================================================================
+ *  통합검색 기능()
+ * ==============================================================================
+ */
+
+/********************************************************************************
+ * 설명 : 추천 검색어 클릭 이벤트
+ ********************************************************************************/
+scwin.btnRecommendSearch_onclick = function(e) {
+    inpGlobalSearch.setValue(this.getValue());
+    comUtil.gfnSetRecentSearchStorage(inpGlobalSearch.getValue());
+    scwin.btnOnRefresh();
+};
+
+/********************************************************************************
+ * 설명 : 검색 값 onkeyup
+ * TO-DO : 부하 이슈로 추천검색어와 추천공고 일시적으로 주석처리함
+ ********************************************************************************/
+scwin.inpGlobalSearch_onkeyup = function(e) {
+    if (comUtil.gfnGetKeyCode(e) === "Enter") {
+        comUtil.gfnSetRecentSearchStorage(inpGlobalSearch.getValue());
+        //scwin.btnOnRefresh();
+
+        // 검색 실행
+        scwin.btnGlobalSearch_onclick();
+    } else {
+        scwin.getSrchky(false);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 제너레이터 생성 전 검색어 체크
+ ********************************************************************************/
+scwin.getSrchky = async function(onFocus) {
+    let srchKy = inpGlobalSearch.getValue();
+    if (srchKy.length > 0) {
+        // srchBox.removeClass("hide");
+        // srchBox.addClass("appear");
+        if (onFocus == false) {
+            dlSrchParamM.set("searchKeyword",srchKy);
+
+            // await scwin.selectAutocomplete();
+
+            // await scwin.selectSpotSearch();
+
+
+            // scwin.srchRelInfo(srchKy);
+        }
+    } else {
+        // srchBox.addClass("hide");
+        // srchBox.removeClass("appear");
+    }
+};
+
+/********************************************************************************
+ * 설명 : 자동완성 API 호출
+ ********************************************************************************/
+scwin.selectAutocomplete = async function () {
+    // submission options
+    let sbmOption = {
+        id: "selectAutocomplete",
+        action: "/fi/fiu/fiua/UntySrch/srchAutoComplete.do",
+        inData: "dlSrchParamM",
+        outData: "dlRelSrchKyWrdL",
+        pagingInfo: false,
+        isProcessMsg: false,
+        msgYn: { succ: false, err: true },
+        callback: scwin.createAutoComplete
+    };
+
+    try {
+        await com.gfnExecute(sbmOption);
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+scwin.createSpot = function () {
+    //스팟서치 API 호출
+    const relPrcmInfoList = dlRelPrcmInfoL.getRowCount();
+
+    if (relPrcmInfoList > 0) { // 연관조달정보
+        genRelPrcmInfo.removeAll(); // 제너레이터 초기화
+        for (let rowIndex = 0; rowIndex < relPrcmInfoList; rowIndex++) {
+            let data = dlRelPrcmInfoL.getDataRow(rowIndex);
+            let str = "[" + data.bizNo + "-" + data.bizOrd + "]" + " " + data.bizNm;
+            // str = scwin.makeRed(srchKy,str); // 검색어와 Matching
+            if (str != null) {
+                const rowIdx = genRelPrcmInfo.insertChild();
+                const buttonObj = genRelPrcmInfo.getChild(rowIdx, 'btnPrcmInfoSrch');
+                buttonObj.setValue(comUtil.gfnEscapeToChar(str));
+            }
+        }
+    }
+};
+
+scwin.createAutoComplete = function () {
+    const relKyWordList = dlRelSrchKyWrdL.getAllArray().data;
+
+    if (!comUtil.gfnIsEmpty(relKyWordList)) { // 연관검색어
+        genRelKyWrd.removeAll(); // 제너레이터 초기화
+        for (let str of relKyWordList) {
+            // str = scwin.makeRed(srchKy,str); // 검색어와 Matching
+            if (str != null) {
+                const rowIdx = genRelKyWrd.insertChild();
+                const buttonObj = genRelKyWrd.getChild(rowIdx, 'btnRecommendSrch');
+                buttonObj.setValue(comUtil.gfnEscapeToChar(str));
+            }
+        }
+    }
+
+    // scwin.selectSpotSearch();
+};
+/********************************************************************************
+ * 설명 : 스팟서치 API 호출
+ ********************************************************************************/
+scwin.selectSpotSearch = async function () {
+    // submission options
+    let sbmOption = {
+        id: "selectSpotSearch",
+        action: "/fi/fiu/fiua/UntySrch/srchSpot.do",
+        inData: "dlSrchParamM",
+        outData: "dlRelPrcmInfoL",
+        pagingInfo: false,
+        isProcessMsg: false,
+        msgYn: { succ: false, err: true },
+        callback: scwin.createSpot
+    };
+
+    try {
+        await com.gfnExecute(sbmOption);
+        // await scwin.createSpot();
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 연관 검색어/조달정보 조회 및 생성
+ ********************************************************************************/
+scwin.srchRelInfo = function(srchKy) {
+    //스팟서치 API 호출
+    const relKyWordList = dlRelSrchKyWrdL.getAllArray().data;
+    const relPrcmInfoList = dlRelPrcmInfoL.getRowCount();
+
+    if (!comUtil.gfnIsEmpty(relKyWordList)) { // 연관검색어
+        genRelKyWrd.removeAll(); // 제너레이터 초기화
+        for (let str of relKyWordList) {
+            str = scwin.makeRed(srchKy,str); // 검색어와 Matching
+            if (str != null) {
+                const rowIdx = genRelKyWrd.insertChild();
+                const buttonObj = genRelKyWrd.getChild(rowIdx, 'btnRecommendSrch');
+                buttonObj.setValue(str);
+            }
+        }
+    }
+
+    if (relPrcmInfoList > 0) { // 연관조달정보
+        genRelPrcmInfo.removeAll(); // 제너레이터 초기화
+        for (let rowIndex = 0; rowIndex < relPrcmInfoList; rowIndex++) {
+            let data = dlRelPrcmInfoL.getDataRow(rowIndex);
+            let str = "[" + data.bizNo + "-" + data.bizOrd + "]" + " " + data.bizNm;
+            str = scwin.makeRed(srchKy,str); // 검색어와 Matching
+            if (str != null) {
+                const rowIdx = genRelPrcmInfo.insertChild();
+                const buttonObj = genRelPrcmInfo.getChild(rowIdx, 'btnPrcmInfoSrch');
+                buttonObj.setValue(str);
+            }
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 연관 검색어 RED 처리
+ ********************************************************************************/
+scwin.makeRed = function(srchKy,str) {
+    // 특수문자 처리
+    srchKy = srchKy.replace(/[!@#$%^&*()+=\-[\]\\';,./{}|":<>?~_]/g,"\\$&");
+
+    // 동적 검색어 처리를 위한 RegExp(정규표현식) 사용
+    let regexAll = new RegExp(srchKy,"g");
+
+    if (str.indexOf(srchKy.replace(/\\/g,"")) !== -1) { // Matched
+        str = str.replace(regexAll,'<span class="blue">' + srchKy.replace(/\\/g,"") + '</span>'); // replace 정규식 사용
+    } else { // Not Matched
+        str = null;
+    }
+    return str;
+};
+
+/********************************************************************************
+ * 설명 : 검색 input box onfocus
+ ********************************************************************************/
+scwin.inpGlobalSearch_onfocus = function (e) {
+    scwin.getSrchky(true);
+};
+
+/********************************************************************************
+ * 설명 : 검색(돋보기) 버튼 클릭 이벤트
+ ********************************************************************************/
+scwin.btnGlobalSearch_onclick = async function(e) {
+
+    let kyWord = inpGlobalSearch.getValue();
+    let chkDep = sbxBsneSe.getValue();
+    if (comUtil.gfnIsEmpty(kyWord)) {
+        com.gfnAlert(['msg.alert.NullChk','검색어를']);
+        return;
+    }
+    if (comUtil.gfnIsEmpty(chkDep)) {
+        com.gfnAlert(['msg.alert.NullChk','단계구분을']);
+        return;
+    }    
+
+    comUtil.gfnSetRecentSearchStorage(kyWord); // Storage에 저장
+    //comUtil.gfnSetRecentSearchStorage(chkDep); // Storage에 저장
+    await dlSrchParamM.set("searchKeyword", kyWord); // map에 세팅
+    //await dlSrchParamM.set("areaCd", chkDep); // map에 세팅
+
+    scwin.moveUntyRslt(); // 검색화면으로 이동
+};
+
+/********************************************************************************
+ * 설명 : ON 활성화/비활성화 - Anchor버전
+ ********************************************************************************/
+scwin.btnRefreshOn = function(srchky) {
+    const searchValue = srchky;
+    const listSearchButton = com.gfnGetChildren(srchBox, {includePlugin : "anchor", recursive:true});
+    listSearchButton.forEach(function(i, v) {
+        i.removeClass('on');
+    });
+
+    listSearchButton.forEach(function(i,v) {
+        if (searchValue == i.getValue()) {
+            i.addClass('on');
+        }
+    });
+};
+
+/********************************************************************************
+ * 설명 : 연관 검색어 클릭 이벤트 - html태그 제거
+ ********************************************************************************/
+scwin.btnRecommendSrch_onclick = async function(e) {
+    scwin.btnRefreshOn(this.getValue());
+
+    let rmTag = this.getValue().replace(/(<([^>]+)>)/ig,""); // html 태그 제거
+    if (rmTag.indexOf(']') !== -1) {
+        let rmNo = rmTag.indexOf(']') + 2;
+        rmTag = rmTag.substr(rmNo);
+    }
+
+    inpGlobalSearch.setValue(rmTag); // 검색어에 세팅
+
+    comUtil.gfnSetRecentSearchStorage(inpGlobalSearch.getValue()); // Storage에 저장
+
+    await dlSrchParamM.set("searchKeyword", rmTag); // map에 세팅
+
+    scwin.moveUntyRslt(); // 검색화면으로 이동
+};
+
+/********************************************************************************
+ * 설명 : 통합검색 결과로 이동 - FIUA009_01
+ ********************************************************************************/
+scwin.moveUntyRslt = function() {
+    scwin.closeSrchPopup_onclick();
+
+    let option = {
+        isHistory: true,
+        param: dlSrchParamM.getJSON(),
+    }
+
+    const searchInfo = {}
+
+    com.gfnOpenMenu("FIUA009_01", option, searchInfo);
+};
+
+// 최근 검색어 버튼
+scwin.btnRecentSearch_onclick = function(e) {
+    inpGlobalSearch.setValue(e.target.value);
+    scwin.btnGlobalSearch_onclick();
+};
+
+// 마이페이지 레이어 메뉴
+scwin.grpUserPopup_onmouseleave = function(e) {
+    document.querySelector('.user-wrap.after-login .tooltip.user').setAttribute("aria-hidden","true");
+    document.querySelector('.user-wrap.after-login .popup-content.user').style.display = "none";
+};
+
+scwin.grpUserPopup_onmouseenter = function(e) {
+    $p.clearTimeout("tiemGrpUserPopup");
+};
+
+/**
+ * ==============================================================================
+ *  포탈기능
+ *
+ * ==============================================================================
+ */
+/********************************************************************************
+ * 설명 : portal.xml 호출 함수
+ ********************************************************************************/
+scwin.fnCallGnbBtn = function() {
+    grpEcabinet.setUserData("userData1", "00005"); //나라장터캐비닛
+    btnHelpDesk.setUserData("userData1", "00006"); // e-고객센터
+    //btnLink001.setUserData("userData1", "00007"); // 원격지원
+    //2024-05-29 마이페이지 팝업창 주석처리
+    //btnBsneWtng.setUserData("userData1", "00201"); // 나의 업무대기현황
+    //btnCratInfoMng.setUserData("userData1", "00202"); // 인증서 정보관리
+    //btnPrcmEtpsInfoMng.setUserData("userData1", "00203"); // 조달업체정보관리
+    //btnPbancMng.setUserData("userData1", "00204"); // 나의공고관리
+    btnReportCenter.setUserData("userData1", "01115"); // 불편·개선사항 신고센터
+
+    grpEcabinet.unbind('onclick');
+    grpEcabinet.bind("onclick", scwin.fnOpenPortal);
+
+    btnHelpDesk.unbind('onclick');
+    btnHelpDesk.bind("onclick", scwin.fnOpenPortal);
+    
+    btnReportCenter.unbind('onclick');
+    btnReportCenter.bind("onclick", scwin.fnOpenPortal);
+
+    //btnBsneWtng.bind("onclick", scwin.fnOpenPortal);
+    //btnCratInfoMng.bind("onclick", scwin.fnOpenPortal);
+    //btnPrcmEtpsInfoMng.bind("onclick", scwin.fnOpenPortal);
+    //btnPbancMng.bind("onclick", scwin.fnOpenPortal);
+
+    genRemote.setUserData("userData1", "00007");
+    scwin.fnFooterMakeRemote();
+
+    let id = $p.getRuntimeId("genRemote");
+    $p.$("#" + id).on("mouseenter", function(e) {
+        $p.$("#" + id).addClass("flagClass");
+    });
+    $p.$("#" + id).on("mouseleave", function(e) {
+        scwin.fnRemoveActive(e);
+    });
+    
+    // 표시여부가 N 인 경우 hide
+    // 불편·개선사항 신고센터
+    let reportCenterIndtYn = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "01115", true)[0]?.indtYn;
+    if ( reportCenterIndtYn != "Y" ) {
+        btnReportCenter.addClass("hide");
+    }
+}
+
+/********************************************************************************
+ * 설명 : 콤보 생성
+ ********************************************************************************/
+scwin.fnFooterMakeRemote = function() {
+    genRemote.removeAll(); // 삭제
+    let userData1 = genRemote.getUserData("userData1");
+
+    let totCnt = adlPrtlFtreL.getTotalRow();
+    let lvl = 0;
+    let index = -1;
+
+    for (let i = 0; i < totCnt; i++) {
+        let prtlFtreNo = adlPrtlFtreL.getCellData(i, "prtlFtreNo");
+        let prtlFtreNm = adlPrtlFtreL.getCellData(i, "prtlFtreNm");
+        let upPrtlFtreNo = adlPrtlFtreL.getCellData(i, "upPrtlFtreNo");
+        let scrnUrl = adlPrtlFtreL.getCellData(i, "scrnUrl");
+        let indtYn = adlPrtlFtreL.getCellData(i, "indtYn");
+        let isleafYn = adlPrtlFtreL.getCellData(i, "isleafYn");
+        let pathPrtlFtreNo = adlPrtlFtreL.getCellData(i, "pathPrtlFtreNo");
+
+        if (prtlFtreNo === userData1) {
+            index = 0;
+            continue;
+        }
+
+        if (scwin.fnMatchedPathPrtlFtreNo(userData1, pathPrtlFtreNo)) {
+            //if (comUtil.gfnIsEmpty(scrnUrl)) continue;
+            if (isleafYn !== "Y") continue;
+
+            genRemote.insertChild(index);
+            let compObj = genRemote.getChild(index , "genRowRemote"); // Generator 하위 컴포넌트 id genRowRemote
+            compObj.setUserData("userData1", prtlFtreNo);
+            compObj.render.innerHTML = prtlFtreNm;
+            compObj.bind("onclick", scwin.fnOpenPortal);
+            index++;
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 하위로드 찾기
+ ********************************************************************************/
+scwin.fnMatchedPathPrtlFtreNo = function(prtlFtreNo, pathPrtlFtreNo) {
+    return WebSquare.util.getMainFrame().scwin.fnMatchedPathPrtlFtreNo(prtlFtreNo, pathPrtlFtreNo);
+};
+
+/********************************************************************************
+ * 설명 : 화면이동 함수
+ ********************************************************************************/
+scwin.fnOpenPortal = function(e) {
+    let id = this.id;
+    let org_id = this.org_id;
+    if ( comUtil.gfnIsEmpty(org_id) ) {
+        return false;
+    }
+    const obj = $p.getComponentById(org_id);
+    if ( comUtil.gfnIsEmpty(obj) ) {
+        return false;
+    }
+
+    let prtlFtreNo = obj.getUserData("userData1");
+    WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo); // 화면이동 함수 호출
+};
+
+/********************************************************************************
+ * 설명 : 원격지원 click 이벤트
+ ********************************************************************************/
+scwin.btnRemote_onclick = function(e) {
+    let flag = genRemote.hasClass("hide");
+    if (flag) {
+        genRemote.removeClass("hide");
+    } else {
+        genRemote.addClass("hide");
+    }
+};
+
+/********************************************************************************
+ * 설명 : 원격지원 mouse leave 이벤트
+ ********************************************************************************/
+scwin.btnRemote_onmouseleave = function(e) {
+    setTimeout(function() {
+        scwin.fnRemoveActive(e)
+    }, 100);
+};
+
+/********************************************************************************
+ * 설명 : 활성화 닫기
+ ********************************************************************************/
+scwin.fnRemoveActive = function(e) {
+    let flagClass = genRemote.hasClass("flagClass");
+    genRemote.removeClass("flagClass");
+    if ( !flagClass ) {
+        genRemote.addClass("hide");
+    }
+}
+
+/********************************************************************************
+ * 설명 : 사용자정보 버튼 클릭
+ ********************************************************************************/
+scwin.btnUserInfo_onclick = function(e) {
+    let usrTyCd = com.gfnGetUsrInfo("usrTyCd");
+    if (comUtil.gfnIsEmpty(usrTyCd)) return;
+
+    scwin.btnMyUser_onclick(e);
+    //scwin.btnUserInfo_onblur(e);
+};
+
+/********************************************************************************
+ * 설명 : 결재 버튼 클릭
+ ********************************************************************************/
+scwin.grpApprove_onclick = function(e) {
+    let option = {
+        isHistory: true,
+        param: {} // 화면에 전달할 JSON 데이터 객체
+    }
+
+    com.gfnOpenMenu("FCEB002_01", option);
+};
+
+/********************************************************************************
+ * 설명 : 전자문서함 버튼 클릭
+ ********************************************************************************/
+scwin.grpDocument_onclick = function(e) {
+    let option = {
+        isHistory: true,
+        param: {} // 화면에 전달할 JSON 데이터 객체
+    }
+
+    com.gfnOpenMenu("UBBA002_02", option);
+};
+
+/********************************************************************************
+ * 설명 : 키워드검색 단계구분 클릭
+ ********************************************************************************/
+
+scwin.sbxBsneSe_onviewchange = function (info) {
+    if(sbxBsneSe.getSelectedIndex().length != 2) {
+        sbxBsneSe.setValue(info.value);
+    }
+    //전체 글귀 지우기
+    // if(sbxBsneSe.getValue() == "10"){
+    //     searchAllInfo.removeClass("hide");
+    // }else {
+    //     searchAllInfo.addClass("hide");
+    // }
+}
+}}}]},{T:1,N:'w2:require',A:{as:'udc_search_toggle_button',type:'page',variableClone:'true',src:'/kn/com/udc/search_toggle_button.xml'}}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'gnb-btm-wrap'},E:[{T:1,N:'xf:group',A:{id:'',class:'logo',tagname:'h1'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnLogo',title:'조달청 로고',class:'btn logo',href:'javascript:void(0);','ev:onclick':'scwin.btnLogo_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'조달청 로고다'}]}]}]},{T:1,N:'xf:image',A:{src:'/kn/com/images/portal/gnb/move.png',style:'',id:'',class:'img-move',alt:'나라장터 테마이미지'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'inner right'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'srch-wrap'},E:[{T:1,N:'xf:group',A:{style:'',id:'btnTotalSrch',class:'btn srch coin-spin hide',tagname:'a',text:'검색영역 내용 화면 열고 닫기','ev:onclick':'scwin.btnSrch_onclick','ev:onmouseleave':'scwin.btnTotalSrch_onmouseleave','ev:onmouseenter':'scwin.btnTotalSrch_onmouseenter','ev:onfocus':'scwin.btnTotalSrch_onfocus'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'TotalSrchTip'}]},{T:1,N:'w2:role',E:[{T:3,text:'button'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:span',A:{class:'tooltip total-srch',id:'totalSrchTip',label:'통합검색',style:''},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'popup-srch bg','ev:onclick':'scwin.popBg_onclick'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'popup-content srch'},E:[{T:1,N:'xf:group',A:{id:'',class:'pop-cnt-wrap',style:''},E:[{T:1,N:'xf:group',A:{style:'',id:'boxGlobalSearch',class:'inner ipt-srch'},E:[{T:1,N:'xf:input',A:{adjustMaxLength:'false',id:'inpGlobalSearch',style:'',title:'검색어를 입력해 주세요.',placeholder:'검색어를 입력해 주세요.','ev:onkeyup':'scwin.inpGlobalSearch_onkeyup',autocomplete:'off','ev:onblur':'scwin.inpGlobalSearch_onblur','ev:onfocus':'scwin.inpGlobalSearch_onfocus',ref:'',escape:'true'}},{T:1,N:'xf:trigger',A:{type:'button',style:'',id:'btnGlobalSearch',class:'btn search',title:'해당 검색어 조회','ev:onclick':'scwin.btnGlobalSearch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'해당 검색어 조회'}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'srchBox',class:'inner content hide'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner-wrap left'},E:[{T:1,N:'w2:textbox',A:{id:'',label:'연관 검색어',style:'',class:'title srch'}},{T:1,N:'w2:generator',A:{style:'',id:'genRelKyWrd',tagname:'div',class:'tSerword'},E:[{T:1,N:'xf:trigger',A:{class:'btn chip hide',id:'trigger12',style:'',type:'button','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label'}]},{T:1,N:'w2:anchor',A:{outerDiv:'false',id:'btnRecommendSrch',style:'',class:'btn chip',escape:'false','ev:onclick':'scwin.btnRecommendSrch_onclick'},E:[{T:1,N:'xf:label'}]}]}]},{T:1,N:'xf:group',A:{class:'inner-wrap right',id:'',style:''},E:[{T:1,N:'w2:textbox',A:{class:'title srch',id:'',label:'연관 공고',style:''}},{T:1,N:'w2:generator',A:{style:'',id:'genRelPrcmInfo',tagname:'div',class:'tNoti_list'},E:[{T:1,N:'xf:trigger',A:{class:'btn chip hide',id:'trigger2',style:'',type:'button','ev:onclick':'scwin.btnRecentSearch_onclick'},E:[{T:1,N:'xf:label'}]},{T:1,N:'w2:anchor',A:{outerDiv:'false',id:'btnPrcmInfoSrch',style:'',class:'btn chip',escape:'false','ev:onclick':'scwin.btnRecommendSrch_onclick'},E:[{T:1,N:'xf:label'}]}]}]}]},{T:1,N:'xf:group',A:{style:';z-index:;position:;',id:'boxSearch',class:'inner content hide'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner-wrap left'},E:[{T:1,N:'w2:textbox',A:{id:'',label:'추천 검색어',style:'',class:'title srch'}},{T:1,N:'w2:generator',A:{style:'',id:'genRecommendSearch',tagname:'div'},E:[{T:1,N:'xf:trigger',A:{class:'btn chip',id:'btnRecommendSearch',style:'',type:'button','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label'}]}]},{T:1,N:'xf:trigger',A:{type:'button',style:'',id:'',class:'btn chip','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전자조달'}]}]},{T:1,N:'xf:trigger',A:{class:'btn chip',id:'',style:'',type:'button','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'조달청계약요청'}]}]},{T:1,N:'xf:trigger',A:{class:'btn chip',id:'',style:'',type:'button','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'입찰공고'}]}]},{T:1,N:'xf:trigger',A:{class:'btn chip',id:'',style:'',type:'button','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전자서명'}]}]},{T:1,N:'xf:trigger',A:{class:'btn chip',id:'',style:'',type:'button','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'개인정보동의'}]}]},{T:1,N:'xf:trigger',A:{class:'btn chip',id:'',style:'',type:'button','ev:onclick':'scwin.btnRecommendSearch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'수요기관'}]}]}]},{T:1,N:'xf:group',A:{class:'inner-wrap right',id:'',style:''},E:[{T:1,N:'w2:textbox',A:{class:'title srch',id:'',label:'최근 검색어',style:''}},{T:1,N:'w2:generator',A:{style:'',id:'genRecentSearch',tagname:'div'},E:[{T:1,N:'xf:trigger',A:{class:'btn chip',id:'btnRecentSearch',style:'',type:'button','ev:onclick':'scwin.btnRecentSearch_onclick'},E:[{T:1,N:'xf:label'}]}]}]}]},{T:1,N:'xf:trigger',A:{type:'button',style:'',class:'btn close','ev:onclick':'scwin.closeSrchPopup_onclick',id:'closeSrchPopup','ev:onblur':'scwin.closeSrchPopup_onblur'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색 메뉴 닫기'}]}]},{T:1,N:'xf:group',A:{adaptive:'layout',adaptiveThreshold:'600',class:'shbox srch_keyword',id:'grpSrch',style:'padding:0.4rem 0 !important;border:0 !important;'},E:[{T:1,N:'xf:group',A:{adaptive:'layout',adaptiveThreshold:'600',class:'shbox_inner',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'w2tb tb',id:'',style:'width:100%;',tagname:'table'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:summary'}]},{T:1,N:'xf:group',A:{tagname:'caption'}},{T:1,N:'xf:group',A:{tagname:'colgroup'},E:[{T:1,N:'xf:group',A:{style:'',tagname:'col',class:'srch_step'}},{T:1,N:'xf:group',A:{style:'',tagname:'col'}}]},{T:1,N:'xf:group',A:{class:'',style:'',tagname:'tr'},E:[{T:1,N:'xf:group',A:{class:'w2tb_th br-row',style:'',tagname:'th'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:scope',E:[{T:3,text:'row'}]}]},{T:1,N:'w2:textbox',A:{class:'',id:'',label:'단계구분',style:'',tagname:'label'}}]},{T:1,N:'xf:group',A:{class:'w2tb_td br-row',style:'',tagname:'td'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:colspan',E:[{T:3,text:'1'}]},{T:1,N:'w2:rowspan',E:[{T:3,text:'1'}]}]},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck mr5',cols:'',disabled:'','ev:onviewchange':'scwin.sbxBsneSe_onviewchange',id:'sbxBsneSe',ref:'data:dlSrchParamM.areaCd',renderType:'checkboxgroup',rows:'',selectedindex:'4',style:'',title:'업무구분을 선택하세요.'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'10'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'발주계획'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'11'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'요청접수'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'12'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'사전규격'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'13'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'입찰공고'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'14'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'개찰결과'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'15'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'계약현황'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'16'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'납품요청'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'17'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'납품요구'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'18'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검사검수'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'19'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'대금지급'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'20'}]}]}]}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'searchAllInfo',tagname:'div',class:'mb10'},E:[{T:1,N:'xf:group',A:{class:'bul_dot',id:'',style:'',tagname:'ul'},E:[{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'p',text:''},E:[{T:1,N:'xf:group',A:{class:'red',id:'',style:'',tagname:'span',text:'사업명(공고명, 계약명 등) 또는 사업번호(공고번호, 계약번호 등)로 검색할 수 있습니다.'}}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'p',text:''},E:[{T:1,N:'xf:group',A:{class:'red',id:'',style:'',tagname:'span',text:'키워드 검색은 각 단계 별로 검색 시 최근 5년(전체는 1년)까지 검색됩니다.'}}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li',style:''},E:[{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'p',text:''},E:[{T:1,N:'xf:group',A:{class:'red',id:'',style:'',tagname:'span',text:'입찰공고는 \'키워드\' 인덱싱 시간 차로 인해 일부 입찰공고가 조회되지 않을 수 있으므로, '}}]}]},{T:1,N:'xf:group',A:{class:'red',id:'',style:'padding-left: 0.8em;',tagname:'span',text:'상단 탭 메뉴 입찰 → 입찰공고 → 입찰공고목록과 병행하여 활용하시기 바랍니다.'}}]}]}]}]}]},{T:1,N:'xf:group',A:{id:'grpBeforeLogin',class:'user-wrap before-login hide',style:''},E:[{T:1,N:'xf:group',A:{class:'btn user coin-spin','ev:onclick':'scwin.btnUserLogin_onclick','ev:onmouseleave':'scwin.btnUserLogin_onmouseleave',id:'btnUserLogin',style:'',text:'나의나라장터 메뉴열기',tagname:'a'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'userGuide'}]},{T:1,N:'w2:role',E:[{T:3,text:'button'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:span',A:{class:'tooltip user-guide',id:'userGuide',label:'로그인이 필요한 메뉴입니다.',style:'','ev:onmouseout':'scwin.userGuide_onmouseout'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'grpEcabinet',class:'btn e-cabinet coin-spin',text:'나라장터캐비닛 새창열림',tagname:'a','ev:onmouseleave':'scwin.grpEcabinet_onmouseleave','ev:onmouseenter':'scwin.grpEcabinet_onmouseenter','ev:onfocus':'scwin.grpEcabinet_onfocus'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:rel',E:[{T:3,text:'nopener'}]}]},{T:1,N:'w2:span',A:{class:'tooltip e-cabinet',id:'',label:'나라장터캐비닛',style:''},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'grpApprove',class:'btn e-approve coin-spin hide',text:'결재 새창열림',tagname:'a','ev:onmouseleave':'','ev:onmouseenter':'','ev:onfocus':'','ev:onclick':'scwin.grpApprove_onclick'},E:[{T:1,N:'w2:span',A:{class:'tooltip e-approve',id:'',label:'결재',style:''},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'grpDocument',class:'btn e-document coin-spin hide',text:'전자문서함 새창열림',tagname:'a','ev:onmouseleave':'','ev:onmouseenter':'','ev:onfocus':'','ev:onclick':'scwin.grpDocument_onclick'},E:[{T:1,N:'w2:span',A:{class:'tooltip e-document',id:'',label:'전자문서함',style:''},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{id:'grpAfterLogin',class:'user-wrap after-login hidef',style:'','ev:onmouseleave':'scwin.grpAfterLogin_onmouseleave','ev:onmouseenter':'scwin.grpAfterLogin_onmouseenter'},E:[{T:1,N:'xf:group',A:{style:'',id:'btnMyPage',class:'btn remote usr',text:'마이페이지',tagname:'a','ev:onclick':'scwin.btnUserInfo_onclick','ev:onblur':'scwin.btnUserInfo_onblur','ev:onfocus':'scwin.btnUserInfo_onfocus','ev:onmouseenter':'scwin.btnUserInfo_onmouseenter','ev:onmouseleave':'scwin.btnUserInfo_onmouseleave'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'UserTip'}]},{T:1,N:'w2:role',E:[{T:3,text:'button'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]},{T:1,N:'w2:aria-selected',E:[{T:3,text:'false'}]}]}]},{T:1,N:'w2:span',A:{label:'나의나라장터',style:'',id:'UserTip',class:'tooltip user'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]},{T:1,N:'xf:group',A:{style:'top: 3.5rem; !important',id:'grpUserPopup',class:'popup-content user','ev:onmouseleave':'scwin.grpUserPopup_onmouseleave','ev:onmouseenter':'scwin.grpUserPopup_onmouseenter'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'',tagname:'ul'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner left',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'user-intro my-unlock',tagname:'p',text:''},E:[{T:1,N:'w2:span',A:{label:'',style:'',id:'spnGrpNm',class:'name grp'}}]}]},{T:1,N:'xf:group',A:{class:'inner right',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'user-intro r-txt',tagname:'p'},E:[{T:1,N:'w2:span',A:{label:'수요기관',style:'',id:'spnUsrNm',class:'name'}},{T:1,N:'w2:textbox',A:{id:'',label:'님 반갑습니다 ',style:'',tagname:'span'}}]},{T:1,N:'w2:textbox',A:{id:'txaLogin',label:'',style:'',class:'txt-process mt5',escape:'false'}},{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnLoginMthd',class:'btn login-ctrl hide',title:'로그인 방식변경 화면 새창열림'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'로그인 방식변경'}]}]}]},{T:1,N:'xf:group',A:{class:'inner right',id:'',style:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{class:'btn shortcut hide',id:'btnBsneWtng',outerDiv:'false',style:'',title:'화면이동'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'나의 업무대기현황'}]}]},{T:1,N:'w2:anchor',A:{class:'btn shortcut hide',id:'btnCratInfoMng',outerDiv:'false',style:'',title:'화면이동'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'인증서 정보관리'}]}]},{T:1,N:'w2:anchor',A:{class:'btn shortcut hide',id:'btnPrcmEtpsInfoMng',outerDiv:'false',style:'',title:'화면이동'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'조달업체정보관리'}]}]},{T:1,N:'w2:anchor',A:{class:'btn shortcut hide',id:'btnPbancMng',outerDiv:'false',style:'',title:'화면이동'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'나의공고관리'}]}]},{T:1,N:'w2:anchor',A:{class:'btn shortcut my-user hide',id:'btnMyUser',outerDiv:'false',style:'',title:'화면이동','ev:onclick':'scwin.btnMyUser_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'나의나라장터 바로가기'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'btnHelpDesk',class:'btn e-customer',tagname:'a',text:'e-고객센터'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'e-고객센터 새창열림'}]}]}]},{T:1,N:'xf:group',A:{id:'',style:'position:relative;',class:'remote-box'},E:[{T:1,N:'xf:group',A:{class:'btn remote link-toggle',id:'btnRemote',style:'',tagname:'a',text:'','ev:onclick':'scwin.btnRemote_onclick','ev:onmouseleave':'scwin.btnRemote_onmouseleave'},E:[{T:1,N:'w2:span',A:{label:'원격지원',style:'',id:'',class:''}}]},{T:1,N:'w2:generator',A:{style:'',id:'genRemote',class:'remote-wrap hide',tagname:'ul',userData1:''},E:[{T:1,N:'xf:group',A:{style:'',id:'',tagname:'li',class:'list'},E:[{T:1,N:'xf:group',A:{style:'',id:'genRowRemote',class:'',tagname:'a',text:''}}]}]}]},{T:1,N:'xf:group',A:{class:'btn remote link-toggle',id:'btnReportCenter',style:'',tagname:'a',text:''},E:[{T:1,N:'w2:span',A:{label:'불편·개선사항 신고센터',style:'',id:'',class:''}}]},{T:1,N:'xf:group',A:{class:'btn menu-open mobile',id:'btnMenuOpen',style:'',tagname:'a','ev:onclick':'scwin.btnMenuOpen_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'메뉴열림'}]}]},{T:1,N:'w2:span',A:{label:'메뉴',style:'',id:''}}]}]}]}]}]}]})

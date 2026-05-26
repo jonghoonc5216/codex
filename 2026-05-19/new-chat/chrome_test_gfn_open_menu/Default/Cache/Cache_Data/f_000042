@@ -1,0 +1,1028 @@
+/*amd /layout/nara/MainCntTab02.xml 68302 f59d6819e5c4926dddcafe03a691fa6304cd9d71c83bae44dc2f6553f5821db5 */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:7,N:'xml-stylesheet',instruction:'href="/kn/com/css/swiper/swiper.min.css" type="text/css"'},{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:aliasDataList',A:{'ev:ondataload':'scwin.dataList1_ondataload',id:'adlPrtlFtreL',scope:'/dlPrtlFtreL',style:''}},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlSrchParmM',style:''},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'currentPage',name:'현재 페이지',dataType:'text'}},{T:1,N:'w2:key',A:{id:'recordCountPerPage',name:'페이지 레코드 수',dataType:'text'}},{T:1,N:'w2:key',A:{dataType:'text',id:'prtlFtreNo',name:'포탈기능번호'}},{T:1,N:'w2:key',A:{dataType:'text',id:'prtlFtreNm',name:'포탈기능명'}},{T:1,N:'w2:key',A:{dataType:'text',id:'upPrtlFtreNo',name:'상위포탈기능번호'}},{T:1,N:'w2:key',A:{dataType:'text',id:'extlDomnYn',name:'외부도메인여부'}},{T:1,N:'w2:key',A:{dataType:'text',id:'popupUseYn',name:'팝업사용여부'}},{T:1,N:'w2:key',A:{dataType:'text',id:'indtYn',name:'표시여부'}},{T:1,N:'w2:key',A:{dataType:'text',id:'banrIndtYn',name:'배너표시여부'}},{T:1,N:'w2:key',A:{id:'bbsNo',name:'게시판번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'instBbsNo',name:'게시판번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pstNo',name:'게시물번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'instBbsYn',name:'기관별게시판(조회)여부',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',id:'dlBbsPstPopupL',repeatNode:'map',style:''},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{dataType:'text',id:'bbsNo',ignoreStatus:'true',name:'게시판번호',valueType:'binary'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNo',name:'게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'upPstNo',name:'상위게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNm',name:'게시물명'}},{T:1,N:'w2:column',A:{dataType:'text',id:'bulkPstCn',name:'대용량게시물내용'}},{T:1,N:'w2:column',A:{dataType:'text',id:'untyAtchFileNo',name:'통합첨부파일번호'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',id:'dlBbsPstL',repeatNode:'map',style:''},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{dataType:'text',id:'bbsNo',ignoreStatus:'true',name:'게시판번호',valueType:'binary'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNo',name:'게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'upPstNo',name:'상위게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNm',name:'게시물명'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstInqCnt',name:'게시물조회수'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ansLvelCnt',name:'답변레벨수'}},{T:1,N:'w2:column',A:{dataType:'text',id:'menuCangVal',name:'통합첨부파일번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'clsfPritmSqno',name:'분류항목순번'}},{T:1,N:'w2:column',A:{dataType:'text',id:'emrgYn',name:'긴급여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'tmprStrgYn',name:'임시저장여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ntcBgngDt',name:'공지시작일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ntcEndDt',name:'공지종료일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupYn',name:'팝업여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupBgngDt',name:'팝업시작일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupEndDt',name:'팝업종료일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'bbmgFixYn',name:'게시글고정여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstRlsYn',name:'게시물공개여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstPswdHashVal',name:'게시물비밀번호해시값'}},{T:1,N:'w2:column',A:{id:'prslAuthrtUsrTyCd',name:'열람권한이용자유형코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'useYn',name:'사용여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgDt',name:'게시일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzNo',name:'결재번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'aprvrId',name:'결재자ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzSttsCd',name:'결재상태코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzDt',name:'결재일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrUntyGrpNo',name:'입력자통합단체번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bulkPstCn',name:'대용량게시물내용',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptYmd',name:'입력일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgYmd',name:'게시일자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'newYn',name:'신규여부',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',id:'dlInstBbsPstL',repeatNode:'map',style:''},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{dataType:'text',id:'bbsNo',ignoreStatus:'true',name:'게시판번호',valueType:'binary'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNo',name:'게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'upPstNo',name:'상위게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNm',name:'게시물명'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNm2',name:'게시물명2'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstInqCnt',name:'게시물조회수'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ansLvelCnt',name:'답변레벨수'}},{T:1,N:'w2:column',A:{dataType:'text',id:'menuCangVal',name:'통합첨부파일번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'clsfPritmSqno',name:'분류항목순번'}},{T:1,N:'w2:column',A:{dataType:'text',id:'emrgYn',name:'긴급여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'tmprStrgYn',name:'임시저장여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ntcBgngDt',name:'공지시작일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ntcEndDt',name:'공지종료일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupYn',name:'팝업여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupBgngDt',name:'팝업시작일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupEndDt',name:'팝업종료일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'bbmgFixYn',name:'게시글고정여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstRlsYn',name:'게시물공개여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstPswdHashVal',name:'게시물비밀번호해시값'}},{T:1,N:'w2:column',A:{id:'prslAuthrtUsrTyCd',name:'열람권한이용자유형코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'useYn',name:'사용여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgDt',name:'게시일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzNo',name:'결재번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'aprvrId',name:'결재자ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzSttsCd',name:'결재상태코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzDt',name:'결재일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrUntyGrpNo',name:'입력자통합단체번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bulkPstCn',name:'대용량게시물내용',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptYmd',name:'입력일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgYmd',name:'게시일자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'newYn',name:'신규여부',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',id:'dlInnrInstBbsPstL',repeatNode:'map',style:''},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{dataType:'text',id:'bbsNo',ignoreStatus:'true',name:'게시판번호',valueType:'binary'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNo',name:'게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'upPstNo',name:'상위게시물번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNm',name:'게시물명'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstNm2',name:'게시물명2'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstInqCnt',name:'게시물조회수'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ansLvelCnt',name:'답변레벨수'}},{T:1,N:'w2:column',A:{dataType:'text',id:'menuCangVal',name:'통합첨부파일번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'clsfPritmSqno',name:'분류항목순번'}},{T:1,N:'w2:column',A:{dataType:'text',id:'emrgYn',name:'긴급여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'tmprStrgYn',name:'임시저장여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ntcBgngDt',name:'공지시작일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'ntcEndDt',name:'공지종료일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupYn',name:'팝업여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupBgngDt',name:'팝업시작일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupEndDt',name:'팝업종료일시'}},{T:1,N:'w2:column',A:{dataType:'text',id:'bbmgFixYn',name:'게시글고정여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstRlsYn',name:'게시물공개여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pstPswdHashVal',name:'게시물비밀번호해시값'}},{T:1,N:'w2:column',A:{id:'prslAuthrtUsrTyCd',name:'열람권한이용자유형코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'useYn',name:'사용여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgDt',name:'게시일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzNo',name:'결재번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'aprvrId',name:'결재자ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzSttsCd',name:'결재상태코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzDt',name:'결재일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrUntyGrpNo',name:'입력자통합단체번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bulkPstCn',name:'대용량게시물내용',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptYmd',name:'입력일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgYmd',name:'게시일자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'newYn',name:'신규여부',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlActgCntM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'rcvmtNCount',name:'name1',dataType:'text',defaultValue:'0'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlDrBbsPstL',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'bbsNo',name:'게시판번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstNo',name:'게시물번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'upPstNo',name:'상위게시물번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstNm',name:'게시물명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstInqCnt',name:'게시물조회수',dataType:'text'}},{T:1,N:'w2:column',A:{id:'ansLvelCnt',name:'답변레벨수',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuCangVal',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'clsfPritmSqno',name:'분류항목순번',dataType:'text'}},{T:1,N:'w2:column',A:{id:'emrgYn',name:'긴급여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'tmprStrgYn',name:'임시저장여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'ntcBgngDt',name:'공지시작일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'ntcEndDt',name:'공지종료일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'popupYn',name:'팝업여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'popupBgngDt',name:'팝업시작일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'popupEndDt',name:'팝업종료일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bbmgFixYn',name:'게시글고정여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstRlsYn',name:'게시물공개여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstPswdHashVal',name:'게시물비밀번호해시값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prslAuthrtUsrTyCd',name:'열람권한이용자유형코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'useYn',name:'사용여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgDt',name:'게시일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzNo',name:'결재번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'aprvrId',name:'결재자ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzSttsCd',name:'결재상태코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atrzDt',name:'결재일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrUntyGrpNo',name:'입력자통합단체번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bulkPstCn',name:'대용량게시물내용',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptYmd',name:'입력일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pstgYmd',name:'게시일자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'newYn',name:'신규여부',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlLocalGovM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'localGovCnt',name:'지방자치단체여부',dataType:'text'}}]}]}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{type:'text/javascript',src:'/kn/com/js/swiper.min.js'}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){scwin.onpageload = async function() {
+    
+    // 관련사이트
+    scwin.fnRefSiteMake();
+
+    // 포탈기능 알리판, 공지사항 시작
+    await scwin.fnCallMain();
+
+    // swiper 자동 autoplay 멈추기, 재생 이벤트
+    let thisSlideType2,
+    autoPlayBtnType2,
+    autoPlayStateType2;
+    new Swiper('.swiper-container.autoplay.sub', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 20,
+        autoplay: {
+            delay: 3000,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next.fraction',
+            prevEl: '.swiper-button-prev.fraction',
+        },
+        pagination: {
+            el: '.swiper-pagination.fraction',
+            type: 'fraction',
+        },
+        nested: true,
+        a11y: {
+            prevSlideMessage: '이전 슬라이드',
+            nextSlideMessage: '다음 슬라이드',
+            slideLabelMessage: '총 {{slidesLength}}장의 슬라이드 중 {{index}}번 슬라이드 입니다.',
+        },
+        on: {
+            init: function () {
+                thisSlideType2 = this;
+                autoPlayBtnType2 = document.querySelector('.autoplay-control-wrap.type2 > .btn.stop');
+                autoPlayBtnType2.addEventListener('click', (e) => {
+                    autoPlayStateType2 = autoPlayBtnType2.getAttribute('aria-pressed');
+                    if (autoPlayStateType2 === 'false') {
+                    autoPlayBtnType2.setAttribute('aria-pressed', 'true');
+                    autoPlayBtnType2.classList.add('active');
+                    thisSlideType2.autoplay.stop();
+                    } else if (autoPlayStateType2 === 'true') {
+                    autoPlayBtnType2.setAttribute('aria-pressed', 'false');
+                    autoPlayBtnType2.classList.remove('active');
+                    thisSlideType2.autoplay.start();
+                    };
+                });
+            },
+        },
+    });
+
+};
+
+// 알림판 모아보기 팝업 호출
+scwin.btnViewPopup_onclick = function(e) {
+    scwin.openViewPopup("알림판", "00021", 950, 655);
+};
+
+// 동영상 메뉴얼 클릭
+scwin.btnVdeoView_onclick = function() {
+    scwin.openViewPopup("동영상 매뉴얼", "00015", 820, 655);
+};
+
+// 모아보기 팝업 호출 
+scwin.openViewPopup = function(popName, portalNo, mWidth, mheight) {
+    const popWid = mWidth;
+    const popHei = mheight;
+    const menuCangVal = "FACB001_01";
+    const param = {
+        "portalNo" : portalNo
+    }
+    com.gfnOpenPopup({
+        menuCangVal: menuCangVal, // 팝업창 아이디
+        popupId: menuCangVal,
+        popupName: popName,
+        width: popWid, // 가로 사이즈
+        height: popHei, // 세로 사이즈
+        param: param,
+        className: "arrow_ctrl_popup",
+    });
+}
+
+// 관련사이트 바로보기 팝업 호출
+scwin.btnRefSitePopup_onclick = function(e) {
+    const popWid = 820;
+    const popHei = 655;
+    const menuCangVal = "FACB002_01";
+    com.gfnOpenPopup({
+        menuCangVal: menuCangVal, // 팝업창 아이디
+        popupId: menuCangVal,
+        popupName: "관련사이트",
+        width: popWid, // 가로 사이즈
+        height: popHei, // 세로 사이즈
+        className: "arrow_ctrl_popup",
+    });
+};
+
+//이용자등록화면으로 이동
+scwin.btnUsrReg_onclick = function() {
+    com.gfnOpenMenu("FUUA012_01");
+};
+
+/**
+ * ==============================================================================
+ *  포탈기능
+ *
+ * ==============================================================================
+ */
+
+/********************************************************************************
+ * 설명 : 나라장터 공지사항 목록 조회 API 호출
+ ********************************************************************************/
+scwin.fnSrchPrtlFtreBbsList = async function () {
+    dlSrchParmM.set("instBbsYn", "N");
+    dlSrchParmM.set("currentPage", 1);
+    dlSrchParmM.set("recordCountPerPage", 10);
+
+    let pagingOption = {
+        /* 필수 */
+        pageType: "P", /* S/P */
+        currentPage: 1, /* 현재 페이지 */
+        recordCountPerPage:10,
+    }
+
+    let sbmOption = {
+        id: "sbmSrchPrtlFtreBbsList",
+        // action: "/fa/faz/fazf/PrtlFtre/selectPrtlFtreBbsList.do",
+        action: "/fm/fma/fmaa/Pst/selectNtcPstList.do",
+        // inData : "dlSrchParmM",
+        inData : "dlPstM=dlSrchParmM",
+        outData: "dlBbsPstL=dlPstL",
+        //pagingInfo: pagingOption,
+        msgYn: { succ: false, err: false },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+
+        await scwin.fnMainBbsMake("genBbsLst","genRowBbsLst");
+    } catch (e) {
+        console.error(e);
+    }
+};
+/********************************************************************************
+ * 설명 : 기관별 공지사항 목록 조회 API 호출
+ ********************************************************************************/
+scwin.fnSrchPrtlFtreInstBbsList = async function () {
+    dlSrchParmM.set("instBbsYn", "Y");
+    dlSrchParmM.set("currentPage", 1);
+    dlSrchParmM.set("recordCountPerPage", 4);
+
+    let pagingOption = {
+        /* 필수 */
+        pageType: "S", /* S/P */
+        currentPage: 1, /* 현재 페이지 */
+        recordCountPerPage:10,
+    }
+
+    let sbmOption = {
+        id: "sbmSrchPrtlFtreInstBbsList",
+        // action: "/fa/faz/fazf/PrtlFtre/selectPrtlFtreBbsList.do",
+        action: "/fm/fma/fmaa/Pst/selectNtcPstList.do",
+        inData : "dlPstM=dlSrchParmM",
+        outData: "dlInstBbsPstL=dlPstL",
+        //pagingInfo: pagingOption,
+        msgYn: { succ: false, err: false },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+
+        scwin.fnMainBbsMake("genInstBbsLst","genRowInstBbsLst");
+    } catch (e) {
+        console.error(e);
+    }
+};
+/********************************************************************************
+ * 설명 : 내부기관별 공지사항 목록 조회 API 호출
+ ********************************************************************************/
+scwin.fnSrchPrtlFtreInnrInstBbsList = async function () {
+    dlSrchParmM.set("instBbsYn", "Y");
+    dlSrchParmM.set("currentPage", 1);
+    dlSrchParmM.set("recordCountPerPage", 4);
+
+    let pagingOption = {
+        /* 필수 */
+        pageType: "S", /* S/P */
+        currentPage: 1, /* 현재 페이지 */
+        recordCountPerPage:10,
+    }
+
+    let sbmOption = {
+        id: "sbmSrchPrtlFtreInstBbsList",
+        action: "/fm/fma/fmaa/Pst/selectNtcPstList.do",
+        inData : "dlPstM=dlSrchParmM",
+        outData: "dlInnrInstBbsPstL=dlPstL",
+        msgYn: { succ: false, err: false },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+
+        scwin.fnMainBbsMake("genInnrInstBbsLst","genRowInnrInstBbsLst");
+    } catch (e) {
+        console.error(e);
+    }
+};
+/********************************************************************************
+ * 설명 :목록 조회 API 호출
+ ********************************************************************************/
+scwin.fnSrchPrtlFtreBbsPopupList = async function (bbsNm) {
+
+    let sbmOption = {
+        id: "sbmSrchPrtlFtreBbsPopupList",
+        action: "/fm/fma/fmaa/Pst/selectPstPoupList.do",
+        inData : "dlPstM=dlSrchParmM",
+        outData: "dlBbsPstPopupL=dlPstPoupL",
+        msgYn: { succ: false, err: true },
+    };
+
+    try {
+        await com.gfnExecute(sbmOption);
+        scwin.fnOpenBbsPopup(bbsNm);
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : portal.xml 호출 함수
+ ********************************************************************************/
+scwin.fnCallMain = async function(){
+    grpBbsContbox.hide();
+    if(adlPrtlFtreL.getTotalRow() === 0 ) return;
+
+    genBbsLst.setUserData("userData1", "00601"); // 게시판 상세
+    genInstBbsLst.setUserData("userData1", "00603"); // 게시판 상세
+    // genDrLst.setUserData("userData1", "01118"); // DR
+
+    genInnrInstBbsLst.setUserData("userData1", "01030"); // 게시판 상세
+    genExtlInstBbsLst.setUserData("userData1", "00603"); // 게시판 상세
+
+    scwin.bindEvent(btnBbsAdd, "00602"); // 나라장터 공지사항 더보기
+    scwin.bindEvent(btnInstBbsAdd, "00604"); // 기관별 공지사항 더보기
+    // scwin.bindEvent(btnDrNtce, "01119"); // DR 공지사항 더보기
+
+    let bbsNo = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "00016", true);
+    let instBbsNo = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "00017", true);
+    // let drBbsNo = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "01117", true);
+
+    let bbsNoMenuCangVal = bbsNo[0]?.menuCangVal;
+    let instBbsNoMenuCangVal = instBbsNo[0]?.menuCangVal;
+    // let drBbsNoMenuCangVal = drBbsNo[0]?.menuCangVal;
+
+    if( comUtil.gfnIsNotEmpty(bbsNoMenuCangVal)){
+        dlSrchParmM.set("bbsNo", bbsNoMenuCangVal);
+        scwin.fnSrchPrtlFtreBbsList();     // 게시판 조회
+        scwin.fnSrchPrtlFtreBbsPopupList("나라장터 공지사항"); // 게시판 팝업 조회
+    }
+
+    /*
+    if( comUtil.gfnIsNotEmpty(drBbsNoMenuCangVal)){
+        dlSrchParmM.set("bbsNo", drBbsNoMenuCangVal);
+        scwin.fnSrchDrBbsList();     // DR 게시판 조회
+    }
+    */
+
+    if( comUtil.gfnIsNotEmpty(instBbsNoMenuCangVal)){
+        dlSrchParmM.set("bbsNo", instBbsNoMenuCangVal);
+        await scwin.fnSrchPrtlFtreInstBbsList(); // 기관별 게시판조회
+        scwin.fnSrchPrtlFtreBbsPopupList("기관별 공지사항"); // 게시판 팝업 조회
+    }
+
+    if (com.gfnGetUsrInfo()?.usrTyCd === "이030001" || com.gfnGetUsrInfo()?.usrTyCd === "이030002") { // 이용자 유형 코드 조달청 이030001 수요기관 이030002
+        notice1.hide();
+        notice2.show();
+
+        let innrInstBbsNoMenuCangVal = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "01029", true)[0]?.menuCangVal;
+        dlSrchParmM.set("bbsNo", innrInstBbsNoMenuCangVal);
+        await scwin.fnSrchPrtlFtreInnrInstBbsList(); // 기관별 내부 공지사항 게시판조회
+
+        scwin.fnMainBbsMake("genExtlInstBbsLst","genRowExtlInstBbsLst");
+        scwin.bindEvent(btnInnrInstBbsAdd, "01031"); // 기관별 내부 공지사항 더보기
+        scwin.bindEvent(btnExtlInstBbsAdd, "00604"); // 기관별 외부 공지사항 더보기
+
+        //작업
+        if(com.gfnGetUsrInfo()?.usrTyCd === "이030002") {
+            //수요기관 미납내역 팝업
+            scwin.fnSrchRcvmCnt(); 
+            scwin.fnInstPopEvnt();
+        }
+    } else {
+        notice1.show();
+        notice2.hide();
+    }
+
+    scwin.bindEvent(btnCertCent, "00402"); // 인증센터
+    scwin.bindEvent(btnOvrlRegGude, "00403"); // 종합등록가이드
+
+    scwin.bindEvent(btnFacebook, "00701"); // 페이스북
+    scwin.bindEvent(btnWitter, "00702"); // 트위터
+    scwin.bindEvent(btnYoutube, "00704"); // 유뷰브
+    scwin.bindEvent(btnBlog, "00703"); // 블로그
+    scwin.bindEvent(btnInstar, "01048"); // 인스타그램
+
+    scwin.bindEvent(btnPrcm, "01094"); // 수요기관피해사례
+    //scwin.bindEvent(btnPrcm, "00903"); // 조달통
+
+    scwin.bindEvent(btnUnfrPrcmDclr, "00904"); // 불공정조달신고
+
+    scwin.bindEvent(btnSelfPrcmIlglRptCtr, "01127"); // 자체조달 불법사항 신고센터
+
+    scwin.bindEvent(btnCallCenter, "01050"); // 콜센터이용방법
+    
+
+    genBannerLst.setUserData("userData1", "00021"); // 포탈기능번호 설정
+
+    scwin.bindEvent(btnCall, "01102"); // 콜센터 이용방법
+    scwin.bindEvent(btnBbs, "01103"); // 콜센터 이용방법
+
+    scwin.fnMainBannerMake();
+}
+/********************************************************************************
+ * 설명 : 배너 생성
+ ********************************************************************************/
+scwin.fnMainBannerMake = function(){
+
+    let userData1 = genBannerLst.getUserData("userData1"); //링크
+    genBannerLst.removeAll(); // 삭제
+
+    let totCnt = adlPrtlFtreL.getTotalRow();
+    let index = 0;
+
+    for(let i=0; i<totCnt; i++){
+        let json = adlPrtlFtreL.getRowJSON(i);
+
+        if( json.prtlFtreNo === userData1 ) continue;
+
+        if( scwin.fnMatchedPathPrtlFtreNo(userData1, json.pathPrtlFtreNo ) ){
+            if( json.isleafYn !== "Y" ) continue;
+            genBannerLst.insertChild(index);
+
+            let genRowBanner = genBannerLst.getChild(index, "genRowBanner");
+
+            let imgBox = genBannerLst.getChild(index, "imgBox");
+
+            genRowBanner.setUserData("userData1", json.prtlFtreNo);
+            genRowBanner.bind("onclick", scwin.fnOpenPortal);
+
+            comUtil.gfnIsNotEmpty(json.banrImgUrl) ? imgBox.setSrc(json.banrImgUrl) : imgBox.hide();
+            index++;
+        }
+    }
+}
+/********************************************************************************
+ * 설명 : 공지사항 생성
+ ********************************************************************************/
+scwin.fnMainBbsMake = async function(genId, genRowId){
+    if( comUtil.gfnIsEmpty(genId) || comUtil.gfnIsEmpty(genRowId) ) {
+        return false;
+    }
+    //let genCombo = wfm_footer.getObj(genId);
+    let genBbs = $p.getComponentById(genId);
+    let userData1 = genBbs.getUserData("userData1"); //링크
+
+    genBbs.removeAll(); // 삭제
+
+    let totCnt = 0;
+    let dataList = null;
+    let dataJson = "";
+    if( genRowId === "genRowBbsLst"){
+        totCnt = 8;
+        dataJson = dlBbsPstL.getAllJSON();
+    } else if (genRowId === "genRowInnrInstBbsLst") {
+        totCnt = 4;
+        dataJson = dlInnrInstBbsPstL.getAllJSON();
+    // } else if (genRowId === "genRowDrLst") {
+    //     totCnt = 4;
+    //     dataJson = dlDrBbsPstL.getAllJSON();
+    } else{
+        totCnt = 4;
+        dataJson = dlInstBbsPstL.getAllJSON();
+    }
+
+    let dataCnt = dataJson.length;
+    for(let i=0; i<totCnt; i++){
+
+        genBbs.insertChild(i);
+        //if(i < dataCnt){
+            let json = dataJson[i];
+            if( comUtil.gfnIsEmpty(json) ) json = {};
+
+            //scwin.fnOpenBbsDetail
+            let bbsNo = json.bbsNo; //게시판번호
+            let pstNo = json.pstNo; //게시물번호
+            /*
+            let pstNm = "";
+
+            if(genRowId === "genRowDrLst") {
+                pstNm = json.pstNm;
+            } else {
+                pstNm = (genRowId === "genRowBbsLst" || genRowId === "genRowInnrInstBbsLst") ? json.pstNm : json.pstNm2;   //게시물명
+            }
+            */
+            let pstNm = (genRowId === "genRowBbsLst" || genRowId === "genRowInnrInstBbsLst") ? json.pstNm : json.pstNm2;   //게시물명
+            let pstgYmd = json.pstgYmd; //게시일자
+            let inptYmd = json.inptYmd; //입력일자
+            let bulkPstCn = json.bulkPstCn; //개시내용
+            let newYn = json.newYn; //신규여부
+
+            if( comUtil.gfnIsEmpty(pstNm) ) pstNm = "";
+            if( comUtil.gfnIsEmpty(inptYmd) ) inptYmd = "";
+
+            let bbsObj = genBbs.getChild(i , genRowId); // Generator 하위 컴포넌트 id
+            bbsObj.bind("onclick", scwin.fnOpenBbsDetail);
+
+            let bbsInptYmd = genBbs.getChild(i , "genRowBbsInptYmd"); // Generator 하위 컴포넌트 id
+            //let pstgYmdObj = genBbs.getChild(i , "genRowBbsPstgYmd"); // Generator 하위 컴포넌트 id
+            let bbsPstNm = genBbs.getChild(i , "genRowBbsPstNm"); // Generator 하위 컴포넌트 id
+
+            bbsObj.setUserData("userData1", userData1);
+            bbsObj.setUserData("bbsNo", bbsNo);
+            bbsObj.setUserData("pstNo", pstNo);
+
+            bbsPstNm.setLabel(comUtil.gfnEscapeToChar(pstNm));
+            bbsInptYmd.setLabel(inptYmd);
+
+            if( comUtil.gfnIsEmpty(pstNo) ) {
+                bbsPstNm.setStyle("height", "20px");
+            }
+
+            if( newYn == "Y"){
+                let bbsEmrgYn = genBbs.getChild(i , "genRowEmrgYn"); // Generator 하위 컴포넌트 id
+                bbsEmrgYn.setLabel("N"); // 신규
+            }
+        //}
+    }
+};
+
+/********************************************************************************
+ * 설명 : 하위로드 찾기
+ ********************************************************************************/
+scwin.fnMatchedPathPrtlFtreNo = function(prtlFtreNo, pathPrtlFtreNo){
+    //let result = WebSquare.util.getMainFrame().scwin.fnMatchedPathPrtlFtreNo(prtlFtreNo, pathPrtlFtreNo);
+    return WebSquare.util.getMainFrame().scwin.fnMatchedPathPrtlFtreNo(prtlFtreNo, pathPrtlFtreNo);
+};
+
+/********************************************************************************
+ * 설명 : 화면이동 함수호출
+ ********************************************************************************/
+scwin.fnOpenPortal = function(e){
+    let id = this.id;
+    let org_id = this.org_id;
+    if( comUtil.gfnIsEmpty(org_id) ) {
+        return false;
+    }
+    const obj = $p.getComponentById(org_id);
+    if( comUtil.gfnIsEmpty(obj) ) {
+        return false;
+    }
+
+    let prtlFtreNo = obj.getUserData("userData1");
+    let menuCangVal = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", prtlFtreNo, true)[0]?.menuCangVal;
+
+    let opt;
+    if (prtlFtreNo === "00903") { // 조달통인경우 옵션 추가
+        opt = {callback : () => {
+            if (com.gfnGetUsrInfo()?.usrTyCd === "이030001" || com.gfnGetUsrInfo()?.usrTyCd === "이030002") { // 이용자 유형 코드 조달청 이030001 수요기관 이030002
+                notice1.hide();
+                notice2.show();
+
+                let innrInstBbsNoMenuCangVal = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "01029", true)[0]?.menuCangVal;
+                dlSrchParmM.set("bbsNo", innrInstBbsNoMenuCangVal);
+                scwin.fnSrchPrtlFtreInnrInstBbsList(); // 기관별 내부 공지사항 게시판조회
+                scwin.fnMainBbsMake("genExtlInstBbsLst","genRowExtlInstBbsLst");
+                scwin.bindEvent(btnInnrInstBbsAdd, "01031"); // 기관별 내부 공지사항 더보기
+                scwin.bindEvent(btnExtlInstBbsAdd, "00604"); // 기관별 외부 공지사항 더보기
+            } else {
+                notice1.show();
+                notice2.hide();
+            }
+        }};
+    }
+    if(menuCangVal === "FACB001_01"){  //이용꿀팁 FACB001_01
+        //scwin.btnViewPopup_onclick();
+        scwin.btnVdeoView_onclick();
+    }else{
+        WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo, opt); // 화면이동 함수 호출
+    }
+};
+
+
+/********************************************************************************
+ * 설명 : 화면이동 함수호출
+ ********************************************************************************/
+scwin.fnOpenBbsDetail = function(e){
+    let id = this.id;
+    let org_id = this.org_id;
+    if( comUtil.gfnIsEmpty(org_id) ) {
+        return false;
+    }
+    const obj = $p.getComponentById(org_id);
+    if( comUtil.gfnIsEmpty(obj) ) {
+        return false;
+    }
+
+    let prtlFtreNo = obj.getUserData("userData1");
+    let bbsNo = obj.getUserData("bbsNo");
+    let pstNo = obj.getUserData("pstNo");
+
+    if( comUtil.gfnIsEmpty(prtlFtreNo) || comUtil.gfnIsEmpty(bbsNo) || comUtil.gfnIsEmpty(pstNo)) {
+        return false;
+    }
+
+    let json = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", prtlFtreNo, true);
+    if( comUtil.gfnIsEmpty(json) || json.length === 0 ) {
+        return false;
+    }
+
+    let prtlFtreNm = json[0].prtlFtreNm;
+    let upPrtlFtreNo = json[0].upPrtlFtreNo;
+    let lnkUrl = json[0].scrnUrl; // 링크URL
+    let menuCangVal = json[0].menuCangVal; // 메뉴호출값
+    let scrnUrl = json[0].scrnUrl; // 화면경로
+    let indtYn = json[0].indtYn; // 표시여부
+    let isleafYn = json[0].isleafYn; // 최하위여부
+    let extlDomnYn = json[0].extlDomnYn; // 외부도메인여부
+    let popupUseYn = json[0].popupUseYn; // 팝업사용여부
+    let banrIndtYn = json[0].popupUseYn; // 배너표시여부
+    let untyAtchFileNo = json[0].popupUseYn; // 통합첨부파일번호
+
+    let paramObj = {bbsNo:bbsNo, pstNo:pstNo};
+    let param = {
+        pstInfo: paramObj,
+    }
+    let option =  {
+        isHistory: true,
+        param: param
+    };
+    // com.gfnOpenMenu(menuCangVal, option);  // 메뉴호출
+    comUtil.gfnOpenNewTab(lnkUrl + "?" + Object.entries(paramObj).map(e => e.join("=")).join("&"));
+};
+
+
+/********************************************************************************
+ * 설명 : 공지팝업 함수호출
+ ********************************************************************************/
+scwin.fnOpenBbsPopup = function(bbsNm){
+    // 이용문의 공지사항 제외
+    dlBbsPstPopupL.removeRow(dlBbsPstPopupL.getAllJSON().findIndex(row => row.pstNo === "52"));
+
+    let cnt = dlBbsPstPopupL.getTotalRow();
+    if (cnt === 0) return false;
+
+    let json = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '00018', true); // 공지사항팝업
+
+    if( comUtil.gfnIsEmpty(json) || json.length === 0 )  return false;
+
+    let menuCangVal = json[0].menuCangVal; // 메뉴호출값
+    //let menuCangVal = "FMAA015_01"; // 메뉴호출값
+
+    const cookieData = document.cookie;
+
+    const width = 800;
+    const height = 960;
+    let top = ((window.innerHeight - comUtil.gfnParseInt(height)) / 2 + window.pageYOffset);
+    let left = ((document.body.offsetWidth / 2) - (comUtil.gfnParseInt(width) / 2) + window.pageXOffset);
+    const halfCount = Math.floor(cnt / 2);
+    
+    for (let i = 0; i < cnt; i++) {
+    //     com.gfnOpenPopup({
+    //         menuCangVal : "FMAA015_01",
+    //         popupId : "FUUA031_01" + i,
+    //         width : width,
+    //         height : height,
+    //         top : (top + (50 * (i - halfCount))) + "px",
+    //         left : (left + (50 * (i - halfCount))) + "px",
+    //         positionFixed : true,
+    //     });
+
+        let bbsNo = dlBbsPstPopupL.getCellData(i, "bbsNo");
+        let pstNo = dlBbsPstPopupL.getCellData(i, "pstNo");
+        let pstNm = dlBbsPstPopupL.getCellData(i, "pstNm");
+        let bulkPstCn = dlBbsPstPopupL.getCellData(i, "bulkPstCn");
+        let untyAtchFileNo = dlBbsPstPopupL.getCellData(i, "untyAtchFileNo");
+
+        let paramObj = {bbsNo:bbsNo, pstNo:pstNo, pstNm:pstNm, bulkPstCn:bulkPstCn, untyAtchFileNo:untyAtchFileNo};
+        let popupId = "poup" + bbsNo + pstNo;
+        if (cookieData.indexOf(popupId + "=done") < 0) {
+            let param = {
+                mapData: paramObj,
+            }
+
+            if (comUtil.gfnIsMobile()) {
+                com.gfnOpenPopup({
+                    menuCangVal: menuCangVal, // 팝업창 아이디
+                    popupId: popupId,
+                    popupName: bbsNm,
+                    param: param,
+                    modal : false,
+                    // type: "browserPopup",
+                    width: width, // 가로 사이즈
+                    height: height, // 세로 사이즈
+                });
+            } else {
+                top = (top + (50 * (i - halfCount)));
+                left = (left + (50 * (i - halfCount)));
+
+                if (top < 10) {
+                    top = 50 * (i + 1);
+                }
+
+                com.gfnOpenPopup({
+                    menuCangVal: menuCangVal, // 팝업창 아이디
+                    popupId: popupId,
+                    popupName: bbsNm,
+                    param: param,
+                    modal : false,
+                    // type: "browserPopup",
+                    width: width, // 가로 사이즈
+                    height: height, // 세로 사이즈
+                    top : top + "px",
+                    left : left + "px",
+                    positionFixed : true,
+                });
+            }
+        }
+    }
+};
+
+scwin.bindEvent = function (component, prtlFtreNo) {
+    // 동적 도메인 변경
+    let strMatchedData = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", prtlFtreNo, true)[0]?.prtlFtreCn;
+    if ( (component.org_id == "genGrop1" || component.org_id == "genGrop2" || component.org_id == "btnUnfrPrcmDclr") && strMatchedData.indexOf("http") == 0 ) {
+        component.bind("onclick", function(e) {
+            window.open(strMatchedData);
+        });
+    } else {
+        component.setUserData("userData1", prtlFtreNo); // 게시판 더보기(목록)
+        component.bind("onclick", scwin.fnOpenPortal);
+    }
+
+};
+
+
+/********************************************************************************
+ * 설명 : 관련사이트 메인노출
+ ********************************************************************************/
+scwin.fnRefSiteMake = function(){
+
+    let userData1 = "00008"; // 포탈기능번호 설정 나라장터 관련사이트
+
+    let totCnt = adlPrtlFtreL.getTotalRow();
+    let index = 0;
+
+    
+    for(let i=0; i<totCnt; i++){
+        let json = adlPrtlFtreL.getRowJSON(i);
+
+        if (json.upPrtlFtreNo !== userData1 ) continue;
+
+        if( json.isleafYn !== "Y" ) continue;
+        let banrImg = json.banrImgUrl;
+        let prtTit = json.prtlFtreNm
+
+        if (index == 2 )  {
+            genGropImg1.setSrc(banrImg);
+            genGropTit1.setLabel(prtTit)
+            scwin.bindEvent(genGrop1, json.prtlFtreNo);
+        }
+
+        if (index == 3 )  {
+            genGropImg2.setSrc(banrImg);
+            genGropTit2.setLabel(prtTit)
+            scwin.bindEvent(genGrop2, json.prtlFtreNo);
+        }
+        index++;
+
+        if (index > 3) break;
+       
+    }
+
+};
+
+/********************************************************************************
+ * 설명 : 이용안내 클릭
+ ********************************************************************************/
+scwin.btnUtztnGuid_onclick = function(e) {
+    let prtlFtreNo = "00805";// 이용안내
+    WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo, {width : 1300, height : 770}); // 화면이동 함수 호출
+};
+
+/********************************************************************************
+ * 설명 : 수요기관 수수료 미납내역 조회
+ ********************************************************************************/
+scwin.fnSrchRcvmCnt = async function() {
+    let sbmOption = {
+        id: "fnSrchRcvmCnt",
+        action: "/sb/comm/SbComm/selectDashBoardCount.do?sbDashBoardCd=DB0009",
+        inData : "dlSrchM=dlSrchParmM",
+        outData: "dlActgCntM=result",
+        msgYn: { succ: false, err: true },
+    };
+
+    try {
+        await com.gfnExecute(sbmOption);
+
+        const rcvmtNCnt = dlActgCntM.get("rcvmtNCount");
+
+        if(rcvmtNCnt > 0) {
+            scwin.fnCallInstInfoPop(rcvmtNCnt);   
+        }
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 수요기관 안내 팝업호출
+ ********************************************************************************/
+scwin.fnCallInstInfoPop = function(rcvmtNCnt) {
+    let json = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '00018', true); // 공지사항팝업
+    if( comUtil.gfnIsEmpty(json) || json.length === 0 )  return false;
+
+    //미납현황
+    let mvMenuJson = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '01106', true);
+    if( comUtil.gfnIsEmpty(mvMenuJson) || mvMenuJson.length === 0 )  return false;
+    let urlSe = mvMenuJson[0].lnkUrl;
+
+    //계약이관처리
+    let mvCtrtJson = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '01107', true);
+    if( comUtil.gfnIsEmpty(mvCtrtJson) || mvCtrtJson.length === 0 )  return false;
+    let urlSe2 = mvCtrtJson[0].lnkUrl;
+
+    //카드관리
+    let mvCardJson = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '01108', true);
+    if( comUtil.gfnIsEmpty(mvCardJson) || mvCardJson.length === 0 )  return false;
+    let urlSe3 = mvCardJson[0].lnkUrl;
+
+    //유류카드 고지서 조회    NmmbrOlFeeInfrm
+    let mvNmmbrJson = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '01109', true);
+    if( comUtil.gfnIsEmpty(mvNmmbrJson) || mvNmmbrJson.length === 0 )  return false;
+    let urlSe4 = mvNmmbrJson[0].lnkUrl;
+    
+    //전자고지서 조회  01120
+    let mvEmenuJson = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '01120', true);
+    if( comUtil.gfnIsEmpty(mvEmenuJson) || mvEmenuJson.length === 0 )  return false;
+    let urlSe5 = mvEmenuJson[0].lnkUrl;
+
+    let menuCangVal = json[0].menuCangVal; // 메뉴호출값
+    //let menuCangVal = "FMAA015_01"; // 메뉴호출값
+
+    const cookieData = document.cookie;
+
+    const width = 800;
+    const height = 960;
+    let top = ((window.innerHeight - comUtil.gfnParseInt(height)) / 2 + window.pageYOffset);
+    //const halfCount = Math.floor(cnt / 2);
+    
+    const bbsNo = "InstInfo";
+    const pstNo = "Pop";
+    const pstNm = "고지서 미납 안내";
+    
+    let popNm = "나라장터 수요기관 안내";
+
+    let ntceStr = instStr;
+    
+    ntceStr = ntceStr.replace("{0}",rcvmtNCnt);
+    ntceStr = ntceStr.replace("{1}", urlSe);
+    ntceStr = ntceStr.replace("{2}", urlSe2);
+    ntceStr = ntceStr.replace("{3}", urlSe3);
+    ntceStr = ntceStr.replace("{4}", urlSe4);
+    ntceStr = ntceStr.replace("{5}", urlSe5);
+
+    let paramObj = { bbsNo : bbsNo
+                   , pstNo : pstNo
+                   , pstNm : pstNm
+                   , bulkPstCn : ntceStr
+                   , untyAtchFileNo : null };
+
+    let popupId = "poup" + bbsNo + pstNo;
+
+    if (cookieData.indexOf(popupId + "=done") < 0) {
+        let param = {
+            mapData: paramObj,
+        }
+
+        if (comUtil.gfnIsMobile()) {
+            com.gfnOpenPopup({
+                menuCangVal: menuCangVal, // 팝업창 아이디
+                popupId: popupId,
+                popupName: popNm,
+                param: param,
+                modal : false,
+                // type: "browserPopup",
+                width: width, // 가로 사이즈
+                height: height, // 세로 사이즈
+            });
+        } else {
+            top = 50;
+
+            com.gfnOpenPopup({
+                menuCangVal: menuCangVal, // 팝업창 아이디
+                popupId: popupId,
+                popupName: popNm,
+                param: param,
+                modal : false,
+                width: width, // 가로 사이즈
+                height: height, // 세로 사이즈
+                top : top + "px",
+                positionFixed : true,
+            });
+        }
+    }
+};
+
+
+/********************************************************************************
+ * 설명 : DR 조달청 공지사항 목록 조회 API 호출
+ ********************************************************************************/
+scwin.fnSrchDrBbsList = async function () {
+    dlSrchParmM.set("instBbsYn", "N");
+    dlSrchParmM.set("currentPage", 1);
+    dlSrchParmM.set("recordCountPerPage", 10);
+
+    let pagingOption = {
+        /* 필수 */
+        pageType: "P", /* S/P */
+        currentPage: 1, /* 현재 페이지 */
+        recordCountPerPage:10,
+    }
+
+    let sbmOption = {
+        id: "sbmSrchPrtlFtreBbsList",
+        // action: "/fa/faz/fazf/PrtlFtre/selectPrtlFtreBbsList.do",
+        action: "/fm/fma/fmaa/Pst/selectNtcPstList.do",
+        // inData : "dlSrchParmM",
+        inData : "dlPstM=dlSrchParmM",
+        outData: "dlDrBbsPstL=dlPstL",
+        //pagingInfo: pagingOption,
+        msgYn: { succ: false, err: false },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+
+        await scwin.fnMainBbsMake("genDrLst","genRowDrLst");
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 수요기관 안내 팝업호출 - 「지방계약법」에 따른 계약체결시 계약담당자 유의사항 
+ * 대상 : 소관구분코드가 지방자치단체인 계정
+ ********************************************************************************/
+scwin.fnCallInstInfoLocalGovPop = function() {
+    //지방계약법에 따른 계약체결시 계약담당자 유의사항 팝업 01121
+    let json = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '01121', true);
+    let indtYn = json[0].indtYn;
+
+    if( comUtil.gfnIsEmpty(json) || json.length === 0 || indtYn != "Y")  return false;
+
+    const instLocalGovStr = json[0].prtlFtreCn; // 내용
+
+    let menuCangVal = json[0].menuCangVal; // 메뉴호출값
+    //let menuCangVal = "FMAA015_01"; // 메뉴호출값
+
+    const cookieData = document.cookie;
+
+    const width = 800;
+    const height = 200;
+    let top = ((window.innerHeight - comUtil.gfnParseInt(height)) / 2 + window.pageYOffset);
+    
+    const bbsNo = "InstInfoLocalGov";
+    const pstNo = "Pop";
+    const pstNm = json[0].prtlFtreNm; // 포탈기능명
+    
+    let popNm = "나라장터 수요기관 안내";
+
+    let ntceStr = instLocalGovStr;
+
+    let paramObj = { bbsNo : bbsNo
+                   , pstNo : pstNo
+                   , pstNm : pstNm
+                   , bulkPstCn : ntceStr
+                   , untyAtchFileNo : null };
+
+    let popupId = "poup" + bbsNo + pstNo;
+
+    if (cookieData.indexOf(popupId + "=done") < 0) {
+        let param = {
+            mapData: paramObj,
+        }
+
+        if (comUtil.gfnIsMobile()) {
+            com.gfnOpenPopup({
+                menuCangVal: menuCangVal, // 팝업창 아이디
+                popupId: popupId,
+                popupName: popNm,
+                param: param,
+                modal : false,
+                // type: "browserPopup",
+                width: width, // 가로 사이즈
+                height: height, // 세로 사이즈
+            });
+        } else {
+            top = 50;
+
+            com.gfnOpenPopup({
+                menuCangVal: menuCangVal, // 팝업창 아이디
+                popupId: popupId,
+                popupName: popNm,
+                param: param,
+                modal : false,
+                width: width, // 가로 사이즈
+                height: height, // 세로 사이즈
+                top : top + "px",
+                positionFixed : true,
+            });
+        }
+    }
+};
+
+const instStr = "<p>귀 기관의 고지서 <span style='font-weight: bold; color: rgb(255, 0, 0);'>{0}건</span>이 미납되어 있음을 알려드리니 납부기한 내에 납부하여 주시기 바랍니다.</p>"
+              + "<p><br /></p>"
+              + "<p>납부기한 내 수납되지 않을 경우</p>"
+              + "<p>조달사업법에 따라 연체료가 부과될 수 있으니 유의하시기 바라며,</p>"
+              + "<p>계약서 및 납품요구서 등에 담당자가 현행화되어 있지 않은 경우</p>"
+              + "<p>이전 담당자에게 고지서가 발부되오니 담당자 정보를 변경해 주시기 바랍니다.</p>"
+              + "<p><br /></p>"
+              + "<p><span style='font-size: 10pt;'>&#9312; 미납 고지서 확인 경로</span></p>"
+              + "<p style=''><span style='font-size: 10pt;'>&nbsp; &nbsp;&nbsp;</span><span style='font-size: 10pt;'>ㅇ (전체 미납 고지 검색) 공통 &gt; 조달청고지서 &gt; <a class='help_link' href='{1}' target='_blank'>미납현황</a></span></p>"
+              + "<p style=''><span style='font-size: 10pt;'>&nbsp; &nbsp;&nbsp;</span><span style='font-size: 10pt;'>ㅇ (고지서 조회) 공통 &gt; 조달청고지서 &gt; <a class='help_link' href='{5}' target='_blank'>전자고지서조회</a></span></p>"
+              + "<p style=''><span style='font-size: 10pt;'>&nbsp; &nbsp;&nbsp;</span><span style='font-size: 10pt;'>ㅇ (유류구매 카드번호로 고지 검색) 공통 &gt; 공공유류구매 &gt; <a class='help_link' href='{4}' target='_blank'>유류카드 고지서 조회</a></span></p>"
+              + "<p><span style='font-size: 10pt;'><br /></span></p>"
+              + "<p><span style='font-size: 10pt;'>&#9313; 담당자 현행화 방법 및 메뉴 경로</span></p>"
+              + "<p><span style='font-size: 10pt;'>&nbsp; &nbsp;&nbsp;</span><span style='font-size: 10pt;'>ㅇ 계약 담당자 변경</span></p>"
+              + "<p style=''><span style='font-size: 10pt;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- (자체 계약 건) 공통 &gt; 사업이수관 &gt; <a class='help_link' href='{2}' target='_blank'>계약이관처리</a>에서 계약담당자 변경</span></p>"
+              + "<p style=''><span style='font-size: 10pt;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- (조달청 계약 의뢰 건) 조달청 계약부서로 공문 요청</span></p>"
+              + "<p><span style='font-size: 10pt;'><br /></span></p>"
+              + "<p><span style='font-size: 10pt;'>&nbsp; &nbsp;&nbsp;</span><span style='font-size: 10pt;'>ㅇ&nbsp;납품요구&nbsp;담당자 변경</span></p>"
+              + "<p><span style='font-size: 10pt;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-&nbsp;납품요구서의 관할 지방조달청으로 공문 요청</span></p>"
+              + "<p><span style='font-size: 10pt;'><br /></span></p>"
+              + "<p><span style='font-size: 10pt;'>&nbsp; &nbsp;&nbsp;</span><span style='font-size: 10pt;'>ㅇ 유류구매카드 담당자 변경</span></p>"
+              + "<p style=''><span style='font-size: 10pt;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- 공통 &gt; 공공유류구매 &gt; <a class='help_link' href='{3}' target='_blank'>카드관리</a>에서 카드 사용자 변경<br /></span></p>"
+
+
+/********************************************************************************
+ * 설명 : 수요기관 안내 팝업호출 - 직불 조달수수료 고지서 자동발급 안내(수요기관)
+ * 대상 : 수요기관 전체
+ ********************************************************************************/
+scwin.fnInstPopEvnt = function() {
+    //지방계약법에 따른 계약체결시 계약담당자 유의사항 팝업 01121
+    let json = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", '01123', true);
+    let indtYn = json[0].indtYn;
+
+    if( comUtil.gfnIsEmpty(json) || json.length === 0 || indtYn != "Y")  return false;
+
+    const instLocalGovStr = json[0].prtlFtreCn; // 내용
+
+    let menuCangVal = json[0].menuCangVal; // 메뉴호출값
+    //let menuCangVal = "FMAA015_01"; // 메뉴호출값
+
+    const cookieData = document.cookie;
+
+    const width = 800;
+    const height = 200;
+    //let top = ((window.innerHeight - comUtil.gfnParseInt(height)) / 2 + window.pageYOffset);
+    
+    const bbsNo = "InstInfoInstEvent";
+    const pstNo = "Pop";
+    const pstNm = json[0].prtlFtreNm; // 포탈기능명
+    
+    let popNm = "나라장터 수요기관 안내";
+
+    let ntceStr = instLocalGovStr;
+
+    let paramObj = { bbsNo : bbsNo
+                   , pstNo : pstNo
+                   , pstNm : pstNm
+                   , bulkPstCn : ntceStr
+                   , untyAtchFileNo : null };
+
+    let popupId = "poup" + bbsNo + pstNo;
+
+    if (cookieData.indexOf(popupId + "=done") < 0) {
+        let param = {
+            mapData: paramObj,
+        }
+
+        if (comUtil.gfnIsMobile()) {
+            com.gfnOpenPopup({
+                menuCangVal: menuCangVal, // 팝업창 아이디
+                popupId: popupId,
+                popupName: popNm,
+                param: param,
+                modal : false,
+                // type: "browserPopup",
+                width: width, // 가로 사이즈
+                height: height, // 세로 사이즈
+            });
+        } else {
+            let top = 80;
+            let left = ((document.body.offsetWidth / 2) - (comUtil.gfnParseInt(width) / 2) + window.pageXOffset);
+            const halfCount = Math.floor(2 / 2);
+
+            left = (left + (50 * (2 - halfCount)));
+
+            com.gfnOpenPopup({
+                menuCangVal: menuCangVal, // 팝업창 아이디
+                popupId: popupId,
+                popupName: popNm,
+                param: param,
+                modal : false,
+                width: width, // 가로 사이즈
+                height: height, // 세로 사이즈
+                top : top + "px",
+                left : left + "px",
+                positionFixed : true,
+            });
+        }
+    }
+};
+}}}]}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'main-cnt-wrap cnts-info'},E:[{T:1,N:'xf:group',A:{class:'hide-title',id:'',style:'',tagname:'h3',text:'컨텐츠정보 내용시작'}},{T:1,N:'xf:group',A:{class:'tit-main-guide type2',id:'',style:'',tagname:'p'},E:[{T:1,N:'w2:span',A:{class:'',id:'',label:'나라장터에서 전하는 다양한',style:''}},{T:1,N:'w2:span',A:{class:'emp lg ml16',id:'',label:'입찰정보',style:''}},{T:1,N:'w2:span',A:{id:'',label:'와',style:''}},{T:1,N:'w2:span',A:{class:'emp lg peacock ml12',id:'',label:'소식',style:''}},{T:1,N:'w2:span',A:{id:'',label:'을 만나보세요',style:''}}]},{T:1,N:'xf:group',A:{class:'board-box col-3 cnts-info',id:'',style:'',tagname:'ul'},E:[{T:1,N:'xf:group',A:{adaptiveThreshold:'',class:'board left',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner-wrap'},E:[{T:1,N:'xf:group',A:{id:'',class:'inner text'},E:[{T:1,N:'xf:group',A:{tagname:'p',style:'',id:'',class:'tit-guide'},E:[{T:1,N:'w2:span',A:{style:'',id:'',label:'나라장터',class:'emp'}},{T:1,N:'w2:span',A:{style:'',id:'',label:'시작하기',class:'ml4'}}]},{T:1,N:'xf:group',A:{tagname:'p',style:'',id:'',text:'나라장터를 처음 이용하시는 이용자를 위한 서비스입니다.',class:'txt-guide'}}]},{T:1,N:'xf:group',A:{id:'',class:'inner start mt8'},E:[{T:1,N:'xf:group',A:{id:'',style:'',class:'first_line'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnUsrReg',title:'새창열림',class:'btn main primary','ev:onclick':'scwin.btnUsrReg_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'이용자등록'}]}]},{T:1,N:'w2:anchor',A:{class:'btn main secondary',id:'btnUtztnGuid',outerDiv:'false',style:'',title:'새창열림','ev:onclick':'scwin.btnUtztnGuid_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'이용안내'}]}]},{T:1,N:'w2:anchor',A:{class:'btn main tertiary',id:'btnVdeoView',outerDiv:'false',style:'',title:'새창열림','ev:onclick':'scwin.btnVdeoView_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'동영상 매뉴얼'}]}]}]},{T:1,N:'xf:group',A:{id:'',style:'',class:'second_line'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnCertCent',title:'새창열림',class:'btn main lg'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'인증센터'}]}]},{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnOvrlRegGude',title:'새창열림',class:'btn main lg green'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'종합등록가이드'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'board center',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'inner-wrap',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'tit-guide',id:'',style:'',tagname:'p'},E:[{T:1,N:'w2:span',A:{class:'emp',id:'',label:'나라장터',style:''}},{T:1,N:'w2:span',A:{class:'ml4',id:'',label:'공지사항',style:''}}]},{T:1,N:'xf:group',A:{style:'',id:'grpBbsContbox',class:'contbox line hide'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'tit-sub',tagname:'p'},E:[{T:1,N:'w2:span',A:{label:'서울보증보험 보증증서 연계 오류 정상화 안내',style:'',id:'spnBbsPstNm',class:'topic'}},{T:1,N:'w2:span',A:{class:'new',id:'',label:'N',style:''}}]},{T:1,N:'xf:group',A:{class:'conts-lined',id:'grpBbsBulkPstCn',style:'',tagname:'p',text:'현재 서울보증보험사의 시스템 문제로 서울보증보험에서 발급되는 보증보험증서가 나라장터로 정상적으로 송신되지 않는 문제가 발생하고 있습니다.'}},{T:1,N:'xf:group',A:{class:'date',id:'',style:'',tagname:'p'},E:[{T:1,N:'w2:span',A:{class:'',id:'spnBbsInptYmd',label:'2022/01/01',style:''}}]}]},{T:1,N:'w2:generator',A:{id:'genBbsLst',class:'link-main-listbox',tagname:'ul',userData1:'',style:''},E:[{T:1,N:'xf:group',A:{style:'',id:'genRowBbsLst',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'',tagname:'a',class:'subject'},E:[{T:1,N:'w2:attributes'},{T:1,N:'w2:span',A:{class:'',id:'genRowBbsPstNm',label:'',style:''}},{T:1,N:'w2:span',A:{class:'new',id:'genRowEmrgYn',label:'',style:''}}]},{T:1,N:'w2:span',A:{class:'date',id:'genRowBbsInptYmd',label:'',style:''}}]}]},{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnBbsAdd',class:'btn view-more',title:'나라장터 공지사항 더보기'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'더보기'}]}]}]},{T:1,N:'xf:group',A:{class:'m-banner',id:''},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnSelfPrcmIlglRptCtr',title:'자체조달 불법사항 신고센터 새창열기',class:'btn shortcut04 mr10',escape:'false'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'<span>자체조달</span> 불법사항 신고센터'}]}]},{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnUnfrPrcmDclr',title:'불공정조달 신고센터 새창열기',class:'btn shortcut02',escape:'false'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'<span>불공정조달</span> 신고센터'}]}]}]},{T:1,N:'xf:group',A:{class:'m-banner',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'btn shortcut03 shortcut_blue mr0',id:'btnPrcm',style:'justify-content:flex-start;flex-direction:row;align-items:center;',tagname:'a'},E:[{T:1,N:'w2:span',A:{id:'',label:'공공기관 사칭',style:'color:#495057',class:'pr0'}},{T:1,N:'w2:span',A:{id:'',label:'사기피해사례 확인 및 신고',style:'',class:'pl5'}}]}]}]},{T:1,N:'xf:group',A:{adaptiveThreshold:'',class:'board right',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'inner-wrap',id:'',style:''},E:[{T:1,N:'xf:group',A:{style:'',id:'notice1'},E:[{T:1,N:'xf:group',A:{class:'tit-guide',id:'',style:'',tagname:'p'},E:[{T:1,N:'w2:span',A:{class:'emp',id:'',label:'기관별',style:''}},{T:1,N:'w2:span',A:{class:'ml4',id:'',label:'공지사항',style:''}}]},{T:1,N:'w2:generator',A:{id:'genInstBbsLst',class:'link-main-listbox',tagname:'ul',userData1:''},E:[{T:1,N:'xf:group',A:{style:'',id:'genRowInstBbsLst',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'',tagname:'a',class:'subject'},E:[{T:1,N:'w2:attributes'},{T:1,N:'w2:span',A:{class:'',id:'genRowBbsPstNm',label:'',style:''}},{T:1,N:'w2:span',A:{class:'new',id:'genRowEmrgYn',label:'',style:''}}]},{T:1,N:'w2:span',A:{class:'date',id:'genRowBbsInptYmd',label:'',style:''}}]}]},{T:1,N:'w2:anchor',A:{class:'btn view-more',id:'btnInstBbsAdd',outerDiv:'false',style:'',title:'기관별 공지사항 더보기'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'더보기'}]}]}]},{T:1,N:'xf:group',A:{class:'wq_tbc tab_notice',id:'notice2',style:''},E:[{T:1,N:'w2:tabControl',A:{confirmFalseAction:'new',confirmTrueAction:'exist',id:'',style:'',useConfirmMessage:'false',useMoveNextTabFocus:'false',useTabKeyOnly:'true',class:'sub_tbc'},E:[{T:1,N:'w2:tabs',A:{disabled:'false',id:'tab1',style:'',label:'기관별 외부 공지사항'}},{T:1,N:'w2:tabs',A:{disabled:'false',id:'tab2',style:'',label:'기관별 내부 공지사항'}},{T:1,N:'w2:content',A:{alwaysDraw:'true',id:'content1',style:''},E:[{T:1,N:'w2:anchor',A:{class:'btn view-more',id:'btnExtlInstBbsAdd',outerDiv:'false',style:'',title:'기관별 외부 공지사항 더보기'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'더보기'}]}]},{T:1,N:'w2:generator',A:{id:'genExtlInstBbsLst',class:'link-main-listbox',tagname:'ul',userData1:''},E:[{T:1,N:'xf:group',A:{style:'',id:'genRowExtlInstBbsLst',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'',tagname:'a',class:'subject'},E:[{T:1,N:'w2:attributes'},{T:1,N:'w2:span',A:{class:'',id:'genRowBbsPstNm',label:'',style:''}},{T:1,N:'w2:span',A:{class:'new',id:'genRowEmrgYn',label:'',style:''}}]},{T:1,N:'w2:span',A:{class:'date',id:'genRowBbsInptYmd',label:'',style:''}}]}]}]},{T:1,N:'w2:content',A:{alwaysDraw:'true',id:'content2',style:''},E:[{T:1,N:'w2:anchor',A:{class:'btn view-more',id:'btnInnrInstBbsAdd',outerDiv:'false',style:'',title:'기관별 내부 공지사항 더보기'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'더보기'}]}]},{T:1,N:'w2:generator',A:{id:'genInnrInstBbsLst',class:'link-main-listbox',tagname:'ul',userData1:''},E:[{T:1,N:'xf:group',A:{style:'',id:'genRowInnrInstBbsLst',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'',tagname:'a',class:'subject'},E:[{T:1,N:'w2:attributes'},{T:1,N:'w2:span',A:{class:'',id:'genRowBbsPstNm',label:'',style:''}},{T:1,N:'w2:span',A:{class:'new',id:'genRowEmrgYn',label:'',style:''}}]},{T:1,N:'w2:span',A:{class:'date',id:'genRowBbsInptYmd',label:'',style:''}}]}]}]}]}]}]}]},{T:1,N:'xf:group',A:{adaptiveThreshold:'',class:'board left btm',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'inner-wrap autoplay',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'dfbox',id:'',style:''},E:[{T:1,N:'w2:textbox',A:{class:'df_tit fl',id:'',label:'알림판',style:'',tagname:'h4'}},{T:1,N:'xf:trigger',A:{class:'btn shortcut-plus',id:'',style:'display:none;',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'화면전환 새창열기'}]}]}]},{T:1,N:'xf:group',A:{class:'swiper-container autoplay sub',id:'',style:''},E:[{T:1,N:'w2:generator',A:{id:'genBannerLst',class:'swiper-wrapper',tagname:'ul',userData1:''},E:[{T:1,N:'xf:group',A:{class:'swiper-slide',id:'genRowBanner',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'banner-wrap',style:'background-image:none; cursor:pointer',id:''},E:[{T:1,N:'xf:image',A:{src:'',style:'display:inline-block; width:100%',class:'',id:'imgBox',alt:'알림판 배너 입니다.'}},{T:1,N:'xf:group',A:{class:'title',id:'grpTit1',tagname:'p',text:''}},{T:1,N:'xf:group',A:{class:'title br',id:'grpTit2',tagname:'p',text:'',style:''}},{T:1,N:'xf:group',A:{class:'txt-content',id:'',style:'',tagname:'p'},E:[{T:1,N:'w2:span',A:{class:'bold',escape:'false',id:'spnDesc1',label:'',style:''}},{T:1,N:'w2:span',A:{class:'',id:'spnDesc2',label:'',style:''}}]}]}]}]},{T:1,N:'xf:group',A:{class:'ctrl-box',id:''},E:[{T:1,N:'xf:group',A:{class:'swiper-pagination fraction',id:'',style:''}},{T:1,N:'xf:group',A:{class:'swiper-button-prev fraction',id:'',style:''}},{T:1,N:'xf:group',A:{class:'swiper-button-next fraction',id:'',style:''}},{T:1,N:'xf:group',A:{class:'autoplay-control-wrap type2',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'btn stop',id:'',style:'',text:'자동 재생 일시정지',tagname:'a'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-label',E:[{T:3,text:'자동 재생 일시정지'}]},{T:1,N:'w2:aria-pressed',E:[{T:3,text:'false'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0)'}]}]}]}]}]}]},{T:1,N:'xf:trigger',A:{class:'btn view-ctrl',id:'btnViewPopup',style:'',tooltip:'모아보기',type:'button','ev:onclick':'scwin.btnViewPopup_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'모아보기'}]}]}]}]},{T:1,N:'xf:group',A:{adaptiveThreshold:'',class:'board right btm',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'inner-wrap request',id:'',style:''},E:[{T:1,N:'xf:group',A:{id:'',class:'service-linkbox request'},E:[{T:1,N:'xf:group',A:{tagname:'ul',style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'li',style:'',id:''},E:[{T:1,N:'xf:group',A:{tagname:'a',style:'',id:'btnYoutube',text:'유튜브',class:'shortcut youtube'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'유튜브 새창열림'}]}]}]}]},{T:1,N:'xf:group',A:{id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'shortcut instar',id:'btnInstar',style:'',tagname:'a',text:'인스타그램'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'인스타그램 새창열림'}]}]}]}]},{T:1,N:'xf:group',A:{id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'shortcut blog',id:'btnBlog',style:'',tagname:'a',text:'블로그'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'블로그 새창열림'}]}]}]}]},{T:1,N:'xf:group',A:{tagname:'li',style:'',id:''},E:[{T:1,N:'xf:group',A:{tagname:'a',style:'',id:'btnFacebook',text:'페이스북',class:'shortcut facebook'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'페이스북 새창열림'}]}]}]}]},{T:1,N:'xf:group',A:{tagname:'li',style:'',id:''},E:[{T:1,N:'xf:group',A:{tagname:'a',style:'',id:'btnWitter',text:'X',class:'shortcut twitter'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'X 새창열림'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'refer-site-intro'},E:[{T:1,N:'xf:group',A:{id:'',style:'',class:'refer-site-intro_tit'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'tit',text:'관련사이트',tagname:'p'}},{T:1,N:'xf:group',A:{class:'btn shortcut-view',id:'btnRefSitePopup',style:'',tagname:'a',text:'더보기','ev:onclick':'scwin.btnRefSitePopup_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'바로보기 새창열림'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]}]},{T:1,N:'xf:group',A:{class:'cnts-txt',id:'',style:'',tagname:'p'},E:[{T:1,N:'w2:span',A:{label:'나라장터서비스 이용 중 유용한 정보를 한 곳에 모아 사용편의를 제공합니다.',style:'',id:'',escape:'false'}}]},{T:1,N:'xf:group',A:{id:'',style:'',class:'cnts-icon'},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'ul',class:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'li',class:''},E:[{T:1,N:'xf:group',A:{id:'genGrop1',style:'',tagname:'a'},E:[{T:1,N:'xf:image',A:{id:'genGropImg1',src:'/kn/com/images/portal/main/ic_refer_site.svg',style:'',alt:'하도급 지킴이'}},{T:1,N:'w2:span',A:{style:'',id:'genGropTit1',label:'',class:''}}]}]},{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{id:'genGrop2',style:'',tagname:'a'},E:[{T:1,N:'xf:image',A:{id:'genGropImg2',src:'/kn/com/images/portal/main/ic_refer_site.svg',style:'',alt:'목록 정보'}},{T:1,N:'w2:span',A:{style:'',id:'genGropTit2',label:'',class:''}}]}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'tit-guide service-contact',id:'',style:''},E:[{T:1,N:'w2:span',A:{label:'',style:'',id:'',class:'bg_triangle top'}},{T:1,N:'w2:span',A:{class:'bg_triangle btm',id:'',label:'',style:''}},{T:1,N:'xf:group',A:{id:'btnCallCenter',class:'inner call_center',tagname:'div'},E:[{T:1,N:'xf:group',A:{id:'',style:'',class:'pb16'},E:[{T:1,N:'w2:span',A:{style:'',id:'',label:'나라장터 이용에',class:'tit icon'}},{T:1,N:'w2:span',A:{style:'',id:'',label:'궁금한 점이 있으신가요?',class:'tit br icon-right-end'}}]},{T:1,N:'xf:group',A:{id:'',style:'',class:'call_link mb4'},E:[{T:1,N:'xf:group',A:{id:'',style:''},E:[{T:1,N:'w2:span',A:{label:'전화',style:'',id:'',class:'fs13 pr12'}},{T:1,N:'w2:anchor',A:{outerDiv:'false',id:'btnCall',style:'font-size:2.4rem;',class:'phone-num',ref:''},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'1588-0800'}]}]}]},{T:1,N:'xf:group',A:{id:'',style:'',class:'pl20'},E:[{T:1,N:'w2:span',A:{id:'',label:'인터넷',style:'',class:'fs13 pr12'}},{T:1,N:'w2:anchor',A:{class:'phone-num',id:'btnBbs',outerDiv:'false',style:'font-size:2rem;'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'이용문의'}]}]}]}]},{T:1,N:'xf:group',A:{id:'',style:'',class:''},E:[{T:1,N:'w2:span',A:{style:'',id:'',label:'전화상담시간',class:'chip'}},{T:1,N:'xf:group',A:{id:'',style:'',class:'time-info '},E:[{T:1,N:'w2:span',A:{style:'',id:'',label:'월~금 ',class:''}},{T:1,N:'w2:span',A:{label:'09~18시',style:'',id:'',class:'phone-num fs14 pl2'}},{T:1,N:'w2:span',A:{class:'',id:'',label:'(공휴일 제외)',style:''}}]}]}]}]}]}]}]}]}]}]}]})

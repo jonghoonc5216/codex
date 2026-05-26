@@ -1,0 +1,733 @@
+/*amd /layout/nara/GnbMenuDev.xml 49813 fe2a310e77e6bf45bbf7c9ff788adbd86cd36cd414ea040d391c3285c505edc3 */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'}},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){// 메뉴 로드 여부
+scwin.menuLoaded = false;
+
+/********************************************************************************
+* 설명 : 화면 초기화에 필요한 로직을 수행한다.
+********************************************************************************/
+scwin.onpageload = function() {
+    // 최초 메인 페이지 실행 시 메뉴 로드하지 않음
+    if (scwin.menuLoaded) {
+        _gcm.loadMenuPromise = null;
+        com.gfnLoadMenu(true);
+    }
+    
+    scwin.menuLoaded = true;
+};
+
+/********************************************************************************
+ * 퍼블리셔가 작성한 이벤트
+ * 동적으로 생성되는 메뉴로 순서상 메뉴를 생성한 후 동작해야 하기 때문에
+ * onpageload()에서 scwin.createMenu() 이후에 동작하도록 이동함
+********************************************************************************/
+scwin.pubEvent = function(){
+    // 모바일 모드 - 전체메뉴 레이어 팝업 버튼 클릭 이벤트
+    const depth1List = document.querySelectorAll('.popup-content.sitemap .menu-generator .depth1-wrap');
+    depth1List.forEach((depth1) => {
+        depth1.addEventListener('click', function (e) {
+            e.preventDefault();
+            depth1.forEach((depth2) => {
+                depth2.classList.remove('active');
+            });
+            this.classList.add('active');
+        });
+    });
+
+    // gnb메뉴 1depth mouseover 시 클래스 제어 이벤트
+    const gnbDpt1List = document.querySelectorAll('.gnb-menu-wrap.total.sub .menu-generator.mega-menu .depth1-wrap');
+    for (let i = 0; i < gnbDpt1List.length; i++) {
+        gnbDpt1List[i].addEventListener('mouseenter', function (e) {
+            //e.preventDefault();
+            // 메뉴 선택 시 select, autocomplete 레이어 닫기
+            document.querySelector('select:focus')?.blur();
+            if (document.querySelector('.w2input_table_sb.w2input_table') !== null) {
+                document.querySelector('.w2input_table_sb.w2input_table').style.display = "none";
+                document.querySelector('.w2input_table_sb.w2input_table').style.visibility = "hidden";
+            }
+            
+            for (let j = 0; j < gnbDpt1List.length; j++) {
+                gnbDpt1List[j].classList.remove('on');
+                gnbDpt1List[j].childNodes[1].style.display = 'none';
+            }
+            this.classList.add('on');
+            this.childNodes[1].style.display = 'flex';
+            document.querySelector('.section.gnb').classList.add('menu-dpt2-show');
+
+            // gnb메뉴 하위 메뉴(2depth menu)가 없을 경우
+            let gnbDpt2Container = document.querySelectorAll('.menu-generator.mega-menu .depth1-wrap > .inner-wrap > ul');
+            gnbDpt2Container.forEach(function(el){
+                let gnbDpt2List = el.querySelectorAll('.menu-generator.mega-menu .depth1-wrap > .inner-wrap > ul > li.depth2-wrap').length;
+                if(gnbDpt2List < 1) {
+                    document.querySelector('.section.gnb').classList.remove('menu-dpt2-show');
+                    gnbDpt1List[i].classList.remove('on');
+                }
+            });
+
+            document.querySelectorAll('ul[original_id="genDepth2"]').forEach(ul => {
+                ul.scrollTop = 0;
+            });
+
+            // 메뉴 스크롤시 메인화면 스크롤 동작안하도록 처리 - 이벤트 추가
+            window.addEventListener("wheel", scwin.preventDefaultScroll, { passive : false });
+        });
+
+        gnbDpt1List[i].addEventListener('mouseleave', function (e) {
+            //e.preventDefault();
+            for (let j = 0; j < gnbDpt1List.length; j++) {
+                gnbDpt1List[j].classList.remove('on');
+            }
+            this.classList.remove('on');
+            this.childNodes[1].style.display = 'none';
+            document.querySelector('.section.gnb').classList.remove('menu-dpt2-show');
+
+            // 메뉴 스크롤시 메인화면 스크롤 동작안하도록 처리 - 이벤트 제거
+            window.removeEventListener("wheel", scwin.preventDefaultScroll, { passive : false });
+        });
+    }
+
+    // gnb메뉴 1depth 메뉴버튼 focus 시 하위 메뉴 show hide 제어 이벤트(웹접근성 tab키로 제어)
+    const gnbDpt1Btn = document.querySelectorAll('.gnb-menu-wrap.total.sub .menu-generator.mega-menu .depth1-wrap .btn .depth1');
+    for (let iii = 0; iii < gnbDpt1Btn.length; iii++) {
+        gnbDpt1Btn[iii].addEventListener('focus', function (e) {
+            for (let jj = 0; jj < gnbDpt1Btn.length; jj++) {
+                if (!comUtil.gfnIsEmpty(gnbDpt1Btn[jj].parentElement?.nextElementSibling)) {
+                    gnbDpt1Btn[jj].parentElement.nextElementSibling.style.display = 'none';
+                }
+            }
+            this.parentElement.nextElementSibling.style.display = 'flex';
+        });
+    }
+
+    // gnb메뉴 2depth 메뉴 하위 버튼 클릭 시 종속 메뉴 display: none; 처리 이벤트
+    const gnbMnLinkBtn = document.querySelectorAll('.gnb-menu-wrap.total.sub .menu-generator.mega-menu .depth2-wrap .btn.depth3');
+    for (let i = 0; i < gnbMnLinkBtn.length; i++) {
+        gnbMnLinkBtn[i].addEventListener('click', function (e) {
+            for (let j = 0; j < gnbDpt1List.length; j++) {
+                gnbDpt1List[j].classList.remove('on');
+                gnbDpt1List[j].childNodes[1].style.display = 'none';
+                document.querySelector('.section.gnb').classList.remove('menu-dpt2-show');
+            }
+        });
+    }
+
+    let mobileAcc = document.querySelectorAll("mobile-btn-toggle");
+    let ii;
+    for (ii = 0; ii < mobileAcc.length; ii++) {
+        mobileAcc[ii].addEventListener("click", function() {
+
+            this.classList.toggle("active");
+            let panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+
+    // 웹접근성 관련 코드 - 탭 뒤로 갔을 경우 메뉴 닫힘
+    const gnbRemoteBtn = document.querySelector('.gnb-btm-wrap .btn.remote');
+    gnbRemoteBtn.addEventListener('focus', function (e) {
+        if (!comUtil.gfnIsEmpty(gnbDpt1Btn[0]?.parentElement?.nextElementSibling)) {
+            gnbDpt1Btn[0].parentElement.nextElementSibling.style.display = 'none';
+        }
+    });
+
+    // 전체메뉴 포커스 시 gnb 하위 메뉴 hide 처리 제어 이벤트(웹접근성 tab키로 제어)
+    const siteMapTrigger = document.querySelector('.sitemap-wrap .btn.sitemap');
+    siteMapTrigger.addEventListener('focus', function (e) {
+        if (!comUtil.gfnIsEmpty(gnbDpt1Btn[0]?.parentElement?.nextElementSibling)) {
+            gnbDpt1Btn[0].parentElement.nextElementSibling.style.display = 'none';
+        }
+    });
+
+    // 웹접근성 관련 대체텍스트 span 요소에 필수항목 적용하기
+    let reqTarget = document.querySelectorAll("table.w2tb tr > .w2tb_th.req");
+    for (let iii = 0; iii < reqTarget.length; iii++) {
+        reqTarget[iii].insertAdjacentHTML('afterbegin', '<span class="req-hidden-txt">필수항목</span>');
+    }
+
+    let reqGridTarget = document.querySelectorAll(".w2grid th.gridHeaderTDDefault.req");
+    for (let iiii = 0; iiii < reqGridTarget.length; iiii++) {
+        reqGridTarget[iiii].insertAdjacentHTML('afterbegin', '<span class="req-hidden-txt">필수항목</span>');
+    }
+}
+
+/********************************************************************************
+* 설명 : GNB 메뉴의 버튼을 설정 버튼의 텍스트, UserData 를 설정 하는 부분 scwin.createMenu()의 반복부를 분리
+********************************************************************************/
+scwin.createMenuButton = function(btn, data){
+    btn.setValue(data.menuNm);
+
+    const contxtSeCd = com.gfnGetContxtSeCd();
+    const secondLevel = (contxtSeCd === '' || contxtSeCd === '콘010006' || contxtSeCd === '콘010012') ? 2 : 3;
+
+    if (data.menuLvl === secondLevel && !comUtil.gfnIsEmpty(data.menuCangVal.trim())) {
+        btn.addClass("depth-last");
+    }
+
+    com.gfnSetUserData(btn, "menuNo", data.menuNo);
+    com.gfnSetUserData(btn, "menuCangVal", data.menuCangVal);
+    com.gfnSetUserData(btn, "upMenuNo", data.upMenuNo);
+    com.gfnSetUserData(btn, "menuLvl", data.menuLvl);
+    com.gfnSetUserData(btn, "scrnSrcePathNm", data.scrnSrcePathNm);
+    com.gfnSetUserData(btn, "isDrawed", false);
+}
+
+/********************************************************************************
+* 설명 : GNB 메뉴를 생성한다.
+ *  String strContxtSeCd = "";
+    if (contxtSe.equals("reserve")) { //비축
+        strContxtSeCd = "콘010001";
+    } else if (contxtSe.equals("accounting")) { //회계
+        strContxtSeCd = "콘010002";
+    } else if (contxtSe.equals("legalScreening")) { //법무심사
+        strContxtSeCd = "콘010003";
+    } else if (contxtSe.equals("operator")) { //운영자
+        strContxtSeCd = "콘010004";
+    } else if (contxtSe.equals("ehelpdesk")) { //고객센터
+        strContxtSeCd = "콘010010";
+    }
+********************************************************************************/
+scwin.createMenu = function(menuDataList) {
+    // 컨택스트 구분코드 '콘010006' : 나라장터, '콘010001' : 비축, '콘010002' : 회계, '콘010003' : 법무심사, '콘010004' : 운영자, 'MOS730014' : 고객센터
+    const contxtSeCd = com.gfnGetContxtSeCd();
+
+    scwin.searchFilterSe = { "korOrEngMenuNm" : true,     // 기본 한글,영문 조회
+                            "engToKorMenuNm" : true,     // 영문을 한글로 변경 또는 한글은 구분 초성 중성 종성 검색
+                            "korFullLike"    : true,     // 한글도 '%like%' 검색여부
+                            "menuNo"         : true,     // 메뉴No로 검색
+                            "menuLvl"        : scwin.contxtSeMenuLvl[contxtSeCd] || scwin.contxtSeMenuLvl["etc"],        // 메뉴No로 검색일 때 사용되는 메뉴 LEVEL 배열 가능
+                            "choKor"         : true,     // 한글 초성으로 검색
+                            "choEngToKor"    : true,     // 영문을 한글로 변경하여 초성 검색
+                            "filePath"       : true,     // 파일 경로 검색
+                            "filePathSe"     : "f",      // { 'f': '파일명만' ,  'p' : '경로만' ,'pf' :  '경로+파일명' }
+                            "searchLvl"      : scwin.contxtSeSearchLvl[contxtSeCd] || scwin.contxtSeSearchLvl['etc'],  // 검색에 적용하는 메뉴 LEVEL
+                           };
+
+    const firstLevel = (contxtSeCd === '' || contxtSeCd === '콘010006' || contxtSeCd === '콘010012') ? 1 : 2;
+    const secondLevel = (contxtSeCd === '' || contxtSeCd === '콘010006' || contxtSeCd === '콘010012') ? 2 : 3;
+    const thirdLevel = (contxtSeCd === '' || contxtSeCd === '콘010006' || contxtSeCd === '콘010012') ? 3 : 4;
+
+    const allMenuList = (contxtSeCd === '' || contxtSeCd === '콘010006') ? menuDataList.getAllJSON().filter(menu => menu.contxtSeCd === '' || menu.contxtSeCd === '콘010006' ) : menuDataList.getAllJSON().filter(menu => menu.contxtSeCd === contxtSeCd);
+    const showMenuList1Count = 9;
+    const menuList1 = allMenuList.filter(f => f.menuLvl == firstLevel && f.indtYn == "Y" && f.poupYn != "Y").filter((f, i)=> i < showMenuList1Count);
+    const menuNoList1 = menuList1.map(o => o.menuNo);
+
+    const menuList2 = allMenuList.filter(f => f.menuLvl == secondLevel && f.indtYn == "Y" && f.poupYn != "Y").filter(f => menuNoList1.includes( f.upMenuNo ));
+    const menuList2Info = menuList2.reduce((a, c) => {  if ( !Array.isArray(a[c["upMenuNo"]]) ) { a[c["upMenuNo"]] = []; } a[c["upMenuNo"]].push(c); return a; }, {});
+    const menuNoList2 = menuList2.map(o => o.menuNo);
+
+    const menuList3 = allMenuList.filter(f => f.menuLvl == thirdLevel && f.indtYn == "Y" && f.menuCangSeCd != "03" && f.poupYn != "Y" ).filter(f => menuNoList2.includes(f.upMenuNo));
+    const menuList3Info = menuList3.reduce((a, c) => {  if ( !Array.isArray(a[c["upMenuNo"]]) ) { a[c["upMenuNo"]] = []; } a[c["upMenuNo"]].push(c); return a; }, {});
+
+    genDepth1.removeAll();
+    menuList1.forEach((data1, idx1) => {
+        // lv1 start
+        let nodeIdx1 = genDepth1.insertChild();
+        let btnMenu1 = genDepth1.getChild(nodeIdx1, 'btn_menuLvl1');
+        scwin.createMenuButton(btnMenu1, data1);
+
+        // lv2 start
+        const menuList2 = menuList2Info[data1.menuNo]||[];
+
+        let dynamicGenDepth2 = genDepth1.getChild(nodeIdx1, 'genDepth2');
+        menuList2.forEach((data2, idx2) => {
+            let nodeIdx2 = dynamicGenDepth2.insertChild();
+            let btnMenu2 = dynamicGenDepth2.getChild(nodeIdx2, 'btn_menuLvl2');
+            scwin.createMenuButton(btnMenu2, data2);
+            // lv3 start
+            const menuList3 = menuList3Info[data2.menuNo]||[];
+
+            let dynamicGenDepth3 = dynamicGenDepth2.getChild(nodeIdx2, 'genDepth3');
+            menuList3.forEach((data3, idx3) => {
+                let nodeIdx3 = dynamicGenDepth3.insertChild();
+                let btnMenu3 = dynamicGenDepth3.getChild(nodeIdx3, 'btn_menuLvl3');
+                scwin.createMenuButton(btnMenu3, data3);
+            });
+            // lv3 end
+        });
+        // lv2 end
+    });
+    // lv1 end
+
+    scwin.pubEvent(); // 퍼블리셔의 화면 이벤트를 동작시킨다.
+    scwin.searchMenuListInit(); // 초기화시 검색 메뉴 리스트를 초기화 한다.
+};
+
+/********************************************************************************
+* 설명 : 메뉴 정보 삭제
+********************************************************************************/
+scwin.removeMenu = function(e) {
+    genDepth1.removeAll();
+};
+
+/********************************************************************************
+* 설명 : GNB 2 Depth Menu에 MouseOut 이벤트
+********************************************************************************/
+scwin.grp_innerWrap_onmouseleave = function(e) {
+    genDepth2.removeClass("on");
+    genDepth2.getChildren().forEach(item => item.removeClass("on"));
+
+    // 퍼블리싱 - 1depth 마우스오버 시 배경효과 dimmed 처리 클래스 추가 삭제 이벤트
+    document.querySelector('.section.gnb').classList.remove('menu-dpt2-show');
+};
+
+/********************************************************************************
+* 설명 : 2 Depth 메뉴 클릭 이벤트
+********************************************************************************/
+scwin.btn_menuLvl1_onclick = function(e) {
+    const obj = com.gfnGetObject(this);
+    // 1레벨 메뉴, url이 있다면 클릭시 메뉴 열림
+
+    // url이 있다면 클릭시 메뉴 열림
+    if(comUtil.gfnIsEmpty(com.gfnGetUserData(obj, "scrnSrcePathNm")) == false){
+        scwin.openMenu(com.gfnGetObject(this));
+    }
+};
+
+/********************************************************************************
+* 설명 : 2 Depth 메뉴 클릭 이벤트
+********************************************************************************/
+scwin.btn_menuLvl2_onclick = function(e) {
+    const obj = com.gfnGetObject(this);
+
+    // url이 있다면 클릭시 메뉴 열림
+    if(comUtil.gfnIsEmpty(com.gfnGetUserData(obj, "scrnSrcePathNm")) == false){
+        scwin.openMenu(com.gfnGetObject(this));
+    }
+};
+
+/********************************************************************************
+* 설명 : 3 Depth 메뉴 클릭 이벤트
+********************************************************************************/
+scwin.btn_menuLvl3_onclick = function(e) {
+
+    scwin.openMenu(com.gfnGetObject(this));
+    // 동적으로 생성되기 때문에 genDepth2는 직접 사용 불가 genDepth2.removeClass("on");
+    // document.querySelector('div.gnb-menu-wrapper div.gnb-menu-wrap ul.mega-menu li.depth1-wrap').classList.remove('on');
+
+    // 퍼블리싱 작업 - 테블릿 세로모드 해상도에서 메뉴 클릭 시 gnb에 추가한 class="mobile-gnb-show" 를 remove해서
+    // 전체메뉴 숨김처리 이벤트
+    if (window.innerWidth < 1024) {
+        document.querySelector('.section.gnb').classList.remove('mobile-gnb-show');
+        document.querySelector('.section.gnb').classList.remove('menu-dpt2-show');
+        document.querySelector('body').style.overflow = '';
+    }
+
+    // 퍼블리싱 작업 - 스텝바 노출되는 화면에서 최상위 그룹 .portal에 클래스 추가, 삭제하여 스텝바 레이아웃 변경
+    const portalElement = window.document.querySelector(".portal");
+    portalElement.classList.remove("stepbar");
+
+    const menuCangVal = com.gfnGetUserData(com.gfnGetObject(this), "menuCangVal");
+    const menuInfo = _gcm.Global.getMenuDataList().getAllJSON().filter(f => f.menuCangVal === menuCangVal);
+
+    // menuCangSeCd : 메020006 (외부링크) 일경우 scrnSrcePathNm 에 있는 http 외부링크 open
+    if (menuInfo.length > 0 && menuInfo[0].menuCangSeCd !== "메020006") {
+        // 퍼블리싱 작업 - 메인화면 노출되는 화면에서 최상위 그룹 .portal에 클래스 추가, 삭제하여 배경색상 디자인 변경
+        portalElement.parentElement.classList.remove("has-main");
+
+        // 퍼블리싱 작업 - 메뉴 하단 홈버튼 영역 depth 네비게이션 영역
+        const sectionNav = window.document.querySelector(".section.navigation");
+        sectionNav.classList.remove("hide");
+        // 퍼블리싱 작업 - 업무화면 타이틀, 상단 도움말 영역(공통)
+        const sectionCntHeader = window.document.querySelector(".section.cnts-header");
+        sectionCntHeader.classList.remove("hide");
+        // 퍼블리싱 작업 - 메뉴 버튼 클릭 시 상단 도움말에 적용된 클래스 hide 삭제 이벤트(로그인 버튼 클릭시에는 도움말에 클래스 hide를 적용)
+        //const helpCmtBox = document.querySelector('.section.cnts-header .cnts-header-wrap .inner.helpbox');
+        //helpCmtBox.classList.remove("hide");
+    }
+
+};
+
+/********************************************************************************
+* 설명 : 메뉴를 숨긴다
+********************************************************************************/
+scwin.menuHide = function() {
+    const gnbDpt1List = document.querySelectorAll('.gnb-menu-wrap.total.sub .menu-generator.mega-menu .depth1-wrap');
+    for (let i = 0; i < gnbDpt1List.length; i++) {
+        gnbDpt1List[i].classList.remove('on');
+        gnbDpt1List[i].childNodes[1].style.display = 'none';
+    }
+    document.querySelector('.section.gnb').classList.remove('menu-dpt2-show');
+}
+
+/********************************************************************************
+* 설명 : 메뉴를 오픈한다.
+********************************************************************************/
+scwin.openMenu = function(btnMenu) {
+    window.removeEventListener("wheel", scwin.preventDefaultScroll, { passive : false });
+
+    // scwin.menuHide();
+    let menuCangVal = com.gfnGetUserData(btnMenu, "menuCangVal");
+
+    // 장보현 시스템운영관리 소스 pull 위한 임시 alert창
+    // if( menuCangVal.substr(0,4) == "FUUG" || menuCangVal.substr(0,4) == "FUUH"){
+    //     com.gfnAlert("warn.fu.fuu.imsiPullReq",{width: 630, height: 300,});
+    // }
+
+    com.gfnOpenMenu(menuCangVal, { isHistory : true });
+};
+
+/********************************************************************************
+* 설명 : 전체메뉴 sitemap 클릭 이벤트
+********************************************************************************/
+scwin.btnSitemap_onclick = function(e) {
+    const htmlElement = window.document.querySelector("html");
+    const popSitemapBg = window.document.querySelector(".popup-sitemap.bg");
+    $('.popup-content.sitemap').slideToggle();
+    // $('.popup-sitemap.bg').toggleClass('appear');
+    htmlElement.classList.add('scroll-hidden');
+    popSitemapBg.classList.add('appear');
+    iptSearchText.focus();
+};
+
+/* 전체메뉴 sitemap 배경 dimmed 클릭 이벤트 */
+scwin.sitemapBg_onclick = function(e) {
+    document.documentElement.style.overflowY = "";
+    this.removeClass('appear');
+    $( '.popup-content.sitemap' ).slideToggle();
+};
+
+/* 전체메뉴 sitemap 닫기버튼 클릭 이벤트 */
+scwin.btnSitemapClose_onclick = function(e) {
+    document.documentElement.style.overflowY = "";
+    const htmlElement = window.document.querySelector("html");
+    const popSitemapBg = window.document.querySelector(".popup-sitemap.bg");
+    $('.popup-content.sitemap').slideToggle();
+    popSitemapBg.classList.remove('appear');
+    htmlElement.classList.remove('scroll-hidden');
+    scwin.searchMenuListInit();
+};
+
+scwin.sitemap;                                           // cache 사용할 전체
+scwin.menu3List;                                         // cache 사용할 메뉴level3 list
+scwin.menu2List;                                         // cache 사용할 메뉴level2 list
+scwin.menu1List;                                         // cache 사용할 메뉴level1 list
+scwin.menu1SelectorText = "li.depth1-wrap";                   // 메뉴level1 css selector
+scwin.menu2SelectorText = "ul[original_id='genMenu2'] > li";  // 메뉴level2 css selector
+scwin.menu3SelectorText = "ul[original_id='genMenu3'] > li";  // 메뉴level3 css selector
+scwin.showClassText     = "searchMenuS";                      // 메뉴level3 display show className
+scwin.hideClassText     = "searchMenuH";                      // 메뉴level3 display hide className
+// 컨택스트 구분코드 '콘010006' : 나라장터, '콘010001' : 비축, '콘010002' : 회계, '콘010003' : 법무심사, '콘010004' : 운영자, '콘010010' : 고객센터
+scwin.contxtSeMenuLvl   = {'콘010006' : 3 ,'콘010001' : 4 ,'콘010002' : 3 ,'콘010003' : 3  ,'콘010004' : 3  ,'콘010010' : 3 , "etc" : 3}
+scwin.contxtSeSearchLvl = {'콘010006' : [1,2,3] ,'콘010001' : [1,2,3,4] ,'콘010002' : [1,2,3,4] ,'콘010003' : [1,2,3,4] ,'콘010004' : [1,2,3]  ,'MOS730014' : [1,2,3,4], '콘010010' : [1,2,3,4], 'etc' : [1,2,3] }
+scwin.searchFilterSe    = { "korOrEngMenuNm" : true,     // 기본 한글,영문 조회
+                            "engToKorMenuNm" : true,     // 영문을 한글로 변경 또는 한글은 구분 초성 중성 종성 검색
+                            "korFullLike"    : true,     // 한글도 '%like%' 검색여부
+                            "menuNo"         : true,     // 메뉴No로 검색
+                            "menuLvl"        : scwin.contxtSeMenuLvl["etc"],        // 메뉴No로 검색일 때 사용되는 메뉴 LEVEL 배열 가능
+                            "choKor"         : true,     // 한글 초성으로 검색
+                            "choEngToKor"    : true,     // 영문을 한글로 변경하여 초성 검색
+                            "filePath"       : true,     // 파일 경로 검색
+                            "filePathSe"     : "f",      // { 'f': '파일명만' ,  'p' : '경로만' ,'pf' :  '경로+파일명' }
+                            "searchLvl"      : scwin.contxtSeSearchLvl['etc'],  // 검색에 적용하는 메뉴 LEVEL
+                           };
+// 전체 검색 목록및 입력값 초기화
+scwin.searchMenuListInit = function(){
+    scwin.menu3List = null;
+    scwin.menu2List = null;
+    scwin.menu1List = null;
+    if ( !scwin.sitemap?.querySelector(`${scwin.menu3SelectorText}.${scwin.showClassText} > a`) && iptSearchText.getValue() != "" ) {
+        iptSearchText.setValue("");
+        scwin.searchMenuListDisplay();
+    }
+    scwin.sitemap = null;
+}
+
+/********************************************************************************
+* 설명 : 메뉴 목록 display show,hide 작업
+********************************************************************************/
+scwin.searchMenuListDisplay = function(se="A"){
+    if ( se.toUpperCase() == "ALL" || se.toUpperCase() == "A" ) {
+        scwin.sitemap?.querySelectorAll("." + scwin.hideClassText).forEach(o=>o.style.display = "");
+    } else {
+        scwin.sitemap.querySelectorAll("." + scwin.showClassText).forEach(o=>o.style.display = "");
+        scwin.sitemap.querySelectorAll("." + scwin.hideClassText).forEach(o=>o.style.display = "none");
+    }
+}
+
+/********************************************************************************
+* 설명 : 검색어 입력 이벤트
+********************************************************************************/
+scwin.iptSearchText_onkeyup = function(e) {
+    const searchText = e.target.value;
+    if ( searchText.trim() == "" && e.key == "Enter") {
+        iptSearchText.setValue("");
+        setTimeout(()=>iptSearchText.focus(),10);
+        return;
+    }
+    // btnObj USER-Data 를 가지고 온다.
+    // 설정은 _gcm.setSiteMap().setButton() 처리
+    const getUserData = function(menuBtnObj,keys) {
+        let rtnValue, value;
+        try {
+            const keyList = ( Array.isArray(keys) ) ?  keys : [keys];
+            rtnValue = {};
+            keyList.forEach(k=>{
+                value = com.gfnGetUserData(menuBtnObj,k);
+                rtnValue[k] = typeof value == "string" ? value.toUpperCase().replaceAll(" ","") || "" : value;
+            });
+        } catch (e) {
+            console.log(e);
+        }
+        return rtnValue;
+    }
+    // 초성 중성, 종성 검색 처리
+    const searchFilterCJJ = function(menuNm,searchText) {
+        const textCho  = korUtils.getChoArr (searchText).join("");
+        const textJung = korUtils.getJungArr(searchText).map(m=>m=="" ? " ":m).join("").trimEnd();
+        const textJong = korUtils.getJongArr(searchText).map(m=>m=="" ? " ":m).join("").trimEnd();
+        return ( textCho  == "" || korUtils.getChoArr (menuNm).slice(0,textCho .length).join("") == textCho  ) &&
+               ( textJung == "" || korUtils.getJungArr(menuNm).slice(0,textJung.length).join("") == textJung ) &&
+               ( textJong == "" || korUtils.getJongArr(menuNm).map(m=>m=="" ? " ":m).slice(0,textJong.length).join("") == textJong );
+    }
+    // 검색 필터 설정
+    const searchFilter = function(menuBtnObj,searchText){
+        searchText = comUtil.gfnEscapeToChar(searchText.trim().replaceAll(" ",""));
+
+        const { menuNm, menuNo, menuLvl, scrnSrcePathNm } = getUserData(menuBtnObj,["menuNm", "menuNo", "menuLvl", "scrnSrcePathNm"]);
+        const searchLvl = scwin.searchFilterSe["searchLvl"];
+        if ( !searchLvl.map(m=>String(m)).includes(String(menuLvl)) ) {
+            return false;
+        }
+
+        // 기본 한글,영문 조회
+        // - 영문+숫자+특수문자 : %like% , 한글+영어 : like%
+        const searchKorOrEngMenuNmSe   = scwin.searchFilterSe["korOrEngMenuNm"] && ((menuNm,text)=>{
+            if ( text.replace(comUtil.pattern.alphaNumSpecial,'') == '' || scwin.searchFilterSe["korFullLike"] ) {
+                return menuNm.toUpperCase().includes(text.toUpperCase()) || comUtil.gfnEscapeToChar(menuNm).toUpperCase().includes(text.toUpperCase());
+            } else {
+                return menuNm.toUpperCase().startsWith(text.toUpperCase()) || comUtil.gfnEscapeToChar(menuNm).toUpperCase().startsWith(text.toUpperCase());
+            }
+        })(menuNm,searchText);
+
+        // 영문을 한글로 변경 또는 한글은 구분 초성 중성 종성 검색
+        // like%
+        const searchEngToKorMenuNmSe   = scwin.searchFilterSe["engToKorMenuNm"] && ((menuNm,text)=>{
+            const korText = korUtils.convertEngToKor(text);
+            return searchFilterCJJ(menuNm,korText);
+        })(menuNm,searchText);
+
+        // 메뉴No로 검색
+        // only number : "00112" => 112 값 비교  ,number값=0 : "00" => like%
+        // number + char : "SM00" => like%
+        const searchMenuNoSe           = scwin.searchFilterSe["menuNo"] && ((menuNo,menuLvl,text)=>{
+            try {
+                if ( Number.isNaN(Number(menuNo)) || Number.isNaN(Number(text)) ) {
+                    return menuNo.toUpperCase().startsWith(text.toUpperCase());
+                } else {
+                    const menuLvlSe = scwin.searchFilterSe["menuLvl"];
+                    const menuLvlSeArray = Array.isArray(menuLvlSe) ? menuLvlSe : [menuLvlSe];
+                    const menuNoT = String(Number(menuNo));
+                    const textT   = String(Number(text));
+                    return ( Number(text) == 0 ) ? menuNo.startsWith(text) : menuNoT.startsWith(textT) && menuLvlSeArray.includes(menuLvl);
+                }
+            } catch (e) {
+                return false;
+            }
+        })(menuNo,menuLvl,searchText);
+
+        // 한글 초성으로 검색
+        // "ㄱㄱ" : like% => "공고","가격","관급자재"
+        const searchChoKorSe           = scwin.searchFilterSe["choKor"] && ((menuNm,text)=>{
+            return korUtils.getChoArr (menuNm).slice(0,text.length).join("") == text;
+        })(menuNm,searchText);
+
+        // 영문을 한글로 변경하여 초성 검색
+        // "rr" : "ㄱㄱ", like% => "공고","가격","관급자재"
+        const searchChoEngToKorSe      = scwin.searchFilterSe["choEngToKor"] && ((menuNm,text)=>{
+            const engText = text.split("").map(t=>{
+                return korUtils.font_cho[korUtils.font_cho_eng.indexOf(t)];
+            });
+            return korUtils.getChoArr (menuNm).slice(0,engText.length).join("") == engText.join("");
+        })(menuNm,searchText);
+
+        // 파일 경로로 검색   현제 활성화 하지 않음.
+        const searchFilePathSe         = scwin.searchFilterSe["filePath"] && ((filePath,text)=>{
+            const filePathSe = scwin.searchFilterSe["filePathSe"]||"F";
+            let rtnValue   = false;
+            if ( filePathSe.toUpperCase() == "F" ) {
+                rtnValue = filePath.toUpperCase().substring(filePath.lastIndexOf("/")+1).replaceAll(".XML","").startsWith(text.toUpperCase().replaceAll(".XML",""));
+            } else if ( filePathSe.toUpperCase() == "P" ) {
+                rtnValue = filePath.toUpperCase().substring(0,a.lastIndexOf("/")).startsWith(text.toUpperCase());
+            } else if ( filePathSe.toUpperCase() == "PF" ||  filePathSe.toUpperCase() == "FP" ) {
+                rtnValue = filePath.toUpperCase().startsWith(text.toUpperCase());
+            }
+            return rtnValue;
+        })(scrnSrcePathNm,searchText);
+        return searchKorOrEngMenuNmSe || searchEngToKorMenuNmSe || searchMenuNoSe || searchChoKorSe || searchChoEngToKorSe || searchFilePathSe;
+    }
+    // menuLevel3 display class 설정
+    const setMenu3BtnClass = function(menu3Element,searchText){
+        const menu2Element  = menu3Element.closest(scwin.menu2SelectorText)?.querySelector("a.depth2");
+        const menu1Element  = menu3Element.closest(scwin.menu1SelectorText)?.querySelector("a.depth1");
+        const menu3BtnId    = menu3Element.querySelector("a")?.id;
+        const menu2BtnId    = menu2Element?.id || "";
+        const menu1BtnId    = menu1Element?.id || "";
+        const menu3BtnObj   = com.gfnGetComponent(menu3BtnId);
+        const menu2BtnObj   = com.gfnGetComponent(menu2BtnId);
+        const menu1BtnObj   = com.gfnGetComponent(menu1BtnId);
+        const menu2FilterSe = searchFilter(menu2BtnObj,searchText);
+        const menu1FilterSe = searchFilter(menu1BtnObj,searchText);
+        if ( menu2FilterSe || menu1FilterSe ) {
+            menu3Element.classList.remove(scwin.hideClassText);
+            menu3Element.classList.add   (scwin.showClassText);
+        } else {
+            if ( searchFilter(menu3BtnObj,searchText) ) {
+                menu3Element.classList.remove(scwin.hideClassText);
+                menu3Element.classList.add   (scwin.showClassText);
+            } else {
+                menu3Element.classList.remove(scwin.showClassText);
+                menu3Element.classList.add   (scwin.hideClassText);
+            }
+        }
+    }
+    // menuLevel2 display class 설정
+    const setMenu2BtnClass = function(menu2Element,searchText){
+        const menu2AElement = menu2Element.querySelector("a.depth2");
+        const menu1AElement = menu2Element.closest(scwin.menu1SelectorText)?.querySelector("a.depth1");
+        const menu2BtnId    = menu2AElement.id || "";
+        const menu1BtnId    = menu1AElement.id || "";
+        const menu2BtnObj   = com.gfnGetComponent(menu2BtnId);
+        const menu1BtnObj   = com.gfnGetComponent(menu1BtnId);
+        const menu2FilterSe = searchFilter(menu2BtnObj,searchText);
+        const menu1FilterSe = searchFilter(menu1BtnObj,searchText);
+        if ( menu2FilterSe || menu1FilterSe ) {
+            menu2Element.classList.remove(scwin.hideClassText);
+            menu2Element.classList.add   (scwin.showClassText);
+        } else {
+            menu2Element.classList.remove(scwin.showClassText);
+            menu2Element.classList.add   (scwin.hideClassText);
+        }
+    }
+    // menuLevel1 display class 설정
+    const setMenu1BtnClass = function(menu1Element,searchText){
+        const menu1AElement = menu1Element.querySelector("a.depth1");
+        const menu1BtnId    = menu1AElement.id || "";
+        const menu1BtnObj   = com.gfnGetComponent(menu1BtnId);
+        const menu1FilterSe = searchFilter(menu1BtnObj,searchText);
+        if ( menu1FilterSe ) {
+            menu1Element.classList.remove(scwin.hideClassText);
+            menu1Element.classList.add   (scwin.showClassText);
+        } else {
+            menu1Element.classList.remove(scwin.showClassText);
+            menu1Element.classList.add   (scwin.hideClassText);
+        }
+    }
+    // 검색 메뉴 list cache 처리
+    scwin.sitemap   = scwin.sitemap   || document.querySelector(".sitemap.content");
+    scwin.menu3List = scwin.menu3List || scwin.sitemap.querySelectorAll(scwin.menu3SelectorText);
+    scwin.menu2List = scwin.menu2List || scwin.sitemap.querySelectorAll(scwin.menu2SelectorText);
+    scwin.menu1List = scwin.menu1List || scwin.sitemap.querySelectorAll(scwin.menu1SelectorText);
+
+    window.requestAnimationFrame(function(){
+        scwin.menu3List.forEach(menu3Element=>{
+            setMenu3BtnClass(menu3Element,searchText);
+        });
+        scwin.menu2List.forEach(menu2Element => {
+        	const menu2E_menu3List = Array.from(menu2Element.querySelectorAll(scwin.menu3SelectorText));
+        	if ( menu2E_menu3List.length > 0 ) {
+        		const showSe = menu2E_menu3List.reduce((a,c)=> a || c.classList.contains(scwin.showClassText),false);
+        		if ( showSe ) {
+	                menu2Element.classList.remove(scwin.hideClassText);
+	                menu2Element.classList.add   (scwin.showClassText);
+        		} else {
+	                menu2Element.classList.remove(scwin.showClassText);
+	                menu2Element.classList.add   (scwin.hideClassText);
+        		}
+        	} else {
+        		setMenu2BtnClass(menu2Element,searchText);
+        	}
+        });
+        scwin.menu1List.forEach(menu1Element=>{
+        	const menu1E_menu2List = Array.from(menu1Element.querySelectorAll(scwin.menu2SelectorText));
+        	if ( menu1E_menu2List.length > 0 ) {
+        		const showSe = menu1E_menu2List.reduce((a,c)=> a || c.classList.contains(scwin.showClassText),false);
+	            if ( showSe ) {
+	                menu1Element.classList.remove(scwin.hideClassText);
+	                menu1Element.classList.add   (scwin.showClassText);
+	            } else {
+	                menu1Element.classList.remove(scwin.showClassText);
+	                menu1Element.classList.add   (scwin.hideClassText);
+	            }
+        	} else {
+        		setMenu1BtnClass(menu1Element,searchText);
+        	}
+        });
+        scwin.searchMenuListDisplay("set");
+        const menu3show = Array.from(scwin.menu3List).filter(f=>f.classList.contains(scwin.showClassText));
+        const menu2show = Array.from(scwin.menu2List).filter(f=>f.classList.contains(scwin.showClassText));
+        const menu1show = Array.from(scwin.menu1List).filter(f=>f.classList.contains(scwin.showClassText));
+        let   clickBtn = null;
+        if ( e.key == "Enter" ) {
+        	if ( menu3show.length > 0 ) {
+        		clickBtn = scwin.sitemap.querySelector(`${scwin.menu3SelectorText}.${scwin.showClassText} > a`);
+        	} else {
+        		if ( menu2show.length > 0 ) {
+        			clickBtn = scwin.sitemap.querySelector(`${scwin.menu2SelectorText}.${scwin.showClassText} > a`);
+        		} else {
+        			if ( menu1show.length > 0 ) {
+        				clickBtn = scwin.sitemap.querySelector(`${scwin.menu1SelectorText}.${scwin.showClassText} > a`);
+        			}
+        		}
+        	}
+        	if ( clickBtn ) {
+        		clickBtn.click();
+        		scwin.searchMenuListInit();
+        	}
+        }
+    });
+};
+
+/********************************************************************************
+* 설명 : 검색어 입력 keydown 이벤트
+********************************************************************************/
+scwin.iptSearchText_onkeydown = function(e) {
+
+};
+
+// scrollY 이전 값
+scwin.prevScrollY = 0;
+
+/********************************************************************************
+* 설명 : 메뉴 스크롤시 메인화면 스크롤 동작안하도록 처리
+********************************************************************************/
+scwin.preventDefaultScroll = function(e) {
+    const divScroll = document.querySelector('.gnb-menu-wrap.total.sub .menu-generator.mega-menu .depth1-wrap.on > .inner-wrap')?.childNodes[0];
+    if (divScroll === undefined) {
+        console.log("divScroll === ");
+        return;
+    }
+
+    if (e.target.parentElement.id === "mf_wfm_gnb_wfm_gnbMenu_genDepth1") {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    const scrollY = divScroll?.scrollTop;
+    const scrollGap = Math.abs(scrollY - scwin.prevScrollY) + 1;
+    scwin.prevScrollY = scrollY;
+    const offsetHeight = divScroll?.offsetHeight;
+    const scrollHeight = divScroll?.scrollHeight;
+
+    if (e.wheelDeltaY > 0) {
+        if (scrollY === 0) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        if (Number.parseInt(scrollY + offsetHeight) < Number.parseInt(scrollHeight) - scrollGap) {
+            return true;
+        } else {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }
+};
+}}}]}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'xf:group',A:{id:'',style:'',class:'gnb-menu-wrap total sub'},E:[{T:1,N:'xf:group',A:{class:'hide-title',id:'',style:'',tagname:'h2',text:'주요메뉴'}},{T:1,N:'xf:group',A:{id:'grp_innerWrap',class:'inner-wrap'},E:[{T:1,N:'w2:generator',A:{style:'',id:'genDepth1',class:'menu-generator mega-menu',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth1-wrap',id:'',tagname:'li',style:''},E:[{T:1,N:'xf:group',A:{class:'btn','ev:onmouseover':'scwin.grp_menuLvl1_onmouseover',id:''},E:[{T:1,N:'xf:trigger',A:{class:'btn depth1','ev:onclick':'scwin.btn_menuLvl1_onclick',id:'btn_menuLvl1',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'시스템운영관리'}]}]}]},{T:1,N:'xf:group',A:{class:'inner-wrap menu-content',id:''},E:[{T:1,N:'w2:generator',A:{style:'',id:'genDepth2',tagname:'ul',class:'inner generator'},E:[{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',tagname:'li',style:''},E:[{T:1,N:'xf:trigger',A:{class:'btn depth2',id:'btn_menuLvl2',style:'',type:'anchor','ev:onclick':'scwin.btn_menuLvl2_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'메뉴/화면관리'}]}]},{T:1,N:'xf:trigger',A:{class:'mobile-btn-toggle',id:'',style:'',type:'button'},E:[{T:1,N:'xf:label'}]},{T:1,N:'w2:generator',A:{style:'',id:'genDepth3',tagname:'ul',class:'inner generator'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li',style:''},E:[{T:1,N:'xf:trigger',A:{class:'btn depth3',id:'btn_menuLvl3',style:'',type:'anchor','ev:onclick':'scwin.btn_menuLvl3_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'단위업무관리'}]}]}]}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'spacer'}},{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'',class:'btn intro hide'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'처음오셨어요?'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'sitemap-wrap'},E:[{T:1,N:'xf:trigger',A:{type:'button',style:'',id:'btnSitemap',class:'btn sitemap','ev:onclick':'scwin.btnSitemap_onclick',title:'전체메뉴 열기'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'사이트맵'}]}]},{T:1,N:'xf:group',A:{style:'',id:'sitemapBg',class:'popup-sitemap bg','ev:onclick':'scwin.sitemapBg_onclick'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'popup-content sitemap'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner top sitemap'},E:[{T:1,N:'xf:group',A:{id:'',class:'inner-srch-wrap'},E:[{T:1,N:'w2:textbox',A:{style:'',id:'',label:'전체메뉴',class:'title-sitemap'}},{T:1,N:'xf:input',A:{adjustMaxLength:'false',style:'',id:'iptSearchText',placeholder:'어떤 메뉴를 찾으세요?',title:'전체메뉴검색 입력',class:'ipt-sitemap','ev:onkeyup':'scwin.iptSearchText_onkeyup','ev:onkeypress':'scwin.iptSearchText_onkeypress','ev:onkeydown':'scwin.iptSearchText_onkeydown',autocomplete:'off'}},{T:1,N:'xf:trigger',A:{style:'',id:'',type:'button',class:'btn ipt-srch'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체메뉴검색'}]}]}]}]},{T:1,N:'xf:group',A:{class:'inner content sitemap',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'menu-generator total',id:'group70',style:'display:none',tagname:'ul',tooltip:'샘플'},E:[{T:1,N:'xf:group',A:{class:'depth1-wrap active',id:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'btn',id:''},E:[{T:1,N:'xf:trigger',A:{class:'depth1',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'1레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'inner-wrap menu-content',id:''},E:[{T:1,N:'xf:group',A:{class:'inner',id:'group71',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'group72',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'group73',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'group74',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'group75',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'group76',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'group77',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'group78',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]}]}]}]}]},{T:1,N:'w2:generator',A:{style:'',id:'genMenu1',tagname:'ul',class:'menu-generator total'},E:[{T:1,N:'xf:group',A:{class:'depth1-wrap active',id:'',tagname:'li',style:''},E:[{T:1,N:'xf:group',A:{class:'btn',id:''},E:[{T:1,N:'xf:trigger',A:{class:'depth1',id:'btnMenu1',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'1레벨 메뉴1'}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'inner-wrap menu-content'},E:[{T:1,N:'w2:generator',A:{style:'',id:'genMenu2',class:'inner',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth2-wrap',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{class:'depth2',id:'btnMenu2',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2레벨 메뉴1'}]}]},{T:1,N:'w2:generator',A:{style:'',id:'genMenu3',class:'depth3-wrap',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'depth3-wrap',id:'',tagname:'li',style:''},E:[{T:1,N:'xf:trigger',A:{class:'depth3',id:'btnMenu3',style:'',type:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3레벨 메뉴1'}]}]}]}]}]}]}]}]}]}]},{T:1,N:'xf:trigger',A:{type:'button',style:'',id:'btnSitemapClose',class:'btn close','ev:onclick':'scwin.btnSitemapClose_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체메뉴닫기'}]}]}]}]}]}]}]}]}]})

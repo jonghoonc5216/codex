@@ -1,0 +1,1882 @@
+/*amd /com/udc/fromToCal.xml 67923 9aebcfcc7203d188ddceb1dea6104d902401407667b6198c9c8c83170ae722e9 */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',A:{palette:'support'},E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:aliasDataList',A:{scope:'',id:'aliasList'}},{T:1,N:'w2:aliasDataMap',A:{scope:'',id:'aliasMap'}}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:'scwin.initDate,scwin.getStartDate,scwin.getEndDate,scwin.setStartDateFocus,scwin.setEndDateFocus,scwin.getPluginName,scwin.getValue,scwin.getDisplayValue,scwin.setDateRange,scwin.setPrefixText,scwin.setSuffixText,scwin.gotoToday,scwin.focus,scwin.setRangeBaseDate,scwin.setCalStartDisableBeforeDate,scwin.setCalStartDisableAfterDate,scwin.setCalEndDisableBeforeDate,scwin.setCalEndDisableAfterDate,scwin.setCalDisableBeforeDate,scwin.setCalDisableAfterDate,scwin.setBaseDate,scwin.getAccessibiltyId,scwin.setStartDateReadOnly,scwin.setEndDateReadOnly,scwin.setDateReadOnly'}},{T:1,N:'style',E:[{T:3,text:'.selectRange1 {background-color: #EEF5FF !important;}'}]},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){
+/**
+ * @component
+ * @company
+ * @developer jinyulchoi
+ * @variableClone true
+ * @notSupportBrowser
+ * @version
+ * @htmlRender
+ * @icon
+ * @disableIcon
+ * @width
+ * @height
+ * @description
+ */
+
+/**
+ * @property
+ * @name style
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description HTML의 style 속성과 동일한 기능을 제공
+ */
+
+/**
+ * @property
+ * @name class
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description HTML의 class 속성과 동일한 기능을 제공
+ */
+
+/**
+ * @property
+ * @name id
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description ID값
+ */
+
+/**
+ * @property
+ * @name refStartKey
+ * @category 03.Data
+ * @type bindColumn
+ * @option
+ * @default
+ * @necessary N
+ * @description 참조하려는 날짜 시작일
+ */
+
+/**
+ * @property
+ * @name refEndKey
+ * @category 03.Data
+ * @type bindColumn
+ * @option
+ * @default
+ * @necessary N
+ * @description 참조하려는 날짜 종료일
+ */
+
+/**
+ * @property
+ * @name baseDate
+ * @category 04.Action
+ * @type combobox
+ * @option [start,end]
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description end|1M,3M,6M의 기준(시작/종료)
+ */
+
+/**
+ * @property
+ * @name rangeType
+ * @category 03.Data
+ * @type combobox
+ * @option [year,month,day]
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 시작일과 종료일 사이의 기간을 설정하는 값의 타입(year, month, day)
+ */
+
+/**
+ * @property
+ * @name rangeValue
+ * @category 03.Data
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 시작일과 종료일 사이의 기간을 설정하는 값
+ */
+
+/**
+ * @property
+ * @name dateRangeType
+ * @category 03.Data
+ * @type combobox
+ * @option [default,week,month,monthYear,monthYear2,year,year2,year3,custom,none]
+ * @default default
+ * @necessary N
+ * @bindparent
+ * @description 날짜지정버튼타입지정(week, month, monthYear, monthYear2, year, custom)
+ */
+
+/**
+ * @property
+ * @name rangeBaseDate
+ * @category 03.Data
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 날짜범위 선택 기준일(yyyyMMdd)
+ */
+
+/**
+ * @property
+ * @name useRangeBaseDate
+ * @category 03.Data
+ * @type combobox
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent
+ * @description 날짜범위 선택 기준을 현재 시작/종료일로 사용할지 여부([Default] false : 금일, true : 현재 선택된 날짜)
+ */
+
+/**
+ * @property
+ * @name prefixText
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 버튼의 접두어
+ */
+
+/**
+ * @property
+ * @name suffixText
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 버튼의 접미어
+ */
+
+/**
+ * @property
+ * @name maxYear
+ * @category 03.Data
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description calendar에 표시되는 최대연도로 config.xml의 calendar하위의 maxYear의 value 속성값이 기본값으로 설정된다.
+ */
+
+/**
+ * @property
+ * @name minYear
+ * @category 03.Data
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description calendar에 표시되는 최소연도로 config.xml의 calendar하위의 minYear의 value 속성값이 기본값으로 설정된다.
+ */
+
+/**
+ * @property
+ * @name startDateReadOnly
+ * @category 03.Data
+ * @type combobox
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent
+ * @description [default:false, true]readonly의 여부로 시작날짜 부분 HTML의 readonly속성과 동일한 기능을 제공한다.
+ */
+
+/**
+ * @property
+ * @name endDateReadOnly
+ * @category 03.Data
+ * @type combobox
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent
+ * @description [default:false, true]readonly의 여부로 종료날짜 부분 HTML의 readonly속성과 동일한 기능을 제공한다.
+ */
+
+/**
+ * @property
+ * @name customRangeStr
+ * @category 03.Data
+ * @type string
+ * @option
+ * @default 1M|3M|6M
+ * @necessary N
+ * @bindparent
+ * @description dateRangeType 속성이 custom일경우 별도지정 문자열 (구분자 | 설정)
+ */
+
+
+/********************************************************************************
+ * 설명 : 전역 변수
+ ********************************************************************************/
+scwin.baseDate = "end";
+scwin.rangeBaseDate = "";
+scwin.useRangeBaseDate = false;
+scwin.oldStartDate = "";
+scwin.oldEndDate = "";
+scwin.rangeType = "";
+scwin.rangeValue = 0;
+scwin.dateRangeType = "default";
+scwin.calStartDisableBeforeDate = "";
+scwin.calStartDisableAfterDate = "";
+scwin.calEndDisableBeforeDate = "";
+scwin.calEndDisableAfterDate = "";
+scwin.prefixText = "";
+scwin.suffixText = "";
+scwin.maxYear = "";
+scwin.minYear = "";
+scwin.startDateReadOnly = false;
+scwin.endDateReadOnly   = false;
+scwin.customRangeStr = "";
+/********************************************************************************
+ * 설명 : UDC 로드 이벤트 핸들러
+ ********************************************************************************/
+scwin.onpageload = function () {
+
+    const udcProp = $p.getOptions();
+    scwin.dateRangeType     = udcProp.dateRangeType || "default";
+    scwin.customRangeStr    = udcProp.customRangeStr || "1M|3M|6M"
+    scwin.setDateRangeType(scwin.dateRangeType);
+
+    if (!comUtil.gfnIsEmpty(udcProp.maxYear)) {
+        scwin.setMaxYear(udcProp.maxYear);
+    }
+
+    if (!comUtil.gfnIsEmpty(udcProp.minYear)) {
+        scwin.setMinYear(udcProp.minYear);
+    }
+
+    //2025.02.21 => 시작일자 ,종료일자 ReadOnly 추가
+    if (!comUtil.gfnIsEmpty(udcProp.startDateReadOnly)) {
+        scwin.startDateReadOnly = (udcProp.startDateReadOnly === "true") ? true : false;
+    }
+    scwin.setStartDateReadOnly(scwin.startDateReadOnly);
+    if (!comUtil.gfnIsEmpty(udcProp.endDateReadOnly)) {
+        scwin.endDateReadOnly = (udcProp.endDateReadOnly === "true") ? true : false;
+    }
+    scwin.setEndDateReadOnly(scwin.endDateReadOnly);
+
+
+    ibxEndDay.setReadOnly(scwin.endDateReadOnly);
+
+    // 시작 종료 날짜 지정 초기화
+    scwin.initDate();
+
+    // resize 이벤트 핸들러
+    window.removeEventListener("resize", scwin.resize);
+    window.addEventListener("resize", scwin.resize);
+
+    // 검색 박스에서의 엔터 이벤트가 조회를 실행 시키기 때문에 이벤트를 unbind 시킴
+    ibxStrDay.unbind("onkeyup");
+    ibxEndDay.unbind("onkeyup");
+
+    // 기간 버튼 설정 후에 화면에 노출한다.
+    if (udcProp.dateRangeType !== "none") {
+        btnMnth.removeClass("hide");
+    }
+};
+
+scwin.resize = function () {
+    const myElement = document.querySelector(`#${grpCalRoot.getID()}>.cal-inner-wrap`);
+    if (!comUtil.gfnIsEmpty(myElement) && myElement.style.display === "block") {
+        const timeFunc = $p.setTimeout(function () {
+            if (comUtil.gfnIsEmpty(timeFunc)) {
+                $p.clearTimeout("fromToCal");
+            }
+            const parentWidth = grpCalRoot.scope_obj.getParentFrame().render.getBoundingClientRect().width;
+            const boundingRight = document.querySelector(`#${grpCalRoot.getID()}>.inputcal-fromto-wrap-inner`).getBoundingClientRect().left
+                                    + document.querySelector(`#${grpCal.getID()}`).getBoundingClientRect().width
+                                    - (($p.isWFramePopup(true)) ? grpCalRoot.scope_obj.getParentFrame().render.getBoundingClientRect().left : 0);
+
+            if (boundingRight < parentWidth) {
+                myElement.style.right = "";
+                myElement.classList.remove("right-side");
+            } else {
+                myElement.style.right = "0px";
+                myElement.classList.add("right-side");
+            }
+        }, { delay: 10, key: "fromToCal" });
+    }
+};
+
+/**
+ * @method
+ * @name initDate
+ * @description 시작 종료 날짜 지정
+ * @param {string} s 시작일
+ * @param {string} e 종료일
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.initDate = async function (s, e) {
+    if (!comUtil.gfnIsEmpty(s) && !comUtil.gfnValidatDate(s)) {
+        await com.gfnAlert(["msg.alert.grd.formatDate", "yyyyMMdd"]);
+        return false;
+    }
+
+    if (!comUtil.gfnIsEmpty(e) && !comUtil.gfnValidatDate(e)) {
+        await com.gfnAlert(["msg.alert.grd.formatDate", "yyyyMMdd"]);
+        return false;
+    }
+
+    const udcProp = $p.getOptions();
+    const startArr = comUtil.gfnDataGetBindInfo(udcProp.refStartKey);
+    const endArr = comUtil.gfnDataGetBindInfo(udcProp.refEndKey);
+
+    scwin.rangeType = udcProp.rangeType || "";
+    scwin.rangeValue = Number(udcProp.rangeValue) || 0;
+
+    if (!comUtil.gfnIsEmpty(udcProp.baseDate)) {
+        scwin.baseDate = udcProp.baseDate;
+    }
+
+    if (!comUtil.gfnIsEmpty(udcProp.rangeBaseDate)) {
+        scwin.rangeBaseDate = udcProp.rangeBaseDate;
+    }
+
+    if (!comUtil.gfnIsEmpty(udcProp.useRangeBaseDate)) {
+        scwin.useRangeBaseDate = (udcProp.useRangeBaseDate === "true") ? true : false;
+    }
+
+    if (!comUtil.gfnIsEmpty(startArr) && startArr.length > 0) {
+        for (let idx in WebSquare.DataCollection.comp) {
+            const obj = WebSquare.DataCollection.comp[idx];
+            if (obj.initializeType == "dataMap") {
+                if (obj.org_id == startArr.collectionId) {
+                    const dataMap = $p.parent().$p.getComponentById(startArr.collectionId);
+                    const dataPluginName = dataMap.options.pluginName;
+                    const dataMapId = (dataPluginName === "aliasDataMap") ? dataMap.id : dataMap.getID();
+
+                    if (!comUtil.gfnIsEmpty(s)) dataMap.set(startArr.refColumn, s);
+                    ibxStrDay.setRef("data:" + dataMapId + "." + startArr.refColumn);
+                    scwin.setInitDate(dataMap.get(startArr.refColumn), "");
+                    if (!comUtil.gfnIsEmpty(endArr) && endArr.length > 0) {
+                        if (!comUtil.gfnIsEmpty(e)) dataMap.set(endArr.refColumn, e);
+                        ibxEndDay.setRef("data:" + dataMapId + "." + endArr.refColumn);
+                        scwin.setInitDate("", dataMap.get(endArr.refColumn));
+                    }
+                }
+            } else if (obj.initializeType == "dataList") {
+                if (obj.org_id == startArr.collectionId) {
+                    const dataList = $p.parent().$p.getComponentById(startArr.collectionId);
+                    const dataPluginName = dataList.options.pluginName;
+                    const dataListId = (dataPluginName === "aliasDataList") ? dataList.id : dataList.getID();
+
+                    if (!comUtil.gfnIsEmpty(startArr) && startArr.length > 0) {
+                        ibxStrDay.setRef("data:" + dataListId + "." + startArr.refColumn);
+                    }
+
+                    if (!comUtil.gfnIsEmpty(endArr) && endArr.length > 0) {
+                        ibxEndDay.setRef("data:" + dataListId + "." + endArr.refColumn);
+                    }
+                }
+            }
+        }
+    }
+
+    if (comUtil.gfnIsEmpty(s) || comUtil.gfnIsEmpty(e)) {
+        scwin.btnMnthColor();
+        return false;
+    }
+
+    const dateDiff = WebSquare.date.dateDiffSilence(s, e);
+    if (dateDiff >= 0) {
+        scwin.btnMnthReset();
+        scwin.setInitDate(s, e);
+        scwin.btnMnthColor();
+        return true;
+    } else {
+        return false;
+    }
+};
+
+/********************************************************************************
+ * 설명 : 타입 별 날짜 설정
+ ********************************************************************************/
+scwin.setDateRangeType = function(dateRangeType) {
+    if (dateRangeType === "default") {
+        btnMnth.deleteItem(12);
+        btnMnth.deleteItem(11);
+        btnMnth.deleteItem(10);
+        btnMnth.deleteItem(9);
+        btnMnth.deleteItem(8);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(3);
+        btnMnth.deleteItem(2);
+        btnMnth.deleteItem(1);
+        btnMnth.deleteItem(0);
+    } else if (dateRangeType === "week") {
+        btnMnth.deleteItem(12);
+        btnMnth.deleteItem(11);
+        btnMnth.deleteItem(10);
+        btnMnth.deleteItem(9);
+        btnMnth.deleteItem(8);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(6);
+        btnMnth.deleteItem(5);
+        btnMnth.deleteItem(4);
+    } else if (dateRangeType === "month") {
+        btnMnth.deleteItem(12);
+        btnMnth.deleteItem(11);
+        btnMnth.deleteItem(10);
+        btnMnth.deleteItem(9);
+        btnMnth.deleteItem(8);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(3);
+        btnMnth.deleteItem(2);
+        btnMnth.deleteItem(1);
+        btnMnth.deleteItem(0);
+    } else if (dateRangeType === "monthYear") {
+        btnMnth.deleteItem(12);
+        btnMnth.deleteItem(11);
+        btnMnth.deleteItem(10);
+        btnMnth.deleteItem(9);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(5);
+        btnMnth.deleteItem(3);
+        btnMnth.deleteItem(2);
+        btnMnth.deleteItem(1);
+        btnMnth.deleteItem(0);
+    } else if (dateRangeType === "monthYear2") {
+        btnMnth.deleteItem(12);
+        btnMnth.deleteItem(11);
+        btnMnth.deleteItem(10);
+        btnMnth.deleteItem(9);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(3);
+        btnMnth.deleteItem(2);
+        btnMnth.deleteItem(1);
+        btnMnth.deleteItem(0);
+    } else if (dateRangeType === "year") {
+        btnMnth.deleteItem(12);
+        btnMnth.deleteItem(11);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(6);
+        btnMnth.deleteItem(5);
+        btnMnth.deleteItem(4);
+        btnMnth.deleteItem(3);
+        btnMnth.deleteItem(2);
+        btnMnth.deleteItem(1);
+        btnMnth.deleteItem(0);
+    } else if (dateRangeType === "year2") {
+        btnMnth.deleteItem(9);
+        btnMnth.deleteItem(8);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(6);
+        btnMnth.deleteItem(5);
+        btnMnth.deleteItem(4);
+        btnMnth.deleteItem(3);
+        btnMnth.deleteItem(2);
+        btnMnth.deleteItem(1);
+        btnMnth.deleteItem(0);
+    } else if (dateRangeType === "year3") {
+        btnMnth.deleteItem(9);
+        btnMnth.deleteItem(7);
+        btnMnth.deleteItem(6);
+        btnMnth.deleteItem(5);
+        btnMnth.deleteItem(4);
+        btnMnth.deleteItem(3);
+        btnMnth.deleteItem(2);
+        btnMnth.deleteItem(1);
+        btnMnth.deleteItem(0);
+    } else if (dateRangeType === "custom") {
+        btnMnth.removeAll();
+        let arrCustomRangeStr = scwin.customRangeStr.split("|");
+        arrCustomRangeStr.forEach((str, idx) => {
+            //*D(일), *M(개월), *Y(년), *W(주)
+            if(/\dD/.test(str)) {
+                btnMnth.addItem(Number(str.split("D")[0]) / 100, str.split("D")[0] + "일", idx);
+            }
+            else if(/\dM/.test(str)) {
+                btnMnth.addItem(Number(str.split("M")[0]), str.split("M")[0] + "개월", idx);
+            }
+            else if(/\dY/.test(str)) {
+                btnMnth.addItem(Number(str.split("Y")[0]) * 12, str.split("Y")[0] + "년", idx);
+            }
+            else if(/\dW/.test(str)) {
+                btnMnth.addItem(Number(str.split("W")[0]) * 0.07, str.split("W")[0] + "주", idx);
+            }
+        });
+    }
+
+    const udcProp = $p.getOptions();
+    scwin.prefixText = udcProp.prefixText || "";
+    scwin.suffixText = udcProp.suffixText || "";
+
+    btnMnth.getItemArray().forEach(item => {
+        item.label = scwin.prefixText + item.label + scwin.suffixText;
+    });
+    btnMnth.redraw();
+};
+
+/********************************************************************************
+ * 설명 : 최초 날짜 설정
+ ********************************************************************************/
+scwin.setInitDate = function (fromDate, toDate) {
+    if (!comUtil.gfnIsEmpty(fromDate) && fromDate.length == 8 && !comUtil.gfnIsEmpty(toDate) && toDate.length == 8) {
+        if (WebSquare.date.dateDiffSilence(fromDate, toDate) >= 0) {
+            ibxStrDay.setValue(fromDate);
+            ibxEndDay.setValue(toDate);
+
+            calStart.gotoCalendar(fromDate);
+            calEnd.gotoCalendar(toDate);
+
+            scwin.calDisable("start", fromDate);
+            scwin.calDisable("end", toDate);
+
+            scwin.setCalColor();
+        }
+    } else if (!comUtil.gfnIsEmpty(fromDate) && fromDate.length == 8) {
+        scwin.setStartDate(fromDate, "Y");
+        scwin.setCalColor();
+    } else if (!comUtil.gfnIsEmpty(toDate) && toDate.length == 8) {
+        scwin.setEndDate(toDate, "Y");
+        scwin.setCalColor();
+    }
+};
+
+/********************************************************************************
+ * 설명 : Start InputCalendar onblur 이벤트 핸들러
+ ********************************************************************************/
+scwin.ibxStrDay_onblur = async function (e) {
+    if (ibxStrDay.getValue().length > 0) {
+        const minYear = Number.parseInt(calStart.options.minYear);
+        const maxYear = Number.parseInt(calStart.options.maxYear);
+        const startYear = Number.parseInt(ibxStrDay.getValue().slice(0, 4));
+
+        if (minYear > startYear || maxYear < startYear) {
+            ibxStrDay.setValue("");
+            await com.gfnAlert(["msg.fm.fma.formatDateBetween", "시작년도", minYear + " ~ " + maxYear + "년"]); // {0} (은)는 {1} 사이의 날짜여야 합니다
+            ibxStrDay.focus();
+            return;
+        }
+
+        if (!comUtil.gfnValidatDate(ibxStrDay.getValue())) {
+            ibxStrDay.setValue("");
+            await com.gfnAlert(["msg.alert.grd.formatDate", "yyyyMMdd"]);
+            ibxStrDay.focus();
+            return;
+        }
+
+        if (!comUtil.gfnIsEmpty(ibxStrDay.getValue()) && !comUtil.gfnIsEmpty(ibxEndDay.getValue())) {
+            const dateDiff = WebSquare.date.dateDiffSilence(ibxStrDay.getValue(), ibxEndDay.getValue());
+            if (dateDiff < 0) {
+                ibxStrDay.setValue("");
+                await com.gfnAlert(["warn.validation.EndDate"]);
+                ibxStrDay.focus();
+                return;
+            }
+        }
+
+        const startDay = ibxStrDay.getFormattedValue();
+        if (scwin.rangeType !== "" && scwin.rangeValue > 0 && startDay !== "") {
+            const startDate = new Date(startDay);
+
+            if (scwin.rangeType === "year") {
+                startDate.setFullYear(startDate.getFullYear() + scwin.rangeValue);
+            } else if (scwin.rangeType === "month") {
+                startDate.setMonth(startDate.getMonth() + scwin.rangeValue);
+            } else if (scwin.rangeType === "day") {
+                startDate.setDate(startDate.getDate() + scwin.rangeValue - 1);
+            }
+
+            const rangeDate = startDate.format("yyyyMMdd");
+
+            if (rangeDate < ibxEndDay.getValue()) {
+                const rangeText = (scwin.rangeType === "year") ? "년" : (scwin.rangeType === "month") ? "개월" : "일";
+                await com.gfnAlert(["msg.validation.DateFormat.RageDate.message", scwin.rangeValue, rangeText]);
+                ibxEndDay.setValue(rangeDate);
+                scwin.setEndDate(rangeDate, 'Y');
+                return;
+            }
+        }
+
+        // 시작일 - 이전 날짜 입력 금지
+        if (scwin.calStartDisableBeforeDate !== "") {
+            if (ibxStrDay.getValue() < scwin.calStartDisableBeforeDate) {
+                ibxStrDay.setValue("");
+                await com.gfnAlert(["warn.validation.DisableDate"]);
+                ibxStrDay.focus();
+                return;
+            }
+        }
+
+        // 시작일 - 이후 날짜 입력 금지
+        if (scwin.calStartDisableAfterDate !== "") {
+            if (ibxStrDay.getValue() > scwin.calStartDisableAfterDate) {
+                ibxStrDay.setValue("");
+                await com.gfnAlert(["warn.validation.DisableDate"]);
+                ibxStrDay.focus();
+                return;
+            }
+        }
+    }
+
+    scwin.btnMnthReset();
+
+    if (ibxStrDay.getValue() === "") {
+        ibxStrDay.setValue("");
+        //scwin.setStartDate(calStart.getDate(), "Y");
+    } else {
+        scwin.setStartDate(ibxStrDay.getValue(), "Y");
+    }
+
+    scwin.btnMnthColor();
+};
+
+/********************************************************************************
+ * 설명 : Start InputCalendar onchange 이벤트 핸들러
+ ********************************************************************************/
+scwin.ibxStrDay_onchange = function (info) {
+    scwin.btnMnthColor();
+
+    if (info.newValue === "") {
+        calStart.gotoToday();
+    } else {
+        calStart.gotoCalendar(info.newValue);
+    }
+
+    scwin.calDisable("start", info.newValue);
+
+    scwin.oldStartDate = info.newValue;
+
+    $p.emit("onstartchange");
+};
+
+/********************************************************************************
+ * 설명 : End InputCalendar onblur 이벤트 핸들러
+ ********************************************************************************/
+scwin.ibxEndDay_onblur = async function (e) {
+    if (ibxEndDay.getValue().length > 0) {
+        const minYear = Number.parseInt(calStart.options.minYear);
+        const maxYear = Number.parseInt(calStart.options.maxYear);
+        const endYear = Number.parseInt(ibxEndDay.getValue().slice(0, 4));
+
+        if (minYear > endYear || maxYear < endYear) {
+            ibxEndDay.setValue("");
+            await com.gfnAlert(["msg.fm.fma.formatDateBetween", "종료년도", minYear + " ~ " + maxYear + "년"]); // {0} (은)는 {1} 사이의 날짜여야 합니다
+            ibxEndDay.focus();
+            return;
+        }
+
+        if (!comUtil.gfnValidatDate(ibxEndDay.getValue())) {
+            ibxEndDay.setValue("");
+            await com.gfnAlert(["msg.alert.grd.formatDate", "yyyyMMdd"]);
+            ibxEndDay.focus();
+            return;
+        }
+
+        if (!comUtil.gfnIsEmpty(ibxStrDay.getValue()) && !comUtil.gfnIsEmpty(ibxEndDay.getValue())) {
+            const dateDiff = WebSquare.date.dateDiffSilence(ibxStrDay.getValue(), ibxEndDay.getValue());
+            if (dateDiff < 0) {
+                ibxEndDay.setValue("");
+                await com.gfnAlert(["warn.validation.StartDate"]);
+                ibxEndDay.focus();
+                return;
+            }
+        }
+
+        const endDay = ibxEndDay.getFormattedValue();
+        if (scwin.rangeType !== "" && scwin.rangeValue > 0 && endDay !== "") {
+            const endDate = new Date(endDay);
+
+            if (scwin.rangeType === "year") {
+                endDate.setFullYear(endDate.getFullYear() - scwin.rangeValue);
+            } else if (scwin.rangeType === "month") {
+                endDate.setMonth(endDate.getMonth() - scwin.rangeValue);
+            } else if (scwin.rangeType === "day") {
+                endDate.setDate(endDate.getDate() - scwin.rangeValue + 1);
+            }
+
+            const rangeDate = endDate.format("yyyyMMdd");
+
+            if (rangeDate > ibxStrDay.getValue()) {
+                const rangeText = (scwin.rangeType === "year") ? "년" : (scwin.rangeType === "month") ? "개월" : "일";
+                await com.gfnAlert(["msg.validation.DateFormat.RageDate.message", scwin.rangeValue, rangeText]);
+                ibxStrDay.setValue(rangeDate);
+                scwin.setStartDate(rangeDate, 'Y');
+                return;
+            }
+        }
+
+        // 종료일 - 이전 날짜 입력 금지
+        if (scwin.calEndDisableBeforeDate !== "") {
+            if (ibxEndDay.getValue() < scwin.calEndDisableBeforeDate) {
+                ibxEndDay.setValue("");
+                await com.gfnAlert(["warn.validation.DisableDate"]);
+                ibxEndDay.focus();
+                return;
+            }
+        }
+
+        // 종료일 - 이후 날짜 입력 금지
+        if (scwin.calEndDisableAfterDate !== "") {
+            if (ibxEndDay.getValue() > scwin.calEndDisableAfterDate) {
+                ibxEndDay.setValue("");
+                await com.gfnAlert(["warn.validation.DisableDate"]);
+                ibxEndDay.focus();
+                return;
+            }
+        }
+    }
+
+    scwin.btnMnthReset();
+
+    if (ibxEndDay.getValue() === "") {
+        ibxEndDay.setValue("");
+    } else {
+        scwin.setEndDate(ibxEndDay.getValue(), "Y");
+    }
+
+    scwin.btnMnthColor();
+};
+
+/********************************************************************************
+ * 설명 : End InputCalendar onchange 이벤트 핸들러
+ ********************************************************************************/
+scwin.ibxEndDay_onchange = function (info) {
+    scwin.btnMnthColor();
+
+    if (info.newValue === "") {
+        calEnd.gotoToday();
+    } else {
+        calEnd.gotoCalendar(info.newValue);
+    }
+
+    scwin.calDisable("end", info.newValue);
+
+    scwin.oldEndtDate = info.newValue;
+
+    $p.emit("onendchange");
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업 버튼 onclick 이벤트 핸들러
+ ********************************************************************************/
+scwin.btnCal_onclick = function (e) {
+    if (!comUtil.gfnIsEmpty(ibxStrDay.getValue())) {
+        calStart.gotoCalendar(ibxStrDay.getValue());
+    }
+
+    if (!comUtil.gfnIsEmpty(ibxEndDay.getValue())) {
+        calEnd.gotoCalendar(ibxEndDay.getValue());
+    }
+
+    scwin.showHide("show");
+};
+
+/********************************************************************************
+ * 설명 : 1주/2주/3주/1개월/3개월/6개월/1년/2년/3년 라디오버튼 onchange 이벤트 핸들러
+ ********************************************************************************/
+scwin.btnMnth_onchange = async function(info) {
+    // 기준일자
+    let baseDate = "";
+    if (scwin.baseDate === "start") {
+        if (!comUtil.gfnIsEmpty(scwin.rangeBaseDate)) {
+            calStart.gotoCalendar(scwin.rangeBaseDate);
+        } else if (!scwin.useRangeBaseDate) {
+            calStart.gotoToday();
+        }
+
+        ibxStrDay.setValue(calStart.getDate());
+        baseDate = (ibxStrDay.getValue() === "") ? calStart.getDate() : ibxStrDay.getValue();
+    } else {
+        if (!comUtil.gfnIsEmpty(scwin.rangeBaseDate)) {
+            calEnd.gotoCalendar(scwin.rangeBaseDate);
+        } else if (!scwin.useRangeBaseDate) {
+            calEnd.gotoToday();
+        }
+
+        ibxEndDay.setValue(calEnd.getDate());
+        baseDate = (ibxEndDay.getValue() === "") ? calEnd.getDate() : ibxEndDay.getValue();
+    }
+
+    // 유효하지 않은 날짜 보정
+    if (!comUtil.gfnValidatDate(baseDate)) {
+        baseDate = comUtil.gfnGetServerDateTime();
+    }
+
+    // 선택한 개월에 따른 날짜 설정
+    if (scwin.baseDate === "start") {
+        if(scwin.dateRangeType === "custom") {
+            if(/\d일/.test(btnMnth.getText())
+            || /\d주/.test(btnMnth.getText())) {
+                scwin.setInitDate(baseDate, comUtil.gfnAddDate(baseDate, info.newValue * 100 - 1));
+            }else {
+                scwin.setInitDate(baseDate, comUtil.gfnAddMonthCal(baseDate, info.newValue));
+            }
+        }else {
+            scwin.setInitDate(baseDate, (scwin.dateRangeType === "week") ? comUtil.gfnAddDate(baseDate, info.newValue * 100 - 1) : comUtil.gfnAddMonthCal(baseDate, info.newValue));
+        }
+    } else {
+        if(scwin.dateRangeType === "custom") {
+            if(/\d일/.test(btnMnth.getText())
+            || /\d주/.test(btnMnth.getText())) {
+                scwin.setInitDate(comUtil.gfnAddDate(baseDate, -info.newValue * 100 + 1));
+            }else {
+                scwin.setInitDate(comUtil.gfnAddMonthCal(baseDate, -info.newValue));
+            }
+        }else {
+            scwin.setInitDate((scwin.dateRangeType === "week") ? comUtil.gfnAddDate(baseDate, -info.newValue * 100 + 1) : comUtil.gfnAddMonthCal(baseDate, -info.newValue));
+        }
+
+    }
+
+    // From-To 달력 팝업 닫기
+    scwin.showHide("hideAll");
+
+    // 시작일 - 이전 날짜 입력 금지
+    if (scwin.calStartDisableBeforeDate !== "") {
+        if (ibxStrDay.getValue() < scwin.calStartDisableBeforeDate) {
+            ibxStrDay.setValue("");
+            await com.gfnAlert(["warn.validation.DisableDate"]);
+            ibxStrDay.focus();
+            return;
+        }
+    }
+
+    // 시작일 - 이후 날짜 입력 금지
+    if (scwin.calStartDisableAfterDate !== "") {
+        if (ibxStrDay.getValue() > scwin.calStartDisableAfterDate) {
+            ibxStrDay.setValue("");
+            await com.gfnAlert(["warn.validation.DisableDate"]);
+            ibxStrDay.focus();
+            return;
+        }
+    }
+
+    // 종료일 - 이전 날짜 입력 금지
+    if (scwin.calEndDisableBeforeDate !== "") {
+        if (ibxEndDay.getValue() < scwin.calEndDisableBeforeDate) {
+            ibxEndDay.setValue("");
+            await com.gfnAlert(["warn.validation.DisableDate"]);
+            ibxEndDay.focus();
+            return;
+        }
+    }
+
+    // 종료일 - 이후 날짜 입력 금지
+    if (scwin.calEndDisableAfterDate !== "") {
+        if (ibxEndDay.getValue() > scwin.calEndDisableAfterDate) {
+            ibxEndDay.setValue("");
+            await com.gfnAlert(["warn.validation.DisableDate"]);
+            ibxEndDay.focus();
+            return;
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업 Start ondateselect 이벤트 핸들러
+ *
+ * 시작 날짜 선택
+ * 종료일이 없을 때
+ *      정상 입력
+ *
+ * 종료일이 있을 때
+ *      종료일보다 큰 경우
+ *          비정상 리턴 - 선택값 지움
+ *      종료일보다 작은 경우
+ *          정상입력
+ *
+ * 정상입력 추가 동작
+ *      input에 값 입력
+ *      disableBeforeDate(dateStr)  입력 받은 날짜 이전의 날짜들은 달력에서 선택 불가능하도록 제한
+ *
+ * 전체 종료
+ *      stard, end 값이 모두 입력 되어있다면 창 닫기
+ *
+ ********************************************************************************/
+scwin.calStart_ondateselect = async function (dateStr, dateObj) {
+    scwin.btnMnthReset();
+    scwin.setStartDate(dateStr, 'N');
+
+    if (scwin.rangeType !== "" && scwin.rangeValue > 0) {
+        let startDay = ibxStrDay.getFormattedValue();
+        if (startDay === "") return;
+        let startDate = new Date(startDay);
+
+        if (scwin.rangeType === "year") {
+            startDay = comUtil.gfnAddYear(startDate.format("yyyyMMdd"), scwin.rangeValue);
+        } else if (scwin.rangeType === "month") {
+            startDay = comUtil.gfnAddMonthCal(startDate.format("yyyyMMdd"), scwin.rangeValue);
+        } else if (scwin.rangeType === "day") {
+            startDay = comUtil.gfnAddDate(startDate.format("yyyyMMdd"), scwin.rangeValue - 1);
+        }
+
+        startDate = new Date(`${startDay.substring(0, 4)}/${startDay.substring(4, 6)}/${startDay.substring(6, 8)}`);
+        const rangeDate = startDate.format("yyyyMMdd");
+
+        if (rangeDate < ibxEndDay.getValue()) {
+            const rangeText = (scwin.rangeType === "year") ? "년" : (scwin.rangeType === "month") ? "개월" : "일";
+            await com.gfnAlert(["msg.validation.DateFormat.RageDate.message", scwin.rangeValue, rangeText]);
+            ibxEndDay.setValue(rangeDate);
+            scwin.setEndDate(rangeDate, 'Y');
+            scwin.showHide("show");
+            return;
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업 End ondateselect 이벤트 핸들러
+ *
+ * 종료 날짜 선택
+ * 시작일이 없을 때
+ *      정상 입력
+ *
+ * 시작일이 있을 때
+ *      시작일보다 큰 경우
+ *          정상입력
+ *      시작일보다 작은 경우
+ *          비정상 리턴 - 선택값 지움
+ *
+ * 정상입력 추가 동작
+ *      input에 값 입력
+ *      disableAfterDate(dateStr)  입력 받은 날짜 이후의 날짜들을 달력에서 선택 불가능하도록 제한
+ *
+ * 전체 종료
+ *      stard, end 값이 모두 입력되어 있다면 창 닫기
+ ********************************************************************************/
+scwin.calEnd_ondateselect = async function (dateStr, dateObj) {
+    scwin.btnMnthReset();
+    scwin.setEndDate(dateStr, 'N');
+
+    if (scwin.rangeType !== "" && scwin.rangeValue > 0) {
+        let endDay = ibxEndDay.getFormattedValue();
+        if (endDay === "") return;
+        let endDate = new Date(endDay);
+
+        if (scwin.rangeType === "year") {
+            endDay = comUtil.gfnAddYear(endDate.format("yyyyMMdd"), scwin.rangeValue * -1);
+        } else if (scwin.rangeType === "month") {
+            endDay = comUtil.gfnAddMonthCal(endDate.format("yyyyMMdd"), scwin.rangeValue * -1);
+        } else if (scwin.rangeType === "day") {
+            endDay = comUtil.gfnAddDate(endDate.format("yyyyMMdd"), (scwin.rangeValue * -1) + 1);
+        }
+
+        endDate = new Date(`${endDay.substring(0, 4)}/${endDay.substring(4, 6)}/${endDay.substring(6, 8)}`);
+        const rangeDate = endDate.format("yyyyMMdd");
+
+        if (rangeDate > ibxStrDay.getValue()) {
+            const rangeText = (scwin.rangeType === "year") ? "년" : (scwin.rangeType === "month") ? "개월" : "일";
+            await com.gfnAlert(["msg.validation.DateFormat.RageDate.message", scwin.rangeValue, rangeText]);
+            ibxStrDay.setValue(rangeDate);
+            scwin.setStartDate(rangeDate, 'Y');
+            scwin.showHide("show");
+            return;
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업 Start onchange 이벤트 핸들러
+ ********************************************************************************/
+scwin.calStart_onchange = function () {
+    scwin.setCalColor();
+
+    $p.emit("onstartchange");
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업 End onchange 이벤트 핸들러
+ ********************************************************************************/
+scwin.calEnd_onchange = function () {
+    scwin.setCalColor();
+
+    $p.emit("onendchange");
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업 Start ondblclick 이벤트 핸들러
+ ********************************************************************************/
+scwin.calStart_ondblclick = function (e) {
+    if (document.querySelector('#' + calStart.getID() + ' .w2calendar_content>table>tbody').contains(e.target) && e.target.parentElement.classList.contains("w2calendar_selected")) {
+        scwin.showHide("hideAll");
+    }
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업 End ondblclick 이벤트 핸들러
+ ********************************************************************************/
+scwin.calEnd_ondblclick = function (e) {
+    if (document.querySelector('#' + calEnd.getID() + ' .w2calendar_content>table>tbody').contains(e.target) && e.target.parentElement.classList.contains("w2calendar_selected")) {
+        scwin.showHide("hideAll");
+    }
+};
+
+/********************************************************************************
+ * 설명 : '선택완료' 버튼 onclick 이벤트 핸들러
+ ********************************************************************************/
+scwin.btnChceCplt_onclick = async function (e) {
+    grpCal.render.blur();
+    btnChceCplt.render.blur();
+
+    if (ibxStrDay.getValue().length > 0 && ibxEndDay.getValue().length > 0) {
+        scwin.showHide("hideAll");
+    } else {
+        scwin.setStartDate((ibxStrDay.getValue() === "") ? calStart.getDate() : ibxStrDay.getValue(), "Y");
+        scwin.setEndDate((ibxEndDay.getValue() === "") ? calEnd.getDate() : ibxEndDay.getValue(), "Y");
+        scwin.showHide("hideAll");
+    }
+
+    $p.emit("onselectcompleteclick", e);
+};
+
+/********************************************************************************
+ * 설명 : '닫기' 버튼 onclick 이벤트 핸들러
+ ********************************************************************************/
+scwin.btnClose_onclick = function (e) {
+    btnClose.render.blur();
+    scwin.showHide("hideAll");
+};
+
+/********************************************************************************
+ * 설명 : From-To 달력을 보여주거나 닫는다.
+ ********************************************************************************/
+scwin.showHide = function (type) {
+    if (type === "show") {
+        scwin.setCalColor();
+
+        const frameHeight = (document.querySelector("#fs_content")) ? Number.parseInt(document.querySelector("#fs_content").getBoundingClientRect().height || 0) : Number.parseInt(grpCalRoot.scope_obj.getParentFrame().render?.getBoundingClientRect().height || 0);
+        const parentRectHeight = Number.parseInt(grpCalRoot.scope_obj.getParentFrame().render?.getBoundingClientRect().top || 0) + frameHeight;
+        grpCal.show();
+        const calRectHeight = Number.parseInt(grpCal.render?.getBoundingClientRect().top || 0) + Number.parseInt(grpCal.render?.getBoundingClientRect().height || 0);
+
+        if (calRectHeight > parentRectHeight) {
+            grpCal.addClass("cal-inner-wrap-top");
+        } else {
+            grpCal.removeClass("cal-inner-wrap-top");
+        }
+
+        const myElement = document.querySelector(`#${grpCalRoot.getID()}>.cal-inner-wrap`);
+        if (!comUtil.gfnIsEmpty(myElement) && myElement.style.display === "block") {
+            const timeFunc = $p.setTimeout(function () {
+                if (comUtil.gfnIsEmpty(timeFunc)) {
+                    $p.clearTimeout("fromToCal");
+                }
+
+                const parentWidth = grpCalRoot.scope_obj.getParentFrame().render.getBoundingClientRect().width;
+                const boundingRight = document.querySelector(`#${grpCalRoot.getID()}>.inputcal-fromto-wrap-inner`).getBoundingClientRect().left
+                                      + document.querySelector(`#${grpCal.getID()}`).getBoundingClientRect().width
+                                      - (($p.isWFramePopup(true)) ? grpCalRoot.scope_obj.getParentFrame().render.getBoundingClientRect().left : 0);
+
+                if (boundingRight < parentWidth) {
+                    myElement.style.right = "";
+                    myElement.classList.remove("right-side");
+                } else {
+                    myElement.style.right = "0px";
+                    myElement.classList.add("right-side");
+                }
+            }, { delay: 10, key: "fromToCal" });
+        }
+
+        document.addEventListener("mouseup", scwin.closeCal);
+    } else if (type == "hideAll") {
+        grpCal.hide();
+        grpCal.removeClass("cal-inner-wrap-top");
+        document.removeEventListener("mouseup", scwin.closeCal);
+        scwin.btnMnthColor();
+    }
+};
+
+/********************************************************************************
+ * 설명 : From-To 달력 팝업 외부 클릭 시 달력 팝업을 닫는다.
+ ********************************************************************************/
+scwin.closeCal = function (e) {
+    const calInnerWrap = grpCal.render;
+    if (calInnerWrap === e.target || calInnerWrap.contains(e.target)) {
+        return;
+    }
+    scwin.showHide("hideAll");
+};
+
+/********************************************************************************
+ * 설명 : 달력 팝업의 일자 중 선택 가능한 날짜에 색을 칠한다.
+ ********************************************************************************/
+scwin.setCalColor = function () {
+    const sIn = ibxStrDay.getValue(); // 입력된 날짜
+    const eIn = ibxEndDay.getValue();
+
+    if (!comUtil.gfnIsEmpty(ibxStrDay.getValue()) && !comUtil.gfnIsEmpty(ibxEndDay.getValue())) {
+        const sCal = calStart.getValue(); // 달력이 가르키는 월
+        const eCal = calEnd.getValue().substr(0, 6) + '01'; // 처음 달력을 열 때 선택된 날 값이 오기 때문
+
+        calStart.removeAllCellClass("selectRange1"); // 지우고 시작 한다.
+        for (let i = 0; i <= comUtil.gfnGetLastDateOfMonth(sCal.substr(0, 6)) - 1; i++) {
+            let colorDay = WebSquare.date.dateAdd(sCal, i); // 날짜를 더한다.
+            if (WebSquare.date.dateDiffSilence(sIn, colorDay) >= 0 && WebSquare.date.dateDiffSilence(colorDay, eIn) >= 0) {
+                calStart.setCellClass(colorDay, "selectRange1");
+            }
+        }
+
+        calEnd.removeAllCellClass("selectRange1"); // 지우고 시작 한다.
+        for (let i = 0; i <= comUtil.gfnGetLastDateOfMonth(eCal.substr(0, 6)) - 1; i++) {
+            let colorDay = WebSquare.date.dateAdd(eCal, i); // 날짜를 더한다.
+            if (WebSquare.date.dateDiffSilence(sIn, colorDay) >= 0 && WebSquare.date.dateDiffSilence(colorDay, eIn) >= 0) {
+                calEnd.setCellClass(colorDay, "selectRange1");
+            }
+        }
+    } else {
+        if (comUtil.gfnIsEmpty(sIn)) {
+            calStart.removeAllCellClass("selectRange1");
+        }
+
+        if (comUtil.gfnIsEmpty(eIn)) {
+            calEnd.removeAllCellClass("selectRange1");
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 선택된 기간에 맞게 1주/2주/3주/1개월/3개월/6개월/1년/2년/3년 라디오버튼 값을 설정한다.
+ ********************************************************************************/
+scwin.btnMnthColor = function () {
+    const sIn = ibxStrDay.getValue(); // 입력된 날짜
+    const eIn = ibxEndDay.getValue();
+
+    if (comUtil.gfnIsEmpty(sIn) || comUtil.gfnIsEmpty(eIn)) {
+        if (comUtil.gfnIsEmpty(sIn) && comUtil.gfnIsEmpty(eIn)) {
+            scwin.btnMnthReset();
+        }
+
+        // 1주/2주/3주/1개월/3개월/6개월/1년/2년/3년 버튼 색 없으면 입혀준다.
+        btnMnth.getItemArray().map(item => item.value).forEach(value => {
+            let nowDate = new Date().format("yyyyMMdd");
+            if (scwin.rangeType === "day" && scwin.rangeValue > 0) {
+                let addDate = (Number(value) < 1) ? comUtil.gfnAddDate(nowDate, parseInt(value * 100)) : comUtil.gfnAddMonthCal(nowDate, parseInt(value));
+                if (addDate > comUtil.gfnAddDate(nowDate, scwin.rangeValue)) {
+                    btnMnth.deleteItem(btnMnth.itemArr.findIndex(item => item.value === String(value)));
+                }
+            } else if (scwin.rangeType === "month" && scwin.rangeValue > 0) {
+                if (Number(value) > scwin.rangeValue) {
+                    btnMnth.deleteItem(btnMnth.itemArr.findIndex(item => item.value === String(value)));
+                }
+            } else if (scwin.rangeType === "year" && scwin.rangeValue > 0) {
+                if (Number(value) > scwin.rangeValue * 12) {
+                    btnMnth.deleteItem(btnMnth.itemArr.findIndex(item => item.value === String(value)));
+                }
+            }
+        });
+    } else {
+        // 1주/2주/3주/1개월/3개월/6개월/1년/2년/3년 버튼 색 없으면 입혀준다.
+        btnMnth.getItemArray().map(item => item.value).forEach(value => {
+            if (scwin.rangeType === "day" && scwin.rangeValue > 0) {
+                let addDate = (Number(value) < 1) ? comUtil.gfnAddDate(sIn, parseInt(value * 100)) : comUtil.gfnAddMonthCal(sIn, parseInt(value));
+                if (addDate > comUtil.gfnAddDate(sIn, scwin.rangeValue)) {
+                    btnMnth.deleteItem(btnMnth.itemArr.findIndex(item => item.value === String(value)));
+                }
+            } else if (scwin.rangeType === "month" && scwin.rangeValue > 0) {
+                if (Number(value) > scwin.rangeValue) {
+                    btnMnth.deleteItem(btnMnth.itemArr.findIndex(item => item.value === String(value)));
+                }
+            } else if (scwin.rangeType === "year" && scwin.rangeValue > 0) {
+                if (Number(value) > scwin.rangeValue * 12) {
+                    btnMnth.deleteItem(btnMnth.itemArr.findIndex(item => item.value === String(value)));
+                }
+            }
+
+            if (scwin.baseDate === "start") {
+                let weekValue = (Number(value) < 1) ? comUtil.gfnAddDate(sIn, parseInt(value * 100) - 1) : comUtil.gfnAddMonthCal(sIn, parseInt(value));
+                if (weekValue === eIn) {
+                    btnMnth.setEventPause("onchange", true);
+                    btnMnth.setValue(value);
+                    btnMnth.setEventPause("onchange", false);
+                }
+            } else {
+                let weekValue = (Number(value) < 1) ? comUtil.gfnAddDate(eIn, (parseInt(value * 100) * -1) + 1) : comUtil.gfnAddMonthCal(eIn, parseInt(value) * -1);
+                if (weekValue === sIn) {
+                    btnMnth.setEventPause("onchange", true);
+                    btnMnth.setValue(value);
+                    btnMnth.setEventPause("onchange", false);
+                }
+            }
+        });
+    }
+};
+
+/********************************************************************************
+ * 설명 : 1주/2주/3주/1개월/3개월/6개월/1년/2년/3년 라디오버튼 값을 해제한다.
+ ********************************************************************************/
+scwin.btnMnthReset = function () {
+    btnMnth.setEventPause("onchange", true);
+    btnMnth.reset(); // 1주/2주/3주/1개월/3개월/6개월/1년/2년/3년 선택해제
+    btnMnth.setEventPause("onchange", false);
+};
+
+/********************************************************************************
+ * 설명 : 시작일 설정
+ ********************************************************************************/
+scwin.setStartDate = function (dateStr, goto) {
+    if (scwin.oldStartDate != dateStr) {
+        if (!comUtil.gfnIsEmpty(ibxEndDay.getValue())) {
+            if (WebSquare.date.dateDiffSilence(dateStr, ibxEndDay.getValue()) >= 0) {
+                ibxStrDay.setValue(dateStr);
+                scwin.calDisable("start", dateStr);
+                scwin.setCalColor();
+                if (goto == "Y") {
+                    calStart.gotoCalendar(dateStr);
+                }
+            } else {
+                ibxStrDay.setValue("");
+                ibxStrDay.focus();
+            }
+        } else {
+            ibxStrDay.setValue(dateStr);
+            scwin.calDisable("start", dateStr);
+            if (goto == "Y") {
+                calStart.gotoCalendar(dateStr);
+            }
+        }
+    } else {
+        if (ibxStrDay.getValue() === "") {
+            ibxStrDay.setValue(dateStr);
+            if (goto == "Y") {
+                calStart.gotoCalendar(dateStr);
+            }
+        }
+    }
+
+    scwin.oldStartDate = ibxStrDay.getValue();
+};
+
+/********************************************************************************
+ * 설명 : 종료일 설정
+ ********************************************************************************/
+scwin.setEndDate = function (dateStr, goto) {
+    if (scwin.oldEndDate != dateStr) {
+        if (!comUtil.gfnIsEmpty(ibxStrDay.getValue())) {
+            if (WebSquare.date.dateDiffSilence(ibxStrDay.getValue(), dateStr) >= 0) {
+                ibxEndDay.setValue(dateStr);
+                scwin.calDisable("end", dateStr);
+                scwin.setCalColor();
+                if (goto == "Y") {
+                    calEnd.gotoCalendar(dateStr);
+                }
+            } else {
+                ibxEndDay.setValue("");
+                ibxEndDay.focus();
+            }
+        } else {
+            ibxEndDay.setValue(dateStr);
+            scwin.calDisable("end", dateStr);
+            if (goto == "Y") {
+                calEnd.gotoCalendar(dateStr);
+            }
+        }
+    } else {
+        if (ibxEndDay.getValue() === "") {
+            ibxEndDay.setValue(dateStr);
+            if (goto == "Y") {
+                calEnd.gotoCalendar(dateStr);
+            }
+        }
+    }
+
+    scwin.oldEndDate = ibxEndDay.getValue();
+};
+
+/********************************************************************************
+ * 설명 : 이전 이후 날짜 선택 불가 처리
+ ********************************************************************************/
+scwin.calDisable = function (startEnd, dateStr) {
+    if (startEnd == "start") {
+        calEnd.disableBeforeDate(dateStr);
+    } else {
+        calStart.disableAfterDate(dateStr);
+    }
+};
+
+/**
+ * @method
+ * @name getStartDate
+ * @description 시작 날짜 리턴
+ * @param
+ * @returns {string} startDate 시작 날짜 리턴
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getStartDate = function() {
+    return ibxStrDay.getValue();
+};
+
+/**
+ * @method
+ * @name getEndDate
+ * @description 종료 날짜 리턴
+ * @param
+ * @returns {string} endDate 종료 날짜 리턴
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getEndDate = function() {
+    return ibxEndDay.getValue();
+};
+
+/**
+ * @method
+ * @name setStartDateFocus
+ * @description 시작 날짜 포커스
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setStartDateFocus = function() {
+    ibxStrDay.focus();
+};
+
+/**
+ * @method
+ * @name setEndDateFocus
+ * @description 종료 날짜 포커스
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setEndDateFocus = function() {
+    ibxEndDay.focus();
+};
+
+/**
+ * @method
+ * @name getValue
+ * @description 시작 날짜 - 종료 날짜 리턴
+ * @param
+ * @returns {string} date 시작 날짜 - 종료 날짜 리턴
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getValue = function() {
+    return ibxStrDay.getValue() + " - " + ibxEndDay.getValue();
+};
+
+/**
+ * @method
+ * @name getPluginName
+ * @description UDC Plugin Name
+ * @param
+ * @returns {string} pluginName UDC Plugin Name
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getPluginName = function() {
+    return "fromToCal";
+};
+
+/**
+ * @method
+ * @name getDisplayValue
+ * @description Display Value 리턴
+ * @param
+ * @returns {string} displayValue Display Value 리턴
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getDisplayValue = function() {
+    return ibxStrDay.getDisplayValue() + " - " + ibxEndDay.getDisplayValue();
+};
+
+/**
+ * @method
+ * @name setDateRange
+ * @description 날짜 범위 설정
+ * @param {string} type 날짜 범위 타입(day, month, year)
+ * @param {integer} range 날짜 범위
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setDateRange = function(type, range) {
+    // 기준일자
+    let baseDate = "";
+    if (scwin.baseDate === "start") {
+        baseDate = (ibxStrDay.getValue() === "") ? calStart.getDate() : ibxStrDay.getValue();
+    } else {
+        baseDate = (ibxEndDay.getValue() === "") ? calEnd.getDate() : ibxEndDay.getValue();
+    }
+
+    // 유효하지 않은 날짜 보정
+    if (!comUtil.gfnValidatDate(baseDate)) {
+        baseDate = comUtil.gfnGetServerDateTime();
+    }
+
+    if (type === "year") {
+        range *= 12;
+    }
+
+    // 선택한 개월에 따른 날짜 설정
+    if (scwin.baseDate === "start") {
+        if(scwin.dateRangeType === "custom") {
+                switch(type) {
+                    case "day" :
+                        scwin.setInitDate(baseDate, comUtil.gfnAddDate(baseDate, range));
+                        break;
+                    default :
+                        scwin.setInitDate(baseDate, comUtil.gfnAddMonthCal(baseDate, range));
+                        break;
+
+                }
+        }else {
+            scwin.setInitDate(baseDate, (scwin.dateRangeType === "day") ? comUtil.gfnAddDate(baseDate, range) : comUtil.gfnAddMonthCal(baseDate, range));
+        }
+    } else {
+        if(scwin.dateRangeType === "custom") {
+                switch(type) {
+                    case "day" :
+                        scwin.setInitDate(comUtil.gfnAddDate(baseDate, -range + 1), baseDate);
+                        break;
+                    default :
+                        scwin.setInitDate(comUtil.gfnAddMonthCal(baseDate, -range), baseDate);
+                        break;
+                }
+        }else {
+            scwin.setInitDate((scwin.dateRangeType === "day") ? comUtil.gfnAddDate(baseDate, -range) : comUtil.gfnAddMonthCal(baseDate, -range));
+        }
+    }
+
+    // 조회 버튼 선택
+    if (type === "day") {
+        range *= 0.01;
+    }
+    if(scwin.dateRangeType !== "custom") {
+        btnMnth.setValue(range);
+    }
+
+    // From-To 달력 팝업 닫기
+    scwin.showHide("hideAll");
+};
+
+/**
+ * @method
+ * @name setPrefixText
+ * @description 버튼의 접두어
+ * @param {string} prefixText 버튼의 접두어
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setPrefixText = function(prefixText) {
+    scwin.prefixText = prefixText;
+    btnMnth.getItemArray().forEach(item => {
+        item.originLabel = item.originLabel || item.label;
+        item.label = scwin.prefixText + item.originLabel;
+    });
+
+    btnMnth.redraw();
+    scwin.btnMnthColor();
+};
+
+/**
+ * @method
+ * @name setSuffixText
+ * @description 버튼의 접미어
+ * @param {string} suffixText 버튼의 접미어
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setSuffixText = function(suffixText) {
+    scwin.suffixText = suffixText;
+    btnMnth.getItemArray().forEach(item => {
+        item.originLabel = item.originLabel || item.label;
+        item.label = item.originLabel + scwin.suffixText;
+    });
+
+    btnMnth.redraw();
+    scwin.btnMnthColor();
+};
+
+/**
+ * @method
+ * @name gotoToday
+ * @description 오늘 날짜로 초기화
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.gotoToday = function() {
+    calStart.gotoToday();
+    calEnd.gotoToday();
+};
+
+/**
+ * @method
+ * @name focus
+ * @description focus 지정
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.focus = function() {
+    ibxStrDay.focus();
+};
+
+/**
+ * @method
+ * @name setCalStartDisableBeforeDate
+ * @description 시작일 - 이전 날짜 선택 불가능하도록 제한.
+ * @param {string} date 날짜
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCalStartDisableBeforeDate = function(date) {
+    scwin.calStartDisableBeforeDate = date;
+    calStart.disableBeforeDate(date);
+};
+
+/**
+ * @method
+ * @name setCalStartDisableAfterDate
+ * @description 시작일 - 이후 날짜 선택 불가능하도록 제한.
+ * @param {string} date 날짜
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCalStartDisableAfterDate = function(date) {
+    scwin.calStartDisableAfterDate = date;
+    calStart.disableAfterDate(date);
+};
+
+/**
+ * @method
+ * @name setCalEndDisableBeforeDate
+ * @description 종료일 - 이전 날짜 선택 불가능하도록 제한.
+ * @param {string} date 날짜
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCalEndDisableBeforeDate = function(date) {
+    scwin.calEndDisableBeforeDate = date;
+    calEnd.disableBeforeDate(date);
+};
+
+/**
+ * @method
+ * @name setCalEndDisableAfterDate
+ * @description 종료일 - 이후 날짜 선택 불가능하도록 제한.
+ * @param {string} date 날짜
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCalEndDisableAfterDate = function(date) {
+    scwin.calEndDisableAfterDate = date;
+    calEnd.disableAfterDate(date);
+};
+
+/**
+ * @method
+ * @name setCalDisableBeforeDate
+ * @description 시작일+종료일 - 이전 날짜 선택 불가능하도록 제한.
+ * @param {string} date 날짜
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCalDisableBeforeDate = function(date) {
+    scwin.calStartDisableBeforeDate = date;
+    scwin.calEndDisableBeforeDate = date;
+    calStart.disableBeforeDate(date);
+    calEnd.disableBeforeDate(date);
+};
+
+/**
+ * @method
+ * @name setCalDisableAfterDate
+ * @description 시작일+종료일 - 이후 날짜 선택 불가능하도록 제한.
+ * @param {string} date 날짜
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCalDisableAfterDate = function(date) {
+    scwin.calStartDisableAfterDate = date;
+    scwin.calEndDisableAfterDate = date;
+    calStart.disableAfterDate(date);
+    calEnd.disableAfterDate(date);
+};
+
+/**
+ * @method
+ * @name setRangeBaseDate
+ * @description 날짜 범위 기준일 설정
+ * @param {string} date 기준 날짜
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setRangeBaseDate = function(date) {
+    scwin.rangeBaseDate = date;
+};
+
+/**
+ * @method
+ * @name setBaseDate
+ * @description 날짜 범위 기준 설정
+ * @param {string} [start,end] 시작날짜, 종료날짜 [start,end]
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setBaseDate = function(option) {
+    scwin.baseDate = (option === "start") ?  "start" : "end";
+};
+
+/**
+ * @method
+ * @name getAccessibiltyId
+ * @description UDC에 접근가능한 id 리턴
+ * @param
+ * @returns {string} accessibiltyId UDC에 접근가능한 id 리턴
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getAccessibiltyId = function() {
+    return ibxStrDay.getID();
+};
+
+/**
+ * @method
+ * @name setMaxYear
+ * @description calendar에 표시되는 최대연도로 config.xml의 calendar하위의 maxYear의 value 속성값이 기본값으로 설정된다.
+ * @param {string} year 년도
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setMaxYear = function(year) {
+    scwin.maxYear = Number.parseInt(year);
+    calStart.options.maxYear = Number.parseInt(year);
+    calStart.maxYear = Number.parseInt(year);
+    calEnd.maxYear = Number.parseInt(year);
+
+    const minYear = Number.parseInt(calStart.options.minYear);
+    const yearList = [...Array(year - minYear + 1).keys()].map(i => Number.parseInt(i) + minYear);
+
+    for (let i = calStart.dom.selectboxYear.options.length; i > -1; i--) {
+        calStart.dom.selectboxYear.options.remove(i - 1);
+        calEnd.dom.selectboxYear.options.remove(i - 1);
+    }
+
+    yearList.forEach(value => {
+        calStart.dom.selectboxYear.options.add(new Option(value, value));
+        calEnd.dom.selectboxYear.options.add(new Option(value, value));
+    });
+};
+
+/**
+ * @method
+ * @name setMinYear
+ * @description calendar에 표시되는 최소연도로 config.xml의 calendar하위의 minYear의 value 속성값이 기본값으로 설정된다.
+ * @param {string} year 년도
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setMinYear = function(year) {
+    scwin.minYear = Number.parseInt(year);
+    calStart.options.minYear = Number.parseInt(year);
+    calStart.minYear = Number.parseInt(year);
+    calEnd.minYear = Number.parseInt(year);
+
+    const maxYear = Number.parseInt(calStart.options.maxYear);
+    const yearList = [...Array(maxYear - Number.parseInt(year) + 1).keys()].map(i => Number.parseInt(i) + Number.parseInt(year));
+
+    for (let i = calStart.dom.selectboxYear.options.length; i > -1; i--) {
+        calStart.dom.selectboxYear.options.remove(i - 1);
+        calEnd.dom.selectboxYear.options.remove(i - 1);
+    }
+
+    yearList.forEach(value => {
+        calStart.dom.selectboxYear.options.add(new Option(value, value));
+        calEnd.dom.selectboxYear.options.add(new Option(value, value));
+    });
+};
+
+/**
+ * @method
+ * @name setStartDateReadOnly
+ * @description [default:false, true]readonly의 여부로 시작날짜 부분 HTML의 readonly속성과 동일한 기능을 제공한다.
+ * @param {boolean} type readOnly 속성 설정
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setStartDateReadOnly = function(type = false) {
+    scwin.startDateReadOnly = type;
+    ibxStrDay.setReadOnly(scwin.startDateReadOnly);
+}
+
+/**
+ * @method
+ * @name setEndDateReadOnly
+ * @description [default:false, true]readonly의 여부로 종료날짜 부분 HTML의 readonly속성과 동일한 기능을 제공한다.
+ * @param {boolean} type readOnly 속성 설정
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setEndDateReadOnly = function(type = false) {
+    scwin.endDateReadOnly = type;
+    ibxEndDay.setReadOnly(scwin.endDateReadOnly);
+}
+
+/**
+ * @method
+ * @name setDateReadOnly
+ * @description [default:false, true]readonly의 여부로 시작날짜, 종료날짜 부분 HTML의 readonly속성과 동일한 기능을 제공한다.
+ * @param {boolean} type readOnly 속성 설정
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setDateReadOnly = function(type = false) {
+    scwin.startDateReadOnly = type;
+    scwin.endDateReadOnly = type;
+    ibxStrDay.setReadOnly(scwin.startDateReadOnly);
+    ibxEndDay.setReadOnly(scwin.endDateReadOnly);
+}
+
+
+
+/**
+ * @event
+ * @name onstartviewchange
+ * @description 시작일자 : 키보드 또는 마우스 조작을 통해 값이 변경된 경우 발생.
+ * @param {object} info info(oldValue, newValue)
+ * @example
+ */
+scwin.emit_onstartviewchange = function(info) {
+    $p.emit("onstartviewchange", info);
+};
+
+/**
+ * @event
+ * @name onendviewchange
+ * @description 종료일자 : 키보드 또는 마우스 조작을 통해 값이 변경된 경우 발생.
+ * @param {object} info info(oldValue, newValue)
+ * @example
+ */
+scwin.emit_onendviewchange = function(info) {
+    $p.emit("onendviewchange", info);
+};
+
+/**
+ * @event
+ * @name onstartchange
+ * @description 시작일자 : 선택된 날짜가 변경된 경우 발생.
+ * @param
+ * @example
+ */
+scwin.emit_onstartchange = function() {
+    $p.emit("onstartchange");
+};
+
+/**
+ * @event
+ * @name onendchange
+ * @description 종료일자 : 선택된 날짜가 변경된 경우 발생.
+ * @param
+ * @example
+ */
+scwin.emit_onendchange = function() {
+    $p.emit("onendchange");
+};
+
+/**
+ * @event
+ * @name onselectcompleteclick
+ * @description 선택완료 버튼 클릭 이벤트
+ * @param {event} e event 객체
+ * @example
+ */
+scwin.emit_onselectcompleteclick = function(e) {
+    $p.emit("onselectcompleteclick", e);
+};
+
+/********************************************************************************
+ * 설명 : 시작일자 onviewchange 이벤트
+ ********************************************************************************/
+scwin.calStart_onviewchange = function(info) {
+    $p.emit("onstartviewchange", info);
+};
+
+/********************************************************************************
+ * 설명 : 종료일자 onviewchange 이벤트
+ ********************************************************************************/
+scwin.calEnd_onviewchange = function(info) {
+    $p.emit("onendviewchange", info);
+};
+
+/********************************************************************************
+ * 설명 : Page onbeforepageunload 이벤트
+ ********************************************************************************/
+scwin.onbeforepageunload = function() {
+    if (com.gfnIsPopup(true)) {
+        grpCal.render.remove();
+    }
+
+    // resize 이벤트 핸들러 remove
+    window.removeEventListener("resize", scwin.resize);
+};
+
+}}}]}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload',useExternalClass:'true','ev:onbeforepageunload':'scwin.onbeforepageunload'},E:[{T:1,N:'xf:group',A:{id:'grpCalRoot',class:'inputcal-fromto-wrap'},E:[{T:1,N:'xf:group',A:{id:'grpCalInput',class:'inputcal-fromto-wrap-inner ipt-focus-wrap'},E:[{T:1,N:'xf:input',A:{id:'ibxStrDay',class:'fl udcDateReadOnly',displayFormat:'yyyy/MM/dd',dataType:'date',allowChar:'0-9',maxlength:'8',title:'(      ) 년월일 시작 날짜를 선택하세요.','ev:onblur':'scwin.ibxStrDay_onblur','ev:onchange':'scwin.ibxStrDay_onchange','ev:onviewchange':'scwin.calStart_onviewchange'}},{T:1,N:'w2:span',A:{class:'fl from-to wave',label:'~'}},{T:1,N:'xf:input',A:{id:'ibxEndDay',class:'fl udcDateReadOnly',displayFormat:'yyyy/MM/dd',dataType:'date',allowChar:'0-9',maxlength:'8',title:'(      ) 년월일 종료 날짜를 선택하세요.','ev:onblur':'scwin.ibxEndDay_onblur','ev:onchange':'scwin.ibxEndDay_onchange','ev:onviewchange':'scwin.calEnd_onviewchange'}},{T:1,N:'xf:trigger',A:{id:'btnCal',class:'btn cal',type:'button',title:'날짜선택 달력 토글버튼','ev:onclick':'scwin.btnCal_onclick'}}]},{T:1,N:'xf:select1',A:{id:'btnMnth',appearance:'full',class:'type month hide',renderType:'radiogroup','ev:onchange':'scwin.btnMnth_onchange'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'1주'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'0.07'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2주'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'0.14'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3주'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'0.21'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'4주'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'0.28'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'1개월'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'1'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3개월'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'3'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'6개월'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'6'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'9개월'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'9'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'1년'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'12'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2년'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'24'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3년'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'36'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'4년'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'48'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'5년'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'60'}]}]}]}]},{T:1,N:'xf:group',A:{class:'cal-inner-wrap',id:'grpCal',style:'display:none;'},E:[{T:1,N:'xf:group',A:{class:'inner-left'},E:[{T:1,N:'w2:textbox',A:{label:'시작일'}},{T:1,N:'w2:calendar',A:{id:'calStart',renderType:'native','ev:ondateselect':'scwin.calStart_ondateselect','ev:ondblclick':'scwin.calStart_ondblclick','ev:onchange':'scwin.calStart_onchange','ev:onviewchange':'scwin.calStart_onviewchange'}}]},{T:1,N:'xf:group',A:{class:'inner-right'},E:[{T:1,N:'w2:textbox',A:{label:'종료일'}},{T:1,N:'w2:calendar',A:{id:'calEnd',renderType:'native','ev:ondateselect':'scwin.calEnd_ondateselect','ev:ondblclick':'scwin.calEnd_ondblclick','ev:onchange':'scwin.calEnd_onchange','ev:onviewchange':'scwin.calEnd_onviewchange'}}]},{T:1,N:'xf:group',A:{class:'btn_wrap'},E:[{T:1,N:'xf:trigger',A:{class:'btn_cm success',id:'btnChceCplt',type:'button','ev:onclick':'scwin.btnChceCplt_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'선택완료'}]}]},{T:1,N:'xf:trigger',A:{class:'btn_cm delete',id:'btnClose',type:'button','ev:onclick':'scwin.btnClose_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'닫기'}]}]}]}]}]}]}]}]})

@@ -1,0 +1,2436 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using Microsoft.Win32;
+
+namespace PdfAutomation
+{
+    internal static class Program
+    {
+        [STAThread]
+        private static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
+        }
+    }
+
+    internal sealed class MainForm : Form
+    {
+        private readonly TextBox sourcePathBox;
+        private readonly TextBox outputPathBox;
+        private readonly CheckedListBox typeList;
+        private readonly CheckBox includeSubfoldersBox;
+        private readonly CheckBox mergeBox;
+        private readonly CheckBox saveEachBox;
+        private readonly TextBox mergedNameBox;
+        private readonly ComboBox mergedTypeBox;
+        private readonly Button convertButton;
+        private readonly Button refreshButton;
+        private readonly CheckedListBox fileList;
+        private readonly Button fileMoveUpButton;
+        private readonly Button fileMoveDownButton;
+        private readonly TextBox logBox;
+        private readonly Label statusLabel;
+        private readonly TextProgressBar progressBar;
+        private Stopwatch jobTimer;
+        private readonly object cleanupLock = new object();
+        private readonly List<string> activeTempRoots = new List<string>();
+        private readonly List<Process> activeChildProcesses = new List<Process>();
+        private DateTime currentJobStart = DateTime.MinValue;
+        private volatile bool hwpAllowWatcherActive;
+        private Thread hwpAllowWatcherThread;
+        private string hwpSecurityModulePath = "";
+
+        private readonly List<FileKind> kinds = new List<FileKind>();
+        private readonly List<string> currentFiles = new List<string>();
+
+        public MainForm()
+        {
+            Text = "PDF자동화";
+            Width = 826;
+            Height = 930;
+            MinimumSize = new Size(780, 740);
+            Font = new Font("Malgun Gothic", 9F);
+            StartPosition = FormStartPosition.CenterScreen;
+            FormClosing += MainForm_FormClosing;
+            CleanupOldTempFolders();
+            hwpSecurityModulePath = EnsureHwpSecurityModuleRegistered();
+
+            kinds.Add(new FileKind("한글", new[] { ".hwp", ".hwpx" }));
+            kinds.Add(new FileKind("파워포인트", new[] { ".ppt", ".pptx", ".pptm", ".pps", ".ppsx", ".pot", ".potx", ".potm" }));
+            kinds.Add(new FileKind("워드", new[] { ".doc", ".docx", ".docm", ".rtf" }));
+            kinds.Add(new FileKind("엑셀", new[] { ".xls", ".xlsx", ".xlsm", ".xlsb", ".xlt", ".xltx", ".xltm", ".csv" }));
+            kinds.Add(new FileKind("PDF", new[] { ".pdf" }));
+            kinds.Add(new FileKind("그림파일", new[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tif", ".tiff", ".webp" }));
+
+            var root = new TableLayoutPanel();
+            root.Dock = DockStyle.Fill;
+            root.Padding = new Padding(14);
+            root.ColumnCount = 1;
+            root.RowCount = 9;
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 72));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 124));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 92));
+            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 54));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 58));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
+            Controls.Add(root);
+
+            var sourcePanel = new TableLayoutPanel();
+            sourcePanel.Dock = DockStyle.Fill;
+            sourcePanel.ColumnCount = 3;
+            sourcePanel.RowCount = 2;
+            sourcePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            sourcePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92));
+            sourcePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92));
+            sourcePanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 24));
+            sourcePanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            root.Controls.Add(sourcePanel, 0, 0);
+
+            sourcePanel.Controls.Add(MakeLabel("원본 파일 또는 폴더 경로"), 0, 0);
+            sourcePathBox = new TextBox();
+            sourcePathBox.Dock = DockStyle.Fill;
+            sourcePathBox.Margin = new Padding(0, 6, 8, 0);
+            sourcePathBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            sourcePathBox.TextChanged += delegate { SourcePathChanged(); };
+            sourcePanel.Controls.Add(sourcePathBox, 0, 1);
+
+            var fileButton = new Button();
+            fileButton.Text = "파일";
+            fileButton.Dock = DockStyle.Fill;
+            fileButton.Margin = new Padding(0, 6, 8, 0);
+            fileButton.Click += delegate { BrowseFile(); };
+            sourcePanel.Controls.Add(fileButton, 1, 1);
+
+            var folderButton = new Button();
+            folderButton.Text = "폴더";
+            folderButton.Dock = DockStyle.Fill;
+            folderButton.Margin = new Padding(0, 6, 0, 0);
+            folderButton.Click += delegate { BrowseFolder(sourcePathBox); };
+            sourcePanel.Controls.Add(folderButton, 2, 1);
+
+            var typePanel = new TableLayoutPanel();
+            typePanel.Dock = DockStyle.Fill;
+            typePanel.ColumnCount = 2;
+            typePanel.RowCount = 2;
+            typePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64));
+            typePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36));
+            typePanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 24));
+            typePanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            root.Controls.Add(typePanel, 0, 1);
+
+            typePanel.Controls.Add(MakeLabel("파일 종류 선택"), 0, 0);
+            typeList = new CheckedListBox();
+            typeList.CheckOnClick = true;
+            typeList.Dock = DockStyle.Fill;
+            typeList.Margin = new Padding(0, 6, 12, 0);
+            foreach (var kind in kinds)
+            {
+                typeList.Items.Add(kind.DisplayName + "  (" + string.Join(", ", kind.Extensions) + ")", true);
+            }
+            typeList.ItemCheck += delegate { BeginInvoke(new Action(RefreshFileList)); };
+            typePanel.Controls.Add(typeList, 0, 1);
+
+            var typeOptions = new FlowLayoutPanel();
+            typeOptions.FlowDirection = FlowDirection.TopDown;
+            typeOptions.Dock = DockStyle.Fill;
+            typeOptions.Margin = new Padding(0, 28, 0, 0);
+            includeSubfoldersBox = new CheckBox();
+            includeSubfoldersBox.Text = "하위 폴더까지 찾기";
+            includeSubfoldersBox.AutoSize = true;
+            includeSubfoldersBox.CheckedChanged += delegate { RefreshFileList(); };
+            refreshButton = new Button();
+            refreshButton.Text = "파일 목록 새로고침";
+            refreshButton.Width = 170;
+            refreshButton.Height = 30;
+            refreshButton.Click += delegate { RefreshFileList(); };
+            typeOptions.Controls.Add(includeSubfoldersBox);
+            typeOptions.Controls.Add(refreshButton);
+            typePanel.Controls.Add(typeOptions, 1, 1);
+
+            var outputPanel = new TableLayoutPanel();
+            outputPanel.Dock = DockStyle.Fill;
+            outputPanel.ColumnCount = 3;
+            outputPanel.RowCount = 2;
+            outputPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            outputPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
+            outputPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
+            outputPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 24));
+            outputPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            root.Controls.Add(outputPanel, 0, 2);
+
+            outputPanel.Controls.Add(MakeLabel("PDF 저장 경로"), 0, 0);
+            outputPathBox = new TextBox();
+            outputPathBox.Dock = DockStyle.Fill;
+            outputPathBox.Margin = new Padding(0, 6, 8, 0);
+            outputPanel.Controls.Add(outputPathBox, 0, 1);
+
+            var outputBrowseButton = new Button();
+            outputBrowseButton.Text = "저장 폴더";
+            outputBrowseButton.Dock = DockStyle.Fill;
+            outputBrowseButton.Margin = new Padding(0, 6, 8, 0);
+            outputBrowseButton.Click += delegate { BrowseFolder(outputPathBox); };
+            outputPanel.Controls.Add(outputBrowseButton, 1, 1);
+
+            var defaultPathButton = new Button();
+            defaultPathButton.Text = "원본 경로 사용";
+            defaultPathButton.Dock = DockStyle.Fill;
+            defaultPathButton.Margin = new Padding(0, 6, 0, 0);
+            defaultPathButton.Click += delegate { SetDefaultOutputPath(); };
+            outputPanel.Controls.Add(defaultPathButton, 2, 1);
+
+            var filePanel = new TableLayoutPanel();
+            filePanel.Dock = DockStyle.Fill;
+            filePanel.ColumnCount = 2;
+            filePanel.RowCount = 1;
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            filePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92));
+            root.Controls.Add(filePanel, 0, 3);
+
+            fileList = new CheckBoxOnlyCheckedListBox();
+            fileList.CheckOnClick = false;
+            fileList.Dock = DockStyle.Fill;
+            fileList.HorizontalScrollbar = true;
+            fileList.ItemCheck += delegate { BeginInvoke(new Action(UpdateFileSelectionStatus)); };
+            fileList.SelectedIndexChanged += delegate { UpdateFileMoveButtons(); };
+            filePanel.Controls.Add(fileList, 0, 0);
+
+            var fileOrderPanel = new FlowLayoutPanel();
+            fileOrderPanel.Dock = DockStyle.Fill;
+            fileOrderPanel.FlowDirection = FlowDirection.TopDown;
+            fileOrderPanel.WrapContents = false;
+            fileOrderPanel.Margin = new Padding(8, 0, 0, 0);
+            filePanel.Controls.Add(fileOrderPanel, 1, 0);
+
+            fileMoveUpButton = new Button();
+            fileMoveUpButton.Text = "▲ 위로";
+            fileMoveUpButton.Width = 82;
+            fileMoveUpButton.Height = 34;
+            fileMoveUpButton.Click += delegate { MoveSelectedFile(-1); };
+            fileOrderPanel.Controls.Add(fileMoveUpButton);
+
+            fileMoveDownButton = new Button();
+            fileMoveDownButton.Text = "▼ 아래로";
+            fileMoveDownButton.Width = 82;
+            fileMoveDownButton.Height = 34;
+            fileMoveDownButton.Click += delegate { MoveSelectedFile(1); };
+            fileOrderPanel.Controls.Add(fileMoveDownButton);
+
+            var pdfModePanel = new TableLayoutPanel();
+            pdfModePanel.Dock = DockStyle.Fill;
+            pdfModePanel.ColumnCount = 3;
+            pdfModePanel.RowCount = 1;
+            pdfModePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 260));
+            pdfModePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            pdfModePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 280));
+            pdfModePanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            root.Controls.Add(pdfModePanel, 0, 4);
+
+            mergeBox = new CheckBox();
+            mergeBox.Text = "통합된 하나의 PDF로 저장";
+            mergeBox.Checked = true;
+            mergeBox.AutoSize = true;
+            mergeBox.Margin = new Padding(0, 8, 0, 0);
+            mergeBox.CheckedChanged += delegate
+            {
+                mergedNameBox.Enabled = mergeBox.Checked;
+                mergedTypeBox.Enabled = mergeBox.Checked;
+            };
+            pdfModePanel.Controls.Add(mergeBox, 0, 0);
+
+            mergedNameBox = new TextBox();
+            mergedNameBox.Text = "통합_PDF";
+            mergedNameBox.Dock = DockStyle.Fill;
+            mergedNameBox.Margin = new Padding(0, 6, 8, 0);
+            pdfModePanel.Controls.Add(mergedNameBox, 1, 0);
+
+            mergedTypeBox = new ComboBox();
+            mergedTypeBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            mergedTypeBox.Items.Add("PDF (*.pdf)");
+            mergedTypeBox.SelectedIndex = 0;
+
+            saveEachBox = new CheckBox();
+            saveEachBox.Text = "선택옵션: 각각의 PDF도 저장";
+            saveEachBox.AutoSize = true;
+            saveEachBox.Margin = new Padding(0, 8, 0, 0);
+            pdfModePanel.Controls.Add(saveEachBox, 2, 0);
+
+            var convertPanel = new TableLayoutPanel();
+            convertPanel.Dock = DockStyle.Fill;
+            convertPanel.ColumnCount = 2;
+            convertPanel.RowCount = 1;
+            convertPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            convertPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170));
+            root.Controls.Add(convertPanel, 0, 5);
+
+            statusLabel = MakeLabel("대기 중");
+            statusLabel.Dock = DockStyle.Fill;
+            convertPanel.Controls.Add(statusLabel, 0, 0);
+
+            convertButton = new Button();
+            convertButton.Text = "PDF 변환 시작";
+            convertButton.Dock = DockStyle.Fill;
+            convertButton.Height = 38;
+            convertButton.Click += delegate { StartConvert(); };
+            convertPanel.Controls.Add(convertButton, 1, 0);
+
+            logBox = new TextBox();
+            logBox.Dock = DockStyle.Fill;
+            logBox.Multiline = true;
+            logBox.ScrollBars = ScrollBars.Vertical;
+            logBox.ReadOnly = true;
+            root.Controls.Add(logBox, 0, 6);
+
+            progressBar = new TextProgressBar();
+            progressBar.Dock = DockStyle.Fill;
+            root.Controls.Add(progressBar, 0, 7);
+
+            var footerPanel = new TableLayoutPanel();
+            footerPanel.Dock = DockStyle.Fill;
+            footerPanel.ColumnCount = 2;
+            footerPanel.RowCount = 1;
+            footerPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            footerPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
+            root.Controls.Add(footerPanel, 0, 8);
+
+            var footer = MakeLabel("네트워크 원본은 바탕화면 임시 폴더로 먼저 복사한 뒤 pywin32와 pypdf로 변환/병합합니다. 별도 PDF 프로그램은 사용하지 않습니다.");
+            footer.ForeColor = Color.DimGray;
+            footer.Dock = DockStyle.Fill;
+            footerPanel.Controls.Add(footer, 0, 0);
+
+            var makerLabel = MakeLabel("조경레저부");
+            makerLabel.ForeColor = Color.DimGray;
+            makerLabel.Font = new Font(Font, FontStyle.Bold);
+            makerLabel.TextAlign = ContentAlignment.MiddleRight;
+            makerLabel.Dock = DockStyle.Fill;
+            footerPanel.Controls.Add(makerLabel, 1, 0);
+        }
+
+        private static Label MakeLabel(string text)
+        {
+            return new Label
+            {
+                Text = text,
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Dock = DockStyle.Fill
+            };
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StopHwpAllowWatcher();
+            KillActiveChildProcesses();
+            if (currentJobStart != DateTime.MinValue)
+            {
+                CleanupTimedOutConverter("cleanup.pptx", currentJobStart);
+                CleanupTimedOutConverter("cleanup.docx", currentJobStart);
+                CleanupTimedOutConverter("cleanup.xlsx", currentJobStart);
+                CleanupTimedOutConverter("cleanup.hwp", currentJobStart);
+            }
+            CleanupActiveTempRoots();
+            CleanupOldTempFolders();
+        }
+
+        private void StartHwpAllowWatcher()
+        {
+            if (hwpAllowWatcherThread != null && hwpAllowWatcherThread.IsAlive)
+            {
+                return;
+            }
+
+            hwpAllowWatcherActive = true;
+            hwpAllowWatcherThread = new Thread(HwpAllowWatcherLoop);
+            hwpAllowWatcherThread.IsBackground = true;
+            hwpAllowWatcherThread.Name = "HwpAllowWatcher";
+            hwpAllowWatcherThread.Start();
+        }
+
+        private void StopHwpAllowWatcher()
+        {
+            hwpAllowWatcherActive = false;
+        }
+
+        private void HwpAllowWatcherLoop()
+        {
+            while (hwpAllowWatcherActive)
+            {
+                try
+                {
+                    ClickHwpAllowDialogs();
+                }
+                catch
+                {
+                }
+                Thread.Sleep(200);
+            }
+        }
+
+        private static void ClickHwpAllowDialogs()
+        {
+            EnumWindows(delegate(IntPtr window, IntPtr lParam)
+            {
+                if (!IsWindowVisible(window))
+                {
+                    return true;
+                }
+
+                string title = NormalizeWindowText(GetWindowText(window));
+                if (!title.Contains("한글") && !title.Contains("HWP") && !title.Contains("HANCOM"))
+                {
+                    return true;
+                }
+
+                IntPtr allAllowButton = IntPtr.Zero;
+                IntPtr allowButton = IntPtr.Zero;
+
+                EnumChildWindows(window, delegate(IntPtr child, IntPtr childParam)
+                {
+                    string text = NormalizeWindowText(GetWindowText(child));
+                    if (text.Contains("모두허용") || text.Contains("전체허용") || text.Contains("ALLOWALL"))
+                    {
+                        allAllowButton = child;
+                        return false;
+                    }
+
+                    if (allowButton == IntPtr.Zero && (text.Contains("접근허용") || text.Contains("허용") || text.Contains("ALLOW")))
+                    {
+                        allowButton = child;
+                    }
+
+                    return true;
+                }, IntPtr.Zero);
+
+                IntPtr target = allAllowButton != IntPtr.Zero ? allAllowButton : allowButton;
+                if (target != IntPtr.Zero)
+                {
+                    SetForegroundWindow(window);
+                    PostMessage(target, BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+                    Thread.Sleep(80);
+                    PostMessage(target, BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+                }
+
+                return true;
+            }, IntPtr.Zero);
+        }
+
+        private static string NormalizeWindowText(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return "";
+            }
+
+            var builder = new StringBuilder(value.Length);
+            foreach (char c in value)
+            {
+                if (!char.IsWhiteSpace(c) && c != '&' && c != '(' && c != ')' && c != '[' && c != ']')
+                {
+                    builder.Append(char.ToUpperInvariant(c));
+                }
+            }
+            return builder.ToString();
+        }
+
+        private static string GetWindowText(IntPtr handle)
+        {
+            int length = GetWindowTextLength(handle);
+            if (length <= 0)
+            {
+                return "";
+            }
+
+            var builder = new StringBuilder(length + 1);
+            GetWindowText(handle, builder, builder.Capacity);
+            return builder.ToString();
+        }
+
+        private static string EnsureHwpSecurityModuleRegistered()
+        {
+            string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PDF자동화");
+            Directory.CreateDirectory(dir);
+            string dllPath = Path.Combine(dir, "FilePathCheckerModuleExample.dll");
+
+            byte[] moduleBytes = ReadEmbeddedHwpSecurityModule();
+            if (moduleBytes.Length > 0)
+            {
+                bool writeDll = true;
+                try
+                {
+                    writeDll = !File.Exists(dllPath) || new FileInfo(dllPath).Length != moduleBytes.Length;
+                }
+                catch
+                {
+                    writeDll = true;
+                }
+
+                if (writeDll)
+                {
+                    File.WriteAllBytes(dllPath, moduleBytes);
+                }
+            }
+
+            if (!File.Exists(dllPath))
+            {
+                return "";
+            }
+
+            RegisterHwpSecurityModulePath(dllPath);
+            return dllPath;
+        }
+
+        private static byte[] ReadEmbeddedHwpSecurityModule()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            using (Stream stream = assembly.GetManifestResourceStream("FilePathCheckerModuleExample.dll"))
+            {
+                if (stream == null)
+                {
+                    return new byte[0];
+                }
+
+                using (var memory = new MemoryStream())
+                {
+                    stream.CopyTo(memory);
+                    return memory.ToArray();
+                }
+            }
+        }
+
+        private static void RegisterHwpSecurityModulePath(string dllPath)
+        {
+            string[] keyPaths =
+            {
+                @"Software\HNC\HwpAutomation\Modules",
+                @"Software\HNC\HwpCtrl\Modules"
+            };
+
+            foreach (string keyPath in keyPaths)
+            {
+                using (RegistryKey key = Registry.CurrentUser.CreateSubKey(keyPath))
+                {
+                    if (key == null)
+                    {
+                        continue;
+                    }
+
+                    key.SetValue("FilePathCheckerModuleExample", dllPath, RegistryValueKind.String);
+                    key.SetValue("FilePathCheckerModule", dllPath, RegistryValueKind.String);
+                }
+            }
+        }
+
+        private void RegisterTempRoot(string path)
+        {
+            lock (cleanupLock)
+            {
+                if (!activeTempRoots.Contains(path))
+                {
+                    activeTempRoots.Add(path);
+                }
+            }
+        }
+
+        private void UnregisterTempRoot(string path)
+        {
+            lock (cleanupLock)
+            {
+                activeTempRoots.Remove(path);
+            }
+        }
+
+        private void CleanupActiveTempRoots()
+        {
+            List<string> roots;
+            lock (cleanupLock)
+            {
+                roots = new List<string>(activeTempRoots);
+            }
+
+            foreach (string root in roots)
+            {
+                TryDeleteDirectory(root);
+            }
+        }
+
+        private static void CleanupOldTempFolders()
+        {
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            if (string.IsNullOrWhiteSpace(desktop) || !Directory.Exists(desktop))
+            {
+                return;
+            }
+
+            foreach (string dir in Directory.GetDirectories(desktop, "PDF자동화_임시_*", SearchOption.TopDirectoryOnly))
+            {
+                TryDeleteDirectory(dir);
+            }
+        }
+
+        private static void TryDeleteDirectory(string dir)
+        {
+            try
+            {
+                if (Directory.Exists(dir))
+                {
+                    Directory.Delete(dir, true);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void RegisterChildProcess(Process process)
+        {
+            lock (cleanupLock)
+            {
+                if (!activeChildProcesses.Contains(process))
+                {
+                    activeChildProcesses.Add(process);
+                }
+            }
+        }
+
+        private void UnregisterChildProcess(Process process)
+        {
+            lock (cleanupLock)
+            {
+                activeChildProcesses.Remove(process);
+            }
+        }
+
+        private void KillActiveChildProcesses()
+        {
+            List<Process> processes;
+            lock (cleanupLock)
+            {
+                processes = new List<Process>(activeChildProcesses);
+            }
+
+            foreach (Process process in processes)
+            {
+                try
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                    }
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+        private const int BM_CLICK = 0x00F5;
+
+        [DllImport("user32.dll")]
+        private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        private static extern bool EnumChildWindows(IntPtr hWndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        private static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool PostMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        private void BrowseFile()
+        {
+            using (var dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "지원 파일|*.hwp;*.hwpx;*.ppt;*.pptx;*.pptm;*.pps;*.ppsx;*.pot;*.potx;*.potm;*.doc;*.docx;*.docm;*.rtf;*.xls;*.xlsx;*.xlsm;*.xlsb;*.xlt;*.xltx;*.xltm;*.csv;*.pdf;*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.tif;*.tiff;*.webp|모든 파일|*.*";
+                dialog.Multiselect = false;
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    sourcePathBox.Text = dialog.FileName;
+                }
+            }
+        }
+
+        private void BrowseFolder(TextBox target)
+        {
+            using (var dialog = new FolderBrowserDialog())
+            {
+                if (Directory.Exists(target.Text))
+                {
+                    dialog.SelectedPath = target.Text;
+                }
+                else
+                {
+                    string fallback = GetSourceDirectory();
+                    if (Directory.Exists(fallback))
+                    {
+                        dialog.SelectedPath = fallback;
+                    }
+                }
+
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    target.Text = dialog.SelectedPath;
+                }
+            }
+        }
+
+        private void SourcePathChanged()
+        {
+            SetDefaultOutputPath();
+            SuggestMergedFileName();
+            RefreshFileList();
+        }
+
+        private void SetDefaultOutputPath()
+        {
+            string dir = GetSourceDirectory();
+            if (!string.IsNullOrWhiteSpace(dir))
+            {
+                outputPathBox.Text = dir;
+            }
+        }
+
+        private string GetSourceDirectory()
+        {
+            string path = sourcePathBox.Text.Trim().Trim('"');
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return "";
+            }
+
+            if (File.Exists(path))
+            {
+                return Path.GetDirectoryName(path);
+            }
+
+            if (Directory.Exists(path))
+            {
+                return path;
+            }
+
+            try
+            {
+                string dir = Path.GetDirectoryName(path);
+                if (!string.IsNullOrWhiteSpace(dir))
+                {
+                    return dir;
+                }
+            }
+            catch
+            {
+            }
+
+            return "";
+        }
+
+        private void SuggestMergedFileName()
+        {
+            string path = sourcePathBox.Text.Trim().Trim('"');
+            string baseName = "통합_PDF";
+            try
+            {
+                if (File.Exists(path))
+                {
+                    baseName = Path.GetFileNameWithoutExtension(path) + "_통합";
+                }
+                else if (Directory.Exists(path))
+                {
+                    baseName = new DirectoryInfo(path).Name + "_통합";
+                }
+            }
+            catch
+            {
+            }
+
+            mergedNameBox.Text = CleanFileName(RemovePdfExtension(baseName));
+        }
+
+        private void RefreshFileList()
+        {
+            currentFiles.Clear();
+            fileList.Items.Clear();
+            string path = sourcePathBox.Text.Trim().Trim('"');
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                statusLabel.Text = "원본 경로를 입력하세요.";
+                return;
+            }
+
+            var selectedExtensions = GetSelectedExtensions();
+            if (selectedExtensions.Count == 0)
+            {
+                statusLabel.Text = "파일 종류를 하나 이상 선택하세요.";
+                return;
+            }
+
+            try
+            {
+                if (File.Exists(path))
+                {
+                    string ext = Path.GetExtension(path).ToLowerInvariant();
+                    if (selectedExtensions.Contains(ext))
+                    {
+                        currentFiles.Add(path);
+                    }
+                }
+                else if (Directory.Exists(path))
+                {
+                    foreach (string file in EnumerateFilesSafe(path, includeSubfoldersBox.Checked))
+                    {
+                        string ext = Path.GetExtension(file).ToLowerInvariant();
+                        if (selectedExtensions.Contains(ext))
+                        {
+                            currentFiles.Add(file);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendLog("파일 목록 확인 실패: " + ex.Message);
+            }
+
+            currentFiles.Sort(StringComparer.CurrentCultureIgnoreCase);
+            foreach (string file in currentFiles)
+            {
+                fileList.Items.Add(new FileListEntry(file), true);
+            }
+
+            UpdateFileSelectionStatus();
+            UpdateFileMoveButtons();
+        }
+
+        private void UpdateFileSelectionStatus()
+        {
+            int checkedCount = 0;
+            for (int i = 0; i < fileList.Items.Count; i++)
+            {
+                if (fileList.GetItemChecked(i))
+                {
+                    checkedCount++;
+                }
+            }
+            statusLabel.Text = checkedCount + "/" + fileList.Items.Count + "개 파일 선택됨";
+        }
+
+        private void UpdateFileMoveButtons()
+        {
+            int index = fileList.SelectedIndex;
+            fileMoveUpButton.Enabled = index > 0;
+            fileMoveDownButton.Enabled = index >= 0 && index < fileList.Items.Count - 1;
+        }
+
+        private void MoveSelectedFile(int direction)
+        {
+            int index = fileList.SelectedIndex;
+            if (index < 0)
+            {
+                return;
+            }
+
+            int newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= fileList.Items.Count)
+            {
+                return;
+            }
+
+            object item = fileList.Items[index];
+            CheckState state = fileList.GetItemCheckState(index);
+            fileList.Items.RemoveAt(index);
+            fileList.Items.Insert(newIndex, item);
+            fileList.SetItemCheckState(newIndex, state);
+            fileList.SelectedIndex = newIndex;
+            SyncCurrentFilesFromList();
+            UpdateFileSelectionStatus();
+            UpdateFileMoveButtons();
+        }
+
+        private void SyncCurrentFilesFromList()
+        {
+            currentFiles.Clear();
+            foreach (object item in fileList.Items)
+            {
+                FileListEntry entry = item as FileListEntry;
+                if (entry != null && !string.IsNullOrWhiteSpace(entry.FullPath))
+                {
+                    currentFiles.Add(entry.FullPath);
+                }
+            }
+        }
+
+        private List<string> GetCheckedFilesFromList()
+        {
+            var files = new List<string>();
+            for (int i = 0; i < fileList.Items.Count; i++)
+            {
+                if (fileList.GetItemChecked(i))
+                {
+                    FileListEntry entry = fileList.Items[i] as FileListEntry;
+                    if (entry != null && !string.IsNullOrWhiteSpace(entry.FullPath))
+                    {
+                        files.Add(entry.FullPath);
+                    }
+                }
+            }
+            return files;
+        }
+
+        private static IEnumerable<string> EnumerateFilesSafe(string root, bool recursive)
+        {
+            var stack = new Stack<string>();
+            stack.Push(root);
+
+            while (stack.Count > 0)
+            {
+                string dir = stack.Pop();
+                string[] files = new string[0];
+                try { files = Directory.GetFiles(dir); } catch { }
+                foreach (string file in files)
+                {
+                    yield return file;
+                }
+
+                if (!recursive)
+                {
+                    continue;
+                }
+
+                string[] dirs = new string[0];
+                try { dirs = Directory.GetDirectories(dir); } catch { }
+                foreach (string subdir in dirs)
+                {
+                    stack.Push(subdir);
+                }
+            }
+        }
+
+        private HashSet<string> GetSelectedExtensions()
+        {
+            var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            for (int i = 0; i < kinds.Count; i++)
+            {
+                if (typeList.GetItemChecked(i))
+                {
+                    foreach (string ext in kinds[i].Extensions)
+                    {
+                        set.Add(ext);
+                    }
+                }
+            }
+            return set;
+        }
+
+        private void StartConvert()
+        {
+            if (fileList.Items.Count == 0)
+            {
+                RefreshFileList();
+            }
+
+            List<string> selectedFiles = GetCheckedFilesFromList();
+            if (selectedFiles.Count == 0)
+            {
+                MessageBox.Show(this, "변환할 파일을 체크해 주세요.", "PDF자동화", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (!mergeBox.Checked && !saveEachBox.Checked)
+            {
+                MessageBox.Show(this, "통합 PDF 또는 각각의 PDF 저장 중 하나 이상을 선택하세요.", "PDF자동화", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string outputDir = outputPathBox.Text.Trim().Trim('"');
+            if (string.IsNullOrWhiteSpace(outputDir))
+            {
+                MessageBox.Show(this, "PDF 저장 경로를 입력하세요.", "PDF자동화", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "저장 경로를 만들 수 없습니다.\r\n" + ex.Message, "PDF자동화", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string mergedName = CleanFileName(RemovePdfExtension(mergedNameBox.Text.Trim()));
+            if (string.IsNullOrWhiteSpace(mergedName))
+            {
+                mergedName = "통합_PDF";
+            }
+
+            var job = new ConvertJob
+            {
+                Files = selectedFiles,
+                OutputDirectory = outputDir,
+                Merge = mergeBox.Checked,
+                SaveEach = saveEachBox.Checked,
+                MergedFileName = mergedName + ".pdf"
+            };
+
+            convertButton.Enabled = false;
+            refreshButton.Enabled = false;
+            progressBar.Minimum = 0;
+            progressBar.Maximum = Math.Max(1, job.Files.Count * 2 + (job.Merge ? 1 : 0));
+            progressBar.Value = 0;
+            currentJobStart = DateTime.Now;
+            StartHwpAllowWatcher();
+            jobTimer = Stopwatch.StartNew();
+            progressBar.BarText = BuildProgressText(0, progressBar.Maximum);
+            logBox.Clear();
+            try
+            {
+                hwpSecurityModulePath = EnsureHwpSecurityModuleRegistered();
+                if (!string.IsNullOrWhiteSpace(hwpSecurityModulePath))
+                {
+                    AppendLog("한글 보안모듈 등록 완료: " + hwpSecurityModulePath);
+                }
+                else
+                {
+                    AppendLog("한글 보안모듈 DLL을 찾지 못했습니다. 경고창 자동 클릭 보조 기능을 사용합니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendLog("한글 보안모듈 등록 실패: " + ex.Message);
+            }
+            AppendLog("변환을 시작합니다.");
+
+            var worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += delegate(object sender, DoWorkEventArgs e)
+            {
+                e.Result = RunJob(job, (BackgroundWorker)sender);
+            };
+            worker.ProgressChanged += delegate(object sender, ProgressChangedEventArgs e)
+            {
+                progressBar.Value = Math.Min(progressBar.Maximum, Math.Max(progressBar.Minimum, e.ProgressPercentage));
+                progressBar.BarText = BuildProgressText(progressBar.Value, progressBar.Maximum);
+                string message = e.UserState as string;
+                if (!string.IsNullOrEmpty(message))
+                {
+                    AppendLog(message);
+                    statusLabel.Text = message;
+                }
+            };
+            worker.RunWorkerCompleted += delegate(object sender, RunWorkerCompletedEventArgs e)
+            {
+                convertButton.Enabled = true;
+                refreshButton.Enabled = true;
+                if (jobTimer != null)
+                {
+                    jobTimer.Stop();
+                }
+                StopHwpAllowWatcher();
+                currentJobStart = DateTime.MinValue;
+                if (e.Error != null)
+                {
+                    progressBar.BarText = "실패 · 경과 " + FormatDuration(jobTimer == null ? TimeSpan.Zero : jobTimer.Elapsed);
+                    AppendLog("실패: " + e.Error.Message);
+                    statusLabel.Text = "실패";
+                    MessageBox.Show(this, e.Error.Message, "PDF자동화", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    var result = (JobResult)e.Result;
+                    AppendLog("완료: " + result.SuccessCount + "개 처리, " + result.FailCount + "개 실패");
+                    if (!string.IsNullOrEmpty(result.MergedFile))
+                    {
+                        AppendLog("통합 PDF: " + result.MergedFile);
+                    }
+                    progressBar.Value = progressBar.Maximum;
+                    if (result.FailCount > 0)
+                    {
+                        statusLabel.Text = "완료(실패 있음)";
+                        progressBar.BarText = "완료(실패 있음) · 총 " + FormatDuration(jobTimer == null ? TimeSpan.Zero : jobTimer.Elapsed);
+                        MessageBox.Show(this, "PDF 변환이 끝났지만 실패한 파일이 있습니다. 오류 설명을 확인해 주세요.", "PDF자동화", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        statusLabel.Text = "완료";
+                        progressBar.BarText = "완료 · 총 " + FormatDuration(jobTimer == null ? TimeSpan.Zero : jobTimer.Elapsed);
+                        MessageBox.Show(this, "PDF 변환이 완료되었습니다.", "PDF자동화", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            };
+            worker.RunWorkerAsync();
+        }
+
+        private JobResult RunJob(ConvertJob job, BackgroundWorker worker)
+        {
+            var result = new JobResult();
+            var generatedPdfs = new List<string>();
+            var localFiles = new List<LocalFileMap>();
+            var convertItems = new List<BatchConvertItem>();
+            string tempRoot = CreateLocalTempRoot();
+            RegisterTempRoot(tempRoot);
+            string inputDir = Path.Combine(tempRoot, "01_source_copy");
+            string workPdfDir = Path.Combine(tempRoot, "02_converted_pdf");
+            string mergedDir = Path.Combine(tempRoot, "03_merged_pdf");
+            Directory.CreateDirectory(inputDir);
+            Directory.CreateDirectory(workPdfDir);
+            Directory.CreateDirectory(mergedDir);
+
+            string helperScript = Path.Combine(tempRoot, "pdfautomation_helper.py");
+            File.WriteAllText(helperScript, HelperScript, new UTF8Encoding(false));
+
+            int step = 0;
+            try
+            {
+                worker.ReportProgress(step, "로컬 임시 폴더 생성: " + tempRoot);
+
+                for (int i = 0; i < job.Files.Count; i++)
+                {
+                    string original = job.Files[i];
+                    string local = UniquePath(Path.Combine(inputDir, CleanFileName(Path.GetFileNameWithoutExtension(original)) + Path.GetExtension(original)));
+                    worker.ReportProgress(step, "로컬 복사 중: " + Path.GetFileName(original));
+                    File.Copy(original, local, true);
+                    localFiles.Add(new LocalFileMap(original, local));
+                    step++;
+                    worker.ReportProgress(step, "로컬 복사 완료: " + Path.GetFileName(original));
+                }
+
+                foreach (LocalFileMap item in localFiles)
+                {
+                    string localPdf = UniquePath(Path.Combine(workPdfDir, item.BaseName + ".pdf"));
+                    if (item.Extension == ".pdf")
+                    {
+                        try
+                        {
+                            File.Copy(item.LocalPath, localPdf, true);
+                            generatedPdfs.Add(localPdf);
+                            if (job.SaveEach)
+                            {
+                                string eachFile = SaveEachPdf(localPdf, job.OutputDirectory, item.BaseName, item.OriginalPath, true);
+                                result.IndividualFiles.Add(eachFile);
+                            }
+                            result.SuccessCount++;
+                            step++;
+                            worker.ReportProgress(step, "PDF 원본 준비 완료: " + Path.GetFileName(item.OriginalPath));
+                        }
+                        catch (Exception ex)
+                        {
+                            result.FailCount++;
+                            step++;
+                            worker.ReportProgress(step, "실패: " + Path.GetFileName(item.OriginalPath) + " - " + ex.Message);
+                        }
+                    }
+                    else
+                    {
+                        convertItems.Add(new BatchConvertItem(item, localPdf));
+                    }
+                }
+
+                if (convertItems.Count > 0)
+                {
+                    List<BatchOutcome> outcomes = RunBatchesWithTimeout(helperScript, tempRoot, convertItems, worker, step);
+                    foreach (BatchOutcome outcome in outcomes)
+                    {
+                        BatchConvertItem item = FindBatchItem(convertItems, outcome.InputPath);
+                        if (outcome.Success)
+                        {
+                            if (!File.Exists(outcome.OutputPath) || new FileInfo(outcome.OutputPath).Length == 0)
+                            {
+                                result.FailCount++;
+                                worker.ReportProgress(++step, "실패: " + Path.GetFileName(item.Map.OriginalPath) + " - PDF 파일이 생성되지 않았습니다.");
+                                continue;
+                            }
+
+                            generatedPdfs.Add(outcome.OutputPath);
+                            if (job.SaveEach)
+                            {
+                                string eachFile = SaveEachPdf(outcome.OutputPath, job.OutputDirectory, item.Map.BaseName, item.Map.OriginalPath, false);
+                                result.IndividualFiles.Add(eachFile);
+                            }
+                            result.SuccessCount++;
+                            worker.ReportProgress(++step, "처리 완료: " + Path.GetFileName(item.Map.OriginalPath));
+                        }
+                        else
+                        {
+                            result.FailCount++;
+                            worker.ReportProgress(++step, "실패: " + Path.GetFileName(item.Map.OriginalPath) + " - " + outcome.Error);
+                        }
+                    }
+                }
+
+                if (job.Merge && generatedPdfs.Count > 0)
+                {
+                    string localMerged = Path.Combine(mergedDir, job.MergedFileName);
+                    worker.ReportProgress(step, "통합 PDF 작성 중");
+                    var args = new List<string>();
+                    args.Add("merge");
+                    args.Add(localMerged);
+                    args.AddRange(generatedPdfs);
+                    RunPythonHelper(helperScript, args.ToArray());
+
+                    string finalMerged = UniquePath(Path.Combine(job.OutputDirectory, job.MergedFileName));
+                    File.Copy(localMerged, finalMerged, true);
+                    result.MergedFile = finalMerged;
+                    step++;
+                    worker.ReportProgress(step, "통합 PDF 완료: " + Path.GetFileName(finalMerged));
+                }
+            }
+            finally
+            {
+                try
+                {
+                    Directory.Delete(tempRoot, true);
+                }
+                catch
+                {
+                }
+                UnregisterTempRoot(tempRoot);
+            }
+
+            return result;
+        }
+
+        private static void WriteManifest(string manifestPath, List<BatchConvertItem> items)
+        {
+            var builder = new StringBuilder();
+            foreach (BatchConvertItem item in items)
+            {
+                builder.Append(EncodePath(item.Map.LocalPath));
+                builder.Append('\t');
+                builder.Append(EncodePath(item.OutputPath));
+                builder.AppendLine();
+            }
+            File.WriteAllText(manifestPath, builder.ToString(), new UTF8Encoding(false));
+        }
+
+        private static BatchConvertItem FindBatchItem(List<BatchConvertItem> items, string inputPath)
+        {
+            foreach (BatchConvertItem item in items)
+            {
+                if (SamePath(item.Map.LocalPath, inputPath))
+                {
+                    return item;
+                }
+            }
+            return items[0];
+        }
+
+        private List<BatchOutcome> RunBatchesWithTimeout(string helperScript, string tempRoot, List<BatchConvertItem> items, BackgroundWorker worker, int startStep)
+        {
+            var outcomes = new List<BatchOutcome>();
+            var pending = new List<BatchConvertItem>(items);
+            int attempt = 1;
+
+            while (pending.Count > 0)
+            {
+                int timeoutSeconds = GetBatchTimeoutSeconds(pending);
+                string manifest = Path.Combine(tempRoot, "convert_manifest_" + attempt + ".tsv");
+                WriteManifest(manifest, pending);
+                worker.ReportProgress(startStep + outcomes.Count, "배치 변환 시작: " + pending.Count + "개 파일 (제한 " + FormatDuration(TimeSpan.FromSeconds(timeoutSeconds)) + ")");
+
+                BatchRunResult run = RunPythonBatchConvert(helperScript, manifest, worker, startStep + outcomes.Count, timeoutSeconds);
+                foreach (BatchOutcome outcome in run.Outcomes)
+                {
+                    outcomes.Add(outcome);
+                }
+
+                RemoveCompletedItems(pending, run.Outcomes);
+
+                if (!string.IsNullOrWhiteSpace(run.TimedOutInput))
+                {
+                    BatchConvertItem timedOutItem = FindBatchItem(pending, run.TimedOutInput);
+                    outcomes.Add(new BatchOutcome
+                    {
+                        Success = false,
+                        InputPath = timedOutItem.Map.LocalPath,
+                        OutputPath = "",
+                        Error = timeoutSeconds + "초 동안 응답이 없어 건너뜀"
+                    });
+                    RemoveOneItem(pending, timedOutItem.Map.LocalPath);
+                    worker.ReportProgress(startStep + outcomes.Count, "시간 초과로 건너뜀: " + Path.GetFileName(timedOutItem.Map.OriginalPath));
+                }
+                else
+                {
+                    break;
+                }
+
+                attempt++;
+            }
+
+            return outcomes;
+        }
+
+        private static int GetBatchTimeoutSeconds(List<BatchConvertItem> items)
+        {
+            int seconds = 300;
+            foreach (BatchConvertItem item in items)
+            {
+                string ext = item.Map.Extension;
+                long length = 0;
+                try
+                {
+                    length = new FileInfo(item.Map.LocalPath).Length;
+                }
+                catch
+                {
+                }
+
+                if (ext == ".hwp" || ext == ".hwpx")
+                {
+                    seconds = Math.Max(seconds, length >= 50L * 1024L * 1024L ? 1800 : 900);
+                }
+                else if (ext == ".ppt" || ext == ".pptx" || ext == ".pptm" || ext == ".pps" || ext == ".ppsx" || ext == ".pot" || ext == ".potx" || ext == ".potm")
+                {
+                    seconds = Math.Max(seconds, 600);
+                }
+            }
+            return seconds;
+        }
+
+        private static void RemoveCompletedItems(List<BatchConvertItem> pending, List<BatchOutcome> outcomes)
+        {
+            foreach (BatchOutcome outcome in outcomes)
+            {
+                RemoveOneItem(pending, outcome.InputPath);
+            }
+        }
+
+        private static void RemoveOneItem(List<BatchConvertItem> pending, string inputPath)
+        {
+            for (int i = pending.Count - 1; i >= 0; i--)
+            {
+                if (SamePath(pending[i].Map.LocalPath, inputPath))
+                {
+                    pending.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        private BatchRunResult RunPythonBatchConvert(string helperScript, string manifestPath, BackgroundWorker worker, int startStep, int timeoutSeconds)
+        {
+            string python = FindPython();
+            if (string.IsNullOrEmpty(python))
+            {
+                throw new InvalidOperationException("Python 실행 파일을 찾을 수 없습니다.");
+            }
+
+            var result = new BatchRunResult();
+            var command = new StringBuilder();
+            command.Append(QuoteArgument(helperScript));
+            command.Append(" ");
+            command.Append(QuoteArgument("batch_convert"));
+            command.Append(" ");
+            command.Append(QuoteArgument(manifestPath));
+
+            var psi = new ProcessStartInfo(python, command.ToString());
+            psi.UseShellExecute = false;
+            psi.RedirectStandardOutput = true;
+            psi.RedirectStandardError = true;
+            psi.CreateNoWindow = true;
+
+            var stderr = new StringBuilder();
+            var sync = new object();
+            string currentInput = "";
+            DateTime currentStart = DateTime.MinValue;
+            bool timedOut = false;
+            DateTime batchStart = DateTime.Now;
+
+            using (var process = new Process())
+            {
+                process.StartInfo = psi;
+                process.OutputDataReceived += delegate(object sender, DataReceivedEventArgs e)
+                {
+                    if (string.IsNullOrEmpty(e.Data))
+                    {
+                        return;
+                    }
+
+                    BatchBegin begin = ParseBatchBegin(e.Data);
+                    if (begin != null)
+                    {
+                        lock (sync)
+                        {
+                            currentInput = begin.InputPath;
+                            currentStart = DateTime.Now;
+                        }
+                        worker.ReportProgress(startStep + result.Outcomes.Count, "변환 중: " + Path.GetFileName(begin.InputPath));
+                        return;
+                    }
+
+                    BatchOutcome outcome = ParseBatchOutcome(e.Data);
+                    if (outcome == null)
+                    {
+                        return;
+                    }
+
+                    lock (sync)
+                    {
+                        result.Outcomes.Add(outcome);
+                        currentInput = "";
+                        currentStart = DateTime.MinValue;
+                    }
+
+                    string fileName = Path.GetFileName(outcome.InputPath);
+                    string message = outcome.Success ? "배치 변환 완료: " + fileName : "배치 변환 실패: " + fileName;
+                    worker.ReportProgress(startStep + result.Outcomes.Count, message);
+                };
+                process.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs e)
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        stderr.AppendLine(e.Data);
+                    }
+                };
+
+                process.Start();
+                RegisterChildProcess(process);
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                while (!process.WaitForExit(1000))
+                {
+                    string watchedInput;
+                    DateTime watchedStart;
+                    lock (sync)
+                    {
+                        watchedInput = currentInput;
+                        watchedStart = currentStart;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(watchedInput) &&
+                        watchedStart != DateTime.MinValue &&
+                        (DateTime.Now - watchedStart).TotalSeconds > timeoutSeconds)
+                    {
+                        timedOut = true;
+                        result.TimedOutInput = watchedInput;
+                        try { process.Kill(); } catch { }
+                        CleanupTimedOutConverter(watchedInput, batchStart);
+                        break;
+                    }
+                }
+
+                try { process.WaitForExit(); } catch { }
+                try { process.CancelOutputRead(); } catch { }
+                try { process.CancelErrorRead(); } catch { }
+                UnregisterChildProcess(process);
+
+                if (!timedOut && process.ExitCode != 0)
+                {
+                    string detail = stderr.ToString().Trim();
+                    if (string.IsNullOrWhiteSpace(detail))
+                    {
+                        detail = "Python helper가 오류 코드 " + process.ExitCode + "로 종료되었습니다.";
+                    }
+                    throw new InvalidOperationException(detail);
+                }
+            }
+
+            return result;
+        }
+
+        private static void CleanupTimedOutConverter(string inputPath, DateTime batchStart)
+        {
+            string ext = Path.GetExtension(inputPath).ToLowerInvariant();
+            string[] processNames;
+            if (ext == ".ppt" || ext == ".pptx" || ext == ".pptm" || ext == ".pps" || ext == ".ppsx" || ext == ".pot" || ext == ".potx" || ext == ".potm")
+            {
+                processNames = new[] { "POWERPNT" };
+            }
+            else if (ext == ".doc" || ext == ".docx" || ext == ".docm" || ext == ".rtf")
+            {
+                processNames = new[] { "WINWORD" };
+            }
+            else if (ext == ".xls" || ext == ".xlsx" || ext == ".xlsm" || ext == ".xlsb" || ext == ".xlt" || ext == ".xltx" || ext == ".xltm" || ext == ".csv")
+            {
+                processNames = new[] { "EXCEL" };
+            }
+            else if (ext == ".hwp" || ext == ".hwpx")
+            {
+                processNames = new[] { "Hwp" };
+            }
+            else
+            {
+                return;
+            }
+
+            foreach (string processName in processNames)
+            {
+                foreach (Process process in Process.GetProcessesByName(processName))
+                {
+                    try
+                    {
+                        if (process.StartTime >= batchStart.AddSeconds(-5))
+                        {
+                            process.Kill();
+                        }
+                    }
+                    catch
+                    {
+                    }
+                    finally
+                    {
+                        try { process.Dispose(); } catch { }
+                    }
+                }
+            }
+        }
+
+        private static BatchBegin ParseBatchBegin(string line)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                return null;
+            }
+
+            string[] parts = line.Split(new[] { '\t' }, 3);
+            if (parts.Length < 3 || parts[0] != "BEGIN")
+            {
+                return null;
+            }
+
+            return new BatchBegin
+            {
+                InputPath = DecodePath(parts[1]),
+                OutputPath = DecodePath(parts[2])
+            };
+        }
+
+        private static BatchOutcome ParseBatchOutcome(string line)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                return null;
+            }
+
+            string[] parts = line.Split(new[] { '\t' }, 3);
+            if (parts.Length < 3)
+            {
+                return null;
+            }
+
+            if (parts[0] == "OK")
+            {
+                return new BatchOutcome
+                {
+                    Success = true,
+                    InputPath = DecodePath(parts[1]),
+                    OutputPath = DecodePath(parts[2]),
+                    Error = ""
+                };
+            }
+
+            if (parts[0] == "FAIL")
+            {
+                return new BatchOutcome
+                {
+                    Success = false,
+                    InputPath = DecodePath(parts[1]),
+                    OutputPath = "",
+                    Error = DecodePath(parts[2])
+                };
+            }
+
+            return null;
+        }
+
+        private static string EncodePath(string value)
+        {
+            return global::System.Convert.ToBase64String(Encoding.UTF8.GetBytes(value ?? ""));
+        }
+
+        private static string DecodePath(string value)
+        {
+            return Encoding.UTF8.GetString(global::System.Convert.FromBase64String(value));
+        }
+
+        private string BuildProgressText(int value, int maximum)
+        {
+            TimeSpan elapsed = jobTimer == null ? TimeSpan.Zero : jobTimer.Elapsed;
+            if (maximum <= 0)
+            {
+                maximum = 1;
+            }
+
+            if (value <= 0 || elapsed.TotalSeconds < 1)
+            {
+                return value + "/" + maximum + " · 경과 " + FormatDuration(elapsed) + " · 남은 시간 계산 중";
+            }
+
+            if (value >= maximum)
+            {
+                return maximum + "/" + maximum + " · 경과 " + FormatDuration(elapsed) + " · 남은 00:00:00";
+            }
+
+            double secondsPerStep = elapsed.TotalSeconds / value;
+            double remainingSeconds = secondsPerStep * (maximum - value);
+            return value + "/" + maximum + " · 경과 " + FormatDuration(elapsed) + " · 예상 남은 " + FormatDuration(TimeSpan.FromSeconds(remainingSeconds));
+        }
+
+        private static string FormatDuration(TimeSpan value)
+        {
+            if (value.TotalHours >= 100)
+            {
+                return ((int)value.TotalHours).ToString("000") + ":" + value.Minutes.ToString("00") + ":" + value.Seconds.ToString("00");
+            }
+            return ((int)value.TotalHours).ToString("00") + ":" + value.Minutes.ToString("00") + ":" + value.Seconds.ToString("00");
+        }
+
+        private static string SaveEachPdf(string localPdf, string outputDir, string baseName, string originalPath, bool originalIsPdf)
+        {
+            string target = Path.Combine(outputDir, baseName + ".pdf");
+
+            if (originalIsPdf && SamePath(target, originalPath))
+            {
+                return originalPath;
+            }
+
+            target = UniquePath(target);
+            File.Copy(localPdf, target, true);
+            return target;
+        }
+
+        private static bool SamePath(string left, string right)
+        {
+            try
+            {
+                return string.Equals(Path.GetFullPath(left).TrimEnd('\\'), Path.GetFullPath(right).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return string.Equals(left, right, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        private static string CreateLocalTempRoot()
+        {
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            if (string.IsNullOrWhiteSpace(desktop) || !Directory.Exists(desktop))
+            {
+                desktop = Path.GetTempPath();
+            }
+
+            string folderName = "PDF자동화_임시_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + Guid.NewGuid().ToString("N").Substring(0, 8);
+            string root = Path.Combine(desktop, folderName);
+            Directory.CreateDirectory(root);
+            return root;
+        }
+
+        private void RunPythonHelper(string helperScript, string[] args)
+        {
+            string python = FindPython();
+            if (string.IsNullOrEmpty(python))
+            {
+                throw new InvalidOperationException("Python 실행 파일을 찾을 수 없습니다.");
+            }
+
+            var command = new StringBuilder();
+            command.Append(QuoteArgument(helperScript));
+            foreach (string arg in args)
+            {
+                command.Append(" ");
+                command.Append(QuoteArgument(arg));
+            }
+
+            var psi = new ProcessStartInfo(python, command.ToString());
+            psi.UseShellExecute = false;
+            psi.RedirectStandardOutput = true;
+            psi.RedirectStandardError = true;
+            psi.CreateNoWindow = true;
+
+            using (var process = Process.Start(psi))
+            {
+                RegisterChildProcess(process);
+                try
+                {
+                    string stdout = process.StandardOutput.ReadToEnd();
+                    string stderr = process.StandardError.ReadToEnd();
+                    process.WaitForExit();
+                    if (process.ExitCode != 0)
+                    {
+                        string detail = (stderr + Environment.NewLine + stdout).Trim();
+                        if (string.IsNullOrWhiteSpace(detail))
+                        {
+                            detail = "Python helper가 오류 코드 " + process.ExitCode + "로 종료되었습니다.";
+                        }
+                        throw new InvalidOperationException(detail);
+                    }
+                }
+                finally
+                {
+                    UnregisterChildProcess(process);
+                }
+            }
+        }
+
+        private static string FindPython()
+        {
+            string python = FindOnPath("python.exe");
+            if (!string.IsNullOrEmpty(python))
+            {
+                return python;
+            }
+
+            python = FindOnPath("py.exe");
+            if (!string.IsNullOrEmpty(python))
+            {
+                return python;
+            }
+
+            string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            if (!string.IsNullOrWhiteSpace(localAppData))
+            {
+                string programs = Path.Combine(localAppData, "Programs", "Python");
+                if (Directory.Exists(programs))
+                {
+                    foreach (string candidate in Directory.GetFiles(programs, "python.exe", SearchOption.AllDirectories))
+                    {
+                        return candidate;
+                    }
+                }
+            }
+
+            return "";
+        }
+
+        private static string FindOnPath(string exe)
+        {
+            string path = Environment.GetEnvironmentVariable("PATH") ?? "";
+            foreach (string dir in path.Split(Path.PathSeparator))
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(dir)) continue;
+                    string candidate = Path.Combine(dir.Trim(), exe);
+                    if (File.Exists(candidate))
+                    {
+                        return candidate;
+                    }
+                }
+                catch
+                {
+                }
+            }
+            return "";
+        }
+
+        private static string UniquePath(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return path;
+            }
+
+            string dir = Path.GetDirectoryName(path);
+            string name = Path.GetFileNameWithoutExtension(path);
+            string ext = Path.GetExtension(path);
+            int index = 2;
+            while (true)
+            {
+                string candidate = Path.Combine(dir, name + "_" + index + ext);
+                if (!File.Exists(candidate))
+                {
+                    return candidate;
+                }
+                index++;
+            }
+        }
+
+        private static string CleanFileName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return "PDF";
+            }
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                name = name.Replace(c, '_');
+            }
+            return name.Trim();
+        }
+
+        private static string RemovePdfExtension(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return "";
+            }
+            return name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase) ? name.Substring(0, name.Length - 4) : name;
+        }
+
+        private static string QuoteArgument(string value)
+        {
+            if (value == null)
+            {
+                return "\"\"";
+            }
+
+            var result = new StringBuilder();
+            result.Append('"');
+            int backslashes = 0;
+            foreach (char c in value)
+            {
+                if (c == '\\')
+                {
+                    backslashes++;
+                    continue;
+                }
+
+                if (c == '"')
+                {
+                    result.Append('\\', backslashes * 2 + 1);
+                    result.Append('"');
+                    backslashes = 0;
+                    continue;
+                }
+
+                result.Append('\\', backslashes);
+                backslashes = 0;
+                result.Append(c);
+            }
+            result.Append('\\', backslashes * 2);
+            result.Append('"');
+            return result.ToString();
+        }
+
+        private void AppendLog(string text)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<string>(AppendLog), text);
+                return;
+            }
+            logBox.AppendText("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + text + Environment.NewLine);
+        }
+
+        private const string HelperScript = @"
+import base64
+import ctypes
+import os
+import shutil
+import sys
+import threading
+import time
+import traceback
+
+def require_modules():
+    global win32com
+    import win32com.client
+
+def require_pypdf():
+    global PdfWriter
+    from pypdf import PdfWriter
+
+def b64(value):
+    return base64.b64encode((value or '').encode('utf-8')).decode('ascii')
+
+def unb64(value):
+    return base64.b64decode(value.encode('ascii')).decode('utf-8')
+
+def start_hwp_allow_watcher():
+    stop_event = threading.Event()
+
+    def get_window_text(user32, hwnd):
+        length = user32.GetWindowTextLengthW(hwnd)
+        if length <= 0:
+            return ''
+        buffer = ctypes.create_unicode_buffer(length + 1)
+        user32.GetWindowTextW(hwnd, buffer, length + 1)
+        return buffer.value
+
+    def get_class_name(user32, hwnd):
+        buffer = ctypes.create_unicode_buffer(256)
+        user32.GetClassNameW(hwnd, buffer, 256)
+        return buffer.value
+
+    def normalize(text):
+        return (text or '').replace(' ', '').replace('&', '').replace('(', '').replace(')', '').upper()
+
+    def worker():
+        user32 = ctypes.windll.user32
+        EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+        EnumChildProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+        BM_CLICK = 0x00F5
+
+        def enum_windows(hwnd, lparam):
+            if stop_event.is_set():
+                return False
+            if not user32.IsWindowVisible(hwnd):
+                return True
+
+            title = get_window_text(user32, hwnd)
+            title_key = normalize(title)
+            if not any(key in title_key for key in ['HWP', 'HANCOM', '한글', '보안', '경고', '확인']):
+                return True
+
+            def enum_child(child, child_lparam):
+                if stop_event.is_set():
+                    return False
+                text_key = normalize(get_window_text(user32, child))
+                if '모두허용' in text_key or '전체허용' in text_key:
+                    user32.PostMessageW(child, BM_CLICK, 0, 0)
+                return True
+
+            user32.EnumChildWindows(hwnd, EnumChildProc(enum_child), 0)
+            return True
+
+        while not stop_event.is_set():
+            try:
+                user32.EnumWindows(EnumWindowsProc(enum_windows), 0)
+            except Exception:
+                pass
+            time.sleep(0.3)
+
+    thread = threading.Thread(target=worker, daemon=True)
+    thread.start()
+    return stop_event
+
+class AppPool:
+    def __init__(self):
+        self.word = None
+        self.ppt = None
+        self.excel = None
+        self.hwp = None
+        self.hwp_allow_stop = None
+
+    def get_word(self):
+        if self.word is None:
+            self.word = win32com.client.DispatchEx('Word.Application')
+            self.word.Visible = False
+            self.word.DisplayAlerts = 0
+        return self.word
+
+    def get_ppt(self):
+        if self.ppt is None:
+            self.ppt = win32com.client.DispatchEx('PowerPoint.Application')
+            self.ppt.Visible = True
+        return self.ppt
+
+    def get_excel(self):
+        if self.excel is None:
+            self.excel = win32com.client.DispatchEx('Excel.Application')
+            self.excel.Visible = False
+            self.excel.DisplayAlerts = False
+        return self.excel
+
+    def get_hwp(self):
+        if self.hwp is None:
+            if self.hwp_allow_stop is None:
+                self.hwp_allow_stop = start_hwp_allow_watcher()
+            self.hwp = win32com.client.DispatchEx('HwpFrame.HwpObject')
+            try:
+                self.hwp.RegisterModule('FilePathCheckDLL', 'FilePathCheckerModuleExample')
+            except Exception:
+                pass
+            try:
+                self.hwp.RegisterModule('FilePathCheckDLL', 'FilePathCheckerModule')
+            except Exception:
+                pass
+            try:
+                self.hwp.XHwpWindows.Item(0).Visible = False
+            except Exception:
+                pass
+        return self.hwp
+
+    def reset_for_ext(self, ext):
+        if ext in ['.doc', '.docx', '.docm', '.rtf']:
+            self.close_word()
+        elif ext in ['.ppt', '.pptx', '.pptm', '.pps', '.ppsx', '.pot', '.potx', '.potm']:
+            self.close_ppt()
+        elif ext in ['.xls', '.xlsx', '.xlsm', '.xlsb', '.xlt', '.xltx', '.xltm', '.csv']:
+            self.close_excel()
+        elif ext in ['.hwp', '.hwpx']:
+            self.close_hwp()
+
+    def close_word(self):
+        try:
+            if self.word is not None:
+                self.word.Quit()
+        except Exception:
+            pass
+        self.word = None
+
+    def close_ppt(self):
+        try:
+            if self.ppt is not None:
+                self.ppt.Quit()
+        except Exception:
+            pass
+        self.ppt = None
+
+    def close_excel(self):
+        try:
+            if self.excel is not None:
+                self.excel.Quit()
+        except Exception:
+            pass
+        self.excel = None
+
+    def close_hwp(self):
+        try:
+            if self.hwp is not None:
+                self.hwp.Quit()
+        except Exception:
+            pass
+        self.hwp = None
+        try:
+            if self.hwp_allow_stop is not None:
+                self.hwp_allow_stop.set()
+        except Exception:
+            pass
+        self.hwp_allow_stop = None
+
+    def close_all(self):
+        self.close_word()
+        self.close_ppt()
+        self.close_excel()
+        self.close_hwp()
+
+def convert_with_pool(pool, input_path, output_path):
+    require_modules()
+    ext = os.path.splitext(input_path)[1].lower()
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    if ext in ['.doc', '.docx', '.docm', '.rtf']:
+        convert_word(pool, input_path, output_path)
+    elif ext in ['.ppt', '.pptx', '.pptm', '.pps', '.ppsx', '.pot', '.potx', '.potm']:
+        convert_powerpoint(pool, input_path, output_path)
+    elif ext in ['.xls', '.xlsx', '.xlsm', '.xlsb', '.xlt', '.xltx', '.xltm', '.csv']:
+        convert_excel(pool, input_path, output_path)
+    elif ext in ['.hwp', '.hwpx']:
+        convert_hwp(pool, input_path, output_path)
+    elif ext == '.pdf':
+        shutil.copy2(input_path, output_path)
+    elif ext in ['.jpg', '.jpeg', '.png', '.bmp', '.gif', '.tif', '.tiff', '.webp']:
+        convert_image(input_path, output_path)
+    else:
+        raise RuntimeError('Unsupported extension: ' + ext)
+    if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
+        raise RuntimeError('PDF output was not created')
+
+def convert_word(pool, input_path, output_path):
+    doc = None
+    try:
+        word = pool.get_word()
+        doc = word.Documents.Open(input_path, False, True, False)
+        doc.ExportAsFixedFormat(output_path, 17)
+    finally:
+        try:
+            if doc is not None:
+                doc.Close(False)
+        except Exception:
+            pass
+
+def convert_powerpoint(pool, input_path, output_path):
+    pres = None
+    try:
+        ppt = pool.get_ppt()
+        pres = ppt.Presentations.Open(input_path, True, False, False)
+        pres.SaveAs(output_path, 32)
+    finally:
+        try:
+            if pres is not None:
+                pres.Close()
+        except Exception:
+            pass
+
+def convert_excel(pool, input_path, output_path):
+    wb = None
+    try:
+        excel = pool.get_excel()
+        wb = excel.Workbooks.Open(input_path, ReadOnly=True)
+        wb.ExportAsFixedFormat(0, output_path)
+    finally:
+        try:
+            if wb is not None:
+                wb.Close(False)
+        except Exception:
+            pass
+
+def open_hwp_document(hwp, input_path):
+    attempts = [
+        lambda: hwp.Open(input_path, 'HWP', 'forceopen:true'),
+        lambda: hwp.Open(input_path, '', 'forceopen:true'),
+        lambda: hwp.Open(input_path, 'HWP', ''),
+        lambda: hwp.Open(input_path, '', ''),
+        lambda: hwp.Open(input_path),
+    ]
+    errors = []
+    for attempt in attempts:
+        try:
+            opened = attempt()
+            if opened is not False:
+                return
+            errors.append('HWP open returned False')
+        except Exception as exc:
+            errors.append(str(exc))
+    raise RuntimeError('HWP open failed: ' + ' | '.join(errors[-3:]))
+
+def save_hwp_as_pdf(hwp, output_path):
+    errors = []
+    for attempt in (
+        lambda: hwp.SaveAs(output_path, 'PDF', ''),
+        lambda: hwp.SaveAs(output_path, 'PDF'),
+    ):
+        try:
+            attempt()
+            return
+        except Exception as exc:
+            errors.append(str(exc))
+
+    try:
+        hset = hwp.HParameterSet.HFileOpenSave
+        hwp.HAction.GetDefault('FileSaveAsPdf', hset.HSet)
+        hset.filename = output_path
+        hset.Format = 'PDF'
+        hwp.HAction.Execute('FileSaveAsPdf', hset.HSet)
+        return
+    except Exception as exc:
+        errors.append(str(exc))
+    raise RuntimeError('HWP PDF save failed: ' + ' | '.join(errors[-3:]))
+
+def convert_hwp(pool, input_path, output_path):
+    hwp = pool.get_hwp()
+    open_hwp_document(hwp, input_path)
+    try:
+        save_hwp_as_pdf(hwp, output_path)
+    finally:
+        try:
+            hwp.Clear(1)
+        except Exception:
+            try:
+                hwp.HAction.Run('FileClose')
+            except Exception:
+                pass
+
+def convert_image(input_path, output_path):
+    from PIL import Image, ImageSequence
+    frames = []
+    with Image.open(input_path) as image:
+        for frame in ImageSequence.Iterator(image):
+            converted = frame.convert('RGBA')
+            background = Image.new('RGB', converted.size, (255, 255, 255))
+            background.paste(converted, mask=converted.split()[3])
+            frames.append(background)
+
+    if not frames:
+        raise RuntimeError('Image has no frames')
+
+    frames[0].save(output_path, 'PDF', save_all=True, append_images=frames[1:])
+
+def batch_convert(manifest_path):
+    pool = AppPool()
+    try:
+        with open(manifest_path, 'r', encoding='utf-8') as manifest:
+            for raw_line in manifest:
+                line = raw_line.strip()
+                if not line:
+                    continue
+                parts = line.split('\t')
+                input_path = unb64(parts[0])
+                output_path = unb64(parts[1])
+                ext = os.path.splitext(input_path)[1].lower()
+                print('BEGIN\t' + b64(input_path) + '\t' + b64(output_path), flush=True)
+                try:
+                    convert_with_pool(pool, input_path, output_path)
+                    print('OK\t' + b64(input_path) + '\t' + b64(output_path), flush=True)
+                except Exception:
+                    error = traceback.format_exc(limit=4)
+                    print('FAIL\t' + b64(input_path) + '\t' + b64(error), flush=True)
+                    pool.reset_for_ext(ext)
+    finally:
+        pool.close_all()
+
+def convert(input_path, output_path):
+    pool = AppPool()
+    try:
+        convert_with_pool(pool, input_path, output_path)
+    finally:
+        pool.close_all()
+
+def merge(output_path, input_paths):
+    require_pypdf()
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    writer = PdfWriter()
+    for path in input_paths:
+        writer.append(path)
+    with open(output_path, 'wb') as f:
+        writer.write(f)
+
+def main():
+    if len(sys.argv) < 2:
+        raise RuntimeError('Missing mode')
+    mode = sys.argv[1]
+    if mode == 'batch_convert':
+        if len(sys.argv) != 3:
+            raise RuntimeError('Usage: batch_convert manifest')
+        batch_convert(sys.argv[2])
+    elif mode == 'convert':
+        if len(sys.argv) != 4:
+            raise RuntimeError('Usage: convert input output')
+        convert(sys.argv[2], sys.argv[3])
+    elif mode == 'merge':
+        if len(sys.argv) < 4:
+            raise RuntimeError('Usage: merge output input...')
+        merge(sys.argv[2], sys.argv[3:])
+    else:
+        raise RuntimeError('Unknown mode: ' + mode)
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception:
+        traceback.print_exc()
+        sys.exit(1)
+";
+    }
+
+    internal sealed class TextProgressBar : Control
+    {
+        private int minimum;
+        private int maximum = 100;
+        private int currentValue;
+        private string barText = "";
+
+        public TextProgressBar()
+        {
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+            Height = 28;
+            BackColor = Color.FromArgb(238, 238, 238);
+            ForeColor = Color.Black;
+        }
+
+        public int Minimum
+        {
+            get { return minimum; }
+            set
+            {
+                minimum = value;
+                if (maximum < minimum) maximum = minimum;
+                if (currentValue < minimum) currentValue = minimum;
+                Invalidate();
+            }
+        }
+
+        public int Maximum
+        {
+            get { return maximum; }
+            set
+            {
+                maximum = Math.Max(minimum + 1, value);
+                if (currentValue > maximum) currentValue = maximum;
+                Invalidate();
+            }
+        }
+
+        public int Value
+        {
+            get { return currentValue; }
+            set
+            {
+                currentValue = Math.Min(maximum, Math.Max(minimum, value));
+                Invalidate();
+            }
+        }
+
+        public string BarText
+        {
+            get { return barText; }
+            set
+            {
+                barText = value ?? "";
+                Invalidate();
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Rectangle rect = ClientRectangle;
+            if (rect.Width <= 0 || rect.Height <= 0)
+            {
+                return;
+            }
+
+            using (var background = new SolidBrush(BackColor))
+            {
+                e.Graphics.FillRectangle(background, rect);
+            }
+
+            double range = Math.Max(1, maximum - minimum);
+            double ratio = (currentValue - minimum) / range;
+            int fillWidth = Math.Max(0, Math.Min(rect.Width, (int)Math.Round(rect.Width * ratio)));
+            if (fillWidth > 0)
+            {
+                using (var fill = new SolidBrush(Color.FromArgb(0, 176, 64)))
+                {
+                    e.Graphics.FillRectangle(fill, new Rectangle(rect.X, rect.Y, fillWidth, rect.Height));
+                }
+            }
+
+            using (var border = new Pen(Color.FromArgb(180, 180, 180)))
+            {
+                e.Graphics.DrawRectangle(border, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+            }
+
+            string text = string.IsNullOrWhiteSpace(barText) ? currentValue + "/" + maximum : barText;
+            TextRenderer.DrawText(
+                e.Graphics,
+                text,
+                Font,
+                rect,
+                ForeColor,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+        }
+    }
+
+    internal sealed class CheckBoxOnlyCheckedListBox : CheckedListBox
+    {
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            Focus();
+            int index = IndexFromPoint(e.Location);
+            if (index < 0)
+            {
+                base.OnMouseDown(e);
+                return;
+            }
+
+            SelectedIndex = index;
+            Rectangle itemRect = GetItemRectangle(index);
+            int checkRight = itemRect.Left + 22;
+            if (e.X >= itemRect.Left && e.X <= checkRight)
+            {
+                SetItemChecked(index, !GetItemChecked(index));
+            }
+        }
+    }
+
+    internal sealed class FileKind
+    {
+        public readonly string DisplayName;
+        public readonly string[] Extensions;
+
+        public FileKind(string displayName, string[] extensions)
+        {
+            DisplayName = displayName;
+            Extensions = extensions;
+        }
+    }
+
+    internal sealed class FileListEntry
+    {
+        public readonly string FullPath;
+
+        public FileListEntry(string fullPath)
+        {
+            FullPath = fullPath;
+        }
+
+        public override string ToString()
+        {
+            return Path.GetFileName(FullPath);
+        }
+    }
+
+    internal sealed class LocalFileMap
+    {
+        public readonly string OriginalPath;
+        public readonly string LocalPath;
+        public readonly string Extension;
+        public readonly string BaseName;
+
+        public LocalFileMap(string originalPath, string localPath)
+        {
+            OriginalPath = originalPath;
+            LocalPath = localPath;
+            Extension = Path.GetExtension(originalPath).ToLowerInvariant();
+            BaseName = CleanName(Path.GetFileNameWithoutExtension(originalPath));
+        }
+
+        private static string CleanName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return "PDF";
+            }
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                name = name.Replace(c, '_');
+            }
+            return name.Trim();
+        }
+    }
+
+    internal sealed class BatchConvertItem
+    {
+        public readonly LocalFileMap Map;
+        public readonly string OutputPath;
+
+        public BatchConvertItem(LocalFileMap map, string outputPath)
+        {
+            Map = map;
+            OutputPath = outputPath;
+        }
+    }
+
+    internal sealed class BatchOutcome
+    {
+        public bool Success;
+        public string InputPath;
+        public string OutputPath;
+        public string Error;
+    }
+
+    internal sealed class BatchBegin
+    {
+        public string InputPath;
+        public string OutputPath;
+    }
+
+    internal sealed class BatchRunResult
+    {
+        public readonly List<BatchOutcome> Outcomes = new List<BatchOutcome>();
+        public string TimedOutInput;
+    }
+
+    internal sealed class ConvertJob
+    {
+        public List<string> Files;
+        public string OutputDirectory;
+        public bool Merge;
+        public bool SaveEach;
+        public string MergedFileName;
+    }
+
+    internal sealed class JobResult
+    {
+        public int SuccessCount;
+        public int FailCount;
+        public string MergedFile;
+        public readonly List<string> IndividualFiles = new List<string>();
+    }
+}

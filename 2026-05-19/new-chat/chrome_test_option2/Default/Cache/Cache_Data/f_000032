@@ -1,0 +1,2192 @@
+@charset "UTF-8";
+/* =================================================================
+
+	(2024-06-26 생성)
+	work list 이선재(LSJ) scss :-)
+
+		# 챗봇관리화면 구성	  
+================================================================ */
+.none {
+  display: none !important;
+}
+
+.lybox.resize .ly_column.right.popup {
+  min-width: 46rem !important;
+}
+
+.admin_chbtArea {
+  height: 100%;
+  max-height: 52rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  --mainColr: #14767d;
+  --txtColr: #555555;
+  --mainBgColr: #cddbdb;
+  --chbtTxtColr: #262626;
+  --btnBrdrColr: rgba(20, 118, 125, 0.7098039216);
+  --linerLftColr: rgba(223, 238, 246, 0.4705882353);
+  --linerRgtColr: rgba(182, 211, 221, 0.6901960784);
+  --intentBgColr: #c05ed1;
+  --intentColr: #9c27b0;
+  --entityBgColr: #42ad59;
+  --entityColr: #0e7900;
+  --icoImgColr: #7ec1c3;
+}
+.admin_chbtArea .chatbot {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 1.6rem 1.2rem 1.6rem 1.6rem;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-scrollbar-width: thin;
+  scrollbar-width: thin;
+  gap: 2.6rem;
+  background-color: #f8f8f8;
+  border-top: 0.27rem solid #4876ef;
+  border-bottom: 0.1rem solid #cacaca;
+}
+.admin_chbtArea .chatbot .g2b_chat {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-left: 0;
+  position: relative;
+}
+.admin_chbtArea .chatbot .g2b_chat .narmiArea {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  padding-right: 5.8rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .narmiArea ._thumb {
+  width: 2.3rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  background-image: url("/kn/com/images/chatbot//chbtNara.svg");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 2.3rem;
+  transform: scaleX(-1);
+  position: relative;
+  margin-right: 0.4rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .narmiArea ._thumb + ._chatBble {
+  color: var(--chbtTxtColr);
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 1.4;
+  background-color: rgba(255, 255, 255, 0.8235294118);
+  padding: 0 1.3rem 0 0;
+  border-radius: 0 1.6rem 1.6rem 1.6rem;
+  box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.2);
+  width: auto;
+  max-width: 65rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .narmiArea ._thumb + ._chatBble:only-child {
+  color: var(--chbtTxtColr);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  background-color: rgba(255, 255, 255, 0.8235294118);
+  padding: 0 1.3rem 0 0;
+  border-radius: 0 1.6rem 1.6rem 1.6rem;
+  box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.2);
+  box-shadow: none;
+  width: auto;
+  max-width: 100rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .narmiArea ._chatBbleGrup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .narmiArea ._chatBbleGrup > ._chatBble {
+  color: var(--chbtTxtColr);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  background-color: rgba(255, 255, 255, 0.8235294118);
+  padding: 0.6rem 1.3rem;
+  border-radius: 0 1.6rem 1.6rem 1.6rem;
+  box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.2);
+  width: auto;
+  max-width: 65rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  max-width: 95rem;
+  min-width: 37rem;
+  gap: 0.8rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea .w2trigger_anchor {
+  background: unset;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea .w2trigger_anchor span {
+  background: unset;
+  line-height: unset !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  width: 100% !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu .w2trigger.btnMenu {
+  width: 11.8rem !important;
+  padding: 0.4rem 0;
+  color: var(--mainColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 0.1rem solid var(--btnBrdrColr);
+  border-radius: 0.6rem;
+  box-shadow: none;
+  background-image: none;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu .w2trigger.btnMenu:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu .w2trigger.btnMenu._active {
+  border-radius: 0.6rem !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu .w2trigger.btnMenu:hover {
+  border: 0.1rem solid var(--btnBrdrColr);
+  border-radius: 1.2rem;
+  box-shadow: none;
+  background-color: #f8f8f8;
+  color: var(--mainColr) !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu .w2trigger.btnMenu._active {
+  border: 0.1rem solid var(--mainColr) !important;
+  background-color: var(--mainColr) !important;
+  color: #fff !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu .w2trigger.btnMenu._active:hover {
+  background-color: var(--mainColr) !important;
+  color: #fff !important;
+  box-shadow: none;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual {
+  gap: 0.3rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual li {
+  width: unset !important;
+  min-width: unset !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual li .w2trigger.btnMenu {
+  width: 11.8rem !important;
+  padding: 0.4rem 0;
+  color: var(--mainColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 0.1rem solid var(--btnBrdrColr);
+  border-radius: 0.6rem;
+  box-shadow: none;
+  background-image: none;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual li .w2trigger.btnMenu:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual li .w2trigger.btnMenu._active {
+  border-radius: 0.6rem !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual li .w2trigger.btnMenu:hover {
+  border: 0.1rem solid var(--btnBrdrColr);
+  border-radius: 1.2rem;
+  box-shadow: none;
+  background-color: #f8f8f8;
+  color: var(--mainColr) !important;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual li .w2trigger.btnMenu._active {
+  border: 0.1rem solid var(--mainColr) !important;
+  background-color: var(--mainColr) !important;
+  color: #fff !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._menuGrup ._menu.usrManual li .w2trigger.btnMenu._active:hover {
+  background-color: var(--mainColr) !important;
+  color: #fff !important;
+  box-shadow: none;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li {
+  display: flex;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li a._bbleBtn,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li input[type=button]._bbleBtn {
+  cursor: default !important;
+  border-radius: 2.2rem;
+  padding: 0.4rem 1.6rem;
+  line-height: 1.8rem;
+  border: 0.1rem solid var(--btnBrdrColr);
+  transition: all 0.3s;
+  min-width: 8rem;
+  color: var(--mainColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+  background-color: #f8f8f8;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li a._bbleBtn:hover,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li input[type=button]._bbleBtn:hover {
+  background-color: #f8f8f8;
+  border: 0.1rem solid var(--btnBrdrColr);
+  box-shadow: none;
+  color: var(--mainColr) !important;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li a._bbleBtn._active,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li input[type=button]._bbleBtn._active {
+  color: #fff !important;
+  background-color: var(--mainColr);
+  border: 0.1rem solid transparent;
+  box-shadow: none;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li a._bbleBtn._active:hover,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._bbleBtnGrup li input[type=button]._bbleBtn._active:hover {
+  color: #fff !important;
+  background-color: var(--mainColr);
+  border: 0.1rem solid transparent;
+  box-shadow: none;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: calc(100% - 30rem);
+  min-width: 30rem;
+  max-width: 50rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li {
+  display: flex;
+  flex: 1;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:link._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:active._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:visited._listBtn,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn {
+  padding: 0.4rem 1.6rem;
+  line-height: 1.8rem;
+  border: 0.1rem solid var(--btnBrdrColr);
+  transition: all 0.3s;
+  flex: 1;
+  word-wrap: break-word;
+  background-color: #f8f8f8;
+  width: 100%;
+  color: var(--mainColr) !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a._listBtn span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:link._listBtn span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:active._listBtn span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:visited._listBtn span,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn span {
+  color: var(--mainColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:link._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:active._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:visited._listBtn:hover,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn:hover {
+  background-color: #f8f8f8;
+  border: 0.1rem solid var(--btnBrdrColr) !important;
+  box-shadow: none;
+  cursor: default !important;
+  color: var(--mainColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:link._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:active._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:visited._listBtn._active,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn._active {
+  color: #fff !important;
+  background-color: var(--mainColr) !important;
+  border: 0.1rem solid transparent;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a._listBtn._active span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:link._listBtn._active span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:active._listBtn._active span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:visited._listBtn._active span,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn._active span {
+  color: #fff !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:link._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:active._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:visited._listBtn._active:hover,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn._active:hover {
+  color: #fff !important;
+  background-color: var(--mainColr);
+  border: 0.1rem solid transparent !important;
+  box-shadow: none;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a._listBtn._active:hover span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:link._listBtn._active:hover span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:active._listBtn._active:hover span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li a:visited._listBtn._active:hover span,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn._active:hover span {
+  color: #fff !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li input[type=button]._listBtn {
+  color: var(--mainColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-position: center right 2rem;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico {
+  max-width: 42rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn {
+  width: 100%;
+  min-width: 15rem;
+  padding: 0.4rem 4.9rem 0.4rem 2.8rem;
+  cursor: default !important;
+  justify-content: flex-start !important;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  max-height: 28px;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn span,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn span {
+  text-align: left;
+  display: inline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn a:link, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn a:visited, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn a:active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn a:hover,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn a:link,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn a:visited,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn a:active,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn a:hover {
+  color: var(--mainColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn.down,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn.down {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_download.svg");
+  background-position: center right 2rem;
+  background-size: 2.2rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn.link,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn.link {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_connect.svg");
+  background-position: center right 2.1rem;
+  background-size: 2rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a._listBtn.active:hover,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico input[type=button]._listBtn.active:hover {
+  border: 0.1rem solid var(--mainColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li._ico a.w2trigger_anchor {
+  margin: unset;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup li.half {
+  flex: 0.5;
+  width: 49.8% !important;
+  min-width: 17.6rem;
+  max-width: 30rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn {
+  border: 0.1rem solid var(--btnBrdrColr);
+  border-radius: 0.6rem;
+  gap: 0.1rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li {
+  border-bottom: 0.1rem solid var(--btnBrdrColr);
+  background: linear-gradient(to right, var(--linerLftColr), var(--linerRgtColr)) !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child {
+  border-radius: 0.6rem 0.6rem 0 0 !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a:link._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > input[type=button]._listBtn {
+  border-radius: 0.6rem 0.6rem 0 0 !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a:link._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a:link._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > input[type=button]._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > input[type=button]._listBtn._active {
+  border-radius: 0.4rem 0.4rem 0 0 !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child {
+  border-radius: 0 0 0.6rem 0.6rem !important;
+  border-bottom: 0;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a:link._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > input[type=button]._listBtn {
+  border-radius: 0 0 0.6rem 0.6rem !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a:link._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a:link._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > input[type=button]._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > input[type=button]._listBtn._active {
+  border-radius: 0 0 0.4rem 0.4rem !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a:link._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > input[type=button]._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a:link._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > input[type=button]._listBtn {
+  height: 2.8rem;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a:link._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > input[type=button]._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a:link._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > input[type=button]._listBtn:hover {
+  background-color: transparent;
+  color: var(--mainColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > a:link._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:first-child > input[type=button]._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > a:link._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:last-child > input[type=button]._listBtn._active:hover {
+  cursor: default !important;
+  color: #fff !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child {
+  border-radius: 0.6rem !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > a._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > a:link._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > input[type=button]._listBtn {
+  border-radius: 0.6rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > a._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > a._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > a:link._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > a:link._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > input[type=button]._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li:only-child > input[type=button]._listBtn._active {
+  border-radius: 0.4rem !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a:link._listBtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > input[type=button]._listBtn {
+  width: 100%;
+  padding: 0.4rem 1.9rem !important;
+  border: 0.1rem solid transparent !important;
+  transition: all 0.3s;
+  flex: 1;
+  display: flex;
+  text-indent: 0.8rem;
+  justify-content: flex-start;
+  word-wrap: break-word !important;
+  background-color: transparent !important;
+  cursor: default !important;
+  background-position: right 1.9rem center;
+  background-repeat: no-repeat !important;
+  border-radius: 0 !important;
+  color: var(--mainColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+  background-image: url("/kn/com/images/helpdesk/ic_arr_r_gray.svg");
+  background-size: 0.75rem;
+  text-align: left;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a:link._listBtn._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > input[type=button]._listBtn._active {
+  background-color: var(--mainColr) !important;
+  color: #fff !important;
+  border: 0.1rem solid transparent !important;
+  box-shadow: none !important;
+  background-image: url("/kn/com/images/helpdesk/ic_arr_r_white.svg");
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a:link._listBtn._active:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > input[type=button]._listBtn._active:hover {
+  color: #fff !important;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > a:link._listBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea ._listBtnGrup._newBtn > li > input[type=button]._listBtn:hover {
+  background-color: transparent;
+  color: var(--mainColr) !important;
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList {
+  color: #222;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  padding: 0.5rem 1.3rem 1rem 0;
+  width: calc(100% - 1rem);
+  min-width: 27.4rem;
+  max-width: 158rem;
+  margin-left: 0.3rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList ._infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList ._infoList li dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList ._infoList li dl dt {
+  color: #222;
+  font-weight: 600;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList ._infoList li dl dt:before {
+  content: "●";
+  font-size: 0.3rem;
+  color: #666;
+  margin-right: 0.5rem;
+  line-height: 3;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList ._infoList li dl dd {
+  text-indent: 0.2rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList ._infoList li dl dd a:link span {
+  text-decoration: underline;
+  text-align: left;
+  padding: unset;
+  margin: unset;
+  color: var(--mainColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoList ._infoList li dl dd a:hover span {
+  text-decoration: none;
+  color: var(--mainColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup {
+  color: var(--txtColr);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  background-color: #fff;
+  padding: 1rem 1.3rem;
+  border-radius: 1.1rem;
+  box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.2);
+  width: auto;
+  min-width: 27.4rem;
+  max-width: 128.4rem;
+  text-align: left;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup .aLink span {
+  text-decoration: underline;
+  text-align: left;
+  padding: unset;
+  margin: unset;
+  color: var(--txtColr);
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup .aLink:hover span {
+  text-decoration: none;
+  color: var(--txtColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup .icoBtnGrup {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-top: 1rem;
+  width: 100%;
+  gap: 0.8rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup .icoBtnGrup .icoBtn {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 3.35rem;
+  height: 2.75rem;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup .icoBtnGrup .icoBtn.down {
+  background-image: url("/kn/com/images/chatbot//chbt_ico_download.svg");
+  background-position-x: center;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup .icoBtnGrup .icoBtn.link {
+  background-image: url("/kn/com/images/chatbot//chbt_ico_connect.svg");
+  background-position: top 0.2rem center;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup .icoBtnGrup .icoBtn:hover {
+  background-color: #eef5ff;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup.chat_img {
+  width: calc(100% - 30rem);
+  max-width: 48rem;
+  min-width: 34rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea ._txtInfoGrup.chat_img img {
+  width: 100%;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero {
+  position: relative;
+  left: -1.6rem;
+  width: calc(100% + 3.2rem) !important;
+  top: -0.8rem;
+  max-width: 186.6rem !important;
+  min-width: 44rem !important;
+  margin-bottom: 1rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn {
+  height: auto;
+  width: calc(100% + 0.1rem);
+  display: flex;
+  justify-content: space-between;
+  margin: auto 0;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnPrev.swiper-button-prev,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnNext.swiper-button-next {
+  width: 3.6rem;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+  z-index: 2;
+  background: url("/kn/com/images/portal/main/ic_arr_right_white.svg") no-repeat center;
+  background-color: rgba(49, 49, 49, 0.2588235294);
+  border-radius: 0.4rem 0 0 0.4rem;
+  border: 0 !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnPrev.swiper-button-prev:focus,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnNext.swiper-button-next:focus {
+  border: 0 !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnPrev.swiper-button-prev:hover,
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnNext.swiper-button-next:hover {
+  background-color: var(--mainColr);
+  border: 0 !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnPrev.swiper-button-prev {
+  left: 0;
+  transform: scaleX(-1);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup ._contrlBtn .btnNext.swiper-button-next {
+  right: 0.3rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  transition: transform 400ms;
+  gap: 2rem;
+  padding: 0.4rem 1.1rem 0 1.1rem;
+  height: auto;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 1rem;
+  padding: 1rem 1.4rem 1rem 1.4rem;
+  width: 33rem;
+  height: 26rem;
+  cursor: default !important;
+  z-index: 1;
+  transition: all 0.3s;
+  border: 0.1rem solid #cacaca;
+  margin-right: 0 !important;
+  margin-top: 0.4rem;
+  margin-left: 0 !important;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  line-height: 1.3;
+  gap: 1rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide.swiper-slide-active {
+  box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.1);
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide:hover {
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea {
+  height: 18.7rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup {
+  color: var(--txtColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  height: auto;
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid #cacaca;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup ._bullet {
+  color: #d60000;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup ._bullet::before {
+  content: "Q";
+  font-size: 1.4rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup a {
+  cursor: default !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup a span {
+  color: var(--txtColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+  text-align: left;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup a:link span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup a:visited span {
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup a:hover span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup a:active span {
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._qTxtGrup div.w2textbox {
+  display: block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  max-height: 84px;
+  word-wrap: break-word;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup {
+  padding-top: 0.6rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt {
+  color: var(--txtColr);
+  font-weight: 400;
+  font-size: 1.3rem;
+  text-align: left;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  max-height: 84px;
+  word-wrap: break-word;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+  line-height: 2rem;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt a {
+  display: inline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt a:link, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt a:visited, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt a:active {
+  word-break: break-all;
+  color: #0000ee;
+  position: relative;
+  bottom: 0.2rem;
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt a:hover {
+  color: #0000ee;
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt input[type=button] {
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  word-break: break-all;
+  color: #0000ee;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  max-height: 20px;
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide > .txtDataArea > ._aTxtGrup ._aTxt input[type=button]:hover {
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn {
+  text-align: center;
+  font-weight: 500;
+  border-radius: 0.4rem;
+  height: 2.4rem;
+  border: 0 !important;
+  background-color: #e7e9ef;
+  transition: all 0.3s;
+  z-index: 1;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn span {
+  color: #222;
+  font-weight: 400;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 2.2rem !important;
+  transition: all 0.3s;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn span::before {
+  content: "펼쳐보기";
+  color: var(--txtColr);
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn span::after {
+  content: "";
+  transform: rotate(90deg);
+  display: inline-block;
+  width: 2.4rem;
+  height: 2.4rem;
+  position: relative;
+  transition: all 0.3s;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn:hover {
+  background-color: var(--mainColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn:hover span::before {
+  color: #fff;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn.disabled, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn.disabled span::before, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn:disabled span::before {
+  color: #353535;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn.disabled span::after, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn:disabled span::after {
+  opacity: 0.6;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn.disabled:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn:disabled:hover {
+  opacity: 0.6;
+  background-color: #e7e9ef;
+  color: #353535;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn.disabled:hover span::after, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide ._innerBtn:disabled:hover span::after {
+  opacity: 0.6;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open {
+  height: auto;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea {
+  max-height: 33.5rem;
+  height: unset;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup {
+  height: 100%;
+  max-height: unset;
+  overflow: hidden;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-line-clamp: unset;
+  scrollbar-width: thin;
+  -webkit-scrollbar-width: thin;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+  line-height: 1.5;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt a {
+  display: inline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt a:link, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt a:visited, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt a:active {
+  word-break: break-all;
+  color: #0000ee;
+  position: relative;
+  bottom: 0.2rem;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt a:hover {
+  color: #0000ee;
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt input[type=button] {
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  word-break: break-all;
+  color: #0000ee;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  max-height: 20px;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open > .txtDataArea > ._aTxtGrup > ._aTxt input[type=button]:hover {
+  text-decoration: underline;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open ._innerBtn span::before {
+  content: "접기";
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open ._innerBtn span::after {
+  transform: rotate(-90deg);
+  transition: all 0.3s;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open ._innerBtn:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open ._innerBtn._active {
+  background-color: var(--mainColr);
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open ._innerBtn:hover span::before, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide._open ._innerBtn._active span::before {
+  color: #fff;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup .swiper-wrapper._cardArea .slideCard.swiper-slide:last-child {
+  margin-right: 2rem !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
+  padding: 0.5rem 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 33rem !important;
+  gap: 0.7rem;
+  z-index: 1;
+  position: relative;
+  bottom: 0;
+  left: 1rem;
+  transform: translateX(0) !important;
+  -webkit-transform: translateX(0);
+  cursor: default;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn span, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn.swiper-pagination-bullets.swiper-pagination-bullets-dynamic span {
+  display: flex;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn span.swiper-pagination-bullet, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn.swiper-pagination-bullets.swiper-pagination-bullets-dynamic span.swiper-pagination-bullet {
+  width: 0.9rem !important;
+  height: 0.9rem !important;
+  border-radius: 0.5rem;
+  background-color: #c3c3c3;
+  border: 0;
+  transition: all 0.3s;
+  margin: unset !important;
+  opacity: unset !important;
+  cursor: default;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn span.swiper-pagination-bullet:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn span.swiper-pagination-bullet.swiper-pagination-bullet-active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn span.swiper-pagination-bullet.swiper-pagination-bullet-active-main, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn.swiper-pagination-bullets.swiper-pagination-bullets-dynamic span.swiper-pagination-bullet:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn.swiper-pagination-bullets.swiper-pagination-bullets-dynamic span.swiper-pagination-bullet.swiper-pagination-bullet-active, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn.swiper-pagination-bullets.swiper-pagination-bullets-dynamic span.swiper-pagination-bullet.swiper-pagination-bullet-active-main {
+  background-color: var(--mainColr) !important;
+}
+.admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn span:hover, .admin_chbtArea .chatbot .g2b_chat .chbtContArea.posL_zero .swiper-container._cardListGrup > .swiper-pagination._circle_pageNtn.swiper-pagination-bullets.swiper-pagination-bullets-dynamic span:hover {
+  background-color: var(--mainColr);
+  cursor: default;
+}
+.admin_chbtArea .chatbot .usr_chat {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0;
+  margin-top: 1rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data {
+  width: auto;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data ._bbleTxt {
+  color: var(--chbtTxtColr);
+  font-weight: 500;
+  font-size: 1.5rem;
+  text-align: right;
+  width: auto;
+  min-width: unset;
+  max-width: 176rem;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+  animation-name: fadeIn2;
+  animation-timing-function: ease-in-out;
+  margin-bottom: 0.6rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data ._bbleTxt::before {
+  content: '"';
+  margin-right: 0.4rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data ._bbleTxt::after {
+  content: '"';
+  margin-left: 0.4rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup {
+  width: auto;
+  max-width: 88rem;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._intentArea ._info::before {
+  content: "INTENT";
+  background-color: var(--intentBgColr);
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._intentArea ._info span {
+  color: var(--intentColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._entityArea > ._info::before {
+  content: "ENTITY";
+  background-color: var(--entityBgColr);
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._entityArea > ._info span {
+  color: var(--entityColr);
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._intentArea,
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._entityArea {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: #fff;
+  padding: 0.7rem 1.2rem;
+  gap: 0.4rem;
+  border-radius: 0.4rem;
+  width: auto;
+  justify-content: flex-end;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._intentArea ._info::before,
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._entityArea ._info::before {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  border-radius: 0.3rem;
+  padding: 0 0.4rem;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  line-height: 1.6;
+  height: 1.8rem;
+  margin-right: 0.6rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._intentArea ._info span::after,
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._entityArea ._info span::after {
+  content: ",";
+  margin-right: 1rem;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._intentArea ._info span:last-child::after,
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._entityArea ._info span:last-child::after {
+  content: "";
+  margin-right: 0;
+}
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._intentArea ._etc,
+.admin_chbtArea .chatbot .usr_chat .usr_data .usrInpt_infoGrup ._entityArea ._etc {
+  color: #333;
+  font-weight: 700;
+  font-size: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chbtTble tr td.w2tb_td:last-child,
+.chbtTble tr th.w2tb_th:last-child {
+  border-right: 0 !important;
+  border-right-width: 0;
+}
+.chbtTble tr td {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.chbtDashBoard {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2rem;
+}
+.chbtDashBoard .chbt_chart1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3F51B5;
+  height: 30rem;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 32rem;
+}
+.chbtDashBoard .chbt_chart1 .countGrup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0 auto;
+  width: 60%;
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea {
+  flex: 1;
+  height: 100%;
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea ._card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  gap: 2.4rem;
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea ._card ._sttle {
+  flex: 1;
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea ._card ._sttle span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  line-height: 1.4;
+  color: #fff;
+  font-weight: 300;
+  font-size: 1.6rem;
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before {
+  content: "";
+  background-repeat: no-repeat;
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.6117647059);
+  border-radius: 5rem;
+  background-size: 8rem;
+  background-position: center;
+  opacity: 0.3;
+  margin-bottom: 0.4rem;
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea ._card .countNum {
+  color: #fff;
+  font-weight: 500;
+  font-size: 3.8rem;
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea:first-child ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_realtime.svg");
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea:nth-child(2) ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_accumlte.svg");
+}
+.chbtDashBoard .chbt_chart1 .countGrup .cardArea:last-child ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_avgMsg.svg");
+  background-size: 7rem;
+  transform: rotate(-180deg);
+}
+.chbtDashBoard .chbt_chart1 .responseAccuracy {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 0.8rem;
+  padding: unset !important;
+}
+.chbtDashBoard .chbt_chart1 .responseAccuracy svg {
+  background-color: transparent !important;
+  border-radius: 0.8rem;
+}
+.chbtDashBoard .chbt_chart1 .responseAccuracy svg g g:first-child rect:first-child {
+  fill-opacity: 0 !important;
+  fill: transparent !important;
+}
+.chbtDashBoard .chbt_chart1 .responseAccuracy svg g g:first-child rect:nth-child(2) {
+  stroke: transparent !important;
+  fill-opacity: 0 !important;
+}
+.chbtDashBoard .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text {
+  fill: #3F51B5;
+  font-size: 1.6rem !important;
+  letter-spacing: -0.2rem;
+}
+.chbtDashBoard ._chart1_stxt {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 32rem;
+}
+.chbtDashBoard ._chart1_stxt > .con_text {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: -2.4rem;
+  width: 40%;
+  max-width: 63rem;
+}
+.chbtDashBoard ._chart1_stxt > .con_text p {
+  padding-left: 12.3rem;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+  word-break: keep-all;
+}
+.chbtDashBoard ._chart1_stxt > .con_text p::before {
+  content: "답변정확도 산출기준";
+  padding: 0 0.3rem 0 0.2rem;
+  background-color: #e4ecff;
+  border-radius: 0.2rem;
+  color: #3f51b5;
+  font-weight: 500;
+  letter-spacing: -0.04rem;
+  left: 0.2rem;
+}
+.chbtDashBoard .chbt_chart2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #5947c1;
+  height: 30rem;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 32rem;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0 auto;
+  width: 60%;
+  max-width: 70rem;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea {
+  flex: 1;
+  height: 100%;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea > ._card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  gap: 2.4rem;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea > ._card > ._sttle {
+  flex: 1;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea > ._card > ._sttle > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  line-height: 1.4;
+  color: #fff;
+  font-weight: 300;
+  font-size: 1.6rem;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea > ._card > ._sttle > span::before {
+  content: "";
+  background-repeat: no-repeat;
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.6117647059);
+  border-radius: 5rem;
+  background-size: 6.4rem;
+  background-position: center;
+  opacity: 0.3;
+  margin-bottom: 0.4rem;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea > ._card > .countNum {
+  color: #fff;
+  font-weight: 500;
+  font-size: 3.8rem;
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea:first-child > ._card > ._sttle > span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_up.svg");
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea:nth-child(2) > ._card > ._sttle > span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_down.svg");
+}
+.chbtDashBoard .chbt_chart2 > .countGrup > .cardArea:last-child > ._card > ._sttle > span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_noResponse.svg");
+  background-size: 10rem;
+}
+.chbtDashBoard .chbt_chart2 > .responseAccuracy {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 0.8rem;
+  padding: unset !important;
+  max-width: 62rem;
+}
+.chbtDashBoard .chbt_chart2 > .responseAccuracy svg {
+  background-color: transparent !important;
+  border-radius: 0.8rem;
+}
+.chbtDashBoard .chbt_chart2 > .responseAccuracy svg g g:first-child rect:first-child {
+  fill-opacity: 0 !important;
+  fill: transparent !important;
+}
+.chbtDashBoard .chbt_chart2 > .responseAccuracy svg g g:first-child rect:nth-child(2) {
+  stroke: transparent !important;
+  fill-opacity: 0 !important;
+}
+.chbtDashBoard .chbt_chart2 > .responseAccuracy svg g:nth-last-child(8) > text {
+  fill: #5947c1;
+  font-size: 1.6rem !important;
+  letter-spacing: -0.2rem;
+}
+.chbtDashBoard ._chart2_stxt {
+  display: flex;
+  justify-content: flex-end;
+  display: none;
+  min-width: 32rem;
+}
+.chbtDashBoard ._chart2_stxt > .con_text {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: -2.4rem;
+  width: 40%;
+  max-width: 63rem;
+}
+.chbtDashBoard ._chart2_stxt > .con_text p {
+  padding-left: 13.4rem;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+  word-break: keep-all;
+}
+.chbtDashBoard ._chart2_stxt > .con_text p::before {
+  content: "사용자만족도 산출기준";
+  padding: 0 0.3rem 0 0.2rem;
+  background-color: #e4ecff;
+  border-radius: 0.2rem;
+  color: #3f51b5;
+  font-weight: 500;
+  letter-spacing: -0.04rem;
+  left: 0.2rem;
+}
+
+.chbtDashBoard2 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 2rem;
+  margin: 2rem 0;
+  margin-bottom: 4rem;
+}
+.chbtDashBoard2 .chart1Area,
+.chbtDashBoard2 .chart2Area {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1,
+.chbtDashBoard2 .chart1Area .chbt_chart2,
+.chbtDashBoard2 .chart2Area .chbt_chart1,
+.chbtDashBoard2 .chart2Area .chbt_chart2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  max-height: unset;
+  border-radius: 0.8rem;
+  padding: 1.4rem;
+  gap: 2.4rem;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 27rem;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 1rem !important;
+  margin: 0 auto;
+  width: 100%;
+  min-width: unset;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea {
+  width: 100%;
+  height: 100%;
+  border-bottom: 0.1rem dashed rgba(255, 255, 255, 0.3215686275);
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:last-child,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea:last-child,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea:last-child,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:last-child {
+  border-bottom: none;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  gap: 2.4rem;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle {
+  flex: 1;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  line-height: 1.4;
+  letter-spacing: -0.025rem;
+  color: #fff;
+  font-weight: 300;
+  font-size: 1.6rem;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before {
+  content: "";
+  background-repeat: no-repeat;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.768627451);
+  border-radius: 2rem;
+  background-position: center;
+  opacity: 0.5;
+  margin: 1rem 1rem 1rem 0;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card .countNum,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card .countNum {
+  color: #fff;
+  font-weight: 500;
+  font-size: 3.1rem;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy {
+  height: 26rem;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0.8rem;
+  padding: unset !important;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg {
+  background-color: transparent !important;
+  border-radius: 0.8rem;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:first-child,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:first-child,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:first-child,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:first-child {
+  fill-opacity: 0 !important;
+  fill: transparent !important;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:nth-child(2),
+.chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:nth-child(2),
+.chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:nth-child(2),
+.chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:nth-child(2) {
+  stroke: transparent !important;
+  fill-opacity: 0 !important;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+.chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text,
+.chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+.chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text {
+  font-size: 1.6rem !important;
+  letter-spacing: -0.2rem;
+}
+.chbtDashBoard2 .chart1Area ._chart1_stxt,
+.chbtDashBoard2 .chart1Area ._chart2_stxt,
+.chbtDashBoard2 .chart2Area ._chart1_stxt,
+.chbtDashBoard2 .chart2Area ._chart2_stxt {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 32rem;
+  width: 100%;
+}
+.chbtDashBoard2 .chart1Area ._chart1_stxt .con_text,
+.chbtDashBoard2 .chart1Area ._chart2_stxt .con_text,
+.chbtDashBoard2 .chart2Area ._chart1_stxt .con_text,
+.chbtDashBoard2 .chart2Area ._chart2_stxt .con_text {
+  display: flex;
+  flex-direction: row;
+  margin: 0.5rem 0 -2.4rem 0;
+  width: 100%;
+}
+.chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p,
+.chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p,
+.chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p,
+.chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p {
+  line-height: 1.4;
+  margin-top: 0.5rem;
+  word-break: break-all;
+  padding-left: 0;
+}
+.chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p::before,
+.chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p::before,
+.chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p::before,
+.chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p::before {
+  content: unset;
+}
+.chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p em,
+.chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p em,
+.chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p em,
+.chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p em {
+  padding: 0 0.3rem 0 0.2rem;
+  border-radius: 0.2rem;
+  font-weight: 500;
+  letter-spacing: -0.04rem;
+  margin-right: 0.6rem;
+}
+.chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p span,
+.chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p span,
+.chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p span,
+.chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p span {
+  font-size: 1.4rem;
+  margin-bottom: unset;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 {
+  background-color: #3F51B5;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before {
+  background-size: 2.4rem;
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:first-child ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_realtime.svg");
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:nth-child(2) ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_accumlte.svg");
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:last-child ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_avgMsg.svg");
+  transform: rotate(-180deg);
+}
+.chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text {
+  fill: #3F51B5;
+}
+.chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p em {
+  background-color: #e4ecff;
+  color: #3f51b5;
+}
+.chbtDashBoard2 .chart2Area .chbt_chart2 {
+  background-color: #5947c1;
+}
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before {
+  background-size: 1.8rem;
+}
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:first-child ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_up.svg");
+}
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:nth-child(2) ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_down.svg");
+}
+.chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:last-child ._card ._sttle span::before {
+  background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_noResponse.svg");
+  background-size: 3.2rem;
+}
+.chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text {
+  fill: #5947c1;
+}
+.chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p em {
+  background-color: #e1dcfb;
+  color: #3c28af;
+}
+
+.topBarChart {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
+.topBarChart > .ly_colum {
+  padding: 0 !important;
+}
+.topBarChart > .ly_colum.col_4 {
+  margin-bottom: 1rem;
+}
+.topBarChart > .ly_colum.col_4 span > svg {
+  left: 0 !important;
+  background-color: transparent !important;
+}
+.topBarChart > .ly_colum.col_4 span > svg g:first-child .raphael-group-215-dataset-axis {
+  border: 0.1rem dotted #000;
+  margin-right: 2rem;
+}
+.topBarChart > .ly_colum.col_4 span > svg g:first-child .raphael-group-215-dataset-axis > text {
+  fill: #ea1917;
+}
+
+.info_txt {
+  display: inline-flex;
+  text-align: left;
+  position: relative;
+  top: 0.5rem;
+  margin-bottom: 1rem;
+}
+.info_txt .df_stit {
+  font-size: 1.3rem;
+  color: #6a7d9f;
+}
+.info_txt .df_stit:before {
+  content: "·";
+  margin: 0 1rem;
+}
+@media screen and (max-width: 740px) {
+  .info_txt {
+    top: 0;
+    width: 100%;
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+  }
+  .info_txt .df_stit {
+    padding-left: 0.5rem;
+  }
+  .info_txt .df_stit::before {
+    content: none;
+  }
+}
+@media screen and (max-width: 900px) {
+  .info_txt .df_stit:before {
+    margin: 0 0.4rem;
+  }
+}
+
+table.chbtTble {
+  min-width: 36rem;
+}
+table.chbtTble tr td.w2tb_td:last-child,
+table.chbtTble tr th.w2tb_th:last-child {
+  border-right: 0 !important;
+}
+table.chbtTble tr td.w2tb_td:last-child input[type=text]:read-only,
+table.chbtTble tr th.w2tb_th:last-child input[type=text]:read-only {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+table.chbtTble textarea.w2textarea {
+  background-color: transparent !important;
+  padding: 0 !important;
+  -webkit-scrollbar-width: thin;
+  scrollbar-width: thin;
+}
+table.chbtTble td .w2tb_td {
+  background: transparent !important;
+}
+
+@media screen and (max-width: 320px) {
+  .chbtDashBoard2 .chart1Area,
+  .chbtDashBoard2 .chart2Area {
+    margin-bottom: 1.6rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1,
+  .chbtDashBoard2 .chart1Area .chbt_chart2,
+  .chbtDashBoard2 .chart2Area .chbt_chart1,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 {
+    gap: 1rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup {
+    padding: 0 !important;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea {
+    width: 100%;
+    padding: 0 0.6rem;
+    border-right: 0;
+    border-bottom: 0.1rem dashed rgba(255, 255, 255, 0.2196078431);
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card {
+    height: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span {
+    flex-direction: row;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before {
+    background-image: none;
+    background-color: transparent;
+    width: 0;
+    margin: 0;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card .countNum {
+    font-size: 2rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy {
+    height: 20rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text {
+    font-size: 1.4rem !important;
+    letter-spacing: -0.05rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt {
+    min-width: 27rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p span,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p span,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p span,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p span {
+    display: block;
+    margin: 0.5rem 0 -2.7rem 0;
+    line-height: 1.3;
+  }
+  .chbtDashBoard2,
+  .topBarChart,
+  .topBarChart + .gvwbox,
+  .topBarChart + .gvwbox + .gvwbox {
+    width: 100%;
+    min-width: 24rem;
+  }
+}
+@media screen and (min-width: 321px) and (max-width: 360px) {
+  .chbtDashBoard2 .chart1Area,
+  .chbtDashBoard2 .chart2Area {
+    margin-bottom: 1.6rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1,
+  .chbtDashBoard2 .chart1Area .chbt_chart2,
+  .chbtDashBoard2 .chart2Area .chbt_chart1,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 {
+    gap: 1rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup {
+    padding: 0 !important;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea {
+    width: 100%;
+    padding: 0 0.6rem;
+    border-right: 0;
+    border-bottom: 0.1rem dashed rgba(255, 255, 255, 0.2196078431);
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card {
+    height: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span {
+    flex-direction: row;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before {
+    background-image: none;
+    background-color: transparent;
+    width: 0;
+    margin: 0;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card .countNum {
+    font-size: 2rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy {
+    height: 20rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text {
+    font-size: 1.4rem !important;
+    letter-spacing: -0.05rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt {
+    min-width: 27rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p span,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p span,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p span,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p span {
+    display: block;
+    margin: 0.5rem 0 -2.7rem 0;
+    line-height: 1.3;
+  }
+}
+@media screen and (min-width: 361px) and (max-width: 511px) {
+  .chbtDashBoard2 {
+    flex-direction: column;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup {
+    padding: 0 !important;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span {
+    font-size: 1.5rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card .countNum {
+    font-size: 2.4rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .chbtDashBoard2 {
+    flex-direction: column;
+    gap: 5rem;
+    margin-bottom: 4rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1,
+  .chbtDashBoard2 .chart1Area .chbt_chart2,
+  .chbtDashBoard2 .chart2Area .chbt_chart1,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 {
+    gap: 1.4rem;
+  }
+  .topBarChart {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .topBarChart .ly_column:first-child .ctbox {
+    margin-bottom: 1rem !important;
+  }
+  .topBarChart .ly_column.right .ctbox {
+    margin-bottom: 1rem !important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .topBarChart {
+    gap: 2rem;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  table.w2tb.tb tr > .w2tb_td .inputcal-fromto-wrap .w2radio.type.month.chatbot,
+  table.w2tb.tb > tbody > tr > .w2tb_td .inputcal-fromto-wrap .w2radio.type.month.chatbot {
+    display: flex !important;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .chbtDashBoard2 {
+    display: flex;
+    padding-bottom: 2rem;
+    flex-direction: row;
+    width: 100%;
+    min-width: 140.4rem;
+    max-width: 160rem;
+    margin: 2rem 0;
+  }
+  .chbtDashBoard2 .chart1Area,
+  .chbtDashBoard2 .chart2Area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1,
+  .chbtDashBoard2 .chart1Area .chbt_chart2,
+  .chbtDashBoard2 .chart2Area .chbt_chart1,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    min-height: 30rem;
+    border-radius: 0.8rem;
+    padding: 1rem;
+    gap: 1.4rem;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 !important;
+    margin: 0;
+    width: 100%;
+    min-width: 29rem;
+    max-width: 34rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea {
+    width: 100%;
+    height: 100%;
+    border-bottom: 0.1rem dashed rgba(255, 255, 255, 0.3215686275);
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:last-child,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea:last-child,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea:last-child,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:last-child {
+    border-bottom: none;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    gap: 2.4rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle {
+    flex: 1;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    line-height: 1.4;
+    letter-spacing: -0.025rem;
+    color: #fff;
+    font-weight: 300;
+    font-size: 1.6rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before {
+    content: "";
+    background-repeat: no-repeat;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.768627451);
+    border-radius: 2rem;
+    background-position: center;
+    opacity: 0.5;
+    margin: 2rem 1rem 2rem 0.7rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .countGrup .cardArea ._card .countNum,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card .countNum {
+    color: #fff;
+    font-weight: 500;
+    font-size: 3.1rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy {
+    height: 100%;
+    width: calc(50% + 3rem);
+    min-width: 36rem;
+    background-color: #fff;
+    border-radius: 0.8rem;
+    padding: unset !important;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg {
+    background-color: transparent !important;
+    border-radius: 0.8rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:first-child,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:first-child,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:first-child,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:first-child {
+    fill-opacity: 0 !important;
+    fill: transparent !important;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:nth-child(2),
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:nth-child(2),
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g g:first-child rect:nth-child(2),
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g g:first-child rect:nth-child(2) {
+    stroke: transparent !important;
+    fill-opacity: 0 !important;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart1Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart2Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text,
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text {
+    font-size: 1.6rem !important;
+    letter-spacing: -0.2rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt .con_text,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt .con_text,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem 0 -2.4rem 0;
+    width: calc(50% + 1.9rem);
+    max-width: 41.6rem;
+    min-width: 36rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p {
+    line-height: 1.4;
+    margin-top: 0.5rem;
+    word-break: break-all;
+    padding-left: 0;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p::before,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p::before,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p::before,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p::before {
+    content: unset;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p em,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p em,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p em,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p em {
+    padding: 0 0.3rem 0 0.2rem;
+    border-radius: 0.2rem;
+    font-weight: 500;
+    letter-spacing: -0.04rem;
+    margin-right: 0.6rem;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p span,
+  .chbtDashBoard2 .chart1Area ._chart2_stxt .con_text p span,
+  .chbtDashBoard2 .chart2Area ._chart1_stxt .con_text p span,
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p span {
+    font-size: 1.4rem;
+    margin-bottom: unset;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 {
+    background-color: #3F51B5;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea ._card ._sttle span::before {
+    background-size: 2.4rem;
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:first-child ._card ._sttle span::before {
+    background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_realtime.svg");
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:nth-child(2) ._card ._sttle span::before {
+    background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_accumlte.svg");
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .countGrup .cardArea:last-child ._card ._sttle span::before {
+    background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_avgMsg.svg");
+    transform: rotate(-180deg);
+  }
+  .chbtDashBoard2 .chart1Area .chbt_chart1 .responseAccuracy svg g:nth-last-child(8) > text {
+    fill: #3F51B5;
+  }
+  .chbtDashBoard2 .chart1Area ._chart1_stxt .con_text p em {
+    background-color: #e4ecff;
+    color: #3f51b5;
+  }
+  .chbtDashBoard2 .chart2Area .chbt_chart2 {
+    background-color: #5947c1;
+  }
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea ._card ._sttle span::before {
+    background-size: 1.8rem;
+  }
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:first-child ._card ._sttle span::before {
+    background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_up.svg");
+  }
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:nth-child(2) ._card ._sttle span::before {
+    background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_down.svg");
+  }
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .countGrup .cardArea:last-child ._card ._sttle span::before {
+    background-image: url("/kn/com/images/chatbot/chbt_admin/chbt_ico_noResponse.svg");
+    background-size: 3.2rem;
+  }
+  .chbtDashBoard2 .chart2Area .chbt_chart2 .responseAccuracy svg g:nth-last-child(8) > text {
+    fill: #5947c1;
+  }
+  .chbtDashBoard2 .chart2Area ._chart2_stxt .con_text p em {
+    background-color: #e1dcfb;
+    color: #3c28af;
+  }
+}

@@ -1,0 +1,462 @@
+/*amd /layout/nara/CntsHeader.xml 21051 dde9ea8510317c70415491ff236f783fd27f0f28669e2a65e8eb561fd86dcc90 */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlMenuAtetMatrM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'menuNo',name:'메뉴번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bulkAtetMatr',name:'대용량유의사항',dataType:'text'}},{T:1,N:'w2:key',A:{id:'untyAtchFileNo',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'atetMatrSqno',name:'유의사항시퀀스번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'atetMatrAtmtUnfldYn',name:'유의사항열림여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'inptDt',name:'최근등록일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'chgDt',name:'최근변경일자',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlBkmkM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'infoSysCd',name:'정보시스템코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'untyGrpNo',name:'통합단체번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'menuNo',name:'메뉴번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'usrId',name:'사용자아이디',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bkmkKndCd',name:'즐겨찾기종류코드',dataType:'text'}}]}]}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){/**
+ * 업무구분 : Header
+ * 화면명   : UI-COMMON
+ * 화면설명 : Header
+ * 작성자   : jcpark
+ * 작성일자 : 2022.07.22
+ *
+ * 개정이력
+ *
+ * 수정일        수정자        수정내용
+ * ----------    --------      ---------------------------
+ * 2022.03.10    jcpark            최초 생성
+ *
+ * Copyright (C) by Koneps All right reserved.
+ */
+
+/********************************************************************************
+ * 설명 : Page Load 이벤트
+ ********************************************************************************/
+scwin.onpageload = function() {
+    if ((WebSquareExternal.active === "local" || WebSquareExternal.active === "dev") && !comUtil.gfnIsMobileApp()) {
+        btnInspect.removeClass("hide");
+    } else if ((WebSquareExternal.active === "tst" || WebSquareExternal.active === "prod") && !comUtil.gfnIsMobileApp()) {
+        // 화면점검요청 권한이 있을 경우 버튼 노출
+        const menuInfo = _gcm.Global.getMenuDataJSON().filter(menu => menu.menuCangVal === "COEA007_01");
+        if (menuInfo.length > 0) {
+            btnInspect.removeClass("hide");
+        }
+    }
+
+    if (!comUtil.gfnIsMobileApp()) {
+        btnPrint.removeClass("hide");
+    }
+
+    // 유의사항에서 사용하는 툴팁 관련 레이어 초기화
+    scwin.closeHelpboxTooltip();
+};
+
+/********************************************************************************
+ * 설명 : Header Title 설정
+ ********************************************************************************/
+scwin.setHeaderTitle = function(title) {
+    if (!comUtil.gfnIsEmpty(title)) {
+        spnHeaderTitle.setValue(title);
+        scwin.headTitleHidden(false);
+        btnMenuPoup.removeClass("hide");
+    }
+
+    if (!comUtil.gfnIsMobileApp()) {
+        btnPrint.removeClass("hide");
+    }
+
+    if ((WebSquareExternal.active === "local" || WebSquareExternal.active === "dev") && !comUtil.gfnIsMobileApp()) {
+        btnInspect.removeClass("hide");
+    } else if ((WebSquareExternal.active === "tst" || WebSquareExternal.active === "prod") && !comUtil.gfnIsMobileApp()) {
+        // 화면점검요청 권한이 있을 경우 버튼 노출
+        const menuInfo = _gcm.Global.getMenuDataJSON().filter(menu => menu.menuCangVal === "COEA007_01");
+        if (menuInfo.length > 0) {
+            btnInspect.removeClass("hide");
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : Header 제목 설정
+ ********************************************************************************/
+scwin.headTitleHidden = function(se = true) {
+    const displayType = se ? "none" : "";
+    spnHeaderTitle.show(displayType);
+    headerTitleButton.show(displayType);
+};
+
+/********************************************************************************
+ * 설명 : Header 즐겨찾기 버튼 설정
+ ********************************************************************************/
+scwin.setFavoriteButton = async function(menuInfo) {
+    if (menuInfo.naviYn === "Y") {
+        btnFavorite?.removeClass("hide");
+    } else {
+        btnFavorite?.addClass("hide");
+    }
+};
+
+/********************************************************************************
+ * 설명 : Header 즐겨찾기 버튼 보이기
+ ********************************************************************************/
+scwin.showFavoriteButton = function() {
+    btnFavorite?.removeClass("hide");
+};
+
+/********************************************************************************
+ * 설명 : Header 유의 사항 설정
+ ********************************************************************************/
+scwin.setHelpBox = async function(menuInfo) {
+
+    // 유의사항에서 사용하는 툴팁 관련 레이어 초기화
+    scwin.closeHelpboxTooltip();
+
+    // 유의사항 화면 초기화
+    com.gfnInitDataCollection("dlMenuAtetMatrM");
+
+    // 유의사항 submission 실행 결과 여부 체크 후 hide 여부 설정
+    if (menuInfo.atetMatrYn === "Y" && menuInfo.menuCangSeCd !== "메020004") {
+        dlMenuAtetMatrM.set("menuNo", menuInfo.menuNo);
+
+        let sbmOption = {
+            id: "sbmAtmt",
+            action: "/co/coa/coaa/MainMenu/selectMenuAtetMatrWhenMenuOpen.do",
+            inData: "dlParamM=dlMenuAtetMatrM",
+            outData: "dlMenuAtetMatrM",
+            msgYn: { succ: false, err: true },
+        };
+
+        try {
+            // 유의사항 조회
+            const result = await com.gfnExecute(sbmOption);
+            const bulkAtetMatr = comUtil.gfnEscapeToChar(dlMenuAtetMatrM.get("bulkAtetMatr"));
+
+            if (!comUtil.gfnIsEmpty(bulkAtetMatr)) {
+                txbAtmtCntt.setValue(bulkAtetMatr);
+                spnChangeDate.setValue(dlMenuAtetMatrM.get("chgDt"));
+
+                // 유의사항열림설정
+                if (dlMenuAtetMatrM.get("atetMatrAtmtUnfldYn") === 'Y') {
+                    btnHelpToggle.openHelpToggle();
+                } else {
+                    // 유의사항 열람 여부 확인
+                    const { menuNo, chgDt } = dlMenuAtetMatrM.getJSON();
+                    let menuAtetMatr = JSON.parse(WebSquare.localStorage.getItem("menuAtetMatr") || "{}");
+
+                    if (menuAtetMatr[menuNo] === undefined || menuAtetMatr[menuNo] !== chgDt) {
+                        btnHelpToggle.openHelpToggle();
+                    }
+                }
+
+                (grpHelpBox.hasClass("hide")) && grpHelpBox.removeClass("hide");
+            } else {
+                (!grpHelpBox.hasClass("hide")) && grpHelpBox.addClass("hide");
+            }
+        } catch (e) {
+            console.error(e);
+        }
+
+    } else {
+        txbAtmtCntt.setValue("");
+        (!grpHelpBox.hasClass("hide")) && grpHelpBox.addClass("hide");
+    }
+
+    $p.setTimeout(function() {
+        scwin.setHelpBoxEllipsis();
+    }, { delay : 300, key : "setHelpBoxEllipsis" });
+};
+
+/********************************************************************************
+ * 설명 : 다중 유의 사항 설정
+ ********************************************************************************/
+scwin.setHelpBoxBySqno = async function(menuInfo, atetMatrSqno) {
+    // 유의사항에서 사용하는 툴팁 관련 레이어 초기화
+    scwin.closeHelpboxTooltip();
+
+    // 유의사항 화면 초기화
+    com.gfnInitDataCollection("dlMenuAtetMatrM");
+
+    // 유의사항 submission 실행 결과 여부 체크 후 hide 여부 설정
+    if (menuInfo.atetMatrYn === "Y" && menuInfo.menuCangSeCd !== "메020004") {
+        dlMenuAtetMatrM.set("menuNo", menuInfo.menuNo);
+        dlMenuAtetMatrM.set("atetMatrSqno", atetMatrSqno);
+
+        let sbmOption = {
+            id: "sbmAtmt",
+            action: "/co/coa/coaa/MainMenu/selectMenuAtetMatrBySqno.do",
+            inData: "dlParamM=dlMenuAtetMatrM",
+            outData: "dlMenuAtetMatrM",
+            msgYn: { succ: false, err: true },
+        };
+
+        try {
+            // 유의사항 조회
+            const result = await com.gfnExecute(sbmOption);
+            const bulkAtetMatr = comUtil.gfnEscapeToChar(dlMenuAtetMatrM.get("bulkAtetMatr"));
+
+            if (!comUtil.gfnIsEmpty(bulkAtetMatr)) {
+                txbAtmtCntt.setValue(bulkAtetMatr);
+                spnChangeDate.setValue(dlMenuAtetMatrM.get("chgDt"));
+
+                btnHelpToggle.initHelpToggle();
+
+                // 유의사항열림설정
+                if (dlMenuAtetMatrM.get("atetMatrAtmtUnfldYn") === 'Y') {
+                    btnHelpToggle.openHelpToggle();
+                }
+
+                (grpHelpBox.hasClass("hide")) && grpHelpBox.removeClass("hide");
+            } else {
+                (!grpHelpBox.hasClass("hide")) && grpHelpBox.addClass("hide");
+            }
+        } catch (e) {
+            console.error(e);
+        }
+
+    } else {
+        txbAtmtCntt.setValue("");
+        (!grpHelpBox.hasClass("hide")) && grpHelpBox.addClass("hide");
+    }
+
+    $p.setTimeout(function() {
+        scwin.setHelpBoxEllipsis();
+    }, { delay : 300, key : "setHelpBoxEllipsis" });
+};
+
+
+/********************************************************************************
+ * 설명 : 유의사항 Ellipsis 설정
+********************************************************************************/
+scwin.setHelpBoxEllipsis = function() {
+    const helpHeight = document.querySelector("#" + txbAtmtCntt.getID()).scrollHeight;
+    const helpEllipsis = document.querySelector("#" + divHelpEllipsis.getID());
+
+    // 유의사항열림설정
+    if (dlMenuAtetMatrM.get("atetMatrAtmtUnfldYn") === 'Y') {
+        helpEllipsis.classList.add("hide");
+
+        if (helpHeight <= 84) {
+            btnHelpToggle.hide();
+        } else {
+            btnHelpToggle.show();
+        }
+    } else {
+        // 유의사항 열람 여부 확인
+        const { menuNo, chgDt } = dlMenuAtetMatrM.getJSON();
+        let menuAtetMatr = JSON.parse(WebSquare.localStorage.getItem("menuAtetMatr") || "{}");
+
+        if (menuAtetMatr[menuNo] === undefined || menuAtetMatr[menuNo] !== chgDt) {
+            helpEllipsis.classList.add("hide");
+            if (helpHeight <= 84) {
+                btnHelpToggle.hide();
+            } else {
+                btnHelpToggle.show();
+            }
+            menuAtetMatr[menuNo] = chgDt;
+            WebSquare.localStorage.setItem("menuAtetMatr", JSON.stringify(menuAtetMatr));
+        } else {
+            if (helpHeight <= 84) {
+                helpEllipsis.classList.add("hide");
+                btnHelpToggle.hide();
+            } else {
+                helpEllipsis.classList.remove("hide");
+                btnHelpToggle.show();
+            }
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 페이지 즐겨찿기
+********************************************************************************/
+scwin.btnFavorite_onclick = function(e) {
+    menuNo = WebSquare.util.getMainFrame().wfm_container.getUserData("menuNo");
+    if (menuNo.startsWith('SM') || menuNo.startsWith('TP') || menuNo.startsWith('PB')) {
+        com.gfnAlert("warn.co.coa.notUseBkmkMenu");
+        return false;
+    }
+
+    const bkmkMenuInfo = com.gfnGetMatchedJSON(_gcm.Global.getMenuDataList(), [{columnId : "menuNo", operator : "==", value : menuNo}, {columnId : "bkmkYn", operator : "==", value : 'Y'}]);
+    if (comUtil.gfnIsEmpty(bkmkMenuInfo) == true || bkmkMenuInfo.length <= 0 ) {
+        scwin.insertBkmk(); // 즐겨찾기 등록
+    } else {
+        scwin.deleteBkmk(); // 즐겨찾기 삭제
+    }
+};
+
+/********************************************************************************
+ * 설명 : 페이지 프린트
+ ********************************************************************************/
+scwin.btnPrint_onclick = function(e) {
+    com.gfnPrint();
+};
+
+/********************************************************************************
+ * 설명 : 매뉴얼 버튼 onclick 이벤트(매뉴얼 조회 팝업 호출용)
+ ********************************************************************************/
+scwin.btnMenuPoup_onclick = function (e) {
+    let data = {
+        param: {menuNo: com.gfnGetMenuNo()}, // 보내는 값
+    };
+
+    com.gfnOpenPopup({
+        menuCangVal: "FMOR004_01", // 팝업창 아이디
+        popupId: "FMOR004_01",
+        popupName: "매뉴얼 조회",
+        param: data,
+        width: 1000, // 가로 사이즈
+        height: 800, // 세로 사이즈
+    });
+};
+
+
+/********************************************************************************
+* 설명 : 즐겨찾기 데이터, 화면을 갱신한다.
+메뉴 데이터콜렉션의 즐겨찾기 여부를 갱신한다. : MENU_DATA_LIST
+화면을 갱신한다. : com.gfnSetFavoriteButton
+scwin.setBkmkYn('KN00000004', 'Y'); // KN00000004 메뉴 즐겨찾기 등록
+scwin.setBkmkYn('KN00000004', 'N'); // KN00000004 메뉴 즐겨찾기 삭제
+********************************************************************************/
+scwin.setBkmkYn = function(_menuNo, _yn) {
+    // 필수 값 체크
+    if (comUtil.gfnIsEmpty(_menuNo) || comUtil.gfnIsEmpty(_yn)) {
+        return;
+    }
+
+    // 데이터 콜렉션 변경
+    let dlMenuL = WebSquare.util.getMainFrame().dlt_gDlMenuL;
+    dlMenuL.getAllJSON().forEach((item, index) => {
+        if (item.menuNo == _menuNo) {
+            dlMenuL.setCellData(index, 'bkmkYn', _yn);
+        }
+    });
+
+    // 글로벌 데이터 갱신
+    _gcm.Global.setMenuDataList(WebSquare.util.getMainFrame().dlt_gDlMenuL);
+    _gcm.Global.setMenuDataJSON(WebSquare.util.getMainFrame().dlt_gDlMenuL.getAllJSON());
+
+    // 화면 갱신
+    com.gfnSetFavoriteButton(_menuNo);
+}
+
+/********************************************************************************
+* 설명 : 즐겨찾기 등록
+* scwin.insertBkmk(); // 즐겨찾기 등록
+********************************************************************************/
+scwin.insertBkmk = async function(){
+    let _infoSysCd = com.gfnGetInfoSysCd(); // 시스템 구분 코드
+    let _usrId = '';
+    let _menuNo = '';
+
+    // 자동 처리 가능한 값 : 회원
+    const usrInfo = com.gfnGetUsrInfo();
+    if (comUtil.gfnIsEmpty(usrInfo)) {
+        return;
+    } else {
+        _untyGrpNo = usrInfo.untyGrpNo;
+        _usrId = usrInfo.usrId;
+    }
+
+    // 자동 처리 가능한 값 : 메뉴
+    _menuNo = WebSquare.util.getMainFrame().wfm_container.getUserData("menuNo");
+    if (comUtil.gfnIsEmpty(_menuNo)) {
+        return;
+    }
+
+    // 저장용 데이터콜렉션 초기화
+    com.gfnInitDataMap("dlBkmkM");
+    // 저장용 데이터콜렉션 값 세팅
+    dlBkmkM.set('infoSysCd', _infoSysCd);
+    dlBkmkM.set('menuNo', _menuNo);
+    dlBkmkM.set('usrId', _usrId);
+    dlBkmkM.set('bkmkKndCd', 'MENU');
+
+    // 서브미션 호출
+    const sbmOption = {
+        id: "sbmSrch",
+        action: "/fu/fuu/fuuz/Bkmk/insertMenuBkmk.do",
+        inData: "dlBkmkM",
+        outData: "",
+        msgYn: { succ: false, err: true },
+    };
+    try {
+        const result = await com.gfnExecute(sbmOption);
+        // 성공 처리
+        if (result.responseJSON.ErrorCode == '0') {
+            scwin.setBkmkYn(_menuNo, 'Y'); // 즐겨찾기 데이터, 화면을 갱신한다.
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+/********************************************************************************
+* 설명 : 즐겨찾기 삭제
+* scwin.deleteBkmk(); // 즐겨찾기 삭제
+********************************************************************************/
+scwin.deleteBkmk = async function(){
+    let _infoSysCd = com.gfnGetInfoSysCd(); // 시스템 구분 코드
+    let _usrId = '';
+    let _menuNo = '';
+
+    // 자동 처리 가능한 값 : 회원
+    const usrInfo = com.gfnGetUsrInfo();
+    if (comUtil.gfnIsEmpty(usrInfo)) {
+        return;
+    } else {
+        _untyGrpNo = usrInfo.untyGrpNo;
+        _usrId = usrInfo.usrId;
+    }
+
+    // 자동 처리 가능한 값 : 메뉴
+    _menuNo = WebSquare.util.getMainFrame().wfm_container.getUserData("menuNo");
+    if (comUtil.gfnIsEmpty(_menuNo)) {
+        return;
+    }
+
+    // 저장용 데이터콜렉션 초기화
+    com.gfnInitDataMap("dlBkmkM");
+    // 저장용 데이터콜렉션 값 세팅
+    dlBkmkM.set('infoSysCd', _infoSysCd);
+    dlBkmkM.set('menuNo', _menuNo);
+    dlBkmkM.set('usrId', _usrId);
+    dlBkmkM.set('bkmkKndCd', 'MENU');
+
+    // 서브미션 호출
+    const sbmOption = {
+        id: "sbmSrch",
+        action: "/fu/fuu/fuuz/Bkmk/deleteMenuBkmk.do",
+        inData: "dlBkmkM",
+        outData: "",
+        msgYn: { succ: false, err: true },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+        // 성공 처리
+        if (result.responseJSON.ErrorCode == '0'){
+            scwin.setBkmkYn(_menuNo, 'N'); // 즐겨찾기 데이터, 화면을 갱신한다.
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+/********************************************************************************
+ * 설명 : 화면점검요청
+ ********************************************************************************/
+scwin.btnInspect_onclick = function (e) {
+    let data = {
+        mapData: {"menuNo":com.gfnGetMenuNo()} // 보내는 Map
+    };
+
+    // 로그인 페이지에서는 비로그인이용문의 페이지로 변경
+    const menuCangVal = (com.gfnGetMenuCangVal() === "FUUA002_01" || com.gfnGetMenuCangVal() === "FUUA002_02") ? "COEC007_01" : "COEA007_01";
+
+    com.gfnOpenPopup({
+        menuCangVal: menuCangVal, // 팝업창 아이디
+        popupId: "SvcRqstlPL",
+        param: data,
+        modal: false,
+        resizable: true,
+        width: 1100, // 가로 사이즈
+        height: 730, // 세로 사이즈
+    });
+};
+
+/********************************************************************************
+ * 설명 : 유의사항에서 사용하는 툴팁 관련 레이어 초기화
+ ********************************************************************************/
+scwin.closeHelpboxTooltip = function() {
+    mf_grpTooltipGroup.hide();
+    mf_grpToolTip.hide();
+    mf_grpToolTip.render.style.left = "0rem";
+};
+
+}}}]},{T:1,N:'w2:require',A:{as:'udc_help_toggle_button',type:'page',variableClone:'true',src:'/kn/com/udc/help_toggle_button.xml'}}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'cnts-header-wrap'},E:[{T:1,N:'xf:group',A:{id:'',class:'inner top'},E:[{T:1,N:'w2:textbox',A:{tagname:'h2',style:'',id:'spnHeaderTitle',label:'나의나라장터',escape:'false'}},{T:1,N:'xf:group',A:{id:'headerTitleButton',class:'crud-inner'},E:[{T:1,N:'xf:trigger',A:{style:'',id:'btnMenuPoup',type:'button',class:'btn menual hide','ev:onclick':'scwin.btnMenuPoup_onclick',title:'매뉴얼',tooltip:'매뉴얼'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'온라인 매뉴얼 조회'}]}]},{T:1,N:'xf:trigger',A:{style:'',id:'btnFavorite',type:'button',class:'btn favorite','ev:onclick':'scwin.btnFavorite_onclick',title:'즐겨찾기',tooltip:'즐겨찾기'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'즐겨찾기에 추가하기'}]}]},{T:1,N:'xf:trigger',A:{style:'',id:'btnPrint',type:'button',class:'btn print hide','ev:onclick':'scwin.btnPrint_onclick',title:'인쇄',tooltip:'인쇄'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'인쇄하기'}]}]},{T:1,N:'xf:trigger',A:{type:'button',style:'',id:'btnInspect',class:'btn inspect hide',title:'이용문의/오류신고',tooltip:'이용문의/오류신고','ev:onclick':'scwin.btnInspect_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'이용문의/오류신고'}]}]}]}]},{T:1,N:'xf:group',A:{class:'inner helpbox_top',id:'grpHelpBox',style:''},E:[{T:1,N:'xf:group',A:{style:'',id:'grpCmtInner',class:'cmt-inner'},E:[{T:1,N:'w2:textbox',A:{id:'txbAtmtCntt',label:'',style:'',tagname:'div',escape:'false',class:'help',ref:'data:dlMenuAtetMatrM.atmtCntt01'}},{T:1,N:'xf:group',A:{class:'help_ellipsis hide',id:'divHelpEllipsis'},E:[{T:1,N:'w2:span',A:{class:'ellipsis',id:'',label:'......',style:''}}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'info-date',tagname:'p'},E:[{T:1,N:'w2:span',A:{label:'유의사항 최종변경일 : ',style:'',id:'',class:'tit'}},{T:1,N:'w2:span',A:{class:'',id:'spnChangeDate',label:'2021/01/01 09:00',style:''}}]},{T:1,N:'w2:udc_help_toggle_button',A:{style:'',class:'udc_help_toggle',id:'btnHelpToggle'}}]}]}]}]}]})

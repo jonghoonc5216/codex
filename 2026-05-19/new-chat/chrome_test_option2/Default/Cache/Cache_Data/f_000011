@@ -1,0 +1,1948 @@
+/**
+ * 업무구분 : 챗봇
+ * 화면명   : 챗봇 팝업창
+ * 화면설명 : 챗봇 공통 함수
+ * 작성자   : 백지훈
+ * 작성일자 : 2024.04.22
+ *
+ * 개정이력
+ *
+ * 수정일        수정자        수정내용
+ * ----------    --------      ---------------------------
+ * 2024.04.22    백지훈            최초 생성
+ *
+ * Copyright (C) by NKoneps All right reserved.
+ */
+
+var chatbot = {};		// 챗봇 사용자
+var chatbotMng = {};	// 관리자
+
+/**
+ * Chatbot 변수 선언
+ */
+// 홈페이지 Chat type
+chatbot.userType = [];				// 사용자 타입 설정
+chatbot.chatArea = "나라장터";			// 홈페이지 Area 한국 설정 
+chatbot.chatAreaJs = "nara";		// 홈페이지 Area 영어 설정
+chatbot.chatTabType = "1";			// 챗봇창 Tab Type 설정
+chatbot.g2pGrpId = "";				// Assistant 그룹 아이디
+chatbot.swiperId = "";				// Swiper Id 변수
+chatbot.conversationId = "";		// conversationId(session) 변수
+chatbot.isComponentVisible = false // tip 변수
+// 응답 데이터 Request, Response Object 변수
+//chatbot.requestObj = {};
+chatbot.responsesArr = [];
+chatbot.fdbkObj = {};			// 피드백 Obj
+chatbotMng.requestUserObj = {};
+chatbotMng.nextRequestUserObj = {};
+chatbotMng.responsesArr = [];
+chatbotMng.responseDataObj = {};
+chatbotMng.userText = "";
+chatbotMng.chatTypeTxt = "";
+
+// 서버 오류 발생 메시지
+chatbot.errMessage = "죄송합니다. <br />현재 서버와의 통신이 원활하지 않아 <br />일시적으로 서비스가 불가능합니다."; 
+chatbot.serverErr = false;			// 서버 에러 여부
+chatbot.oneDepth = false;
+
+chatbot.urlPattern = /[(]+((http[s]?|ftp):\/\/|www\.)(\w+:{0.1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?[)]+/g;
+
+chatbot.protocol = document.location.protocol;
+chatbot.host = document.location.host;
+
+/**
+ * 사용자 정보 셋팅
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return 
+ * @author 백지훈
+ * @example
+		chatbot.setUsrInfo()
+ */
+chatbot.setUsrInfo = function() {
+	// 헤더에 버튼3개 부분 제거
+//	chatbot.removeGrpPopupHeader();
+	
+	chatbot.userType = [];
+	
+	const usr = com.gfnGetUsrInfo();
+	
+	if ( comUtil.gfnIsNotEmpty(usr) ) {
+//	    SUYODEP("수요기관", "이030002"),  //엑셀있음
+//	    JODALCOM("조달업체", "이030003"), //엑셀있음
+		if ( usr.usrTyCd === "이030002" || usr.usrTyCd === "이030003" ) {
+			if ( usr.usrTyCd === "이030002" ) {
+				chatbot.userType.push("수요기관");
+			} else if ( usr.usrTyCd === "이030003" ) {
+				chatbot.userType.push("조달업체");				
+			}
+		}
+	}
+}
+
+/**
+ * 최초시 챗봇 API
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return 
+ * @author 백지훈
+ * @example
+		chatbot.firstChatApi()
+ */
+chatbot.firstChatApi = async function () {
+	// // fetch 방식
+    const nowTime = new Date().getTime();
+    
+    const sbmOption = {
+		method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"timestamp": nowTime, "message": "hello", "chatArea": chatbot.chatArea}),
+    };
+
+    try {
+    	const res = await fetch('/ku/kun/kuna/chatstart', sbmOption);
+    	
+    	const data = await res.json();
+    	
+    	if ( comUtil.gfnIsNotEmpty(data) ) {
+    		if ( comUtil.gfnIsNotEmpty(data.status) ) {
+    			if ( data.status !== 200 ) {
+    				chatbot.serverErr = true;
+    			}
+    		} else {
+    			// 데이터가 있을경우 세션 저장
+    			chatbot.saveSession(data);
+    			
+    			// 홈페이지 타입 설정
+    			chatbot.setChatArea();
+    			
+    			chatbot.oneDepth = false;
+    		}
+    	}
+    } catch {
+    	chatbot.errMsg();
+    }
+}
+
+
+/**
+ * 홈페이지 종류 설정
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return 
+ * @author 백지훈
+ * @example
+		chatbot.setChatArea()
+ */
+chatbot.setChatArea = function () {
+	const chatArea = chatbot.chatArea;
+	
+	if ( chatArea === "나라장터" || chatArea === "nara" ) {
+		chatbot.chatAreaJs = "nara";
+	} else if ( chatArea === "데이터허브" || chatArea === "datahub" ) {
+		chatbot.chatAreaJs = "datah";
+	} else if ( chatArea === "벤쳐나라" || chatArea === "venture" ) {
+		chatbot.chatAreaJs = "vent";
+	} else if ( chatArea === "쇼핑몰" || chatArea === "shop" ) {
+		chatbot.chatAreaJs = "shop";
+	} else {
+		chatbot.chatAreaJs = "nara";
+	}
+}
+
+
+/**
+ * 사용자 입력 생성
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param msgText
+ * @return html
+ * @author 백지훈
+ * @example
+		chatbot.userChat('안녕')
+ */
+chatbot.userChat = function ( msgText ) {
+	// 사용자 그룹 DIV
+    const usrChat = chatbot.createEl("div", "usr_chat", null, null);
+    
+    // 사용자 내용 DIV
+    const usrChatGrp = chatbot.createEl("div", "_bbleTxt", null, null);
+    
+    //  사용자 내영 TEXT
+    const usrChatTxt = chatbot.createEl("span", "w2textbox", msgText, null);    
+    usrChatGrp.appendChild(usrChatTxt);
+    
+    usrChat.appendChild(usrChatGrp);
+    
+    return usrChat; 
+}
+
+
+/**
+ * 응답 DIV 생성
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return group html
+ * @author 백지훈
+ * @example
+		chatbot.assisantChat()
+ */
+chatbot.assisantChat = function ( datas ) {
+	chatbot.responsesArr = [];
+	chatbot.fdbkObj = {};
+	chatbot.swiperId = "";
+	
+	// 응답 데이터 있는지 체크
+	if ( comUtil.gfnIsEmpty(datas) ) return chatbot.errMsg();
+	
+	// response
+	chatbot.responsesArr = datas.responses;
+	chatbot.fdbkObj = datas.business;
+	
+	
+	return chatbot.assisantGroup();
+}
+
+
+/**
+ * AI 응답 Text + Component 포함 호출
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 그룹DIV
+ * @return html
+ * @author 백지훈
+ * @example
+		chatbot.assisantGroup( 그룹DIV )
+ */
+chatbot.assisantGroup = function () {
+	// 메시지 그룹 ID 랜덤 만들기
+	chatbot.g2pGrpId = "grp_" + new Date().getTime();
+	
+	// 메시지 그룹 묶어서 DIV 생성
+	const msgGrpDiv = chatbot.createEl("div", "g2b_chat", null, chatbot.g2pGrpId);
+	
+	const responsesArr = chatbot.responsesArr;
+	
+	// TEXT, Contents 배열담기
+	let resTexts = [];
+	let resContents = [];
+	
+	// 로그인 체크
+	const usr = com.gfnGetUsrInfo();
+	
+	if ( responsesArr.length > 0 ) {
+		const len = responsesArr.length;
+		// 먼저 TEXT 일경우 배열 저장
+		for ( let i = 0; i < len; i++ ) {
+			const resObj = responsesArr[i];
+			
+			if ( chatbot.chatAreaJs === "datah" && chatbot.chatTabType === "1" ) {			// 데이터허브 일경우
+				if ( comUtil.gfnIsNotEmpty(resObj.contents ) ) {
+					for ( let c in resObj.contents ) {
+						const resObjContentObj = resObj.contents[c];
+						if ( resObjContentObj.type === "pretext" ) {
+							resTexts.push(resObjContentObj);
+						}
+					} 
+				} else {
+					if ( comUtil.gfnIsNotEmpty(resObj.text) ) {
+						resTexts.push(resObj);
+					}	
+				}
+			} else {					// 나머지 기존 대로
+				// Text 일경우
+				if ( comUtil.gfnIsNotEmpty(resObj.text) ) {
+					resTexts.push(resObj);
+				}
+				
+			}
+			
+			// Contents 일경우
+			if ( comUtil.gfnIsNotEmpty(resObj.contents) ) {
+				resContents.push(resObj);
+			}
+		}
+		
+		// TEXT 시작
+		msgGrpDiv.appendChild(chatbot.assisantTexts( resTexts ));
+		
+		// Contents 시작
+		for ( let i = 0; i < resContents.length; i++ ) {
+			const resObj = resContents[i];
+			
+			let contentsType = null;
+			if ( comUtil.gfnIsNotEmpty(resObj.contents) ) {
+				if ( comUtil.gfnIsNotEmpty(resObj.contents[0].type) ) {
+					contentsType = resObj.contents[0].type;
+				}
+				
+				if ( contentsType !== "1depth" || ( comUtil.gfnIsEmpty(usr) && contentsType === "1depth" ) && !chatbot.oneDepth ) {
+					if ( comUtil.gfnIsEmpty(usr) && contentsType === "1depth" ) {
+						chatbot.oneDepth = true;
+					}
+				}
+				
+				// 컴포넌트 Contents 출력
+				msgGrpDiv.appendChild(chatbot.assisantComponent(resObj));
+			}
+		}
+	}
+	
+	// 피드백 처리 출력 함수
+	if ( comUtil.gfnIsNotEmpty(chatbot.fdbkObj) ) {
+		const fdbkObj = chatbot.fdbkObj;
+		
+		// 최종답변여부가 1 이면 피드백 컴포넌트 출력
+		if ( fdbkObj.cmpyn === 1 ) {
+			msgGrpDiv.appendChild(chatbot.assisantFeedbackComponent());
+		}
+	}
+	
+	return msgGrpDiv;
+}
+
+/**
+ * 응답 내용 생성_개선
+ *
+ * @memberOf chatbot
+ * @date 2024.06.04
+ * @param text 배열
+ * @return html
+ * @author 백지훈
+ * @example
+		chatbot.assisantTexts()
+ */
+chatbot.assisantTexts = function ( resTextArr ) {
+	const grpAreaDiv = chatbot.createEl("div", "narmiArea", null, null);
+	
+	if ( resTextArr.length > 0 ) {
+		const resTextArrLen = resTextArr.length;
+		const chatBbleGrupDiv = chatbot.createEl("div", "_chatBbleGrup", null, null);
+		
+		for ( let i = 0; i < resTextArrLen; i++ ) {
+			
+			const resTextObj = resTextArr[i];
+			if ( i === 0 ) {
+				const thumbDiv = chatbot.createEl("div", "_thumb", null, null);
+				grpAreaDiv.appendChild(thumbDiv);				
+			}
+			
+//			let text = comUtil.gfnIsNotEmpty(resTextObj.text) ? resTextObj.text : "";
+			let text = comUtil.gfnIsNotEmpty(resTextObj.text) ? resTextObj.text : (comUtil.gfnIsNotEmpty(resTextObj.url) ? resTextObj.url : "");
+			
+			if ( text !== "" ) {
+				const txtGrpDiv = chatbot.createEl("div", "_chatBble", null, null);
+				
+				const txtSpan = chatbot.createEl("span", "", text.replace(/\\n/g, "<br />"), null );
+				txtGrpDiv.appendChild(txtSpan);
+				
+				chatBbleGrupDiv.appendChild(txtGrpDiv);
+			}
+		}
+		grpAreaDiv.appendChild(chatBbleGrupDiv);
+	}
+	
+	return grpAreaDiv;
+}
+
+
+/**
+ * 컴포넌트 타입 생성
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return component Html
+ * @author 백지훈
+ * @example
+		chatbot.assisantComponent()
+ */
+chatbot.assisantComponent = function ( resObj ) {
+	const chbtContAreaDiv = chatbot.createEl("div", "chbtContArea", null, null);
+	
+	// Reponse 값 있는지 체크
+	if ( comUtil.gfnIsNotEmpty(resObj) ) {
+		const contents = resObj.contents;
+		let cpType = "text";
+		
+		// 버튼 Arr 값 체크
+		if ( comUtil.gfnIsNotEmpty(contents) ) {
+			
+			let cpGrpUl = chatbot.createEl("ul", null, null, null);
+			
+			// 컴포넌트 그룹 DIV 생성
+			let txtGrpDiv = null;			// 텍스트 목록일 경우 그룹 생성
+			let menuGrpDiv = null;			// 1depth일 경우 그룹 생성
+			let swiperContainerDiv = null;	// 슬라이더 부모 그룹 생성
+			let swiperWrapperDiv = null;	// 슬라이더 부모의 자식 그룹 생성
+			let reportGrpDiv = null;		// 보고서리스트 그룹 생성
+			
+			for ( let i = 0; i < contents.length; i++ ) {
+				const contentObj = contents[i];
+				
+				// Type
+				// text: 텍스트, normal0: 화면에 따라 자동 줄바꿈, normal1: 한줄씩, 
+				// download: 다운로드, link: 링크, slidelist: 가로슬라이드 목록, 1depth: 1depth 버튼
+				cpType = comUtil.gfnIsNotEmpty(contentObj.type) ? contentObj.type : "text";
+				
+				const title = comUtil.gfnIsNotEmpty(contentObj.title) ? contentObj.title : "";
+				const payload = comUtil.gfnIsNotEmpty(contentObj.payload) ? contentObj.payload : "";
+				const url = comUtil.gfnIsNotEmpty(contentObj.url) ? contentObj.url : "";
+				const question = comUtil.gfnIsNotEmpty(contentObj.question) ? contentObj.question : "";
+				const answer = comUtil.gfnIsNotEmpty(contentObj.answer) ?  contentObj.answer : "";
+				
+				// 해당 타입에 따라 상위(ul) 컴포넌트 생성 처리
+				if ( i === 0 ) {					
+					if (cpType === "text" ) {						// 텍스트
+						txtGrpDiv = chatbot.createEl("div", "_txtInfoList", null, null);
+						chatbot.updateEl(cpGrpUl, "_infoList");
+					} else if ( cpType === "normal0" ) {			// 일반버튼
+						chatbot.updateEl(cpGrpUl, "_bbleBtnGrup");
+					} else if ( cpType === "normal1" ) {			// 일반버튼
+						chatbot.updateEl(cpGrpUl, "_listBtnGrup _newBtn");
+					} else if ( cpType === "download" || cpType === "link" ) {			// 다운로드 or 링크
+						chatbot.updateEl(cpGrpUl, "_listBtnGrup");
+					} else if ( cpType === "slidelist" ) {			// 슬라이드
+						// contArea 그룹에 클래스 변경
+						chatbot.updateEl(chbtContAreaDiv, "chbtContArea posL_zero");
+						
+						// Swiper Container
+						const randomSwiper = Math.random().toString(16).substr(2,10);
+						const swiperId = chatbot.chatAreaJs + "_" + randomSwiper;
+						swiperContainerDiv = chatbot.createEl("div", "swiper-container _cardListGrup " + swiperId, null, null);
+						
+						chatbot.swiperId = swiperId;
+						
+						// Swiper Wrapper
+						swiperWrapperDiv = chatbot.createEl("ul", "swiper-wrapper _cardArea", null, null);
+					} else if ( cpType === "1depth" ) {				// 1depth 버튼
+						menuGrpDiv = chatbot.createEl("div", "_menuGrup", null, null);
+						chatbot.updateEl(cpGrpUl, "_menu" + (chatbot.chatTabType === "2" ? " usrManual" : ""));
+					} else if ( cpType === "image" ) {
+						cpGrpUl = chatbot.createEl("div", "_txtInfoGrup chat_img", null, null);
+					} else if ( cpType === "textlist" ) {			// 보고서 리스트
+						reportGrpDiv = chatbot.createEl("div", "_txtInfoGrup", null, null);
+						chatbot.updateEl(cpGrpUl, "_reprtList");
+					}
+				}
+				
+				// 해당 타입에 따라 상위 컴포넌트 안에 하위 컴포넌트 생성 처리
+				let bbleTag = chatbot.createEl("li", null, null, null);
+				
+				if (cpType === "text" ) {						// 텍스트
+					
+					const dlTxt = chatbot.createEl("dl", null, null, null);
+					const dtTxt = chatbot.createEl("dt", "w2textbox", title, null);
+
+					dlTxt.appendChild(dtTxt);
+					
+					// url 있다면 dd 처리(dd > a > span)
+					if ( comUtil.gfnIsNotEmpty(url) ) {
+						const ddTxt = chatbot.createEl("dd", null, null, null);
+						const ddATxt = chatbot.createEl("a", "w2trigger_anchor", null, null);
+						// url이 '/link' 이면 새로운탭 링크로 처리
+						if ( url.indexOf("/link") > -1) {
+							chatbot.linkEventEl(ddATxt, url);
+						} else {
+							ddATxt.addEventListener("click",  function() { com.gfnOpenMenu(url, { targetMain : true }) });
+						}
+						
+						const chkKoTxt = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+						
+						// url이 한글인경우.?
+						
+						if ( chkKoTxt.test(url)){
+							const chkParam = {
+									reptNm : url
+							};
+							ddATxt.addEventListener("click", function() {com.gfnOpenMenu('AISC001_01', { isHistory: true, param: chkParam })});
+						}	
+						const ddASpanTxt = chatbot.createEl("span", "w2textbox", payload, null);
+						ddATxt.appendChild(ddASpanTxt);
+						ddTxt.appendChild(ddATxt);
+						
+						dlTxt.appendChild(ddTxt);
+					}
+					
+					bbleTag.appendChild(dlTxt);
+				} else if ( cpType === "normal0" ) {			// 일반버튼(화면에 따라 자동 줄바꿈)
+					bbleTag.appendChild(chatbot.createEl("input", "_bbleBtn", title, null, payload));
+					
+				} else if ( cpType === "normal1" ) {			// 일반버튼(한줄씩)
+					const listBtn = chatbot.createEl("input", "_listBtn", title, null, payload);
+					
+					bbleTag.appendChild(listBtn);
+				} else if ( cpType === "download" ) {			// 다운로드
+					chatbot.updateEl(bbleTag, "_ico");		// half > _ico 변경
+					const a_tag = chatbot.createEl("a", "_listBtn down", title, null);
+					if ( comUtil.gfnIsNotEmpty(url) ) {
+						if ( url.indexOf('untyAtchFileNo') > -1 ) {
+							a_tag.addEventListener("click", function() { chatbot.getDownload(url) });
+						}
+					}
+					bbleTag.appendChild(a_tag);
+					
+				} else if ( cpType === "link" ) {				// 링크
+					chatbot.updateEl(bbleTag, "_ico");		// half > _ico 변경
+					const a_tag = chatbot.createEl("a", "_listBtn link", title, null);
+					if ( url.indexOf("/link") > -1) {
+						chatbot.linkEventEl(a_tag, url);
+					} else {
+						if ( chatbot.chatAreaJs === "datah" && chatbot.chatTabType === "1" ) {		// 데이터허브 챗봇이고, 보고서찾기 일경우 메뉴번호로 이동 
+							a_tag.addEventListener("click",  function() { com.gfnOpenMenu(url, { targetMain : true }) });
+						} else {
+							a_tag.setAttribute("target", "_blank");
+							a_tag.setAttribute("href", url);
+						}
+					}
+					bbleTag.appendChild(a_tag);
+					
+				} else if ( cpType === "slidelist" ) {			// 슬라이드
+					chatbot.updateEl(bbleTag, "swiper-slide slideCard");
+					
+					// txtDataArea 그룹
+					const slideTxtDataArea = chatbot.createEl("div", "txtDataArea", null, null);
+					
+					// _qTxtGrup 질문 그룹
+					const slideQTxtGrp = chatbot.createEl("span", "_qTxtGrup", null, null);
+//					const qTxtGrpSpan = chatbot.createEl("span", "_bullet", (i+1), null);
+					const qTxtGrpSpan = chatbot.createEl("span", "_bullet", null, null);
+					slideQTxtGrp.appendChild(qTxtGrpSpan);
+					
+					const qTxtGrpDiv = chatbot.createEl("span", "", comUtil.gfnIsNotEmpty(url) ? "" : question, null);
+					if ( comUtil.gfnIsNotEmpty(url) ) {		// URL 값 있을시
+						const qTxtA = chatbot.createEl("a", "_qLink", "", null);
+						if ( url.indexOf("/link") > -1) {
+							chatbot.linkEventEl(qTxtA, url);
+						} else {
+							qTxtA.setAttribute("target", "_blank");
+							qTxtA.setAttribute("href", url);
+						}
+						const qTxtASpan = chatbot.createEl("span", "", question, null);
+						qTxtA.appendChild(qTxtASpan);
+						qTxtGrpDiv.appendChild(qTxtA);
+					}
+					slideQTxtGrp.appendChild(qTxtGrpDiv);
+					
+					slideTxtDataArea.appendChild(slideQTxtGrp);
+					
+					// _aTxtGrup 답변 그룹
+					const slideATxtGrp = chatbot.createEl("div", "_aTxtGrup", null, null);
+					const answerTxt = answer.replace(chatbot.urlPattern, chatbot.replaceUrl);
+					const aTxtGrpSpan = chatbot.createEl("span", "_aTxt", answerTxt.replace(/\\n|\n/g, "<br />"), null);
+					
+					// 질문 길이 구하기
+					const qLen = comUtil.gfnGetByteLength(question);
+					// 답변 길이 구하기
+					const aLen = comUtil.gfnGetByteLength(answer);
+					
+					// -webkit-line-clamp
+					// 질문 라인수에 따라 스타일 변경
+					aTxtGrpSpan.setAttribute("style", chatbot.slideStyleLineClamp(question));
+					slideATxtGrp.appendChild(aTxtGrpSpan);
+					
+					let answerOpen = false;
+					if ( qLen > 250 && aLen > 368 ) {
+						answerOpen = true;
+					} else {
+						if ( aLen > 368 ) {
+							answerOpen = true;
+						} else if ( chatbot.qsStrLenTot(question, answer) > 6 ) {
+							answerOpen = true;
+						} 
+					}
+					
+					// 접기/평처보기
+					const aTxtGrpIpt = chatbot.createEl("a", "_innerBtn" + (answerOpen ? "" : " disabled"), null, null);
+					const aTxtGrpIptSpan = chatbot.createEl("span", null, "", null);
+					if ( answerOpen ) {
+						aTxtGrpIpt.addEventListener("click", function(e) { chatbot.slideOpenHide(e); });
+					}
+					aTxtGrpIpt.appendChild(aTxtGrpIptSpan);
+//					slideATxtGrp.appendChild(aTxtGrpIpt);
+					
+					slideTxtDataArea.appendChild(slideATxtGrp);
+					
+					bbleTag.appendChild(slideTxtDataArea);
+					bbleTag.appendChild(aTxtGrpIpt);
+					
+					swiperWrapperDiv.appendChild(bbleTag);
+				} else if ( cpType === "1depth" ) {				// 1depth 버튼
+					const depthTag = chatbot.createEl("input", "w2trigger btnMenu", title, null, payload);
+					
+					// url 값 있으면 아이콘명 넣기, 없으면 basic
+					if ( url !== "" ) {
+						chatbot.updateEl(depthTag, depthTag.getAttribute("class") + " " + url);
+					} else {
+						const urlBasic = chatbot.chatTabType === "1" ? "Faq_basic" : "UsManl_basic"; 
+						chatbot.updateEl(depthTag, depthTag.getAttribute("class") + " " + urlBasic);
+					}
+					
+					bbleTag.appendChild(depthTag);
+				} else if ( cpType === "textlist" ) {	// 보고서 리스트
+					const textSpan = chatbot.createEl("span", null, url, null);
+					bbleTag.appendChild(textSpan);
+				}
+				
+				// 슬라이더 아닐경우 input에 Ul로 담기
+				if ( cpType !== "slidelist" ) {
+					if ( cpType === "image" )  {
+						const aImgNewTab = chatbot.createEl("a", (chatbot.isApplyImgNewTab(url) ? "imgNewTab" : "imgNoTab"), url, null);
+						const img = chatbot.createEl("img", "", url, null);
+						aImgNewTab.appendChild(img);
+						cpGrpUl.appendChild(aImgNewTab);
+					} else {
+						cpGrpUl.appendChild(bbleTag);
+					}
+						
+				}
+			}
+			
+			// chbtContAreaDiv Append Child 
+			// 슬라이더 일 경우
+			if ( cpType === "slidelist" ) {
+				// swiper pagination div
+				const swiperPaginationDiv = chatbot.createEl("div", "swiper-pagination _circle_pageNtn", null, null);
+				
+				// 이전, 다음 그룹 DIV
+				const swiperControlBtnDiv = chatbot.createEl("div", "_contrlBtn", null, null);
+				
+				// 오른쪽 화살표
+				const swiperBtnNextDiv = chatbot.createEl("input", "swiper-button-next btnNext chatbot-nav", null, null);
+				// 왼쪽 화살표
+				const swiperBtnPrevDiv = chatbot.createEl("input", "swiper-button-prev btnPrev chatbot-nav", null, null);
+				
+				swiperControlBtnDiv.appendChild(swiperBtnNextDiv);
+				swiperControlBtnDiv.appendChild(swiperBtnPrevDiv);
+				
+				swiperContainerDiv.appendChild(swiperControlBtnDiv);
+				
+				swiperContainerDiv.appendChild(swiperWrapperDiv);
+				swiperContainerDiv.appendChild(swiperPaginationDiv);
+				
+				chbtContAreaDiv.appendChild(swiperContainerDiv);
+			} else if ( cpType === "text" ) {		// 텍스트 목록인 경우
+				if ( txtGrpDiv !== null ) {
+					txtGrpDiv.appendChild(cpGrpUl);
+					chbtContAreaDiv.appendChild(txtGrpDiv);
+				}
+			} else if ( cpType === "1depth" ) {		// 1depth 일경우
+				if ( menuGrpDiv !== null ) {
+					menuGrpDiv.appendChild(cpGrpUl);
+					chbtContAreaDiv.appendChild(menuGrpDiv);				
+				}
+			} else if ( cpType === "textlist" ) {	// 데이터 허브 - 보고서 리스트
+				reportGrpDiv.appendChild(cpGrpUl);
+				chbtContAreaDiv.appendChild(reportGrpDiv);
+			} else {								// 나머지 
+				chbtContAreaDiv.appendChild(cpGrpUl);
+			}
+		}
+	}
+	
+	return chbtContAreaDiv;
+	
+}
+
+
+/**
+ * 피드백 컴포넌트 생성
+ *
+ * @memberOf chatbot
+ * @date 2024.07.23
+ * @param
+ * @return Component
+ * @author 백지훈
+ * @example
+		chatbot.assisantFeedbackComponent( )
+ */
+chatbot.assisantFeedbackComponent = function () {
+	const chbtContAreaDiv = chatbot.createEl("div", "chbtContArea", null, null);
+	
+	// 피드백 관련 추가 S
+	const feedbkAreaDiv = chatbot.createEl("div", "feedbkArea", null, null);
+	// 피드백 내용
+	const satisQDiv = chatbot.createEl("div", "satisQ", null, null);
+	const satisQSpan = chatbot.createEl("span", "", "답변에 만족하셨나요?", null);
+	satisQDiv.appendChild(satisQSpan);
+	
+	// 피드백 위아래 따봉
+	const fdbkCheckGrp = chatbot.createEl("div", "w2group _fdbkCheckBtn", null, null);
+	
+	fdbkCheckGrp.appendChild(chatbot.fdbkLikeChild("좋아요"));
+	fdbkCheckGrp.appendChild(chatbot.fdbkLikeChild("아쉬워요"));
+	
+	feedbkAreaDiv.appendChild(satisQDiv);
+	feedbkAreaDiv.appendChild(fdbkCheckGrp);
+	
+	chbtContAreaDiv.appendChild(feedbkAreaDiv);
+	// 피드백 관련 추가 E
+	
+	return chbtContAreaDiv; 
+}
+
+
+/**
+ * 피드백 관련 하위태그 적용
+ *
+ * @memberOf chatbot
+ * @date 2024.07.23
+ * @param 문자열
+ * @return Tag
+ * @author 백지훈
+ * @example
+		chatbot.fdbkLiRadioAndLabel( "좋아요" )
+ */
+chatbot.fdbkLikeChild = function ( sVal ) {
+	const inputChild = chatbot.createEl("input", (sVal === "좋아요") ? "_like" : "_sorry", sVal, null);
+	
+	return inputChild;	
+}
+
+
+/**
+ * 세선관리 저장
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param datas
+ * @return sessionStorage
+ * @author 백지훈
+ * @example
+		chatbot.saveSession( datas )
+ */
+chatbot.saveSession = function( datas ) {
+	chatbot.deleteSession();
+	
+	// 값 체크
+	if ( comUtil.gfnIsEmpty(datas) ) return;
+	
+	// response
+	//const resObj = datas.response.responses;
+	
+	// ConversationId 값 체크
+	if ( comUtil.gfnIsEmpty(datas.conversationId) ) return;
+	
+	// 세선 저장
+	window.sessionStorage.setItem("chatbotConversationId", datas.conversationId);
+}
+
+
+/**
+ * 세선관리 삭제
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return 
+ * @author 백지훈
+ * @example
+		chatbot.deleteSession()
+ */
+chatbot.deleteSession = function () {
+	// 세선 저장
+	window.sessionStorage.removeItem("chatbotConversationId");
+}
+
+/**
+ * 엘리먼트 생성
+ *
+ * @memberOf chatbot
+ * @date 2024.04.29
+ * @param  sEl		Tag
+ * 		   sClass	클래스명
+ * 		   sVal		텍스트
+ * 		   sId		ID
+ * @return 엘리먼트
+ * @author 백지훈
+ * @example
+		chatbot.createEl()
+ */
+chatbot.createEl = function ( sEl, sClass, sVal, sId, sPayload ) {
+	const el = document.createElement(sEl);
+	if ( comUtil.gfnIsNotEmpty(sId) ) el.setAttribute("id", sId);					// id 값 있을경우 ID 속성추가
+	if ( comUtil.gfnIsNotEmpty(sClass) ) el.setAttribute("class", sClass);		// 클래스 값 있을경우 ClassName 속성추가
+	
+	// 텍스트 값 있을경우 태그에 따라 innerHTML or value 속성 추가
+	if ( comUtil.gfnIsNotEmpty(sVal) ) {
+		if ( sEl === "div" || sEl === "span" || sEl === "dt" || sEl === "a") {
+			if ( sEl === "a" ) {				// A 태그일경우 href 속성 처리
+				if ( sClass === "imgNewTab") {		// 이미지 클래스가 새창(imgNewTab)
+					el.setAttribute("href", sVal);
+					el.setAttribute("target", "_blank");
+				} else {
+					if ( sPayload ) el.setAttribute("data-role", sPayload);
+					el.setAttribute("href", "javascript:void(0);");
+					
+				}
+			}
+			if ( sClass !== "imgNewTab"
+                 && sClass !== "imgNoTab") {
+                el.innerHTML = sVal;
+            }
+		} else if ( sEl === "input" ) {			// input 태그일경우 button 관련 속성 처리
+			el.setAttribute("type", "button");
+			el.setAttribute("value", sVal);
+			if ( sPayload ) el.setAttribute("data-role", sPayload);
+		} else if ( sEl === "img" ) {			// img 태그일경우 src 속성 처리
+			el.setAttribute("src", sVal);
+		} 
+	} else {
+		if ( sEl === "input" ) {
+			el.setAttribute("type", "button");
+		} else if ( sEl === "a" ) {
+			el.setAttribute("href", "javascript:void(0);");
+		}
+	}
+	
+	return el;
+}
+
+/**
+ * 엘리먼트 수정
+ *
+ * @memberOf chatbot
+ * @date 2024.04.29
+ * @param sEl 엘리먼트
+ *        sClass 클래스명
+ * @return 
+ * @author 백지훈
+ * @example
+		chatbot.updateEl()
+ */
+chatbot.updateEl = function ( sEl, sClass ) {
+	if ( comUtil.gfnIsNotEmpty(sClass) ) sEl.setAttribute("class", sClass);
+}
+
+/**
+ * API 서버 에러 발생시 에러 메시지 출력 처리
+ *
+ * @memberOf chatbot
+ * @date 2024.04.29
+ * @param 
+ * @return 
+ * @author 백지훈
+ * @example
+		chatbot.errMsg()
+ */
+chatbot.errMsg = function () {
+	const msgGrpDiv = chatbot.createEl("div", "g2b_chat", null, chatbot.g2pGrpId);
+	
+	const grpAreaDiv = chatbot.createEl("div", "narmiArea", null, null);
+	
+	const thumbDiv = chatbot.createEl("div", "_thumb", null, null);
+	grpAreaDiv.appendChild(thumbDiv);
+	
+	const txtChatBbleGrup = chatbot.createEl("div", "_chatBbleGrup", null, null);
+	const txtGrpDiv = chatbot.createEl("div", "_chatBble", null, null);
+	const txtSpan = chatbot.createEl("span", "", chatbot.errMessage, null );
+	txtGrpDiv.appendChild(txtSpan);
+	
+	txtChatBbleGrup.appendChild(txtGrpDiv);
+	
+	grpAreaDiv.appendChild(txtChatBbleGrup);
+	
+	msgGrpDiv.appendChild(grpAreaDiv);
+	
+	chatbot.serverErr = false;
+	
+	return msgGrpDiv;
+}
+
+/**
+ * Swiper 적용
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return new Swiper 초기 셋팅
+ * @author 백지훈
+ * @example
+		chatbot.swiperSetting()
+ */
+chatbot.swiperSetting = function () {
+	new Swiper('.swiper-container._cardListGrup.' + chatbot.swiperId, {
+        // autoHeight: true,
+        // allowTouchMove: false, // false시에 스와이핑이 되지 않으면 버튼으로만 슬라이드 조작이 가능
+//        noSwipingSelector: 'input', //검색온, 아림온 스와이핑 이벤트 추가 - 인풋 클릭시 불필요하게 다음화면으로 슬라이딩 되는 오류 수정z
+		slidesPerView: "auto",
+		spaceBetween: 20,
+        centeredSlides: false,
+        observer: true,
+        observeParents: true,
+        threshold: 20,		// 마우스 민감도 숫자 올리면 민감도 떨어짐
+        navigation: {
+            nextEl: '.swiper-button-next.btnNext.chatbot-nav',
+            prevEl: '.swiper-button-prev.btnPrev.chatbot-nav',
+        },
+        pagination: {
+            el: '.swiper-pagination._circle_pageNtn',
+//            clickable: true,
+            dynamicBullets: true
+//            type: "fraction"
+        },
+    });
+}
+
+
+/**
+ * 날짜 포맷 처리
+ *
+ * @memberOf chatbot
+ * @date 2024.05.03
+ * @param 
+ * @return 포맷된 데이터 값
+ * @author 백지훈
+ * @example
+		chatbot.getDateFormat()
+ */
+chatbot.getDateFormat = function () {
+	const nowFormat = comUtil.gfnFormatDateTime(new Date(), "yyyy-MM-dd HH:mm:ss");
+	
+	return nowFormat;
+}
+
+
+/**
+ * 맨 마지막 스크롤 이동 처리
+ *
+ * @memberOf chatbot
+ * @date 2024.05.03
+ * @param tabContentBody 해당 Body ID
+ * @return 
+ * @author 백지훈
+ * @example
+		chatbot.moveLastContentBody( 해당 body Id )
+ */
+chatbot.moveLastContentBody = function ( tabContentBody ) {
+//	if ( comUtil.gfnIsNotEmpty(tabContentBody)  ) {
+//		setTimeout(function() {
+//			tabContentBody[0].scrollIntoView({behavior: "smooth", block: "end"});
+//		}, 300);		
+//	}
+	if ( comUtil.gfnIsNotEmpty(tabContentBody)  ) {
+
+	    //가장 가까운 사용가능 스크롤 찾기
+	    function findScrollableParent(element){
+	        while(element && element !== document.body){
+	            const hasScrollableContent = element.scrollHeight > element.clientHeight; 
+	            const overfY = WebSquare.style.getComputedStyle(element).overflowY;
+	            const isScrollable = overfY === 'auto' || overfY==='scroll';
+	            if(hasScrollableContent && isScrollable){
+	                return element;
+	            } 
+	            element = element.parentElement;
+	        } 
+	        return null;
+	    }
+	        
+	    //해당 스크롤만 가능하게 변경
+	    setTimeout(function() {
+	        //tabContentBody[0].scrollIntoView({behavior: "smooth", block: "end"});
+	        const issScrolleblePart = findScrollableParent(tabContentBody[0]);
+			if(issScrolleblePart){
+				issScrolleblePart.scrollTo({top:issScrolleblePart.scrollHeight, behavior:'smooth'});	
+			}
+	        
+	    }, 300);		
+	}
+}
+
+
+/**
+ * 다운로드 처리
+ *
+ * @memberOf chatbot
+ * @date 2024.05.03
+ * @param 통합파일첨부번호
+ * @return 다운로드 처리
+ * @author 백지훈
+ * @example
+		chatbot.getDownload( '통합파일첨부번호' or '파일명')
+ */
+chatbot.getDownload = function ( sUrl ) {
+	if ( sUrl.indexOf("&amp;") ) {
+		sUrl = sUrl.replace("&amp;", "&");
+	}
+	const searchParams = new URLSearchParams(sUrl);
+	
+	// 임사로 다운로드 되게 처리
+    const opt = {
+        untyAtchFileNo : searchParams.get("untyAtchFileNo"), // 필수
+        bsnePath : 'FMFMPA', // 필수
+        prcmBsneSeCd : '업130022', // 필수
+        tblNm : 'COMM_PRTL_FTRE', // 필수
+        colNm : 'UNTY_ATCH_FILE_NO', // 필수
+        atchFileSqno : searchParams.get("atchFileSqno"),
+    }
+    comUtil.gfnFileDownLoad(opt);
+}
+
+
+/**
+ * Slide 접기/펄치기 이벤트
+ *
+ * @memberOf chatbot
+ * @date 2024.05.16
+ * @param 해당 태그 이벤트
+ * @return
+ * @author 백지훈
+ * @example
+		chatbot.slideOpenHide(event)
+ */
+chatbot.slideOpenHide = function ( e ) {
+	const parentaSlideCardGrp = $(e.target).parent().parent();
+	const slideCardGrpClass = parentaSlideCardGrp.attr('class');
+	const qTxt = $(e.target).parent().prev().find('div._qTxtGrup > div');
+	const aTxt = $(e.target).parent().prev().find('div._aTxtGrup > span._aTxt');
+	
+	const CLASS_OPEN = "_open";
+	
+	if ( slideCardGrpClass.match(CLASS_OPEN) ) {
+		parentaSlideCardGrp.removeClass(CLASS_OPEN);
+		aTxt.scrollTop(0);
+		aTxt.attr('style', chatbot.slideStyleLineClamp(qTxt.text()));
+	} else {
+		parentaSlideCardGrp.addClass(CLASS_OPEN);
+		aTxt.attr('style', '');
+	}
+}
+
+
+/**
+ * 질문 byte 무시하고 길이에 따라 스타일 처리
+ *
+ * @memberOf chatbot
+ * @date 2024.05.16
+ * @param 질문내용
+ * @return 스타일 설정
+ * @author 백지훈
+ * @example
+		chatbot.slideStyleLineClamp(질문내용)
+ */
+chatbot.slideStyleLineClamp = function ( str ) {
+	const lineClamp = 7 - Math.ceil(str.length / 24);
+	
+	let webkitLineClamp = "-webkit-line-clamp: " + lineClamp;
+	let maxHeight = "max-height: " + (21 * lineClamp) + "px";
+	
+	let resultStyle = "".concat(webkitLineClamp, ";", maxHeight);
+		
+	return resultStyle;
+}
+
+/**
+ * 질문, 답변 길이에 따라 각 라인 수 합치기
+ *
+ * @memberOf chatbot
+ * @date 2024.07.18
+ * @param 질문, 답변 내용
+ * @return 총 라인 수
+ * @author 백지훈
+ * @example
+		chatbot.qsStrLenTot(질문내용, 답변내용)
+ */
+chatbot.qsStrLenTot = function ( qStr, aStr ) {
+	const qStrLen = Math.ceil(qStr.length / 24);
+	const aStrLen = Math.ceil(aStr.length / 24);
+	
+	return (qStrLen + aStrLen);
+}
+
+
+
+/**
+ * url 내용을 링크로 변굥
+ *
+ * @memberOf chatbot
+ * @date 2024.05.23
+ * @param url 내용
+ * @return a 링크
+ * @author 백지훈
+ * @example
+		chatbot.replaceUrl(url)
+ */
+chatbot.replaceUrl = function ( sUrl ) {
+	sUrl = sUrl.substring(1, (sUrl.length - 1));
+	return '(<a href="' + sUrl + '" target="_blank">' + sUrl + '</a>)';
+}
+
+
+/**
+ * 해당 엘리먼트에 클릭 이벤트 처리
+ *
+ * @memberOf chatbot
+ * @date 2024.05.31
+ * @param	el	Tag Element
+ *        	url 링크 주소
+ * @return
+ * @author 백지훈
+ * @example
+		chatbot.linkEventEl( element, url )
+ */
+chatbot.linkEventEl = function ( el, sUrl ) {
+	let reUrl = chatbot.protocol + "//" + chatbot.host + sUrl;
+	
+	// 2024.08.05 나라장터 제외 나머지이고, 사용자매뉴얼 탭 일경우 나라장터로 호출하게 변경 
+	if ( ((reUrl.indexOf("data") > -1 && chatbot.chatTabType === "2")
+        || (reUrl.indexOf("shop") > -1 && chatbot.chatTabType === "2")
+        || (reUrl.indexOf("venture") > -1 && chatbot.chatTabType === "2")) ) {
+		reUrl = reUrl.replaceAll('data', 'www');
+		reUrl = reUrl.replaceAll('shop', 'www');
+		reUrl = reUrl.replaceAll('venture', 'www');
+    }
+	
+	el.addEventListener("click",  function() { comUtil.gfnOpenNewTab(reUrl) });
+}
+
+/**
+ * 팝업 헤더에 3개 버튼 부분 해당 태그 제거
+ *
+ * @memberOf chatbot
+ * @date 2024.06.25
+ * @param
+ * @return
+ * @author 백지훈
+ * @example
+		chatbot.removeGrpPopupHeader()
+ */
+chatbot.removeGrpPopupHeader = function () {
+	// KUNA001_01 : 나라장터
+	// KUNA002_01 : 데이터허브
+	// KUNA003_01 : 쇼핑몰
+	// KUNA004_01 : 벤처나라
+	
+	let divKunaId = "";
+	let bIsKuna = false;
+	for ( let i = 0; i < 4; i++ ) {
+		divKunaId = $("div[id$=KUNA00" + (i + 1) + "_01]");
+		
+		if ( divKunaId.length > 0 ) {		// 해당 팝업 ID 있으면 true 처리하고 for문 빠져나옴
+			bIsKuna = true;
+			break;
+		}
+	}
+	
+	// 해당 팝업 ID 있을시 팝업 헤더 제거 처리
+	if ( bIsKuna ) {
+		if ( divKunaId.length > 0 ) {
+			if ( divKunaId.find("div[id$=grpPopupHeader]").length > 0 ) {
+				divKunaId.find("div[id$=grpPopupHeader]").remove();
+			}
+		}		
+	}
+}
+
+
+/**
+ * E-고객센터으로 이동
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.05
+ * @param
+ * @return
+ * @author 백지훈
+ * @example
+		chatbot.fnEhelpdesk()
+ */
+chatbot.fnEhelpdesk = function() {
+    let eCustomCenter = chatbot.protocol + "//" + chatbot.host + "/ehelpdesk";
+
+    if ( eCustomCenter.indexOf("data") > -1 
+        || eCustomCenter.indexOf("shop") > -1 
+        || eCustomCenter.indexOf("venture") > -1) {
+        eCustomCenter = eCustomCenter.replaceAll('data', 'www');
+        eCustomCenter = eCustomCenter.replaceAll('shop', 'www');
+        eCustomCenter = eCustomCenter.replaceAll('venture', 'www');
+    }
+    comUtil.gfnOpenNewTab(eCustomCenter);
+}
+
+/*****************************************************************************************************************************
+ * 관리자 chatbotMng
+ *****************************************************************************************************************************/
+chatbotMng.chatAreaJs = "";
+chatbotMng.chatTabType = "";
+/**
+ * 챗봇 히스토리 한꺼번에 처리
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param
+ * @return
+ * @author 백지훈
+ * @example
+		chatbotMng.grpUsrAndAssisant()
+ */
+chatbotMng.grpHistDatas = function ( datas, nextDatas, el ) {
+	chatbotMng.userText = "";
+	
+	if ( comUtil.gfnIsEmpty(datas) ) return chatbot.errMsg();
+	
+	if ( typeof datas === "string" ) datas = JSON.parse(datas);
+	if ( typeof nextDatas === "string" ) nextDatas = JSON.parse(nextDatas);
+	
+	return chatbotMng.usrAndAssisantChat(datas, nextDatas, el);
+}
+
+/**
+ * 챗봇 히스토리 응답 DIV 생성
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param
+ * @return
+ * @author 백지훈
+ * @example
+		chatbotMng.usrAndAssisantChat()
+ */
+chatbotMng.usrAndAssisantChat = function ( datas, nextDatas, el ) {
+	chatbotMng.requestUserObj = {};
+	chatbotMng.nextRequestUserObj = {};
+	chatbotMng.responsesArr = [];
+	chatbotMng.responseDataObj = {};
+	
+	// 사용자 출력
+	chatbotMng.requestUserObj = comUtil.gfnIsEmpty(datas.responses) ? datas : null;
+	
+	// response
+	chatbotMng.responsesArr = datas.responses;
+	
+	// data
+	chatbotMng.responseDataObj = datas.data;
+	
+	// 다음 데이터
+	chatbotMng.nextRequestUserObj = comUtil.gfnIsNotEmpty(nextDatas) ? nextDatas : null;
+	
+	$(el).append(chatbotMng.chatbotHistsGroup('question'));		// 사용자 입력
+	$(el).append(chatbotMng.chatbotHistsGroup('answer'));		// 응답
+	
+	return el;
+}
+
+
+/**
+ * 챗봇 대화이력_사용자 입력 컴포넌트 question
+ * 챗봇 대화이력_응답 컴포넌트		answer
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param gubun 구분
+ * 		question	사용자입력
+ * 		answer		응답
+ * @return html
+ * @author 백지훈
+ * @example
+		chatbot.chatbotHistsGroupQ()
+*/
+chatbotMng.chatbotHistsGroup = function ( gubun ) {
+	/**
+	 * 1 사용자 타입에 따라 FAQ, 사용자매뉴얼 선택
+	 */
+	chatbotMng.setChatTypeTxt(chatbotMng.requestUserObj);
+	
+	
+	/**
+	 * 2. 사용지 입력, 응답 구분에 따라 컴포넌트 생성 처리
+	 */
+	let msgGrpDiv = null;
+	if ( gubun === "question" ) {				// 사용자 입력 컴포넌트
+		// 메시지 그룹 묶어서 DIV 생성
+		msgGrpDiv = chatbot.createEl("div", "usr_chat", null, null);
+		
+		const requestUserObj = chatbotMng.requestUserObj;
+		
+		// 사용자 입력
+		msgGrpDiv.appendChild(chatbotMng.userComponent(requestUserObj));
+		
+	} else if ( gubun === "answer") {			// 응답 컴포넌트
+		msgGrpDiv = chatbot.createEl("div", "g2b_chat", null, null);
+		
+		if ( comUtil.gfnIsNotEmpty(chatbotMng.responsesArr) ) {
+			// 메시지 그룹 묶어서 DIV 생성
+			
+			const responsesArr = chatbotMng.responsesArr;
+			const responseDatasArr = chatbotMng.responseDatasArr;
+			
+			// 응답
+			// TEXT, Contents 배열담기
+			let resTexts = [];
+			let resContents = [];
+			
+			if ( responsesArr.length > 0 ) {
+				const len = responsesArr.length;
+				// 먼저 TEXT 일경우 배열 저장
+				for ( let i = 0; i < len; i++ ) {
+					const resObj = responsesArr[i];
+					
+					if ( chatbotMng.chatAreaJs === "데이터허브" && chatbotMng.chatTabType === "1" ) {			// 데이터허브 일경우
+						if ( comUtil.gfnIsNotEmpty(resObj.contents ) ) {
+							for ( let c in resObj.contents ) {
+								const resObjContentObj = resObj.contents[c];
+								if ( resObjContentObj.type === "pretext" ) {
+									resTexts.push(resObjContentObj);
+								}
+							} 
+						} else {
+							if ( comUtil.gfnIsNotEmpty(resObj.text) ) {
+								resTexts.push(resObj);
+							}	
+						}
+					} else {					// 나머지 기존 대로
+						// Text 일경우
+						if ( comUtil.gfnIsNotEmpty(resObj.text) ) {
+							resTexts.push(resObj);
+						}
+						
+					}
+					
+					// Contents 일경우
+					if ( comUtil.gfnIsNotEmpty(resObj.contents) ) {
+						resContents.push(resObj);
+					}
+					
+					/* OLD
+					// Text 일경우
+					if ( comUtil.gfnIsNotEmpty(resObj.text) ) {
+						resTexts.push(resObj);
+					}
+					*/
+				}
+				
+				// TEXT 시작
+				msgGrpDiv.appendChild(chatbotMng.assisantTexts( resTexts ));
+				
+				// Contents 시작
+				for ( let i = 0; i < resContents.length; i++ ) {
+					const resObj = resContents[i];
+					
+					let contentsType = null;
+					if ( comUtil.gfnIsNotEmpty(resObj.contents) ) {
+						if ( comUtil.gfnIsNotEmpty(resObj.contents[0].type) ) {
+							contentsType = resObj.contents[0].type;
+						}
+						
+						// 컴포넌트 Contents 출력
+						msgGrpDiv.appendChild(chatbotMng.assisantComponent(resObj));
+					}
+				}
+			}
+		}
+	}
+	
+	return msgGrpDiv;
+}
+
+
+/**
+ * 챗봇 메뉴에 따라 표시
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.15
+ * @param sUserObj 사용자 입력 Object
+ * @return chatbotMng.chatTypeTxt
+ * @author 백지훈
+ * @example
+		chatbot.setChatTypeTxt(sUserObj)
+*/
+chatbotMng.setChatTypeTxt = function( sUserObj ) {
+	// 사용자입력에 Data 있는지 체크
+	if ( comUtil.gfnIsNotEmpty(sUserObj) ) {
+		// Tab별로 Type에 따라 표시 1: [FAQ], 2: [사용자매뉴얼]
+		// chatArea에 따라 type 처리
+		const chatTypeSel = sUserObj.data.chatType === null ? 1 : parseInt(sUserObj.data.chatType);
+		chatbotMng.chatTypeTxt = chatTypeSel === 1 ? (sUserObj.data.chatArea === "데이터허브" ? "[보고서찾기]" : "[FAQ]") : "[사용자매뉴얼]";
+		chatbotMng.chatTypeTxt = chatbotMng.chatTypeTxt + " ";
+	}
+}
+
+
+/**
+ * 챗봇 대화이력_사용자 입력
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param usrDataObj
+ * @return html
+ * @author 백지훈
+ * @example
+		chatbotMng.userComponent( datas )
+ */
+chatbotMng.userComponent = function ( usrDataObj ) {
+	const grpUsrDataDiv = chatbot.createEl("div", "usr_data", null, null);
+	
+	if ( comUtil.gfnIsNotEmpty(usrDataObj) ) {
+		const message = usrDataObj.message;
+		let txt = "";
+		const bbleTxtDiv = chatbot.createEl("div", "_bbleTxt", null, null);
+		
+		// 사용자입력
+		txt = chatbotMng.txtMessageReplace(txt, chatbotMng.userTextReplace(message));
+		
+		if ( txt.match("config_welcome") ) txt = txt + " 첫인사";
+		
+		const txtSpan = chatbot.createEl("span", "", txt, null);
+		bbleTxtDiv.appendChild(txtSpan);
+		grpUsrDataDiv.appendChild(bbleTxtDiv);
+		
+		const usrInptInfoGrupDiv = chatbot.createEl("div", "usrInpt_infoGrup", null, null);
+		
+		// Response 중에 Data 값 있을경우
+		if ( comUtil.gfnIsNotEmpty(chatbotMng.nextRequestUserObj) ) {
+			const dataIEObj = chatbotMng.nextRequestUserObj.data;
+			
+			// Intent
+			const intentAreaDiv = chatbot.createEl("div", "_intentArea", null, null);
+			
+			if ( comUtil.gfnIsNotEmpty(dataIEObj.intent) ) {
+				// Intent > info > txt
+				let infoDiv = chatbot.createEl("div", "_info", null, null);
+				let infoTxtSpan = chatbot.createEl("span", "", dataIEObj.intent.intent, null);
+				infoDiv.appendChild(infoTxtSpan);
+				
+				let etcDiv = chatbot.createEl("div", "_etc", null, null);
+				let etcTxtSpan = chatbot.createEl("span", "", "Confidence : " + parseFloat(dataIEObj.intent.confidence), null);
+				etcDiv.appendChild(etcTxtSpan);
+				
+				intentAreaDiv.appendChild(infoDiv);
+				intentAreaDiv.appendChild(etcDiv);
+			}
+			
+			// Entity
+			const entityAreaDiv = chatbot.createEl("div", "_entityArea", null, null);
+			
+			if ( comUtil.gfnIsNotEmpty(dataIEObj.entities) ) {
+				infoDiv = chatbot.createEl("div", "_info", null, null);
+				for ( let i = 0; i < dataIEObj.entities.length; i++ ) {
+					// Entity > info > txt
+					infoTxtSpan = chatbot.createEl("span", "", dataIEObj.entities[i].entity + " : " + dataIEObj.entities[i].entity, null);
+					infoDiv.appendChild(infoTxtSpan);
+					
+				}
+				entityAreaDiv.appendChild(infoDiv);
+			}
+			
+			usrInptInfoGrupDiv.appendChild(intentAreaDiv);
+			usrInptInfoGrupDiv.appendChild(entityAreaDiv);
+		}
+		
+		grpUsrDataDiv.appendChild(usrInptInfoGrupDiv);
+	}
+	
+	
+	// 다음 사용자가 입력한 텍스트 넣기
+	if ( comUtil.gfnIsNotEmpty(chatbotMng.nextRequestUserObj) ) {
+		const nextMessage = chatbotMng.nextRequestUserObj.message;
+		let nextTxt = chatbotMng.txtMessageReplace("", chatbotMng.userTextReplace(nextMessage));
+		
+		chatbotMng.userText = nextTxt;
+	}
+	
+	return grpUsrDataDiv;
+}
+
+/**
+ * 사용자 입력한 문자열 잘라서 출력 처리
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.09
+ * @param
+ * 			txt			리턴 Text 값
+ * 			message		사용자 입력한 내용
+ * @return txt
+ * @author 백지훈
+ * @example
+		chatbotMng.txtMessageReplace()
+ */
+chatbotMng.txtMessageReplace = function(txt, message) {
+	if ( comUtil.gfnIsNotEmpty(message) ) {
+		// 최초시 이용자유형일경우
+		if ( message.indexOf("action") > -1 ) {
+			if (message.indexOf(":") > -1 && message.lastIndexOf("}") > -1 ) {
+				txt = message.substring(message.indexOf(":") + 1, message.lastIndexOf("}"));
+				txt = txt.trim().replace(/"/g, '');
+			}
+		} else if ( message.search(/\/D[0-9]_/g) > -1) {		// 1depth, nomal0, nomal1 버튼일경우
+			txt = message.substring(0, message.indexOf("{"));
+			txt = txt.trim().replace(/\//g, '').replace(/D[0-9]_/g, '');
+		} else {
+			txt = message;
+		}		
+	}
+	
+	return txt;
+} 
+
+
+/**
+ * 응답 내용 생성_개선
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param resTextArr 배열
+ * @return html
+ * @author 백지훈
+ * @example
+		chatbotMng.assisantTexts()
+ */
+chatbotMng.assisantTexts = function ( resTextArr ) {
+	const grpAreaDiv = chatbot.createEl("div", "narmiArea", null, null);
+	
+	if ( resTextArr.length > 0 ) {
+		const resTextArrLen = resTextArr.length;
+		const chatBbleGrupDiv = chatbot.createEl("div", "_chatBbleGrup", null, null);
+		
+		for ( let i = 0; i < resTextArrLen; i++ ) {
+			const resTextObj = resTextArr[i];
+			
+			if ( i === 0 ) {
+				const thumbDiv = chatbot.createEl("div", "_thumb", null, null);
+				grpAreaDiv.appendChild(thumbDiv);				
+			}
+			
+			let text = comUtil.gfnIsNotEmpty(resTextObj.text) ? resTextObj.text : (comUtil.gfnIsNotEmpty(resTextObj.url) ? resTextObj.url : "");
+			
+			if ( text !== "" ) {
+				const txtGrpDiv = chatbot.createEl("div", "_chatBble", null, null);
+				
+				// chatType에 따라 처리 chatbotMng.chatTypeTxt
+				const txtSpan = chatbot.createEl("span", "", chatbotMng.chatTypeTxt + text.replace(/\\n/g, "<br />"), null );
+				txtGrpDiv.appendChild(txtSpan);
+				
+				chatBbleGrupDiv.appendChild(txtGrpDiv);
+			}
+		}
+		grpAreaDiv.appendChild(chatBbleGrupDiv);
+	}
+	
+	return grpAreaDiv;
+}
+
+
+/**
+ * 컴포넌트 타입 생성
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param resObj
+ * @return component Html
+ * @author 백지훈
+ * @example
+		chatbotMng.assisantComponent()
+ */
+chatbotMng.assisantComponent = function ( resObj ) {
+	const chbtContAreaDiv = chatbot.createEl("div", "chbtContArea", null, null);
+	
+	// Reponse 값 있는지 체크
+	if ( comUtil.gfnIsNotEmpty(resObj) ) {
+		const contents = resObj.contents;
+		let cpType = "text";
+		
+		// 버튼 Arr 값 체크
+		if ( comUtil.gfnIsNotEmpty(contents) ) {
+			
+			let cpGrpUl = chatbot.createEl("ul", null, null, null);
+			
+			// 컴포넌트 그룹 DIV 생성
+			let txtGrpDiv = null;			// 텍스트 목록일 경우 그룹 생성
+			let menuGrpDiv = null;			// 1depth일 경우 그룹 생성
+			let swiperContainerDiv = null;	// 슬라이더 부모 그룹 생성
+			let swiperWrapperDiv = null;	// 슬라이더 부모의 자식 그룹 생성
+			let reportGrpDiv = null;		// 보고서리스트 그룹 생성
+			
+			for ( let i = 0; i < contents.length; i++ ) {
+				const contentObj = contents[i];
+				
+				// Type
+				// text: 텍스트, normal0: 화면에 따라 자동 줄바꿈, normal1: 한줄씩, 
+				// download: 다운로드, link: 링크, slidelist: 가로슬라이드 목록, 1depth: 1depth 버튼
+				cpType = comUtil.gfnIsNotEmpty(contentObj.type) ? contentObj.type : "text";
+				
+				const title = comUtil.gfnIsNotEmpty(contentObj.title) ? contentObj.title : "";
+				const payload = comUtil.gfnIsNotEmpty(contentObj.payload) ? contentObj.payload : "";
+				const url = comUtil.gfnIsNotEmpty(contentObj.url) ? contentObj.url : "";
+				const question = comUtil.gfnIsNotEmpty(contentObj.question) ? contentObj.question : "";
+				const answer = comUtil.gfnIsNotEmpty(contentObj.answer) ?  contentObj.answer : "";
+				
+				if ( i === 0 ) {					
+					if (cpType === "text" ) {						// 텍스트
+						txtGrpDiv = chatbot.createEl("div", "_txtInfoList", null, null);
+						chatbot.updateEl(cpGrpUl, "_infoList");
+					} else if ( cpType === "normal0" ) {			// 일반버튼
+						chatbot.updateEl(cpGrpUl, "_bbleBtnGrup");
+					} else if ( cpType === "normal1" ) {			// 일반버튼
+						chatbot.updateEl(cpGrpUl, "_listBtnGrup _newBtn");
+					} else if ( cpType === "download" || cpType === "link" ) {			// 다운로드 or 링크
+						chatbot.updateEl(cpGrpUl, "_listBtnGrup");
+					} else if ( cpType === "slidelist" ) {			// 슬라이드
+						// contArea 그룹에 클래스 변경
+						chatbot.updateEl(chbtContAreaDiv, "chbtContArea posL_zero");
+						
+						// Swiper Container
+						swiperContainerDiv = chatbot.createEl("div", "swiper-container _cardListGrup chatbothistSwiper", null, null);
+						
+						// Swiper Wrapper
+						swiperWrapperDiv = chatbot.createEl("ul", "swiper-wrapper _cardArea", null, null);
+					} else if ( cpType === "1depth" ) {				// 1depth 버튼
+						menuGrpDiv = chatbot.createEl("div", "_menuGrup", null, null);
+						chatbot.updateEl(cpGrpUl, "_menu" + (chatbot.chatTabType === "2" ? " usrManual" : ""));
+					} else if ( cpType === "image" ) {
+						cpGrpUl = chatbot.createEl("div", "_txtInfoGrup chat_img", null, null);
+					} else if ( cpType === "textlist" ) {			// 보고서 리스트
+						reportGrpDiv = chatbot.createEl("div", "_txtInfoGrup", null, null);
+						chatbot.updateEl(cpGrpUl, "_reprtList");
+					}
+				}
+				
+				// 해당 타입에 따라 상위 컴포넌트 안에 하위 컴포넌트 생성 처리
+				let bbleTag = chatbot.createEl("li", null, null, null);
+				
+				if (cpType === "text" ) {						// 텍스트
+					
+					const dlTxt = chatbot.createEl("dl", null, null, null);
+					const dtTxt = chatbot.createEl("dt", "w2textbox", title, null);
+
+					dlTxt.appendChild(dtTxt);
+					
+					// url 있다면 dd 처리(dd > a > span)
+					if ( comUtil.gfnIsNotEmpty(url) ) {
+						const ddTxt = chatbot.createEl("dd", null, null, null);
+						const ddATxt = chatbot.createEl("a", "w2trigger_anchor", null, null);
+
+						// url이 '/link' 이면 새로운탭 링크로 처리
+						// 대화이력 링크 못하게 주석
+						/*
+						if ( url.indexOf("/link") > -1) {
+							chatbot.linkEventEl(ddATxt, url);
+						} else {
+							ddATxt.addEventListener("click",  function() { com.gfnOpenMenu(url, { targetMain : true }) });
+						}
+						*/
+						
+						const ddASpanTxt = chatbot.createEl("span", "w2textbox", payload, null);
+						ddATxt.appendChild(ddASpanTxt);
+						ddTxt.appendChild(ddATxt);
+						
+						dlTxt.appendChild(ddTxt);
+					}
+					
+					bbleTag.appendChild(dlTxt);
+				} else if ( cpType === "normal0" ) {			// 일반버튼(화면에 따라 자동 줄바꿈)
+					const listBtn = chatbot.createEl("input", "_bbleBtn", title, null, payload);
+					
+					// Active 처리
+					chatbotMng.btnActive(listBtn, chatbotMng.userText, title);
+					
+					bbleTag.appendChild(listBtn);
+				} else if ( cpType === "normal1" ) {			// 일반버튼(한줄씩)
+					const listBtn = chatbot.createEl("input", "_listBtn", title, null, payload);
+					
+					// Active 처리
+					chatbotMng.btnActive(listBtn, chatbotMng.userText, title);
+					
+//					if ( faqYn ) chatbot.updateEl(listBtn, "_listBtn faqTabGo");
+					bbleTag.appendChild(listBtn);
+				} else if ( cpType === "download" ) {			// 다운로드
+					chatbot.updateEl(bbleTag, "_ico");		// half > _ico 변경
+					const a_tag = chatbot.createEl("a", "_listBtn down", title, null);
+					// 대화이력 링크 못하게 주석
+					/*
+					if ( comUtil.gfnIsNotEmpty(url) ) {
+						if ( url.indexOf('untyAtchFileNo') > -1 ) {
+							a_tag.addEventListener("click", function() { chatbot.getDownload(url) });
+						}
+					}
+					*/
+					bbleTag.appendChild(a_tag);
+					
+				} else if ( cpType === "link" ) {				// 링크
+					chatbot.updateEl(bbleTag, "_ico");		// half > _ico 변경
+					const a_tag = chatbot.createEl("a", "_listBtn link", title, null);
+					// 대화이력 링크 못하게 주석
+					/*
+					if ( url.indexOf("/link") > -1) {
+						chatbot.linkEventEl(a_tag, url);
+					} else {
+						a_tag.setAttribute("target", "_blank");
+						a_tag.setAttribute("href", url);
+					}
+					*/
+					bbleTag.appendChild(a_tag);
+					
+				} else if ( cpType === "slidelist" ) {			// 슬라이드
+					chatbot.updateEl(bbleTag, "swiper-slide slideCard");
+					
+					// txtDataArea 그룹
+					const slideTxtDataArea = chatbot.createEl("div", "txtDataArea", null, null);
+					
+					// _qTxtGrup 질문 그룹
+					const slideQTxtGrp = chatbot.createEl("span", "_qTxtGrup", null, null);
+//					const qTxtGrpSpan = chatbot.createEl("span", "_bullet", (i+1), null);
+					const qTxtGrpSpan = chatbot.createEl("span", "_bullet", null, null);
+					slideQTxtGrp.appendChild(qTxtGrpSpan);
+					
+					const qTxtGrpDiv = chatbot.createEl("span", "", comUtil.gfnIsNotEmpty(url) ? "" : question, null);
+					if ( comUtil.gfnIsNotEmpty(url) ) {		// URL 값 있을시
+						const qTxtA = chatbot.createEl("a", "_qLink", "", null);
+						// 대화이력 링크 못하게 주석
+						/*
+						if ( url.indexOf("/link") > -1) {
+							chatbot.linkEventEl(qTxtA, url);
+						} else {
+							qTxtA.setAttribute("target", "_blank");
+							qTxtA.setAttribute("href", url);
+						}
+						*/
+						const qTxtASpan = chatbot.createEl("span", "", question, null);
+						qTxtA.appendChild(qTxtASpan);
+						qTxtGrpDiv.appendChild(qTxtA);
+					}
+					slideQTxtGrp.appendChild(qTxtGrpDiv);
+					
+					slideTxtDataArea.appendChild(slideQTxtGrp);
+					
+					// _aTxtGrup 답변 그룹
+					const slideATxtGrp = chatbot.createEl("div", "_aTxtGrup", null, null);
+					const answerTxt = answer.replace(chatbot.urlPattern, chatbot.replaceUrl);
+					const aTxtGrpSpan = chatbot.createEl("span", "_aTxt", answerTxt.replace(/\\n|\n/g, "<br />"), null);
+					
+					// 질문 길이 구하기
+					const qLen = comUtil.gfnGetByteLength(question);
+					// 답변 길이 구하기
+					const aLen = comUtil.gfnGetByteLength(answer);
+					
+					// -webkit-line-clamp
+					// 질문 라인수에 따라 스타일 변경
+					aTxtGrpSpan.setAttribute("style", chatbot.slideStyleLineClamp(question));
+					slideATxtGrp.appendChild(aTxtGrpSpan);
+					
+					let answerOpen = false;
+					if ( qLen > 250 && aLen > 368 ) {
+						answerOpen = true;
+					} else {
+						if ( aLen > 368 ) {
+							answerOpen = true;
+						} else if ( chatbot.qsStrLenTot(question, answer) > 7 ) {
+							answerOpen = true;
+						}
+					}
+					
+					// 접기/평처보기
+					const aTxtGrpIpt = chatbot.createEl("a", "_innerBtn" + (answerOpen ? "" : " disabled"), null, null);
+					const aTxtGrpIptSpan = chatbot.createEl("span", null, "", null);
+					if ( answerOpen ) {
+						aTxtGrpIpt.addEventListener("click", function(e) { chatbot.slideOpenHide(e); });
+					}
+					aTxtGrpIpt.appendChild(aTxtGrpIptSpan);
+//					slideATxtGrp.appendChild(aTxtGrpIpt);
+					
+					slideTxtDataArea.appendChild(slideATxtGrp);
+					
+					bbleTag.appendChild(slideTxtDataArea);
+					bbleTag.appendChild(aTxtGrpIpt);
+					
+					swiperWrapperDiv.appendChild(bbleTag);
+				} else if ( cpType === "1depth" ) {				// 1depth 버튼
+					const depthTag = chatbot.createEl("input", "w2trigger btnMenu", title, null, payload);
+					
+					// url 값 있으면 아이콘명 넣기, 값 없으면 디폴트로 basic로
+					if ( url !== "" ) {
+						chatbot.updateEl(depthTag, depthTag.getAttribute("class") + " " + url);
+					} else {
+						const urlBasic = chatbot.chatTabType === "1" ? "Faq_basic" : "UsManl_basic"; 
+						chatbot.updateEl(depthTag, depthTag.getAttribute("class") + " " + urlBasic);
+					}
+					
+					// Active 처리
+					chatbotMng.btnActive(depthTag, chatbotMng.userText, title);
+					
+					bbleTag.appendChild(depthTag);
+				} else if ( cpType === "textlist" ) {	// 보고서 리스트
+					const textSpan = chatbot.createEl("span", null, url, null);
+					bbleTag.appendChild(textSpan);
+				}
+				
+				// 슬라이더 아닐경우 input에 Ul로 담기
+				if ( cpType !== "slidelist" ) {
+					if ( cpType === "image" )  {
+						//const img = chatbot.createEl("img", "", url, null);
+						//cpGrpUl.appendChild(img);
+						const aImgNewTab = chatbot.createEl("a", (chatbot.isApplyImgNewTab(url) ? "imgNewTab" : "imgNoTab"), url, null);
+						const img = chatbot.createEl("img", "", url, null);
+						aImgNewTab.appendChild(img);
+						cpGrpUl.appendChild(aImgNewTab);
+					} else {
+						cpGrpUl.appendChild(bbleTag);
+					}
+						
+				}
+			}
+			
+			// chbtContAreaDiv Append Child 
+			// 슬라이더 일 경우
+			if ( cpType === "slidelist" ) {
+				// swiper pagination div
+				const swiperPaginationDiv = chatbot.createEl("div", "swiper-pagination _circle_pageNtn", null, null);
+				
+				// 이전, 다음 그룹 DIV
+				const swiperControlBtnDiv = chatbot.createEl("div", "_contrlBtn", null, null);
+				
+				// 오른쪽 화살표
+				const swiperBtnNextDiv = chatbot.createEl("input", "swiper-button-next btnNext chatbot-nav", null, null);
+				// 왼쪽 화살표
+				const swiperBtnPrevDiv = chatbot.createEl("input", "swiper-button-prev btnPrev chatbot-nav", null, null);
+				
+				swiperControlBtnDiv.appendChild(swiperBtnNextDiv);
+				swiperControlBtnDiv.appendChild(swiperBtnPrevDiv);
+				
+				swiperContainerDiv.appendChild(swiperControlBtnDiv);
+				
+				swiperContainerDiv.appendChild(swiperWrapperDiv);
+				swiperContainerDiv.appendChild(swiperPaginationDiv);
+				
+				chbtContAreaDiv.appendChild(swiperContainerDiv);
+			} else if ( cpType === "text" ) {		// 텍스트 목록인 경우
+				if ( txtGrpDiv !== null ) {
+					txtGrpDiv.appendChild(cpGrpUl);
+					chbtContAreaDiv.appendChild(txtGrpDiv);				
+				}
+			} else if ( cpType === "1depth" ) {		// 1depth 일경우
+				if ( menuGrpDiv !== null ) {
+					menuGrpDiv.appendChild(cpGrpUl);
+					chbtContAreaDiv.appendChild(menuGrpDiv);				
+				}
+			} else if ( cpType === "textlist" ) {	// 데이터 허브 - 보고서 리스트
+				reportGrpDiv.appendChild(cpGrpUl);
+				chbtContAreaDiv.appendChild(reportGrpDiv);
+			} else {								// 나머지 
+				chbtContAreaDiv.appendChild(cpGrpUl);
+			}
+		}
+	}
+	
+	return chbtContAreaDiv;
+}
+
+
+/**
+ * 버튼 활성화 처리
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param 
+ * 			el			해당 태그
+ * 			userText	다음 사용자 입력
+ * 			title		해당 버튼
+ * @return component Html
+ * @author 백지훈
+ * @example
+		chatbotMng.btnActive()
+ */
+chatbotMng.btnActive = function(el, userText, title) {
+	// Active 처리
+	if ( comUtil.gfnIsNotEmpty(userText) ) {
+		if ( userText.lastIndexOf(title) > -1 ) {
+			chatbot.updateEl(el, el.getAttribute("class") + " _active");
+		}
+	}
+}
+
+
+/**
+ * 사용자 입력 문자열 매칭시 문자열 변경 처리
+ *
+ * @memberOf chatbotMng
+ * @date 2024.07.08
+ * @param 	txt		사용자 입력 문자열			
+ * @return 문자열 변경
+ * @author 백지훈
+ * @example
+		chatbotMng.userTextReplace(txt)
+ */
+chatbotMng.userTextReplace = function (txt) {
+	switch (txt) {
+	case "/back_to_top":
+		txt = "처음으로";
+		break;
+	case "/back_to_prev":
+		txt = "이전으로";
+		break;
+	}
+	
+	return txt;
+}
+
+
+/**
+ * Swiper 적용
+ *
+ * @memberOf chatbot
+ * @date 2024.04.22
+ * @param 
+ * @return new Swiper 초기 셋팅
+ * @author 백지훈
+ * @example
+		chatbot.swiperSetting()
+ */
+chatbotMng.swiperSetting = function () {
+	if ( $(".swiper-container._cardListGrup.chatbothistSwiper").length > 0 ) {
+		new Swiper('.swiper-container._cardListGrup.chatbothistSwiper', {
+			slidesPerView: "auto",
+			spaceBetween: 20,
+			centeredSlides: false,
+			observer: true,
+			observeParents: true,
+			threshold: 20,		// 마우스 민감도 숫자 올리면 민감도 떨어짐
+			navigation: {
+				nextEl: '.swiper-button-next.btnNext.chatbot-nav',
+				prevEl: '.swiper-button-prev.btnPrev.chatbot-nav',
+			},
+			pagination: {
+				el: '.swiper-pagination._circle_pageNtn',
+				dynamicBullets: true
+			},
+		});
+	}
+}
+
+
+/**
+ * 날짜 포맷 처리(하이픈)
+ *
+ * @memberOf chatbot
+ * @date 2024.05.03
+ * @param 
+ * @return 포맷된 데이터 값
+ * @author 백지훈
+ * @example
+		chatbot.getDateFormat()
+ */
+chatbot.getDateFormatHyphen = function ( sDate ) {
+	let output = "";
+	if ( sDate.length === 8 ) {
+		output = sDate.substring(0, 4) + "-" + sDate.substring(4, 6) + "-" + sDate.substring(6, 8);
+	} else {
+		output = sDate;
+	}
+	
+	return output;
+}
+/**
+ * 이미지 새창 열기 적용 여부 검증
+ * - 로그인을 하지 않은 상태 이미지에 대해 새창열기 제거를 위해 함수 추가.
+ */
+chatbot.isApplyImgNewTab = function( imgUrl ) {
+    return (["/kn/com/images/chatbot/chbt_answer/login_5.png"].includes(imgUrl) ? false : true);
+}

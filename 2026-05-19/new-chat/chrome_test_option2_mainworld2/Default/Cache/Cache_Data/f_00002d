@@ -1,0 +1,562 @@
+@charset "utf-8";
+
+@media only screen and (max-width: 1400px) {
+
+  /* main */
+  .portal.has-main > .container-layout {height: auto; min-height: auto;}
+  .portal.has-main .main-cnt-area.guide {padding-top: 2.4rem; padding-bottom: 2.4rem;}
+  .main-srchbox .w2radio {}
+  .main-srchbox .w2radio input[type=radio]+label {min-width: 5.0rem; padding: 0 1.5rem 0 1.5rem;}
+
+  .lybox .ly_column.main-cnts .main-srchbox {padding: 0;}
+  .w2checkbox.main-boardbox {padding: 0;}
+  .w2checkbox.main-boardbox .w2checkbox_item input[type="checkbox"] + .w2checkbox_label:after {bottom: 2.0rem; width: 7rem; height: 7rem;}
+  .w2radio.main-boardbox {padding: 0;}
+  .w2radio.main-boardbox .w2radio_item input[type="radio"] + .w2radio_label:after {bottom: 2.0rem; width: 7rem; height: 7rem;}
+
+  .board-box.cnts-info .board.right.btm .inner-wrap {padding-left: 15rem;}
+  .board-box.cnts-info .request .tit-guide.service-contact .tit {letter-spacing: -0.05rem;}
+  .board-box.cnts-info .request .tit-guide.service-contact .phone-num {letter-spacing: -0.2rem;text-indent: -0.22rem;}
+  .board-box.cnts-info .request .tit-guide.service-contact .phone-num ~ span {letter-spacing: -0.06rem;white-space: nowrap;}
+  .board-box.cnts-info .request .chip {margin-right:0.4rem;padding: 0rem 0.8rem;}
+
+  .service-linkbox.request {width: 21rem;min-width: 21rem;justify-content: space-between;}
+  .service-linkbox.request ul {padding: 0.6rem 0.6rem;}
+  .refer-site-intro .refer-site-intro_tit{flex-direction:column;}
+  .refer-site-intro .cnts-txt {letter-spacing: -0.1rem; padding-top:0.8rem;}
+
+
+  /* my page */
+  .my-dashboard .my_dashboard_link .link {min-width: calc(20% - 1.28rem);}
+  .my-menu .my-menu-link .link {min-width: calc(14.285% - 1.3714rem);}
+
+
+  /* 메인 검색ON */
+  .w2radio.main-boardbox .w2radio_item ~ .w2radio_item{margin-left:0;}
+  .w2radio.main-boardbox .w2radio_label{text-align:center;}
+
+  /* GNB 전체메뉴 */
+  .sitemap-wrap .popup-content.sitemap .inner.top {padding-left: 2.0rem; padding-right: 12.0rem;}
+  .sitemap-wrap .btn.close {right: 5.0rem;}
+  .popup-content.sitemap .inner.content.sitemap {padding: 0;}
+
+  /* table 폼 반응형(1400px 이하) th label 9글자*/
+  /* table.w2tb.tb tr > .w2tb_th.t9, table.w2tb.tb > tbody > tr > .w2tb_th.t9 {width: 14.4rem;}
+  table.w2tb.tb tr > .w2tb_th.t9 + .w2tb_td, table.w2tb.tb > tbody > tr > .w2tb_th.t9 + .w2tb_td {width: calc(50% - 14.4rem);}
+  table.w2tb.tb tr > .w2tb_th.t9 + .w2tb_td.br-row {width: calc(100% - 14.4rem);} */
+  /* table 폼 반응형(1400px 이하) th label 10글자*/
+  /* table.w2tb.tb tr > .w2tb_th.t10, table.w2tb.tb > tbody > tr > .w2tb_th.t10 {width: 15.4rem;}
+  table.w2tb.tb tr > .w2tb_th.t10 + .w2tb_td, table.w2tb.tb > tbody > tr > .w2tb_th.t10 + .w2tb_td {width: calc(50% - 15.4rem);}
+  table.w2tb.tb tr > .w2tb_th.t10 + .w2tb_td.br-row {width: calc(100% - 15.4rem);} */
+
+  /* table 폼 반응형 */
+  table.w2tb.tb > thead tr > .w2tb_th {display: table-cell;width: auto;float:none;padding: 0.6rem 0.8rem 0.6rem 1rem;}
+
+  .shbox {padding-left: 2.0rem;}
+  .shbox table.w2tb.tb:after {content: ""; position: relative; display: block; clear: both; background-color:transparent;}
+
+  table.w2tb.tb > tr,
+  .shbox table.w2tb.tb > tr,
+  .shbox table.w2tb.tb.on > tr:nth-of-type(2) ~ tr,
+  table.w2tb.tb > tbody > tr,
+  .shbox table.w2tb.tb > tbody > tr,
+  .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr {display: inline;}
+
+  table.w2tb.tb tr > .w2tb_th,
+  .shbox table.w2tb.tb tr > .w2tb_th,
+  table.w2tb.tb > tbody > tr > .w2tb_th,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_th {/*width: 13.2rem;*/width: 14rem;max-width: none; /* display: inline-block; */ display:inline-flex; align-items: center;}
+  .popup-content.srch .pop-cnt-wrap .shbox.srch_keyword .w2tb_th{width:10%;}
+  .shbox table.w2tb.tb tr > .w2tb_th,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_th {min-height: 3.6rem;}
+  .shbox table.w2tb.tb tr > .w2tb_td, .shbox table.w2tb.tb > tbody > tr > .w2tb_td {min-height: 3.6rem;padding: 0 2.0rem 0 0;}
+
+  .shbox table.w2tb.tb tr > .w2tb_td:last-child, .shbox table.w2tb.tb > tbody > tr > .w2tb_td:last-child {border-right: 0;}
+  .shbox table.w2tb.tb tr > .w2tb_th.br-row {clear: left;}
+  .shbox table.w2tb.tb tr > .w2tb_td.br-row {/*width: calc(100% - 13.2rem);*/width: calc(100% - 14.0rem); height: 100%;}
+  /* .shbox table.w2tb.tb tr > .w2tb_td .inputcal-fromto-wrap .w2radio.type.month {display: none;} */
+
+  .shbox table.w2tb.tb tr > .w2tb_th:after,
+  .shbox table.w2tb.tb tr > .w2tb_td:after,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_th:after,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_td:after {content: "";display: block;clear: both;}
+  table.w2tb.tb {display: block;}
+  table.w2tb.tb:before {content: "";position: absolute;top: 0rem;left: auto;right: 0rem;bottom: 0.1rem;/* border-right: 0.1rem solid #ffffff; */z-index: 1;}
+  .tb .w2tb_td > .w2wframe + .w2radio {margin-left: 0;}
+  table.w2tb.tb > tbody {display: block;}
+  table.w2tb.tb > tbody:after {content: ""; display: block; clear: both;}
+  table.w2tb.tb tr > .w2tb_th, table.w2tb.tb > tbody > tr > .w2tb_th {height: 4.0rem; min-height: 4.0rem; box-sizing: border-box; float: left;}
+  /* table.w2tb.tb tr > .w2tb_th .w2textbox, table.w2tb.tb > tbody > tr > .w2tb_th .w2textbox {vertical-align: middle;} */
+
+  table.w2tb.tb tr > .w2tb_td, table.w2tb.tb > tbody > tr > .w2tb_td {position: relative; width: calc(50% - 14rem);
+    height: 4.0rem; min-height: 4.0rem;flex-flow:row wrap;align-items: center;  box-sizing: border-box; float: left; padding-top: 0.4rem;}
+    .tb .w2tb_td .w2group.span_txt {display:block;width:100%;text-align:right;}
+    .tb .w2tb_td .w2group.span_txt + .w2textarea {width:100%;}
+/*   table.w2tb.tb.keep_tbform tr > .w2tb_td, table.w2tb.tb.keep_tbform > tbody > tr > .w2tb_td {padding-top: 0.2rem;} */
+  table.w2tb.tb tr > .w2tb_td .w2radio, table.w2tb.tb > tbody > tr > .w2tb_td .w2radio,
+  table.w2tb.tb tr > .w2tb_td .w2checkbox, table.w2tb.tb > tbody > tr > .w2tb_td .w2checkbox {margin-top: 0px;margin-bottom: 0;}
+
+  table.w2tb.tb tr > .w2tb_th.br-row {clear: left;}
+  table.w2tb.tb tr > .w2tb_td.br-row {width: calc(100% - 14.0rem);/*width: calc(100% - 13.2rem);min-width: calc(100% - 13.2rem);max-width: calc(100% - 13.2rem);*/}
+  table.w2tb.tb tr > .w2tb_td.br-row.w100p {width: 100%;}
+
+  /* 병합시 높이값 유동 */
+  table.w2tb.tb > tbody > tr.h-auto {display: inline-flex; width: 100%;}
+  table.w2tb.tb > tbody > tr.h-auto > .w2tb_th {height: auto;}
+  table.w2tb.tb > tbody > tr.h-auto > .w2tb_td {height: auto; max-width: calc(100% - 14.0rem);}
+
+  table.w2tb.tb tr > .w2tb_td:last-child,
+  table.w2tb.tb > tbody > tr > .w2tb_td:last-child {border-right: 0.1rem solid #cecece;}
+
+  table.w2tb.tb tr > .w2tb_td:after,
+  table.w2tb.tb > tbody > tr > .w2tb_td:after {content: ""; display: block; clear: both;}
+
+  table.w2tb.tb tr > .w2tb_td .inputcal-fromto-wrap .w2radio.type.month,
+  table.w2tb.tb > tbody > tr > .w2tb_td .inputcal-fromto-wrap .w2radio.type.month {display: none;}
+
+
+  /* th header 긴 텍스트 */
+ table.w2tb.tb.keep_tb1 tr > .w2tb_th,
+ table.w2tb.tb.keep_tb1 > tbody > tr > .w2tb_td {width:50%;}
+
+
+  /* table 폼 th, td에 적용되는 table 폼 요소 속성 */
+  .shbox table.w2tb.tb table:after {content: none;}
+
+
+  table.w2tb.tb > tr,
+  .shbox table.w2tb.tb > tr,
+  .shbox table.w2tb.tb.on > tr:nth-of-type(2) ~ tr,
+  table.w2tb.tb > tbody > tr,
+  .shbox table.w2tb.tb > tbody > tr,
+  .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr {display: initial; display: inline;}
+
+
+  table.w2tb.tb > tbody > tr table tr,
+  .shbox table.w2tb.tb > tbody > tr table tr,
+  .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr table tr,
+  table.w2tb.tb > tbody > tr table tr,
+  .shbox table.w2tb.tb > tbody > tr table tr,
+  .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr table tr {display: table-row;}
+
+  table.w2tb.tb > tbody > tr > .w2tb_th table tr th,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_th table tr th {width: auto; display: table-cell;}
+  table.w2tb.tb > tbody > tr > .w2tb_th table tr td,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_th table tr td {width: auto; display: table-cell;}
+
+  .shbox table.w2tb.tb tr > .w2tb_th table tr th,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_th table tr th {display: table-cell; min-height: auto; margin-bottom: 0rem; float: none;}
+
+  .shbox table.w2tb.tb tr > .w2tb_td table tr td,
+  .shbox table.w2tb.tb > tbody > tr > .w2tb_td table tr td,
+  table.w2tb.tb tr > .w2tb_td table tr td,
+  table.w2tb.tb > tbody > tr > .w2tb_td table tr td {display: table-cell; height: auto; min-height: auto;margin-bottom: 0rem; padding-bottom: 0; float: none;}
+
+  table.w2tb.tb > tbody > tr > .w2tb_td table tr td.w2checkcombobox_col_button {height: 2.6rem;}
+
+  table.w2tb.tb table:not(.w2calendar_footer) {display: table;}
+  table.w2tb.tb table:before {content: none;}
+  table.w2tb.tb table:after {content: none;}
+
+  table.w2tb.tb > tbody table tbody {display: table-row-group;}
+  table.w2tb.tb > tbody table tbody:after {content: none;}
+  table.w2tb.tb tr > .w2tb_th table th, table.w2tb.tb > tbody > tr > .w2tb_th table th {min-height: auto;float: none;}
+
+  table.w2tb.tb tr > .w2tb_td table td:after,
+  table.w2tb.tb > tbody > tr > .w2tb_td table td:after {content: none;}
+
+  .ly_column table.w2tb.tb tr, .ly_column table.w2tb.tb > tbody > tr {display: flex; flex-wrap: wrap;}
+  .ly_column table.w2tb.tb tr > .w2tb_th, .ly_column table.w2tb.tb > tbody > tr > .w2tb_th {}
+  .ly_column table.w2tb.tb tr > .w2tb_td, .ly_column table.w2tb.tb > tbody > tr > .w2tb_td {width: calc(100% - 14.0rem); min-width: calc(100% - 14.0rem); height: auto;}
+
+  .lybox.resize .ly_column.popup table.w2tb.tb {display: table;}
+  .lybox.resize .ly_column.popup table.w2tb.tb:after {position: absolute;}
+  .lybox.resize .ly_column.popup table.w2tb.tb > tbody {display: table-row-group;}
+  .lybox.resize .ly_column.popup table.w2tb.tb tr, .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr {display: table-row;}
+  .lybox.resize .ly_column.popup table.w2tb.tb tr > .w2tb_th,
+  .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr > .w2tb_th {display: table-cell;width:auto;float: none;}
+  .lybox.resize .ly_column.popup table.w2tb.tb tr > .w2tb_td,
+  .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr > .w2tb_td {display: table-cell;width:auto;min-width:auto;float: none;padding-top: 0.2rem;}
+
+  /* .lybox.resize .ly_column.popup table.w2tb.tb tr:first-of-type > .w2tb_th,
+  .lybox.resize .ly_column.popup table.w2tb.tb tr:first-of-type > .w2tb_td {border-top: 0.2rem solid #4876ef;} */
+
+  .lybox.resize .ly_column.popup table.w2tb.tb tr > .w2tb_td:last-child {border-right:0;}
+
+  /* .tb:after {position: relative;}     */
+  .shbox .tb:after {content:none;}
+
+  /* table 폼 유지 keep_tbform */
+  /* table.w2tb.tb.keep_tbform {display: table;}
+  table.w2tb.tb.keep_tbform > tbody {display: table-row-group;}
+  table.w2tb.tb.keep_tbform > tbody > tr, table.w2tb.tb.keep_tbform tr {display: table-row;}
+  table.w2tb.tb.keep_tbform > tbody > tr > th, table.w2tb.tb.keep_tbform tr th {display: table-cell;height: auto;min-height: auto;float: none;}
+  table.w2tb.tb.keep_tbform > tbody > tr > td, table.w2tb.tb.keep_tbform tr td {display: table-cell;height: auto;min-height: auto;float: none;}
+  table.w2tb.tb.keep_tbform:after{position:absolute !important; width: 100%;height:.1rem;background:#555;bottom:-.1rem;}
+  table.w2tb.tb.keep_tbform tr > .w2tb_td:last-child,
+  table.w2tb.tb.keep_tbform > tbody > tr > .w2tb_td:last-child{border-right:0;} */
+
+  /* table 폼 유지 */
+
+  /* 반응형 조회조건 2단 정렬 을 위한 주석처리 keh0206 */
+   /*.w2popup_window table.w2tb.tb,
+  .pop_contents table.w2tb.tb {display: table;}
+  .w2popup_window table.w2tb.tb:after,
+  .pop_contents table.w2tb.tb:after {position: absolute;}
+  .w2popup_window table.w2tb.tb > tbody,
+  .pop_contents table.w2tb.tb > tbody {display: table-row-group;}
+
+  .w2popup_window table.w2tb.tb > tbody > tr,
+  .pop_contents table.w2tb.tb > tr,
+  .pop_contents table.w2tb.tb > tbody > tr
+  ,
+  .pop_contents .shbox table.w2tb.tb > tr,
+  .pop_contents .shbox table.w2tb.tb > tbody > tr,
+  .pop_contents .shbox table.w2tb.tb.on > tr,
+  .pop_contents .shbox table.w2tb.tb.on > tbody > tr,
+  .pop_contents .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr  {display: table-row;}
+
+  .w2popup_window table.w2tb.tb > tbody > tr > th,
+ .w2popup_window .shbox table.w2tb.tb > tbody > tr > th,
+  .pop_contents table.w2tb.tb > tr > th,
+  .pop_contents table.w2tb.tb > tbody > tr > th,
+  .pop_contents .shbox table.w2tb.tb > tr > th,
+  .pop_contents .shbox table.w2tb.tb > tbody > tr > th {display: table-cell;float: none; padding: 0.6rem 1rem;}
+
+ /*  .w2popup_window .shbox table.w2tb.tb > tbody > tr > th,
+  .pop_contents .shbox table.w2tb.tb > tr > th,
+  .pop_contents .shbox table.w2tb.tb > tbody > tr > th {padding: 0 0.6rem 1rem 0;}
+  .w2popup_window .shbox table.w2tb.tb > tbody > tr > td,
+  .pop_contents .shbox table.w2tb.tb > tbody > tr > td {margin: 0.2rem 0.6rem 0.2rem 0;}
+   */
+
+
+
+
+
+/*   .w2popup_window table.w2tb.tb > tbody > tr > td,
+  .w2popup_window .shbox table.w2tb.tb > tbody > tr > td,
+  .pop_contents table.w2tb.tb > tr > td,
+  .pop_contents table.w2tb.tb > tbody > tr > td,
+  .pop_contents .shbox table.w2tb.tb > tbody > tr > td {display: table-cell;height: auto;min-height: auto;float: none;}
+ */
+ /* .w2popup_window table.w2tb.tb > tbody > tr > td,
+  .pop_contents table.w2tb.tb > tr > td,
+  .pop_contents table.w2tb.tb > tbody > tr > td {display: table-cell;/*height: auto;min-height: auto;float: none;}*/
+
+ /*  .w2popup_window .shbox table.w2tb.tb > tbody > tr > td, .pop_contents .shbox table.w2tb.tb > tbody > tr > td {padding: 0 2rem 0 0;} */
+
+ /* 반응형 조회조건 2단 정렬 을 위한 주석처리  */
+
+  .w2popup_window table.w2tb.tb tr > .w2tb_th .w2textbox,
+  .w2popup_window table.w2tb.tb > tbody > tr > .w2tb_th .w2textbox {vertical-align: initial;}
+
+
+  .w2popup_window .btnbox_all .btn_cm, .pop_contents .btnbox_all .btn_cm {width: auto;}
+
+
+  /* input calendar */
+  .shbox table.w2tb.tb tr > .w2tb_td table.w2calendar_content_table tr td,
+  table.w2tb.tb tr > .w2tb_td table.w2calendar_content_table tr td {height: 2.6rem;}
+
+  .two_area>ul{min-width:auto;}
+
+
+  /* 응용개발 예외적용페이지 HpcmPM.xml */
+  .unit_box_wrap table.w2tb.tb:before {border-right: 0}
+  .unit_box_wrap table.w2tb.tb tr > .w2tb_td,
+  .unit_box_wrap table.w2tb.tb > tbody > tr > .w2tb_td{width: 100%;}
+
+  .re_block{display:block !important;}
+  .re_inline_block{display: inline-block !important;}
+
+
+  /* tb-row width 100% 추가*/
+  .w2tb_th.row_100,
+  .w2tb_td.row_100{width:100% !important;min-width:100% !important;max-width:100% !important;}
+
+  /* table형태 dl */
+  table.w2tb.tb .w2tb_th.dl_line_3, table.w2tb.tb .w2tb_td.dl_line_3 {height: 12.3rem;}
+  .tb_dl_box{position:relative;margin:-0.4rem -1rem -0.2rem -1rem; width:100%;}
+  .tb_dl_box dl dt{padding:0.7rem 0.8rem 0.5rem 1rem;}
+
+  table.w2tb.tb .w2tb_th.dl_line_2, table.w2tb.tb .w2tb_td.dl_line_2 {height:8.2rem; margin-bottom:0; padding-bottom:0;}
+  table.w2tb.tb .w2tb_th.dl_line_1 .tb_dl_box, table.w2tb.tb .w2tb_td.dl_line_1 .tb_dl_box{padding-top:0.15rem;}
+
+  /* td 컴포넌트 복합형 input + btn, select + btn 등  */
+  .flexbox .fix{position: absolute; top: 0; right: 0;}
+  
+
+
+
+  /* 조회영역 내 CheckComboBox */
+  .shbox .shbox_inner .w2checkcombobox_acc .w2checkcombobox_acc_custom_label{padding-top:0;}
+
+  /* 1014keh 추가 td내 textbox 세로 정렬 관련 추가 */
+ /* table.w2tb.tb > tbody > tr >td.w2tb_td,
+ table.w2tb.tb > tbody > tr > .w2tb_td  .w2textbox{vertical-align:-webkit-baseline-middle;} */
+
+    /*통합상세 메인검색 NEJ추가*/
+    .main-srchbox.type2 .col > div{position:relative; margin-top:0.8rem; padding-left:10rem; width:100%;}
+    .main-srchbox.type2 .col div > label{position:absolute; /* top:0; */ left:0;}
+    .main-srchbox.type2 .col.mq_blolck{display:upset;}
+    .main-srchbox.type2 .col.mq_blolck div{width:100% !important;}
+    .main-srchbox.type2 .col.mq_blolck div + div{margin-left:0;}
+    .main-srchbox.type2 .col .search_wrap,
+    .main-srchbox.type2 .col .srch_ipt{width:100%;}
+    .main-srchbox.type2 .w2radio .w2radio_item{margin-bottom:0.3rem;}
+    .main-srchbox.type2 .ser_h.ser_examine .w2selectbox_select{width:100%; margin-left:2rem; margin-right:0;}
+    .main-srchbox .ser_h.ser_examine .searchbox{width:100%; margin-left:10rem;}
+    .main-srchbox .ser_h.ser_examine .w2radio{padding-left:2rem;}
+    .main-srchbox .ser_h.ser_examine .ser_examine_date{padding-left:2rem;}
+    .main-srchbox .ser_h.ser_examine .col .search_wrap{width:100%; padding-left:2rem;}
+    .w2radio.main-boardbox .w2radio_item{width: calc(50% - .7rem)}
+    .w2radio.main-boardbox{gap:.8rem;}
+    /* */
+    .mq_mt{margin-top:6rem;}
+
+    /* 나라장터 캐비닛 */
+    .gnb-top-wrap.gnb-site-wrap .inner-site-wrap {display: none;}
+    .gnb-menu-wrapper.cabinet,
+    .gnb-menu-wrapper.cabinet:before,
+    .gnb-menu-wrapper.cabinet .gnb-menu-wrap.total.sub {display: none;}
+
+    /* 비밀번호 capslock 툴팁 */
+    .keyTooltip.keyNowPswd {
+        top: 4.5rem;
+        left: 10rem;
+    }
+    .keyTooltip.keyNewPswd {
+        top: 4.5rem;
+        left: 10rem;
+    }
+    .keyTooltip.keyConfirmPswd {
+        top: 4.5rem;
+        left: 10rem;
+    }
+}
+
+/****************************************************** 모달창 미디어 커리 */
+@container popupParent (max-width: 899px) {
+    /* main */
+    .portal.has-main > .container-layout {height: auto; min-height: auto;}
+    .portal.has-main .main-cnt-area.guide {padding-top: 2.4rem; padding-bottom: 2.4rem;}
+    .main-srchbox .w2radio {}
+    .main-srchbox .w2radio input[type=radio]+label {min-width: 5.0rem; padding: 0 1.5rem 0 1.5rem;}
+
+    .lybox .ly_column.main-cnts .main-srchbox {padding: 0;}
+    .w2checkbox.main-boardbox {padding: 0;}
+    .w2checkbox.main-boardbox .w2checkbox_item input[type="checkbox"] + .w2checkbox_label:after {bottom: 2.0rem; width: 7rem; height: 7rem;}
+    .w2radio.main-boardbox {padding: 0;}
+    .w2radio.main-boardbox .w2radio_item input[type="radio"] + .w2radio_label:after {bottom: 2.0rem; width: 7rem; height: 7rem;}
+
+    .board-box.cnts-info .board.right.btm .inner-wrap {padding-left: 15rem;}
+    .board-box.cnts-info .request .tit-guide.service-contact .tit {letter-spacing: -0.05rem;}
+    .board-box.cnts-info .request .tit-guide.service-contact .phone-num {letter-spacing: -0.2rem;text-indent: -0.22rem;}
+    .board-box.cnts-info .request .tit-guide.service-contact .phone-num ~ span {letter-spacing: -0.06rem;white-space: nowrap;}
+    .board-box.cnts-info .request .chip {margin-right:0.4rem;padding: 0rem 0.8rem;}
+
+    .service-linkbox.request {width: 21rem;min-width: 21rem;justify-content: space-between;}
+    .service-linkbox.request ul {padding: 0.6rem 0.6rem;}
+    .refer-site-intro .tit {background: url(/kn/com/images/portal/main/ic_refer_site.svg) no-repeat right 0rem center;}
+    .refer-site-intro .cnts-txt {letter-spacing: -0.1rem;}
+
+    /* my page */
+    .my-dashboard .my_dashboard_link .link {min-width: calc(20% - 1.28rem);}
+    .my-menu .my-menu-link .link {min-width: calc(14.285% - 1.3714rem);}
+
+    /* GNB 전체메뉴 */
+    .sitemap-wrap .popup-content.sitemap .inner.top {padding-left: 2.0rem; padding-right: 12.0rem;}
+    .sitemap-wrap .btn.close {right: 5.0rem;}
+    .popup-content.sitemap .inner.content.sitemap {padding: 0;}
+
+    /* table 폼 반응형 */
+    table.w2tb.tb > thead tr > .w2tb_th {display: table-cell;width: auto;float:none;padding: 0.6rem 0.8rem 0.6rem 1rem;}
+
+    .shbox {padding-left: 2.0rem;}
+    .shbox table.w2tb.tb:after {content: ""; position: relative; display: block; clear: both; background-color:transparent;}
+
+    table.w2tb.tb > tr,
+    .shbox table.w2tb.tb > tr,
+    .shbox table.w2tb.tb.on > tr:nth-of-type(2) ~ tr,
+    table.w2tb.tb > tbody > tr,
+    .shbox table.w2tb.tb > tbody > tr,
+    .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr {display: inline;}
+
+    table.w2tb.tb tr > .w2tb_th,
+    .shbox table.w2tb.tb tr > .w2tb_th,
+    table.w2tb.tb > tbody > tr > .w2tb_th,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_th {width: 14rem;max-width: none; display:inline-flex; align-items: center;}
+
+    .shbox table.w2tb.tb tr > .w2tb_th,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_th {min-height: 3.6rem;}
+    .shbox table.w2tb.tb tr > .w2tb_td,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_td {min-height: 3.6rem;padding: 0 2.0rem 0 0;}
+
+    .shbox table.w2tb.tb tr > .w2tb_td:last-child,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_td:last-child {border-right: 0;}
+    .shbox table.w2tb.tb tr > .w2tb_th.br-row {clear: left;}
+    .shbox table.w2tb.tb tr > .w2tb_td.br-row {/width: calc(100% - 14.0rem);}
+
+    .shbox table.w2tb.tb tr > .w2tb_th:after,
+    .shbox table.w2tb.tb tr > .w2tb_td:after,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_th:after,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_td:after {content: "";display: block;clear: both;}
+
+    table.w2tb.tb {display: block;}
+    table.w2tb.tb:before {content: "";position: absolute;top: 0rem;left: auto;right: 0rem;bottom: 0.1rem; z-index: 1;}
+    .tb .w2tb_td > .w2wframe + .w2radio {margin-left: 0;}
+    table.w2tb.tb > tbody {display: block;}
+    table.w2tb.tb > tbody:after {content: ""; display: block; clear: both;}
+    table.w2tb.tb tr > .w2tb_th,
+    table.w2tb.tb > tbody > tr > .w2tb_th {height: 4.0rem; min-height: 4.0rem; box-sizing: border-box; float: left;}
+
+    table.w2tb.tb tr > .w2tb_td,
+    table.w2tb.tb > tbody > tr > .w2tb_td {position: relative; width: calc(50% - 14rem); height: 4.0rem; min-height: 4.0rem;flex-flow:row wrap;align-items: center; box-sizing: border-box; float: left; padding-top: 0.4rem;}
+    .tb .w2tb_td .w2group.span_txt {display:block;width:100%;text-align:right;}
+    .tb .w2tb_td .w2group.span_txt + .w2textarea {width:100%;}
+    table.w2tb.tb tr > .w2tb_td .w2radio,
+    table.w2tb.tb > tbody > tr > .w2tb_td .w2radio,
+    table.w2tb.tb tr > .w2tb_td .w2checkbox,
+    table.w2tb.tb > tbody > tr > .w2tb_td .w2checkbox {margin-top: 0px;margin-bottom: 0;}
+
+    table.w2tb.tb tr > .w2tb_th.br-row {clear: left;}
+    table.w2tb.tb tr > .w2tb_td.br-row {width: calc(100% - 14.0rem);}
+    table.w2tb.tb tr > .w2tb_td.br-row.w100p {width: 100%;}
+
+    table.w2tb.tb tr > .w2tb_td:last-child,
+    table.w2tb.tb > tbody > tr > .w2tb_td:last-child {border-right: 0.1rem solid #cecece;}
+
+    table.w2tb.tb tr > .w2tb_td:after,
+    table.w2tb.tb > tbody > tr > .w2tb_td:after {content: ""; display: block; clear: both;}
+
+    table.w2tb.tb tr > .w2tb_td .inputcal-fromto-wrap .w2radio.type.month,
+    table.w2tb.tb > tbody > tr > .w2tb_td .inputcal-fromto-wrap .w2radio.type.month {display: none;}
+
+    /* th header 긴 텍스트 */
+    table.w2tb.tb.keep_tb1 tr > .w2tb_th,
+    table.w2tb.tb.keep_tb1 > tbody > tr > .w2tb_td {width:50%;}
+
+     /* table 폼 th, td에 적용되는 table 폼 요소 속성 */
+    .shbox table.w2tb.tb table:after {content: none;}
+
+    table.w2tb.tb > tr,
+    .shbox table.w2tb.tb > tr,
+    .shbox table.w2tb.tb.on > tr:nth-of-type(2) ~ tr,
+    table.w2tb.tb > tbody > tr,
+    .shbox table.w2tb.tb > tbody > tr,
+    .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr {display: initial; display: inline;}
+
+    table.w2tb.tb > tbody > tr table tr,
+    .shbox table.w2tb.tb > tbody > tr table tr,
+    .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr table tr,
+    table.w2tb.tb > tbody > tr table tr,
+    .shbox table.w2tb.tb > tbody > tr table tr,
+    .shbox table.w2tb.tb.on > tbody > tr:nth-of-type(2) ~ tr table tr {display: table-row;}
+
+    table.w2tb.tb > tbody > tr > .w2tb_th table tr th,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_th table tr th {width: auto; display: table-cell;}
+    table.w2tb.tb > tbody > tr > .w2tb_th table tr td,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_th table tr td {width: auto; display: table-cell;}
+
+    .shbox table.w2tb.tb tr > .w2tb_th table tr th,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_th table tr th {display: table-cell; min-height: auto; margin-bottom: 0rem; float: none;}
+
+    .shbox table.w2tb.tb tr > .w2tb_td table tr td,
+    .shbox table.w2tb.tb > tbody > tr > .w2tb_td table tr td,
+    table.w2tb.tb tr > .w2tb_td table tr td,
+    table.w2tb.tb > tbody > tr > .w2tb_td table tr td {display: table-cell; height: auto; min-height: auto;margin-bottom: 0rem; padding-bottom: 0; float: none;}
+    table.w2tb.tb > tbody > tr > .w2tb_td table tr td.w2checkcombobox_col_button {height: 2.6rem;}
+
+    table.w2tb.tb table:not(.w2calendar_footer) {display: table;}
+    table.w2tb.tb table:before {content: none;}
+    table.w2tb.tb table:after {content: none;}
+
+    table.w2tb.tb > tbody table tbody {display: table-row-group;}
+    table.w2tb.tb > tbody table tbody:after {content: none;}
+    table.w2tb.tb tr > .w2tb_th table th,
+    table.w2tb.tb > tbody > tr > .w2tb_th table th {min-height: auto;float: none;}
+
+    table.w2tb.tb tr > .w2tb_td table td:after,
+    table.w2tb.tb > tbody > tr > .w2tb_td table td:after {content: none;}
+
+    .ly_column table.w2tb.tb tr,
+    .ly_column table.w2tb.tb > tbody > tr {display: flex; flex-wrap: wrap;}
+    .ly_column table.w2tb.tb tr > .w2tb_th,
+    .ly_column table.w2tb.tb > tbody > tr > .w2tb_th {}
+    .ly_column table.w2tb.tb tr > .w2tb_td,
+    .ly_column table.w2tb.tb > tbody > tr > .w2tb_td {width: calc(100% - 14.0rem); min-width: calc(100% - 14.0rem); height: auto;}
+
+    .lybox.resize .ly_column.popup table.w2tb.tb {display: table;}
+    .lybox.resize .ly_column.popup table.w2tb.tb:after {position: absolute;}
+    .lybox.resize .ly_column.popup table.w2tb.tb > tbody {display: table-row-group;}
+    .lybox.resize .ly_column.popup table.w2tb.tb tr,
+    .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr {display: table-row;}
+    .lybox.resize .ly_column.popup table.w2tb.tb tr > .w2tb_th,
+    .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr > .w2tb_th {display: table-cell;width:auto;float: none;}
+    .lybox.resize .ly_column.popup table.w2tb.tb tr > .w2tb_td,
+    .lybox.resize .ly_column.popup table.w2tb.tb > tbody > tr > .w2tb_td {display: table-cell;width:auto;min-width:auto;float: none;padding-top: 0.2rem;}
+    .lybox.resize .ly_column.popup table.w2tb.tb tr > .w2tb_td:last-child {border-right:0;}
+
+    .shbox .tb:after {content:none;}
+
+    .w2popup_window table.w2tb.tb tr > .w2tb_th .w2textbox,
+    .w2popup_window table.w2tb.tb > tbody > tr > .w2tb_th .w2textbox {vertical-align: initial;}
+    .w2popup_window .btnbox_all .btn_cm,
+    .pop_contents .btnbox_all .btn_cm {width: auto;}
+
+    /* input calendar */
+    .shbox table.w2tb.tb tr > .w2tb_td table.w2calendar_content_table tr td,
+    table.w2tb.tb tr > .w2tb_td table.w2calendar_content_table tr td {height: 2.6rem;}
+
+    .two_area>ul {min-width:auto;}
+
+    /* 응용개발 예외적용페이지 HpcmPM.xml */
+    .unit_box_wrap table.w2tb.tb:before {border-right: 0}
+    .unit_box_wrap table.w2tb.tb tr > .w2tb_td,
+    .unit_box_wrap table.w2tb.tb > tbody > tr > .w2tb_td {width: 100%;}
+
+    .re_block {display:block !important;}
+    .re_inline_block {display: inline-block !important;}
+
+    /* tb-row width 100% 추가*/
+    .w2tb_th.row_100,
+    .w2tb_td.row_100 {width:100% !important;min-width:100% !important;max-width:100% !important;}
+
+    /* table형태 dl */
+    table.w2tb.tb .w2tb_th.dl_line_3,
+    table.w2tb.tb .w2tb_td.dl_line_3 {height: 12.3rem;}
+    .tb_dl_box{position:relative;margin:-0.4rem -1rem -0.2rem -1rem; width:100%;}
+    .tb_dl_box dl dt{padding:0.7rem 0.8rem 0.5rem 1rem;}
+
+    table.w2tb.tb .w2tb_th.dl_line_2,
+    table.w2tb.tb .w2tb_td.dl_line_2 {height:8.2rem; margin-bottom:0; padding-bottom:0;}
+    table.w2tb.tb .w2tb_th.dl_line_1 .tb_dl_box,
+    table.w2tb.tb .w2tb_td.dl_line_1 .tb_dl_box {padding-top:0.15rem;}
+
+    /* td 컴포넌트 복합형 input + btn, select + btn 등  */
+    .flexbox .fix {position: absolute; top: 0; right: 0;}
+
+
+    /* 조회영역 내 CheckComboBox */
+    .shbox .shbox_inner .w2checkcombobox_acc .w2checkcombobox_acc_custom_label {padding-top:0;}
+
+      /*통합상세 메인검색 NEJ추가*/
+    .main-srchbox.type2 .col > div {position:relative; margin-top:0.8rem; padding-left:10rem; width:100%;}
+    .main-srchbox.type2 .col div > label {position:absolute; top:0; left:0;}
+    .main-srchbox.type2 .col.mq_blolck {display:upset;}
+    .main-srchbox.type2 .col.mq_blolck div {width:100% !important;}
+    .main-srchbox.type2 .col.mq_blolck div + div {margin-left:0;}
+    .main-srchbox.type2 .col .search_wrap,
+    .main-srchbox.type2 .col .srch_ipt {width:100%;}
+    .main-srchbox.type2 .w2radio .w2radio_item {margin-bottom:0.3rem;}
+
+    .mq_mt{margin-top:6rem;}
+
+    /* 나라장터 캐비닛 */
+    .gnb-top-wrap.gnb-site-wrap .inner-site-wrap {display: none;}
+    .gnb-menu-wrapper.cabinet,
+    .gnb-menu-wrapper.cabinet:before,
+    .gnb-menu-wrapper.cabinet .gnb-menu-wrap.total.sub {display: none;}
+}
+

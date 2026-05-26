@@ -1,0 +1,975 @@
+/**
+ * 개발 완료후 삭제 요망.
+ * 운영서버에는 반영되지 않음.
+ */
+
+String.prototype.nkLog = function() {
+    console.log(this.toString());
+}
+
+var devUtil = {
+        menuUseYn : true,
+        getApiUrlPath : (owner,apiName) => `https://git.g2b.go.kr/${owner}/${apiName}`,
+        gitUrl : [
+            { "page" :  "/api-doc"    , "owner" : "ngs-g2bui-dev", "apiName" : "nkoneps-doc"               ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bui-dev/nkoneps-doc"                },
+            { "page" :  "/bsnejs"     , "owner" : "ngs-g2bui-dev", "apiName" : "nkoneps-bsnejs-sub"        ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bui-dev/nkoneps-bsnejs-sub"         },
+            { "page" :  "/kn"         , "owner" : "ngs-g2bco-dev", "apiName" : "nkoneps-naracomm-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-naracomm-sub"       },
+            { "page" :  "/publishing" , "owner" : "ngs-g2bco-dev", "apiName" : "nkoneps-narapublishing-sub",  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-narapublishing-sub" },
+            { "page" :  "/sample"     , "owner" : "ngs-g2bco-dev", "apiName" : "nkoneps-sample-sub"        ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-sample-sub"         },
+            { "page" :  "/ui/co"      , "owner" : "ngs-g2bco-dev", "apiName" : "nkoneps-comm-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-comm-sub"           },
+            { "page" :  "/ui/eb"      , "owner" : "ngs-g2bes-dev", "apiName" : "nkoneps-bidsrng-sub"       ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-bidsrng-sub"        },
+            { "page" :  "/ui/ec"      , "owner" : "ngs-g2bes-dev", "apiName" : "nkoneps-ceval-sub"         ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-ceval-sub"          },
+            { "page" :  "/ui/ee"      , "owner" : "ngs-g2bes-dev", "apiName" : "nkoneps-prcmevl-sub"       ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-prcmevl-sub"        },
+            { "page" :  "/ui/en"      , "owner" : "ngs-g2bes-dev", "apiName" : "nkoneps-bidsrngsprt-sub"   ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-bidsrngsprt-sub"    },
+            { "page" :  "/ui/fa"      , "owner" : "ngs-g2bcp-dev", "apiName" : "nkoneps-appccomm-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-appccomm-sub"       },
+            { "page" :  "/ui/fc"      , "owner" : "ngs-g2bcp-dev", "apiName" : "nkoneps-sprtsrvc-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-sprtsrvc-sub"       },
+            { "page" :  "/ui/fi"      , "owner" : "ngs-g2bcp-dev", "apiName" : "nkoneps-infopvsn-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-infopvsn-sub"       },
+            { "page" :  "/ui/fm"      , "owner" : "ngs-g2bcp-dev", "apiName" : "nkoneps-opermng-sub"       ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-opermng-sub"        },
+            { "page" :  "/ui/fu"      , "owner" : "ngs-g2bcp-dev", "apiName" : "nkoneps-usr-sub"           ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-usr-sub"            },
+            { "page" :  "/ui/gc"      , "owner" : "ngs-g2bgp-dev", "apiName" : "nkoneps-dlvgdsreqt-sub"    ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-dlvgdsreqt-sub"     },
+            { "page" :  "/ui/ge"      , "owner" : "ngs-g2bgp-dev", "apiName" : "nkoneps-elpdt-sub"         ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-elpdt-sub"          },
+            { "page" :  "/ui/gr"      , "owner" : "ngs-g2bgp-dev", "apiName" : "nkoneps-s2cp-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-s2cp-sub"           },
+            { "page" :  "/ui/gs"      , "owner" : "ngs-g2bgp-dev", "apiName" : "nkoneps-mas-sub"           ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-mas-sub"            },
+            { "page" :  "/ui/gv"      , "owner" : "ngs-g2bgp-dev", "apiName" : "nkoneps-vntr-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-vntr-sub"           },
+            { "page" :  "/ui/nn"      , "owner" : "ngs-g2bnu-dev", "apiName" : "nkoneps-nuri-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bnu-dev/nkoneps-nuri-sub"           },
+            { "page" :  "/ui/pb"      , "owner" : "ngs-g2bep-dev", "apiName" : "nkoneps-bid-sub"           ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-bid-sub"            },
+            { "page" :  "/ui/pc"      , "owner" : "ngs-g2bep-dev", "apiName" : "nkoneps-ctrtcntg-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-ctrtcntg-sub"       },
+            { "page" :  "/ui/pl"      , "owner" : "ngs-g2bep-dev", "apiName" : "nkoneps-ctrtinsp-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-ctrtinsp-sub"       },
+            { "page" :  "/ui/pm"      , "owner" : "ngs-g2bep-dev", "apiName" : "nkoneps-ctrtmng-sub"       ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-ctrtmng-sub"        },
+            { "page" :  "/ui/pn"      , "owner" : "ngs-g2bep-dev", "apiName" : "nkoneps-pbanc-sub"         ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-pbanc-sub"          },
+            { "page" :  "/ui/pp"      , "owner" : "ngs-g2bep-dev", "apiName" : "nkoneps-prce-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-prce-sub"           },
+            { "page" :  "/ui/pr"      , "owner" : "ngs-g2bep-dev", "apiName" : "nkoneps-prcmdmnd-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-prcmdmnd-sub"       },
+            { "page" :  "/ui/sb"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-actg-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-actg-sub"           },
+            { "page" :  "/ui/sc"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-etpsprfmnc-sub"    ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-etpsprfmnc-sub"     },
+            { "page" :  "/ui/se"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-rsrv-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-rsrv-sub"           },
+            { "page" :  "/ui/sf"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-cstsp-sub"         ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-cstsp-sub"          },
+            { "page" :  "/ui/si"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-prcminsp-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-prcminsp-sub"       },
+            { "page" :  "/ui/sj"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-lgscr-sub"         ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-lgscr-sub"          },
+            { "page" :  "/ui/sm"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-prcsp-sub"         ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-prcsp-sub"          },
+            { "page" :  "/ui/sp"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-item-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-item-sub"           },
+            { "page" :  "/ui/sq"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-prcmqlty-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-prcmqlty-sub"       },
+            { "page" :  "/ui/sr"      , "owner" : "ngs-g2bps-dev", "apiName" : "nkoneps-frcp-sub"          ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-frcp-sub"           },
+            { "page" :  "/ui/ub"      , "owner" : "ngs-g2bun-dev", "apiName" : "nkoneps-elctdbx-sub"       ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-elctdbx-sub"        },
+            { "page" :  "/ui/uc"      , "owner" : "ngs-g2bun-dev", "apiName" : "nkoneps-elctcbnt-sub"      ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-elctcbnt-sub"       },
+            { "page" :  "/ui/ui"      , "owner" : "ngs-g2bun-dev", "apiName" : "nkoneps-stdlink-sub"       ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-stdlink-sub"        },
+            { "page" :  "/ui/um"      , "owner" : "ngs-g2bun-dev", "apiName" : "nkoneps-docdst-sub"        ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-docdst-sub"         },
+            { "page" :  "/ui/us"      , "owner" : "ngs-g2bun-dev", "apiName" : "nkoneps-stddoc-sub"        ,  "gitUrl" : "https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-stddoc-sub"         }
+       ],
+       gitNUrl : {
+           "ai" : {"page":"/ui/ai","owner" : "ngs-g2ban-dev", "apiName": "nkoneps-prcmdta-api"    ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2ban-dev/nkoneps-prcmdta-api"    ,"dbUser":"dhub"       },
+           "co" : {"page":"/ui/co","owner" : "ngs-g2bco-dev", "apiName": "nkoneps-comm-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-comm-api"       ,"dbUser":"comm"       },
+           "eb" : {"page":"/ui/eb","owner" : "ngs-g2bes-dev", "apiName": "nkoneps-bidsrng-api"    ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-bidsrng-api"    ,"dbUser":"srng"       },
+           "ec" : {"page":"/ui/ec","owner" : "ngs-g2bes-dev", "apiName": "nkoneps-ceval-api"      ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-ceval-api"      ,"dbUser":"srng"       },
+           "ee" : {"page":"/ui/ee","owner" : "ngs-g2bes-dev", "apiName": "nkoneps-prcmevl-api"    ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-prcmevl-api"    ,"dbUser":"evl"        },
+           "en" : {"page":"/ui/en","owner" : "ngs-g2bes-dev", "apiName": "nkoneps-bidsrngsprt-api","gitApiUrl":"https://git.g2b.go.kr/ngs-g2bes-dev/nkoneps-bidsrngsprt-api","dbUser":"entp"       },
+           "fa" : {"page":"/ui/fa","owner" : "ngs-g2bcp-dev", "apiName": "nkoneps-appccomm-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-appccomm-api"   ,"dbUser":"comm"       },
+           "fc" : {"page":"/ui/fc","owner" : "ngs-g2bcp-dev", "apiName": "nkoneps-sprtsrvc-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-sprtsrvc-api"   ,"dbUser":"comm"       },
+           "fe" : {"page":"/ui/fe","owner" : "ngs-g2bcp-dev", "apiName": "nkoneps-moblcise-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-moblcise-api"   ,"dbUser":"usr"        },
+           "fi" : {"page":"/ui/fi","owner" : "ngs-g2bcp-dev", "apiName": "nkoneps-infopvsn-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-infopvsn-api"   ,"dbUser":"comm"       },
+           "fm" : {"page":"/ui/fm","owner" : "ngs-g2bcp-dev", "apiName": "nkoneps-opermng-api"    ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-opermng-api"    ,"dbUser":"pbasp"      },
+           "fs" : {"page":"/ui/fs","owner" : "ngs-g2bco-dev", "apiName": "nkoneps-fmng-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-fmng-api"       ,"dbUser":"comm"       },
+           "fu" : {"page":"/ui/fu","owner" : "ngs-g2bcp-dev", "apiName": "nkoneps-usr-api"        ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-usr-api"        ,"dbUser":"usr"        },
+           "fy" : {"page":"/ui/fy","owner" : "ngs-g2bcp-dev", "apiName": "nkoneps-moblidnty-api"  ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bcp-dev/nkoneps-moblidnty-api"  ,"dbUser":"usr"        },
+           "gc" : {"page":"/ui/gc","owner" : "ngs-g2bgp-dev", "apiName": "nkoneps-dlvgdsreqt-api" ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-dlvgdsreqt-api" ,"dbUser":"ctrt"       },
+           "ge" : {"page":"/ui/ge","owner" : "ngs-g2bgp-dev", "apiName": "nkoneps-elpdt-api"      ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-elpdt-api"      ,"dbUser":"itmsp"      },
+           "gm" : {"page":"/ui/gm","owner" : "ngs-g2bgp-dev", "apiName": "nkoneps-shop-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-shop-api"       ,"dbUser":"shop"       },
+           "gr" : {"page":"/ui/gr","owner" : "ngs-g2bgp-dev", "apiName": "nkoneps-s2cp-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-s2cp-api"       ,"dbUser":"mas"        },
+           "gs" : {"page":"/ui/gs","owner" : "ngs-g2bgp-dev", "apiName": "nkoneps-mas-api"        ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-mas-api"        ,"dbUser":"mas"        },
+           "gv" : {"page":"/ui/gv","owner" : "ngs-g2bgp-dev", "apiName": "nkoneps-vntr-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bgp-dev/nkoneps-vntr-api"       ,"dbUser":"vntr"       },
+           "nn" : {"page":"/ui/nn","owner" : "ngs-g2bnu-dev", "apiName": "nkoneps-nuri-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bnu-dev/nkoneps-nuri-api"       ,"dbUser":"nuri"       },
+           "pb" : {"page":"/ui/pb","owner" : "ngs-g2bep-dev", "apiName": "nkoneps-bid-api"        ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-bid-api"        ,"dbUser":"bid"        },
+           "pc" : {"page":"/ui/pc","owner" : "ngs-g2bep-dev", "apiName": "nkoneps-ctrtcntg-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-ctrtcntg-api"   ,"dbUser":"ctrt"       },
+           "pl" : {"page":"/ui/pl","owner" : "ngs-g2bep-dev", "apiName": "nkoneps-ctrtinsp-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-ctrtinsp-api"   ,"dbUser":"insp"       },
+           "pm" : {"page":"/ui/pm","owner" : "ngs-g2bep-dev", "apiName": "nkoneps-ctrtmng-api"    ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-ctrtmng-api"    ,"dbUser":"clntm"      },
+           "pn" : {"page":"/ui/pn","owner" : "ngs-g2bep-dev", "apiName": "nkoneps-pbanc-api"      ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-pbanc-api"      ,"dbUser":"pbanc"      },
+           "pp" : {"page":"/ui/pp","owner" : "ngs-g2bep-dev", "apiName": "nkoneps-prce-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-prce-api"       ,"dbUser":"pexm"       },
+           "pr" : {"page":"/ui/pr","owner" : "ngs-g2bep-dev", "apiName": "nkoneps-prcmdmnd-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bep-dev/nkoneps-prcmdmnd-api"   ,"dbUser":"dmnd"       },
+           "sb" : {"page":"/ui/sb","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-actg-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-actg-api"       ,"dbUser":"actg"       },
+           "sc" : {"page":"/ui/sc","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-etpsprfmnc-api" ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-etpsprfmnc-api" ,"dbUser":"entp"       },
+           "se" : {"page":"/ui/se","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-rsrv-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-rsrv-api"       ,"dbUser":"rsrv"       },
+           "sf" : {"page":"/ui/sf","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-cstsp-api"      ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-cstsp-api"      ,"dbUser":"cstsp"      },
+           "si" : {"page":"/ui/si","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-prcminsp-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-prcminsp-api"   ,"dbUser":"insp"       },
+           "sj" : {"page":"/ui/sj","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-lgscr-api"      ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-lgscr-api"      ,"dbUser":"lgscr"      },
+           "sm" : {"page":"/ui/sm","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-prcsp-api"      ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-prcsp-api"      ,"dbUser":"prcsp"      },
+           "sp" : {"page":"/ui/sp","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-item-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-item-api"       ,"dbUser":"itmsp"      },
+           "sq" : {"page":"/ui/sq","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-prcmqlty-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-prcmqlty-api"   ,"dbUser":"qlty"       },
+           "sr" : {"page":"/ui/sr","owner" : "ngs-g2bps-dev", "apiName": "nkoneps-frcp-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bps-dev/nkoneps-frcp-api"       ,"dbUser":"usr"        },
+           "sw" : {"page":"/ui/sw","owner" : "ngs-g2bco-dev", "apiName": "nkoneps-sock-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-sock-api"       ,"dbUser":"comm"       },
+           "tm" : {"page":"/ui/tm","owner" : "ngs-g2bem-dev", "apiName": "nkoneps-mobl-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bem-dev/nkoneps-mobl-api"       ,"dbUser":"comm"       },
+           "ts" : {"page":"/ui/ts","owner" : "ngs-g2bco-dev", "apiName": "nkoneps-imsi-api"       ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bco-dev/nkoneps-imsi-api"       ,"dbUser":"imsi,appdev"},
+           "ub" : {"page":"/ui/ub","owner" : "ngs-g2bun-dev", "apiName": "nkoneps-elctdbx-api"    ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-elctdbx-api"    ,"dbUser":"ldoc"       },
+           "uc" : {"page":"/ui/uc","owner" : "ngs-g2bun-dev", "apiName": "nkoneps-elctcbnt-api"   ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-elctcbnt-api"   ,"dbUser":"pbasp"      },
+           "ui" : {"page":"/ui/ui","owner" : "ngs-g2bun-dev", "apiName": "nkoneps-stdlink-api"    ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-stdlink-api"    ,"dbUser":"ldoc"       },
+           "um" : {"page":"/ui/um","owner" : "ngs-g2bun-dev", "apiName": "nkoneps-docdst-api"     ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-docdst-api"     ,"dbUser":"ldoc"       },
+           "us" : {"page":"/ui/us","owner" : "ngs-g2bun-dev", "apiName": "nkoneps-stddoc-api"     ,"gitApiUrl":"https://git.g2b.go.kr/ngs-g2bun-dev/nkoneps-stddoc-api"     ,"dbUser":"ldoc"       },
+           filter : function(searchText) {
+               return Object.keys(this).filter(key=> typeof this[key] != "function" && JSON.stringify(this[key]).includes(searchText)).map(key=>this[key]);
+           }
+       },
+       gitFilter           : function(searchText) {
+           return this.gitNUrl.filter(searchText);
+       },
+       gitPreFixFile       : "/src/branch/develop",
+       gitPreFixFileSource : "/raw/branch/develop",
+       gitPreFixHisory     : "/commits/branch/develop",
+       javaSrcFilePath     : "/src/main/java",
+       mapperSrcFilePath   : "/src/main/resources/mapper",
+       getSrcPath : function(path,fixGbn = true) {
+           //  "/gm/gmo/gmoj/PanlFrmtMngPpsM/multiInpdspFrmt.do"
+           const o = path.split("/");
+           const pathInfo = { type: o[1], path : "/" + o.slice(1,4).join("/") ,pkg : o[3] , class : o[4] , fun : o[5] };
+           const gitSrc = this.srcFilePath(pathInfo.type,pathInfo.path,String(pathInfo.class).split("").map((m,i)=>(i==0) ? m.toUpperCase() : m).join(""));
+           let fixText = "";
+           if ( fixGbn == 1 || fixGbn.toLowerCase() == "f") {
+               fixText = this.gitPreFixFile;
+           } else if ( fixGbn == 2 || fixGbn.toLowerCase() == "s") {
+               fixText = this.gitPreFixFileSource;
+           } else if ( fixGbn == 3 || fixGbn.toLowerCase() == "h") {
+               fixText = this.gitPreFixHisory;
+           } else {
+               fixText = this.gitPreFixFile;
+           }
+           gitSrc.web = gitSrc.web.replace("#{fixText}",fixText);
+           gitSrc.vo = gitSrc.vo.replace("#{fixText}",fixText);
+           gitSrc.service = gitSrc.service.replace("#{fixText}",fixText);
+           console.log(gitSrc);
+           return gitSrc;
+       },
+       srcFilePath : function(gitType,classPath,className){
+           const info       = this.gitNUrl[gitType];
+           if ( !info ) return;
+           const dbUser     = info["dbUser"];
+           const gitApiUrl  = this.getApiUrlPath(info["owner"],info["apiName"])
+           if ( classPath == undefined || className == undefined ) return { gitApiUrl : gitApiUrl  };
+           const javaPath   = `${gitApiUrl}#{fixText}${this.javaSrcFilePath}/nkoneps${classPath}`;
+           const mapperPath = `${gitApiUrl}#{fixText}${this.mapperSrcFilePath}/${classPath}`;
+           return {
+                   "web"     : `${javaPath}/web/${className}Controller.java`,
+                   "service" : `${javaPath}/service/${className}Service.java`,
+                   "vo"      : `${javaPath}/vo/${className}VO.java`,
+                   "sql"     : `${mapperPath}/Ds#{dbUser}${className}_SQL.xml`,
+                   "dbUser"  : dbUser.split(",").map(m=>`_${m}`.snakeToCamel()),
+
+         };
+       },
+        // WebSquare.addRow 의 함수 재정의
+        contextMenuAddRow : function(dataOnclick, textValue, dataPoint, dataParam, lineAt ,addClass ="") {
+            if (WebSquare.logEnableFlag) {
+                let styleList = [];
+                styleList.push("font-family: Tahoma, Verdana, arial,helvetica");
+                styleList.push("font-size: 12px");
+                styleList.push("color: #222222");
+                styleList.push("line-height: normal");
+                styleList.push("background-color:#FFFFFF");
+                styleList.push("width:100%; height:19px");
+                styleList.push("text-decoration:none");
+                if ( lineAt ) {
+                    styleList.push("border-top:1px dotted #9fbcd4");
+                }
+                let trStr = `<tr><td class="addDevRow ${addClass}"`;
+                if ( dataOnclick ) {
+                    trStr += ` onmouseover='this.style.backgroundColor="b8d5f2";this.style.color="003a89";' onmouseout='this.style.backgroundColor="#FFFFFF";this.style.color="222222";'`;
+                    trStr += ` data-onclick='${dataOnclick}'`;
+                    styleList.push("cursor:pointer");
+                }
+                if ( dataParam ) {
+                    trStr += ` data-param='${dataParam}'`;
+                }
+                if ( dataPoint ) {
+                    trStr += ` data-point='${dataPoint}'`;
+                }
+                if ( addClass.includes("cursorCss") ) {
+                    styleList.push("cursor:pointer");
+                }
+                trStr += ` style='${styleList.join(";")}'>${textValue}</td></tr>`;
+                return trStr
+            }
+        },
+        // WebSquare.addRow 의 함수 재정의
+        contextMenuAddRow1 : function(dataOnclick, textValue, dataPoint, dataParam, addClass) {
+            return devUtil.contextMenuAddRow(dataOnclick, textValue, dataPoint, dataParam, !0, addClass);
+        },
+        // WebSquare Object 찾기
+        getWSElement : function(obj) {
+            try {
+                if ( !comUtil.gfnIsEmpty(obj) && obj["id"] !== undefined && WebSquare.idCache[WebSquare.idToUUID[obj["id"]]] ) {
+                    return $p.getComponentById(obj.id);
+                } else {
+                    return devUtil.getWSElement(obj.parentElement);
+                }
+            } catch (e) {
+                return null;
+            }
+        },
+        // log
+        log : function(...logObj) {
+            console.log(...logObj);
+        },
+        logTable : function(...logObj) {
+            setTimeout(console.table.bind(console,...logObj),0);
+        },
+        // log - event
+        gfnEventLog : function(eventKey) {
+            const eventList = eventKey.filter(event=>event.func);
+            if (eventList.length > 3) {
+                devUtil.log("%c    EVENT%c => %O","color:red;","",eventList);
+            } else if (eventList.length > 0) {
+                devUtil.log("%c    EVENT%c => "  ,"color:red;","",...eventList);
+            }
+        },
+        // log - dataList
+        dataListLog : function(dataList,org_id="",initializeType="",fieldId="") {
+            if (dataList.length > 30) {
+                console.log(`%c${org_id} count=%d [ ${initializeType} ]%c %O `,"font-weight:700",dataList.length,"",dataList);
+            } else {
+                console.groupCollapsed(`${org_id} count=%d  [ ${initializeType} ] `,dataList.length);
+                console.table(dataList);
+                console.groupEnd();
+            }
+        },
+        // log - dataMap
+        dataMapLog : function(dataMap,org_id="",initializeType="",fieldId="") {
+            console.log(`%c${org_id}${fieldId == "" ? "" : "." + fieldId + " = '" + dataMap[fieldId] + "'" } [ ${initializeType} ]%c  %O`,"font-weight:700","",dataMap);
+        },
+        // log - dataObj
+        dataObjLog : function(dataObj,fieldId){
+            if ( dataObj.initializeType === "dataList") {
+                devUtil.dataListLog(dataObj.getAllJSON(),dataObj.org_id,dataObj.initializeType,fieldId);
+            } else if ( dataObj.initializeType === "dataMap") {
+                devUtil.dataMapLog(dataObj.getJSON(),dataObj.org_id,dataObj.initializeType,fieldId);
+            }
+        },
+        // page scope 저장할 Object
+        _scope : {},
+
+        /**
+         * 메뉴 관련 함수정의
+         */
+        // gridView 관련 UTIL
+        gfnDownLoadJson : function(grdId){
+            com.gfnGetComponent(grdId).downLoad();
+        },
+        gfnDownLoadXml : function(grdId){
+            com.gfnGetComponent(grdId).downLoad("xml");
+        },
+        gfnDownLoadExcel : function(grdId){
+            com.gfnGetComponent(grdId).downLoad("excel");
+        },
+        gfnGetGridViewInfo : function(grdId){
+            const gridViewObj = com.gfnGetComponent(grdId)
+            const dataListId  = gridViewObj.getDataList();
+            const dataList    = com.gfnGetComponent(dataListId);
+            console.log(`==================== GridView Info('${grdId}') ===========================`);
+            devUtil.dataObjLog(dataList);
+            const _p_scwin = com.gfnGetComponent(gridViewObj.scope_id).scopeVariable.scwin;
+            const eventKey = Object.keys(gridViewObj.options).filter(k => k.startsWith("ev:")).map(m => gridViewObj.options[m]).map(m => ({name : m, func :  _p_scwin[m.replaceAll("scwin.","")]}));
+            devUtil.gfnEventLog(eventKey);
+        },
+
+        gfnGetGridCellInfo : function(grdId){
+            const gridViewObj = com.gfnGetComponent(grdId)
+            const gridColInfo = Object.entries(gridViewObj.bodyIdColIndexMap).sort((a,b)=>a[1]-b[1]).map(m=> { return { no : m[1] , id : m[0] , title : Object.fromEntries(Object.entries(gridViewObj.headerToBodyRelation).map(m=>{ return [ m[1] , gridViewObj.headerDataObj[m[0]].value ] } ))[m[0]] } });
+            devUtil.dataObjLog(gridColInfo);
+        },
+
+        // script 관련 Util
+        gfnDebug : function(strParam) {
+            const param  = JSON.parse(strParam);
+            const obj    = $p.getComponentById(param.id);
+            const fnName = ( obj.options.pluginName == "wframe" ) ? `${obj.id}_${param.fnName}` : `${obj.scope_obj.id}_${param.fnName}` ;
+            console.log("%c디버그 등록시%c console 창에 다음 명령어를 입력하십시요=> %c%s%c%O", "text-decoration:underline", "","color:blue;font-size:20px",`window.debug(${fnName});`,"",eval(fnName));
+            console.log("%c디버그 해제시%c console 창에 다음 명령어를 입력하십시요=> %c%s%c"  , "text-decoration:underline", "","color:blue;font-size:20px",`window.undebug(${fnName});`,"");
+            comUtil.gfnSetClipboard(param.fnName);
+        },
+        // event 관련 Util
+        gfnEventList : function(wsObjId) {
+            const wsObj = com.gfnGetComponent(wsObjId);
+            const options = wsObj.options;
+            console.log(`========================== 주소:${wsObj.scope_obj.getSrc()} - 선택Comp : ${wsObjId} ==================================================================`);
+            const _p_scwin = wsObj.scope_obj.scopeVariable.scwin;
+            const eventKey = Object.keys(options).filter(f => f.startsWith("ev:")).map(m => wsObj.options[m]).map(m => ( {name : m, func :  _p_scwin[m.replaceAll("scwin.","")]}));
+            devUtil.gfnEventLog(eventKey);
+            console.log(`===============================================================================================================`);
+        },
+        // Data 관련 Util
+        gfnCompDataList : function(strParam) {
+            const param = JSON.parse(strParam);
+            const wsObj   = com.gfnGetComponent(param.id);
+            const dataObj = com.gfnGetComponent(wsObj.scope_obj.id + "_" +  param.dataListName);
+            console.log(`-------------------- 그리드 리스트 정보 --------------------`);
+            console.log(`${wsObj.org_id} [ ${wsObj._wTagName} ] dataList=${param.dataListName}`);
+            devUtil.dataObjLog(dataObj);
+        },
+        gfnCompDataRef : function(strParam) {
+            const param = JSON.parse(strParam);
+            const wsObj  = com.gfnGetComponent(param.id);
+            const dataId = param.dataRef.split(":")[1].split(".")[0];
+            const fieldId = param.dataRef.split(":")[1].split(".")[1];
+            const dataObj = com.gfnGetComponent(wsObj.scope_obj.id + "_" +  dataId);
+            console.log(`-------------------- 바인드 정보 --------------------`);
+            console.log(`${wsObj.org_id} [ ${wsObj._wTagName} ] ${dataObj.initializeType}=${dataId}`);
+            if ( dataObj.initializeType == "dataList" || dataObj.initializeType == "dataMap" ) {
+                devUtil.dataObjLog(dataObj,fieldId);
+            }
+        },
+        gfnCompDataListInfo : function(strParam) {
+            const param = JSON.parse(strParam);
+            const wsObj   = com.gfnGetComponent(param.id);
+            const dataObj = com.gfnGetComponent(wsObj.scope_obj.id + "_" +  param.dataListInfo.id);
+            console.log(`-------------------- 코드 정보 --------------------`);
+            console.log(`${wsObj.org_id} [ ${wsObj._wTagName} ] dataList=${param.dataListInfo.id}`);
+            devUtil.dataObjLog(dataObj);
+        },
+        gfnCompDataAllInfo : function(param) {
+            const wsObj   = com.gfnGetComponent(param);
+            let dataListName = "";
+            let dataListInfo = null;
+            let dataRef = "";
+            if ( wsObj.options.pluginType === 'uiplugin.gridView' ) {
+                dataListName =  wsObj.options.dataList;
+            } else {
+                dataRef = wsObj.options.ref;
+                if ( wsObj.getDataListInfo ) {
+                    dataListInfo = wsObj.getDataListInfo();
+                }
+            }
+
+            console.log(`==================== Component 정보 ====================`);
+            const _p_scwin = com.gfnGetComponent(wsObj.scope_id).scopeVariable.scwin;
+            console.log(`${wsObj.org_id} [ ${wsObj._wTagName} ] ${((wsObj._wTagName == "gridView") ? "dataList=" + wsObj.getDataList() : ((wsObj.options?.ref || "") !== "") ? "ref=" + wsObj.options?.ref : "")} ${ ((wsObj.itemsetObj?.nodeset || "") !== "") ? "item="+wsObj.itemsetObj?.nodeset : "" }`);
+            console.log(`    %cWSOBJ%c => %o`,"color:blue;","",$p.getComponentById(wsObj.id));
+            console.log(`    %cHTML %c => %o`,"color:blue;","",$p.getComponentById(wsObj.id).render || $p.getComponentById(wsObj.id)._wqContent?.render);
+            if (wsObj.options) {
+                const eventKey     = Object.keys(wsObj.options).filter(k => k.startsWith("ev:")).map(m => wsObj.options[m]).map(m => ({name : m, func :  _p_scwin[m.replaceAll("scwin.","")]}));
+                devUtil.gfnEventLog(eventKey);
+            }
+
+            if ( dataListName !== "" ) {
+                console.log(`-------------------- 그리드 리스트 정보 --------------------`);
+                const dataObj = com.gfnGetComponent(wsObj.scope_obj.id + "_" +  dataListName);
+                devUtil.dataObjLog(dataObj);
+            }
+            if ( dataRef !== "" && dataRef.includes(":")) {
+                const dataId = dataRef.split(":")[1].split(".")[0];
+                const fieldId = dataRef.split(":")[1].split(".")[1];
+                const dataObj = com.gfnGetComponent(wsObj.scope_obj.id + "_" +  dataId);
+                if ( !comUtil.gfnIsEmpty(dataObj) ) {
+                    console.log(`-------------------- 바인드 정보 --------------------`);
+                    if ( dataObj.initializeType == "dataList" || dataObj.initializeType == "dataMap" ) {
+                        devUtil.dataObjLog(dataObj,fieldId);
+                    }
+                }
+            }
+            if ( dataListInfo !== null && !comUtil.gfnIsEmpty(dataListInfo.nodeset) ) {
+                const dataObj = com.gfnGetComponent(wsObj.scope_obj.id + "_" +  dataListInfo.id);
+                console.log(`-------------------- 코드 정보 --------------------`);
+                devUtil.dataObjLog(dataObj);
+            }
+        },
+        // 기타 기능
+        gfnCopyGotoUrl : function(src) {
+            src !== "" && comUtil.gfnSetClipboard(src);
+        },
+        gfnCopyUUIDId : function(uuid) {
+            uuid !== "" && comUtil.gfnSetClipboard(uuid);
+        },
+        gfnSetGotoUrl : function(src) {
+            if (WebSquare.logEnableFlag) {
+                if (src !== "") {
+                    WebSquare.localStorage.setItem("dev_goto_url", src);
+                    const menuInfo = comUtil.gfnGetMenuInfo(src);
+                    let menuCangVal = "";
+                    if (Array.isArray(menuInfo)) {
+                        menuCangVal = menuInfo[0]?.menuCangVal || "";
+                        console.log(`화면 정보 >  menuCangVal = ${menuCangVal} , src = ${src} , path = ${menuInfo[0].locToDown}`);
+                    } else {
+                        menuCangVal = menuInfo?.menuCangVal || "";
+                        console.log(`화면 정보 >  menuCangVal = ${menuCangVal} , src = ${src} , path = ${menuInfo.locToDown}`);
+                    }
+                    if (menuCangVal !== "") {
+                        WebSquare.localStorage.setItem("dev_goto_menuId", menuCangVal);
+                        if (com.gfnGetInfoSysCd() === "SJJ010011") {
+                            // 쇼핑몰
+                            WebSquare.localStorage.setItem("dev_goto_menuParam", comUtil.gfnGetThisMenuParam());
+                        } else {
+                            WebSquare.localStorage.removeItem("dev_goto_menuParam");
+                        }
+                    }
+                }
+            }
+        },
+        gfnDeleteGotoUrl : function() {
+            WebSquare.localStorage.removeItem("dev_goto_menuId");
+            WebSquare.localStorage.removeItem("dev_goto_url");
+            WebSquare.localStorage.removeItem("dev_goto_menuParam");
+        },
+        gfnGotoGitUrl : function(src) {
+            devUtil.gitUrl.forEach(e=>{
+                if ( src.startsWith(e["page"] ) ) {
+                    window.open(src.replaceAll(e["page"],e["gitUrl"] + devUtil.gitPreFixFile));
+                }
+            });
+
+        },
+        gfnGotoGitHistoryUrl : function(src) {
+            devUtil.gitUrl.forEach(e=>{
+                if ( src.startsWith(e["page"] ) ) {
+                    window.open(src.replaceAll(e["page"],e["gitUrl"] + devUtil.gitPreFixHisory));
+                }
+            });
+        },
+        gfnGotoGitSrcUrl : function(src) {
+            window.open(src);
+        },
+        gfnAGotoGitSrcUrl : async function(srcText) {
+            const srcInfo    = JSON.parse(srcText);
+            const serviceSrc = srcInfo.service.replace("http://10.139.117.187","").replace("#{fixText}",devUtil.gitPreFixFileSource);
+            const result = await devUtil.gfnGetFetchData(serviceSrc);
+            console.log(srcInfo);
+            console.log("==>",result);
+//        	srcInfo.sql.replace("#{fixText}",devUtil.gitPreFixFile).replace("#{dbUser}",o1);
+//            window.open(src);
+        },
+        gfnGetFetchData : function(url,params) {
+            return new Promise((resolve,reject) =>{
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET",`${url}?${params}`);
+                xhr.onload = () =>{
+                    if ( xhr.status == 200 ){
+                        resolve(xhr);
+                    } else {
+                        reject(xhr.statusText);
+                    }
+                };
+                xhr.onerror = () =>{
+                    reject(xhr.statusText);
+                };
+                xhr.send();
+            });
+        },
+        gfnGotoUrl : function(src){
+            const menuInfo = comUtil.gfnGetMenuInfo(src);
+            let menuCangVal = "";
+            if (Array.isArray(menuInfo)) {
+                menuCangVal = menuInfo[0]?.menuCangVal || "";
+
+            } else {
+                menuCangVal = menuInfo?.menuCangVal || "";
+            };
+            if ( menuCangVal !== "" ) {
+                com.gfnOpenMenu(menuCangVal, { isHistory : true });
+            }
+
+        },
+        selectorYn : false,
+        gfnDocEventMouseOver : function(evt) {
+            if ( devUtil.selectorYn  && window.event?.ctrlKey) {
+                const wsObj  = devUtil.getWSElement(evt.target);
+                if ( !comUtil.gfnIsEmpty(wsObj) ) {
+                    wsObj.render.style.boxShadow = "0px 0px 10px";
+                    wsObj.render.setAttribute("devUiAt",true);
+                }
+            }
+            return true;
+        },
+        gfnDocEventMouseOut : function(evt) {
+            const wsObj  = devUtil.getWSElement(evt.target);
+            if (  devUtil.selectorYn  && !comUtil.gfnIsEmpty(wsObj) ) {
+                const devUiAt = wsObj.render.getAttribute("devUiAt");
+                if ( devUiAt ) {
+                    wsObj.render.style.boxShadow = "0px 0px 0px";
+                    wsObj.render.removeAttribute("devUiAt");
+                }
+            }
+            return true;
+        },
+        gfnSetSelector : function() {
+            if ( !devUtil.selectorYn ) {
+                devUtil.selectorYn = true;
+                document.addEventListener("mouseover",devUtil.gfnDocEventMouseOver,true);
+                document.addEventListener("mouseout",devUtil.gfnDocEventMouseOut,true);
+            } else {
+                devUtil.selectorYn = false;
+                document.removeEventListener("mouseover",devUtil.gfnDocEventMouseOver,true);
+                document.removeEventListener("mouseout",devUtil.gfnDocEventMouseOut,true);
+                const removeObj = document.querySelector("[devUiAt=true]");
+                if ( removeObj ) {
+                    removeObj.style.boxShadow = "0px 0px 0px";
+                    removeObj.removeAttribute("devUiAt");
+                }
+            }
+        },
+        debuggerOpener : null,
+        gfnPopupClose : function(){
+            if ( devUtil.debuggerOpener ) {
+                devUtil.debuggerOpener.close();
+            }
+            return null;
+        },
+        gfnShowDebuggerOpen : function(){
+            const popupFeatures = `left = 100,top=100,width=1280,height=720`;
+            devUtil.debuggerOpener = window.open("/kn/com/devUtil/debuggerPopup.html","debuggerPopUp",popupFeatures);
+//            devUtil.debuggerOpener = window.open("/kn/com/devUtil/debuggerPopup.html","_blank",popupFeatures);
+            window.addEventListener("beforeunload",devUtil.gfnPopupClose);
+        },
+        gfnDevConsoleLogOpen : function(){
+            const popupFeatures = `left = 100,top=100,width=1280,height=720`;
+            devUtil.debuggerLog = window.open("/kn/com/devUtil/devConsoleLog.html","devConsoleLog",popupFeatures);
+//            window.open("/kn/com/devUtil/devConsoleLog.html","_blank",popupFeatures);
+//            devUtil.debuggerOpener = window.open("/kn/com/devUtil/devConsoleLog.html","devConsoleLog",popupFeatures);
+//            window.addEventListener("beforeunload",devUtil.gfnPopupClose);
+        },
+        gfnReinitializeWframe : async function(wsObjId) {
+            const cacheYn = WebSquare.WebSquareCache;
+            try {
+                const wsObj = com.gfnGetComponent(wsObjId);
+                WebSquare.WebSquareCache = false;
+                if ( wsObj ) {
+                    let paramObj;
+                    if (wsObj.options.strictFrame) {
+                        WebSquare.util.reinitialize(t);
+                    } else {
+                        if ( wsObj._dataObject ) {
+                            paramObj = {
+                                    dataObject: wsObj._dataObject,
+                                    reload: !0
+                            }
+                        }
+                        await wsObj.setSrc(wsObj.getSrc(), paramObj);
+                    }
+                }
+            } catch (t) {
+                WebSquare.exception.printStackTrace(t);
+            }
+            WebSquare.WebSquareCache = cacheYn;
+        },
+        getChildrenObj : function(obj,thisObj=$p) {
+            let childObj = [];
+            obj = obj || mf_wfm_container;
+            const thisId = thisObj?.getFrameId() || "";
+            devUtil.gfnGetChildrenWframe(obj,{level : 0, clog : childObj, thisId} );
+            return childObj;
+        },
+        gfnGetChildrenWframe : function(obj, { level = 0, clog = [], thisId , pluginList = ["wframe","udc","tabControl"]}) {
+            if ( pluginList.includes(obj.options?.pluginName)) {
+                clog.push({level , id: obj.id , org_id: obj.org_id, pluginName :  obj.options?.pluginName, src : obj.options?.src});
+                level++;
+            }
+            const childrens = obj.getChildren();
+            if (childrens.length > 0 ) {
+                childrens.forEach(child => {
+                    devUtil.gfnGetChildrenWframe(child, {level, clog, thisId, pluginList});
+                })
+            } else {
+                return clog;
+            }
+        },
+        gfnGetChildrenWframeHierarchy : function(obj,thisObj=$p) {
+            let childObj = [];
+            obj = obj || mf_wfm_container;
+            const thisId = thisObj?.getFrameId() || "";
+            devUtil.gfnGetChildrenWframe(obj,{level : 0, clog : childObj,thisId , pluginList : ["wframe"]});
+            return childObj;
+        },
+        _scope : {},
+        // 페이지 정보 보기
+        gfnAllCompDesc : function(pObjId = comUIUtil.baseId ) {
+            let pObj;
+            if ( typeof pObjId == "string") {
+                pObj = com.gfnGetComponent(pObjId);
+            } else {
+                pObj = pObjId;
+            }
+            const wsPObj = devUtil.getWSElement(pObj);
+            let rootSrc  = "";
+            if ( wsPObj === undefined ) {
+                rootSrc = "";
+            } else {
+                if ( wsPObj["getSrc"] ) {
+                    rootSrc = wsPObj.getSrc();
+                } else {
+                    rootSrc = wsPObj.scope_obj.getSrc();
+                }
+            }
+            if ( rootSrc !== "" ) {
+                console.log(`%c=========================== Page Info ================================%c`,"font-size:16px;font-weight:700","");
+                devUtil.gitUrl.forEach(e=>{
+                    if ( rootSrc.startsWith(e["page"] ) ) {
+                        const gitFileUrl = rootSrc.replaceAll(e["page"],e["gitUrl"] + devUtil.gitPreFixFile);
+                        const gitFileHisoryUrl = rootSrc.replaceAll(e["page"],e["gitUrl"] + devUtil.gitPreFixHisory);
+                        console.log(` 소스 보기 = ${gitFileUrl} `);
+                        console.log(` 히스토리 보기 = ${gitFileHisoryUrl} `);
+                    }
+                });
+                let dataComp = pObj.getObjList().map(c => pObj.getObj(c)).filter(f => f.uuid !== f.org_id).filter(f => ["dataList","dataMap"].includes(f.initializeType));
+                let etcComp  = pObj.getObjList().map(c => pObj.getObj(c)).filter(f => (f.uuid !== f.org_id || f.render) && f._wTagName != "group").filter(f => !["dataList","dataMap"].includes(f.initializeType));
+
+                devUtil._scope = pObj.scope;
+                const _p_scwin = devUtil._scope.scwin;
+                console.groupCollapsed(`%c=========================== Data Info ================================%c`,"font-size:14px;font-weight:500","");
+                dataComp.forEach(c => {
+                    if (c.options.pluginName == "dataList" || c.options.pluginName == "dataMap") {
+                        devUtil.dataObjLog(c);
+                    } else {
+                        console.log(c.org_id,c.options.pluginName,c);
+                    }
+                    const eventKey = Object.keys(c.options).filter(k => k.startsWith("ev:")).map(m => c.options[m]).map(m => ({name : m, func :  _p_scwin[m.replaceAll("scwin.","")]}));
+                    devUtil.gfnEventLog(eventKey);
+                });
+                console.groupEnd();
+                console.groupCollapsed(`%c=========================== SCRIPT Info ==============================%c`,"font-size:14px;font-weight:500","");
+                const scwinKeys = Object.keys(_p_scwin);
+                const scwinFunc = scwinKeys.map(m => ({ "name" : "scwin." + m, "func" : _p_scwin[m]} )).filter(f => typeof(f.func) == "function");
+                if (scwinFunc.length > 0) {
+                    console.log(`script run devUtil._scope.functionName()`);
+                    console.log(`ex) devUtil._scope.${scwinFunc[scwinFunc.length-1].name}${/\(([\s\S]*?)\)/.exec(scwinFunc[scwinFunc.length-1].func)[0]}`);
+                    console.log("%O",scwinFunc.map(m => {
+                        let rtnMap = {...m};
+                        let action = null;
+                        let menuIdList = null;
+                        const param     = /\(([\s\S]*?)\)/.exec(m.func)[1];
+                        if (param.length > 0) {
+                            rtnMap.params = param.split(",");
+                        }
+                        rtnMap.call = `devUtil._scope.${m.name}${/\(([\s\S]*?)\)/.exec(m.func)[0]};`;
+                        if (m.func.toString().includes("com.gfnExecute")) {
+                            action = m.func.toString().replaceAll("\r\n","\n").split("\n").filter(f => f.includes("action")).map(m1 => m1.substring(m1.indexOf("action")+ "action".length , m1.indexOf(",",m1.indexOf("action")+ "action".length)).replaceAll(":","").replaceAll('"',"").trim()).join(",");
+                            if (action) rtnMap.action = action;
+                        }
+                        if (m.func.toString().includes("com.gfnOpenMenu") || m.func.toString().includes("com.gfnSetWFrameSrc") || m.func.toString().includes("com.gfnOpenPopup")) {
+                            menuIdList = m.func.toString().replaceAll("\r\n","\n").split("\n").filter(f => f.includes("menuCangVal")).map(m1 => m1.substring(m1.indexOf("menuCangVal")+ "menuCangVal".length , m1.indexOf(",",m1.indexOf("menuCangVal")+ "menuCangVal".length)).replaceAll(":","").replaceAll('"',"").trim());
+                            if (menuIdList.length > 0) {
+                                rtnMap.menuId = menuIdList.join(",");
+                                rtnMap.menuUrl = menuIdList.map(m1 => comUtil.gfnGetMenuInfo(m1).scrnSrcePathNm || "").join(",");
+                            }
+                        }
+                        return rtnMap;
+                    }));
+                } else {
+                    console.log(`--------------------------- NO SCRIPT --------------------------------`);
+                }
+                console.groupEnd();
+                console.groupCollapsed(`%c=========================== Server Source Info ==============================%c`,"font-size:14px;font-weight:500","");
+                if (scwinFunc.length > 0) {
+                    let actionList = scwinFunc.map(m=>m.func.toString().replaceAll("\r\n","\n").split("\n").filter(f=>f.includes("action")&&f.includes(".do"))).filter(f=>f.length>0).map(m=>m.join("|")).map(m=>m.replaceAll(" ","").replaceAll("action:","").replaceAll(",","").replaceAll("\"","")).map(m=>{ o = m.split("/"); return { type: o[1], path : "/" + o.slice(1,4).join("/") ,pkg : o[3] , class : o[4] , fun : o[5] } })
+                    console.log(actionList);
+                    console.log(actionList.map(m=>{
+                        const javaSourcePath = devUtil.srcFilePath(m.type,m.path,String(m.class).split("").map((m,i)=>(i==0) ? m.toUpperCase() : m).join(""));
+                        return javaSourcePath;
+                    }));
+                } else {
+                    console.log(`--------------------------- NO Server Source Info --------------------------------`);
+                }
+                console.groupEnd();
+                console.groupCollapsed(`%c=========================== UI Info ==================================%c`,"font-size:14px;font-weight:500","");
+                etcComp.sort((a,b) => { return  ((a.render != void 0 && b.render != void 0) ? (Math.round(a.render.getBoundingClientRect().y / 10 ) * 10  == Math.round(b.render.getBoundingClientRect().y / 10 ) * 10 ? a.render.getBoundingClientRect().x < b.render.getBoundingClientRect().x : a.render.getBoundingClientRect().y < b.render.getBoundingClientRect().y) : true) ? -1 : 1});
+                etcComp.forEach(c => {
+                    console.log(`${c.org_id} [ ${c._wTagName} ] ${((c._wTagName == "gridView") ? "dataList=" + c.getDataList() : ((c.options?.ref || "") !== "") ? "ref=" + c.options?.ref : "")} ${ ((c.itemsetObj?.nodeset || "") !== "") ? "item="+c.itemsetObj?.nodeset : "" }`);
+                    console.log(`    %cWSOBJ%c => %o`,"color:blue;","",$p.getComponentById(c.id));
+                    console.log(`    %cHTML %c => %o`,"color:blue;","",$p.getComponentById(c.id).render || $p.getComponentById(c.id)._wqContent?.render);
+                    if (c.options) {
+                        const eventKey     = Object.keys(c.options).filter(k => k.startsWith("ev:")).map(m => c.options[m]).map(m => ( {name : m, func :  _p_scwin[m.replaceAll("scwin.","")]}));
+                        devUtil.gfnEventLog(eventKey);
+                    }
+                });
+                console.groupEnd();
+                const childList = devUtil.getChildrenObj(pObj).filter(child=>( child.id != pObjId && child.pluginName == "wframe" && child.level > 0));
+                if ( childList.length > 1 ) {
+                    let childWsObj = null;
+                    console.groupCollapsed(`%c=========================== wFrame ==================================%c`,"font-size:14px;font-weight:500","");
+                    childList.forEach( child => {
+                        console.groupCollapsed(`%c wFrome 정보 id : ${child.id},  주소 : ${child.src || ""}%c`,"font-size:14px;font-weight:500","");
+                        childWsObj = com.gfnGetComponent(child.id);
+                        devUtil.gfnAllCompDesc(childWsObj);
+                        console.groupEnd();
+                    });
+                    console.groupEnd();
+                }
+            }
+
+        },
+        gfnShowWSIDOpen : function(){
+
+        },
+};
+
+function debugContextMenu() {
+    let devMode 	  = (devUtil.menuUseYn && WebSquare.core.getConfiguration("debugMenu") === "use");
+    let prodDebugMode = (WebSquareExternal.active == "prod" && _gcm.Global.getDebugMode());
+
+    if(devMode || prodDebugMode) {
+        devUtil.oncontextmenu_back = document.oncontextmenu;
+        document.oncontextmenu = (evt) => {
+            if ( !window.event?.ctrlKey) {
+                return true;
+            }
+            if (window.event?.altKey) {
+                console.clear();
+            }
+            if (comUtil.gfnIsEmpty(devUtil.oncontextmenu_back)) {
+                return false;
+            }
+            let wsObj  = devUtil.getWSElement(evt.target);
+
+            if (wsObj?.getScope()?.id === "mf") {
+                WebSquare.logger.disableContextMenu();
+                return false;
+            } else {
+                WebSquare.logger.enableContextMenu();
+            }
+
+            let rtnVal = devUtil.oncontextmenu_back(evt);
+            const baseObj = com.gfnGetComponent(comUIUtil.baseId);
+            if ( baseObj !== null && wsObj !== null ) {
+
+                const localStorage_dev_goto_url = WebSquare.localStorage.getItem("dev_goto_url");
+                const basePathSrc         = baseObj.getSrc();
+                const wsPluginName        = wsObj.options.pluginName;
+
+                let addHtml =   "";
+                let rowTextInfo = "";
+                let dataviewIndex = 1;
+                console.log("thisId => %s :  %s - %s  %s", wsObj.id,basePathSrc,wsObj.scope_obj.getSrc(),evt.target);
+
+                addHtml += devUtil.contextMenuAddRow1(null, `======= Main 페이지 정보보기 =======`);
+                try {
+                    addHtml += devUtil.contextMenuAddRow (null, ` > MenuNo : ${baseObj.scope?.com.gfnGetMenuInfo()?.menuNo}`);
+                } catch(e){
+
+                }
+                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCopyGotoUrl"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 주소복사 [${basePathSrc}]`   , basePathSrc  );
+                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCopyUUIDId"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. UUID복사 [${baseObj.id}]`   , baseObj.id  );
+                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnAllCompDesc"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 페이지 정보 보기`            , baseObj.id   );
+                if ( WebSquare.BootLoader.configurationJSON[0].WebSquare.environment["@cache"] == "cache" ) {
+                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDebug"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 메인 페이지 scwin.onpageload 보기`      , JSON.stringify({id: baseObj.id, fnName : "scwin.onpageload" })   );
+                }
+
+                if (wsObj !== undefined && wsObj.scope_obj != baseObj) {
+                    dataviewIndex = 1;
+                    addHtml += devUtil.contextMenuAddRow1(null, `======= WFrame 정보보기 =======`);
+                    addHtml += devUtil.contextMenuAddRow (null, ` > MenuNo : ${wsObj.scope_obj?.scope.com.gfnGetMenuInfo().menuNo}`);
+                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCopyGotoUrl"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. WFrame 주소복사 [${wsObj.scope_obj.getSrc()}]` , wsObj.scope_obj.getSrc()  );
+                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCopyUUIDId"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. WFrame UUID 복사 [${wsObj.scope_obj.scope_id}]` , wsObj.scope_obj.scope_id  );
+                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnAllCompDesc"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. WFrame 정보[${ wsObj.scope_obj.getSrc()}]`     , wsObj.scope_obj.id ,undefined,undefined ,"wframe");
+                    if ( WebSquare.BootLoader.configurationJSON[0].WebSquare.environment["@cache"] == "cache" ) {
+                        if ( !comUtil.gfnIsEmpty(wsObj?.scope_obj?.scope?.scwin?.onpageload ) ) {
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDebug"        , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. WFrame scwin.onpageload 보기`   , JSON.stringify({id: wsObj.scope_obj.id, fnName : "scwin.onpageload" })   );
+                        }
+                    }
+
+                }
+
+                if(devMode) {
+                    let scwinKeys = Object.keys(baseObj.scope.scwin);
+                    let scwinFunc = scwinKeys.map(m => ({ "name" : "scwin." + m, "func" : baseObj.scope.scwin[m]} )).filter(f => typeof(f.func) == "function");
+
+                    let actionList = Array.uniqueObj(scwinFunc.map(m=>m.func.toString().replaceAll("\r\n","\n").split("\n").filter(f=>f.includes("action")&&f.includes(".do"))).filter(f=>f.length>0).flat().map(o=>o.trimStart()).filter(f=>!f.startsWith("//")).map(m=>m.replaceAll(" ","").replaceAll("action:","").replaceAll(",","").replaceAll("\"","")).map(m=>{ o = m.split("/"); return { type: o[1], path : "/" + o.slice(1,4).join("/") ,pkg : o[3] , class : o[4] , classPath : o.slice(1,5).join(".")} }));
+                    let gitSrcList = actionList.map(m=>{
+                        return { classPath : m.classPath,...devUtil.srcFilePath(m.type,m.path,String(m.class).split("").map((m,i)=>(i==0) ? m.toUpperCase() : m).join(""))};
+                    });
+                    if ( wsPluginName === "gridView" ) {
+                        dataviewIndex = 1;
+                        addHtml += devUtil.contextMenuAddRow1(null,`======= 그리드 정보보기 =======`);
+                        const tagName = ( comUtil.gfnIsEmpty(wsObj.options.tagname) ? "" : " - " + wsObj.options.tagname );
+                        const compId  = ( wsObj.uuid === wsObj.org_id ? "" : " ID : " + wsObj.org_id ) ;
+                        rowTextInfo = ` [ ${wsPluginName} ${tagName} ] ${compId}`;
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCopyGotoUrl"      , `&nbsp;&nbsp;&nbsp; ${rowTextInfo}`          , compId);
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDownLoadJson"     , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. JSON 다운`             , wsObj.id);
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDownLoadXml"      , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. XML 다운`              , wsObj.id);
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDownLoadExcel"    , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. Excel 다운`            , wsObj.id);
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGetGridViewInfo"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 그리드 정보 보기`      , wsObj.id);
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGetGridCellInfo"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 그리드 Cell 정보 보기` , wsObj.id);
+
+                    } else {
+                        addHtml += devUtil.contextMenuAddRow1(null, `======= 컴포넌트 정보보기 =======`);
+                        const tagName = ( comUtil.gfnIsEmpty(wsObj.options.tagname) ? "" : " - " + wsObj.options.tagname );
+                        const compId  = ( wsObj.uuid === wsObj.org_id ? "" : " ID : " + wsObj.org_id ) ;
+                        let wsObjValue = "";
+                        try {
+                            wsObjValue = wsObj.getValue ? " - value='" + wsObj.getValue() + "' " : "";
+                        } catch (t) {
+                        }
+
+                        rowTextInfo = ` [ ${wsObj.options.pluginName} ${tagName} ${wsObjValue}] ${compId}`;
+
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCopyGotoUrl", `&nbsp;&nbsp;&nbsp; ${rowTextInfo}`,compId);
+                    }
+                    const eventKey = Object.keys(wsObj.options).filter(f => f.startsWith("ev:")).map(m => ( {name: m.substring(3), fnName:wsObj.options[m]}));
+                    if ( !comUtil.gfnIsEmpty(eventKey) && eventKey.length ) {
+                        dataviewIndex = 1;
+                        devUtil._p_scope_obj = wsObj.scope_obj.scopeVariable;
+                        addHtml += devUtil.contextMenuAddRow (null  , `------- 이벤트 정보 -------`);
+                        eventKey.forEach((evtInfo) =>{
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDebug"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. ${evtInfo.name}:${evtInfo.fnName} debug 명령어` , JSON.stringify({id: wsObj.id, fnName : evtInfo.fnName }));
+                        });
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnEventList"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex}. 전체 이벤트 정보`               , wsObj.id    );
+                    }
+                    let dataListName = "";
+                    let dataListInfo = null;
+                    let dataRef = "";
+                    if ( wsPluginName === "gridView" ) {
+                        dataListName =  wsObj.options.dataList;
+                    } else {
+                        dataRef = wsObj.options.ref;
+                        if ( wsObj.getDataListInfo ) {
+                            dataListInfo = wsObj.getDataListInfo();
+                        }
+                    }
+                    dataviewIndex = 1;
+                    if ( ( dataListName !== "" ) || ( dataRef !== "" && dataRef.includes(":") && !comUtil.gfnIsEmpty(com.gfnGetComponent(wsObj.scope_obj.id + "_" +  dataRef.split(":")[1].split(".")[0]))) || ( dataListInfo !== null && !comUtil.gfnIsEmpty(dataListInfo.nodeset) ) ) {
+                        addHtml += devUtil.contextMenuAddRow (null  , `------- Data 정보 -------`);
+                        if ( dataListName !== "" ) {
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCompDataList"    , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. DataCollection 정보`, JSON.stringify({id: wsObj.id,dataListName}));
+                        }
+                        if ( dataRef !== "" && dataRef.includes(":")) {
+                            if ( !comUtil.gfnIsEmpty(com.gfnGetComponent(wsObj.scope_obj.id + "_" +  dataRef.split(":")[1].split(".")[0])) ) {
+                                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCompDataRef"     , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 바인딩 정보`        , JSON.stringify({id: wsObj.id,dataRef}) );
+                            }
+                        }
+                        if ( dataListInfo !== null && !comUtil.gfnIsEmpty(dataListInfo.nodeset) ) {
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCompDataListInfo", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 코드 Data 정보`       ,  JSON.stringify({id: wsObj.id,dataListInfo}) );
+                        }
+                    }
+                    if ( dataviewIndex > 1 ) {
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnCompDataAllInfo"  , `&nbsp;&nbsp;&nbsp;${dataviewIndex}. 전체 Data 정보`           , wsObj.id );
+
+                    }
+
+                    dataviewIndex = 1;
+                    addHtml += devUtil.contextMenuAddRow1(null, `======= GIT GOTO =======`);
+                    // contextMenuAddRow :       function(dataOnclick               , textValue                                                              , dataPoint   , dataParam, lineAt ,addClass ="") {
+                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitUrl"          , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Ui 소스보기 : ` + basePathSrc  , basePathSrc);
+                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitHistoryUrl"   , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Ui History보기 : ` + basePathSrc         , basePathSrc );
+                    gitSrcList.forEach(o=>{
+                        if ( o.web ) {
+                            addHtml += devUtil.contextMenuAddRow1(null, `--- GIT Server GOTO ${o.classPath} --- `);
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitSrcUrl"       , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Controller 소스보기 `, o.web.replace("#{fixText}",devUtil.gitPreFixFile));
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitSrcUrl"       , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Service    소스보기 `, o.service.replace("#{fixText}",devUtil.gitPreFixFile));
+        //	                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnAGotoGitSrcUrl"      , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Mapper 소스보기 `, JSON.stringify(o));
+                            o.dbUser.forEach(o1=>{
+                                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitSrcUrl"   , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Mapper[${o1}]소스보기 `, o.sql.replace("#{fixText}",devUtil.gitPreFixFile).replace("#{dbUser}",o1));
+                            })
+                        }
+                    });
+
+                    if (wsObj !== undefined && wsObj.scope_obj != baseObj) {
+                        let scwinKeys = Object.keys(wsObj.scope_obj.scope.scwin);
+                        let scwinFunc = scwinKeys.map(m => ({ "name" : "scwin." + m, "func" : wsObj.scope_obj.scope.scwin[m]} )).filter(f => typeof(f.func) == "function");
+
+                        let actionList = Array.uniqueObj(scwinFunc.map(m=>m.func.toString().replaceAll("\r\n","\n").split("\n").filter(f=>f.includes("action")&&f.includes(".do"))).filter(f=>f.length>0).map(m=>m.join("|")).map(m=>m.replaceAll(" ","").replaceAll("action:","").replaceAll(",","").replaceAll("\"","")).map(m=>{ o = m.split("/"); return { type: o[1], path : "/" + o.slice(1,4).join("/") ,pkg : o[3] , class : o[4] , classPath : o.slice(1,5).join(".")} }));
+                        let gitSrcList = actionList.map(m=>{
+                            return { classPath : m.classPath,...devUtil.srcFilePath(m.type,m.path,String(m.class).split("").map((m,i)=>(i==0) ? m.toUpperCase() : m).join(""))};
+                        });
+                        gitSrcList.forEach(o=>{
+                            if ( o.web ) {
+                                addHtml += devUtil.contextMenuAddRow1(null, `--- GIT Server GOTO ${o.classPath} WFrame --- `);
+                                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitSrcUrl"       , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Controller 소스보기 `, o.web.replace("#{fixText}",devUtil.gitPreFixFile));
+                                addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitSrcUrl"       , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Service    소스보기 `, o.service.replace("#{fixText}",devUtil.gitPreFixFile));
+                                o.dbUser.forEach(o1=>{
+                                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnGotoGitSrcUrl"   , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. GIT Mapper[${o1}]소스보기 `, o.sql.replace("#{fixText}",devUtil.gitPreFixFile).replace("#{dbUser}",o1));
+                                })
+                            }
+                        });
+                    }
+
+
+
+                    addHtml += devUtil.contextMenuAddRow1(null, `======= 기타 기능 =======`);
+                    dataviewIndex = 1;
+
+                    addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDevConsoleLogOpen", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. Show console log Open` , null);
+
+                    if ( basePathSrc !== localStorage_dev_goto_url || comUtil.gfnIsEmpty(localStorage_dev_goto_url) ) {
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnSetGotoUrl"   , `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 화면 고정 : ` + basePathSrc         , basePathSrc );
+                    }
+                    if ( !comUtil.gfnIsEmpty(localStorage_dev_goto_url) ) {
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnDeleteGotoUrl", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. 고정 삭제 : ` + localStorage_dev_goto_url , null);
+                    }
+
+
+                    if (window.event?.altKey) {
+            //            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnShowWSIDOpen", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. Show ID 보기` , null);
+                        if ( !devUtil.selectorYn ) {
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnSetSelector", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. SELECTOR 선택 가능` , null);
+                        } else {
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnSetSelector", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. SELECTOR 선택 해제` , null);
+                        }
+                        addHtml += devUtil.contextMenuAddRow ("devUtil.gfnShowDebuggerOpen", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. Show Debugger Open` , null);
+                        if ( WebSquare.BootLoader.configurationJSON[0].WebSquare.environment["@cache"] == "cache" ) {
+                            addHtml += devUtil.contextMenuAddRow ("devUtil.gfnReinitializeWframe", `&nbsp;&nbsp;&nbsp;${dataviewIndex++}. cache 무시 wframe 초기화` , wsObj.scope_obj.id);
+                        }
+                    }
+                }
+
+
+                $("#_contextMenuLayer div"        ).css ({"width":"400px","height" : "340px"});
+                $("#_contextMenuLayer table"      ).attr("width","400"  );
+                $("#_contextMenuLayer table tbody").append(addHtml);
+
+
+                const _contextMenu = document.querySelector("#_contextMenuLayer");
+                _contextMenu.style.backgroundColor = "white"
+                const {width : _contextWidth } = _contextMenu.getBoundingClientRect();
+                if ( window.innerWidth  < event.clientX + _contextWidth ) {
+                    _contextMenu.style.left = ( window.innerWidth - _contextWidth - 10 ) + "px";
+                }
+
+                $("#_contextMenuLayer table tbody td.addDevRow").each(
+                    function(i,ar) {
+                        ar.getAttribute("data-onclick") && WebSquare.event.addListener(ar, "onclick", (function() {
+                            let t = this.getAttribute("data-onclick");
+                            t = t.replace(/[\(][\s]*[\)]/g, "");
+                            let e = this.getAttribute("data-point");
+                            WebSquare.logger.hideContextMenu(e);
+                            let data_param = this.getAttribute("data-param")
+                            , o = [];
+                            data_param ? o = JSON.parse(data_param) : o.push(e);
+                            let s = WebSquare.util.getGlobalFunction(t);
+                            "function" == typeof s && s.apply(s, o);
+                        }));
+                });
+                document.querySelectorAll("#_contextMenuLayer table tbody td").forEach((o)=>{
+                    o.style.fontSize = "13px";
+                    o.style.height = "22px";
+                    o.setAttribute("onmouseover","");
+                    o.removeAttribute("onmouseover");
+                    o.setAttribute("onmouseout","");
+                    o.removeAttribute("onmouseover");
+                    o.removeEventListener("onmouseover" ,null,true);
+                    o.removeEventListener("onmouseout",null,true);
+                    o.addEventListener("mouseover" ,function(e){
+                        const _this = e.currentTarget;
+                        _this.style.backgroundColor = "#E4F4F4";
+                    });
+                    o.addEventListener("mouseout" ,function(e){
+                        const _this = e.currentTarget;
+                        _this.style.backgroundColor = "#FFFFFF";
+                    });
+
+
+                })
+                $("#_contextMenuLayer table tbody td.addDevRow.wframe").mouseenter(() => {
+                    $("svg#svgWframeDiv").show();
+                });
+
+            }
+            return rtnVal;
+        }
+    }
+
+}
+if(WebSquareExternal.active == "local" || WebSquareExternal.active == "tst") {
+    _gcm.Global.getLoginTime = function() { return 1800 * 6;}
+}
+debugContextMenu();
+
+
+/*
+document.onclick = function(e) {
+    if ( e.target.classList.contains("detailView") ) {
+
+    } else {
+        WebSquare.logger.hideContextMenu(e);
+    }
+}
+*/

@@ -1,0 +1,2222 @@
+// webapp/bsnejs/pr/prCtrtRqdcLib.js
+
+
+    /* param info
+        fuctionNm   : function Name
+        dlParamM    : param Map
+        outDataList : outList dataset Name
+    */
+
+prCtrtRqdcUtil = {
+        gfnMandatory : async function(grpObj, requireData){
+            grpObj = (typeof grpObj == "string") ? $p.getComponentById(grpObj) : grpObj;
+            if (comUtil.gfnIsEmpty(grpObj)) return false;
+
+            let objWfArr = com.gfnGetChildren(grpObj, {
+                includePlugin: "wframe",
+                recursive: false
+            });
+
+            if(!comUtil.gfnIsEmpty(objWfArr) && objWfArr.length != 0) {
+                grpObj = [];
+                for(let objWfIdx in objWfArr) {
+                    let obj = objWfArr[objWfIdx];
+                    if(obj.getStyle("visibility") == "hidden" || obj.getDisabled()) continue;
+                    grpObj.push(obj);
+                }
+            } else {
+                grpObj = [grpObj];
+            }
+
+            let objArr = [];
+
+            for(let grpObjIdx in grpObj) {
+                let objSubArr = com.gfnGetChildren(grpObj[grpObjIdx], {
+                    includePlugin: "checkbox checkcombobox datePicker editor input inputCalendar multiselect radio selectbox searchbox secret textarea",
+                    recursive: true
+                });
+                objArr = objArr.concat(objSubArr);
+            }
+
+            try {
+                for(let objIdx in objArr) {
+                    let obj = objArr[objIdx];
+
+                    if(obj.getStyle("visibility") == "hidden") continue;
+                    if(obj.getDisabled() && !obj.hasClass("searchbox")) continue;
+
+                    if (typeof obj.removeClass != "undefined") {
+                        obj.removeClass("error");
+                    }
+
+                    let dataObjInfo = com.gfnGetDataCollection(obj);
+                    let dataCollection = null;
+                    let columnId = null;
+                    let value = null;
+
+                    if((dataObjInfo != undefined) && (dataObjInfo != null)) {
+                        dataCollection = $p.getComponentById(dataObjInfo.runtimeDataCollectionId);
+                        columnId = dataObjInfo.columnId;
+                    }
+
+                    if((dataCollection != null) && ((dataCollection.getObjectType() == "dataMap"))) {
+                        value = dataCollection.get(dataObjInfo.columnId);
+                        if (typeof value == "string") {
+                            value = value.trim();
+                        }
+                    } else {
+                        if(obj.getPluginName() != "editor") {
+                            if((typeof obj.getValue == "function")) {
+                                value = obj.getValue();
+                                if(typeof value == "string") {
+                                    value = value.trim();
+                                }
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            value = obj.getHTML();
+                            if(typeof value == "string") {
+                                value = value.trim();
+                            }
+                        }
+                    }
+
+                    for(let objReqIdx in requireData) {
+                        if(requireData[objReqIdx] == columnId ) {
+                            if(comUtil.gfnIsEmpty(value) || value.length == 0) {
+                                com.gfnAlert(['msg.alert.grd.mandatory', obj.options.title], {}, () => obj.focus());
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+            } catch(ex) {
+                console.error("erorr meseage!",ex);
+            } finally {
+                objArr = null;
+            }
+
+            return true;
+        },
+
+    gfnCodeSelect : async function(docType,$p,dataObj,compIdVal){
+       const inDataId = "dmCodeM";
+       const outDataId = "dlCodeList";
+       var sbmOption = {
+               id : "selectCodeL",
+               action  : "/pn/pnp/pnpe/commBidPbac/selectCodeList.do",
+               method  : "POST",
+               isProcessMsg : false,
+               callbackFunc : null,
+               msgYn   : {succ: false, err : true}
+       };
+       let resultNoCache = [];
+       let compIdValNm   = "";
+
+       var sbmParam = {
+               [inDataId] : {"codeType"		: dataObj.codeType
+                            ,"codeWhereVal1": dataObj.codeWhereVal1
+                            ,"codeWhereVal2": dataObj.codeWhereVal2
+                            ,"codeWhereVal3": dataObj.codeWhereVal3
+                            ,"codeWhereVal4": dataObj.codeWhereVal4
+                            ,"codeWhereVal5": dataObj.codeWhereVal5
+                            ,"codeWhereVal6": dataObj.codeWhereVal6
+                            ,"codeWhereVal7": dataObj.codeWhereVal7
+                            }
+                       };
+
+       try {
+            const result = await com.gfnExecute(sbmOption, sbmParam);
+            let resultData = result.responseJSON.result;
+
+            let comp = $p.getComponentById(compIdVal);
+
+            if( docType == "P" ){
+
+            } else {
+                if( dataObj.codeType == "08" ){
+
+                } else {
+                    comp.removeAll(false);
+                }
+            }
+
+                 if ( compIdVal == "lcrtTyCd")				{ compIdValNm = "계약법구분을"; 	}
+            else if ( compIdVal == "stdCtrtMthdCd")			{ compIdValNm = "계약방법을"; 		}
+            else if ( compIdVal == "ctrtTyCd")				{ compIdValNm = "계약유형을"; 		}
+            else if ( compIdVal == "scsbdMthdCd")			{ compIdValNm = "낙찰방법을"; 		}
+            else if ( compIdVal == "idAtcsCd")				{ compIdValNm = "조항호코드를"; 	}
+            else if ( compIdVal == "scsbdMthdDtlsCrtrNo")   { compIdValNm = "낙찰방법세부기준번호를"; 	}
+
+            /* selectBox만 처리 */
+            if( docType == "S" ){
+                if( resultData.length > 0){
+                    comp = $p.getComponentById(compIdVal);
+                    comp.setNodeSet(compIdVal,"data:dlCodeList", "label","value");
+                    comp.addItem("",compIdValNm+" 선택하세요",0,true);
+                } else {
+                    comp.removeAll();
+                }
+                for(i=0;i<resultData.length;i++){
+                    comp.addItem(resultData[i].commCd,comUtil.gfnEscapeToChar(resultData[i].cdNm),i+1,true);
+                }
+                comp.refresh();
+            } else if( docType == "R" ){
+                comp.removeAll();
+                comp = $p.getComponentById(compIdVal);
+                comp.setNodeSet(compIdVal,"data:dlCodeList", "label","value");
+
+                for(i=0;i<resultData.length;i++){
+
+                    comp.addItem(resultData[i].commCd,	comUtil.gfnEscapeToChar(resultData[i].cdNm),i+1,true);
+                }
+            } else if( docType == "P" ){
+                return resultData;
+            }
+        } catch(e) {
+            console.error(e);
+        }
+
+   }, selectCodeNm : async function(grpObj){
+        grpObj = (typeof grpObj === "string") ? $p.getComponentById(grpObj) : grpObj;
+
+        if (comUtil.gfnIsEmpty(grpObj)) return false;
+        let objArr = com.gfnGetChildren(grpObj, {
+                    includePlugin: "checkbox checkcombobox datePicker editor input inputCalendar multiselect radio selectbox searchbox secret textarea",
+                    recursive: true
+                });
+            try {
+                for (let objIdx in objArr) {
+                    let obj = objArr[objIdx];
+                    if (typeof obj.removeClass !== "undefined") {
+                        obj.removeClass("error");
+                    }
+                    let dataObjInfo = com.gfnGetDataCollection(obj);
+                    let dataCollection = null;
+                    let columnId = null;
+                    let value = null;
+                    if ((dataObjInfo !== undefined) && (dataObjInfo !== null)) {
+                        dataCollection = $p.getComponentById(dataObjInfo.runtimeDataCollectionId);
+                        columnId = dataObjInfo.columnId;
+                    }
+                    if ((dataCollection !== null) && (dataCollection.getObjectType() === "dataMap")) {
+                        value = dataCollection.get(dataObjInfo.columnId);
+                        console.log("columnId:"+ columnId + ",value:"+value);
+                        if (typeof value === "string") {
+                            value = value.trim();
+                        }
+                    }
+
+                    let comp = $p.getComponentById(columnId+"Nm");
+                    if(comp == undefined){
+
+                    } else {
+                        //comp.setValue("ssss");
+                    }
+                }
+            } catch (ex) {
+                console.error("erorr meseage!",ex);
+            } finally {
+                objArr = null;
+            }
+    }, mapToDataPut : async function($p,grpObj){
+        grpObj = (typeof grpObj === "string") ? $p.getComponentById(grpObj) : grpObj;
+
+        if (comUtil.gfnIsEmpty(grpObj)) return false;
+        let objArr = com.gfnGetChildren(grpObj, {
+                    includePlugin: "checkbox checkcombobox datePicker editor input inputCalendar multiselect radio selectbox searchbox secret textarea",
+                    recursive: true
+                });
+            try {
+                for (let objIdx in objArr) {
+                    let obj = objArr[objIdx];
+                    if (typeof obj.removeClass !== "undefined") {
+                        obj.removeClass("error");
+                    }
+                    let dataObjInfo = com.gfnGetDataCollection(obj);
+                    let columnId = null;
+                    let value = null;
+                    if ((dataObjInfo !== undefined) && (dataObjInfo !== null)) {
+                        dataCollection = $p.getComponentById(dataObjInfo.runtimeDataCollectionId);
+                        columnId = dataObjInfo.columnId;
+                    }
+                    if ((dataCollection !== null) && (dataCollection.getObjectType() === "dataMap")) {
+                        value = dataCollection.get(dataObjInfo.columnId);
+                        console.log("columnId:"+ columnId + ",value:"+value);
+                        if (typeof value === "string") {
+                            value = value.trim();
+                        }
+                    }
+                    let comp = $p.getComponentById(columnId);
+                    if(comp == undefined){
+
+                    } else {
+                        console.log("comp:["+objIdx+"]",comp.element._element.A.grpColNo);d
+                        if(comp.element._element.A.grpColNo == "grpColNo1"){
+                            comp.setValue("JHA040001");
+                        }
+                    }
+                }
+            } catch (ex) {
+                console.error("erorr meseage!",ex);
+            } finally {
+                objArr = null;
+            }
+    }, setAllReadOnly :  function(grpObj,typeCheck){
+
+        grpObj = (typeof grpObj === "string") ? $p.getComponentById(grpObj) : grpObj;
+
+
+        if (comUtil.gfnIsEmpty(grpObj)) return false;
+
+        let objArr = com.gfnGetChildren(grpObj, {
+            includePlugin: "checkbox checkcombobox datePicker editor input inputCalendar multiselect radio selectbox searchbox secret textarea gridView trigger",
+            recursive: true
+        });
+
+        try {
+            for(let objIdx in objArr){
+                let obj = objArr[objIdx];
+
+                if(obj.options.pluginName == "selectbox"){
+                    //console.log("selectbox",obj);
+                    if( typeCheck == "false" ){
+                        obj.setDisabled(false);
+                    } else {
+                        obj.setDisabled(true);
+                    }
+                }else if(obj.options.pluginName == "checkbox"){
+                    if( typeCheck == "false" ){
+                        obj.setDisabled(false);
+                    } else {
+                        obj.setDisabled(true);
+                    }
+                }else if(obj.options.pluginName == "radio"){
+                    if( typeCheck == "false" ){
+                        obj.setDisabled(false);
+                    } else {
+                        obj.setDisabled(true);
+                    }
+                }else if(obj.options.pluginName == "gridView"){
+
+                    if( typeCheck == "false" ){
+                        obj.setDisabled(false);
+                    } else {
+                        if(obj.org_id!="grdFile"){
+                           //그리드의 선택에 따른 세부화면이 바뀌는 그리드의 경우에는 선택이 가능하도록 Readonly처리
+                           if(obj.options.className=="wq_gvw item" || obj.options.className=="wq_gvw except_btn"){
+                               obj.setReadOnly(true);
+                           }else{
+                               obj.setDisabled(true);
+                           }
+                        }
+                    }
+
+                    //Column쪽 처리
+                    let colInfo = obj.bodyXml._element.E[0].E
+
+                    for(let i=0; i<colInfo.length; i++){
+
+
+                        if(colInfo[i].A.class == 'btn_grid_def'){
+                            if( typeCheck == "false" ){
+                                obj.setColumnVisible(colInfo[i].A.id, true);
+                            } else{
+                                obj.setColumnVisible(colInfo[i].A.id, false);
+                            }
+                        }
+
+                        //그리드의 체크박스 컬럼 부분을 가리는 로직
+                        if(colInfo[i].A.inputType=='checkbox'){
+                            if( typeCheck == "false" ){
+                                obj.setColumnVisible(colInfo[i].A.id, true);
+                            } else{
+                                //첨부파일 그리드의 경우 체크박스 컬럼을 가리지 않음
+                                if(obj.org_id!="grdFile"){
+                                    if(colInfo[i].A.id == "CHK"){
+                                        obj.setColumnVisible(colInfo[i].A.id, false);
+                                    }
+                                }
+                            }
+                        }
+
+                        //그리드의 선택에 따른 세부화면이 바뀌는 그리드의 경우에는 버튼들 disabled 처리
+                        if( colInfo[i].A.inputType=="textImage" || colInfo[i].A.inputType=="button"){
+                            if(obj.options.className=="wq_gvw item"){
+                                obj.setColumnDisabled(colInfo[i].A.id, true);
+                            }
+                        }
+
+                    }
+
+                }else if(obj.options.pluginName == "trigger"){
+                     if( typeCheck == "false" ){
+                         (obj.hasClass("hide")) && (obj.removeClass("hide"));
+                         obj.show("");
+                     } else {
+                         //토글 버튼, 첨부파일 다운로드 버튼은 숨기지 않음
+                         const classArr = obj.options.className.split(" ");
+                         if ((classArr.includes("btn_sm") && classArr.includes("toggle_sm")) ||
+                             (classArr.includes("btn_cm") && classArr.includes("grid_file_down")) ||
+                             (classArr.includes("btn_q")) ||
+                             (classArr.includes("btn") && classArr.includes("close"))) {
+                             // do nothing.
+                         }else if(obj.id.includes("btnDmndPopUp") || obj.id.includes("btnDmndRcptPopUp") ||
+                                 obj.id.includes("btnMassTranFileSave") || obj.id.includes("btnMassTranFileView") ||
+                                 obj.id.includes("btnBsneCnsltnShct") ||
+                                 obj.id.includes("bidPrgsInfo1") ||
+                                 obj.id.includes("bidPrgsInfo2") ||
+                                 obj.id.includes("bidPrgsInfo3") ||
+                                 obj.id.includes("pqscCrtrInfo")
+                                 ){
+                            // do nothing.
+                         }else {
+                             obj.hide();
+                             (!obj.hasClass("hide")) && (obj.addClass("hide"));
+                             (obj.hasClass("inline_block")) && (obj.removeClass("inline_block"));
+                         }
+                         /*
+                         if(obj.options.className!="btn_sm toggle_sm"&&obj.options.className!="btn_cm grid_file_down"&&obj.options.className != "btn_q"&&obj.options.className != "btn close"){
+                            obj.hide();
+                         }
+                         */
+                     }
+
+                }else if(obj.options.pluginName == "input"){
+                    if( typeCheck == "false" ){
+                        obj.setReadOnly(false);
+                    } else {
+                        obj.setDisabled(false);
+                        obj.setReadOnly(true);
+                    }
+                }else{
+                    if( typeCheck == "false" ){
+                        obj.setReadOnly(false);
+                    } else {
+                        obj.setReadOnly(true);
+                    }
+                }
+
+            }
+        } catch (ex) {
+             console.error("erorr meseage!",ex);
+        } finally {
+            objArr = null;
+        }
+
+
+    }, gfnCodeNm: function(codeOptions) {
+
+        codeOptions.forEach((codeObj) => {
+            if (codeObj.compID) {
+                let compArr = (codeObj.compID).replaceAll(" ", "").split(",");
+
+                compArr.forEach((compId, compIndex) => {
+                    let tmpIdArr = compId.split(":");
+                    let comp = $p.getComponentById(tmpIdArr[0]);
+                    if (comUtil.gfnIsEmpty(comp)) return;
+                    const dataType = comp.initializeType || "comp";
+                    let dltId = "";
+
+                    if (".dataList.dataMap.".includes(dataType)) {
+                        dltId = compId;
+                    } else {
+                        dltId = _gcm.Global.getDataPrefix() + codeObj.commClsfCd + "_" + codeObj.bsneClsfNo + "___" + compId.replace(/\:/g, "__");
+                    }
+
+                    let dataListOption = com.getCodeDataListOptions(_gcm.Global.getCommonCodeInfo("FILED_ARR"));
+                    dataListOption.id = dltId;
+
+                    // 동일한 id의 DataCollection이 존재할 경우, 삭제 후 재생성
+                    $p.data.create(dataListOption);
+
+                    let dataListObj = $p.getComponentById(dltId);
+                    const jsonData = JSON.parse(JSON.stringify(codeData[codeObj.commClsfCd + "_" + codeObj.bsneClsfNo ]));
+
+                    let obj =  codeData[codeObj.commClsfCd + "_" + codeObj.bsneClsfNo];
+
+                    for(i=0;i<obj.length;i++){
+                        if( obj[i].commCd) {
+                            if(aliasDmInitComm.getJSON()[codeObj.compID] == obj[i].commCd){
+                                comp.setValue(obj[i].cdNm);
+                            }
+                        }
+                    }
+
+                });
+            }
+        });
+
+    /********************************************************************************
+     * 이름   	: fnOpenBidPopup
+     * 설명   	: 공고업무별 조달업체용(공고서) 팝업호출
+     *
+    ********************************************************************************/
+    }, fnOpenBidPopup:function(prcmBsneSeCd, bidPbancNo, bidPbancOrd) {
+
+         let data = {
+                 "bidPbancNo" :bidPbancNo,
+                 "bidPbancOrd":bidPbancOrd,
+                 "prcmBsneSeCd":prcmBsneSeCd
+         }
+
+         switch (prcmBsneSeCd) {
+             case "01" :
+                  com.gfnOpenPopup({
+                     menuCangVal: "PNPE009_01",
+                     popupId    : "PNPE009_01",
+                     popupName  : "입찰공고상세(내자) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "02" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE020_01",
+                     popupId    : "PNPE020_01",
+                     popupName  : "입찰공고상세(외자) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "03" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE009_01",
+                     popupId    : "PNPE009_01",
+                     popupName  : "입찰공고상세(일반용역) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "04" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE020_01",
+                     popupId    : "PNPE020_01",
+                     popupName  : "입찰공고상세(일반용역(외자)) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "05" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE026_01",
+                     popupId    : "PNPE026_01",
+                     popupName  : "입찰공고상세(기술용역) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "06" :
+                 alert("기술용역(외자)는 업무구분이 없습니다.");
+                 break;
+             case "07" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE021_01",
+                     popupId    : "PNPE021_01",
+                     popupName  : "입찰공고상세(공사) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "08" :
+                 alert("공사(외자)는 업무구분이 없습니다");
+                 break;
+             case "09" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE017_01",
+                     popupId    : "PNPE017_01",
+                     popupName  : "입찰공고상세(기타) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "10" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE019_01",
+                     popupId    : "PNPE019_01",
+                     popupName  : "입찰공고상세(리스(내자)) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "11" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE019_01",
+                     popupId    : "PNPE019_01",
+                     popupName  : "입찰공고상세(리스(외자)) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "12" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE018_01",
+                     popupId    : "PNPE018_01",
+                     popupName  : "입찰공고상세(비축(내자)) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "13" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE018_01",
+                     popupId    : "PNPE018_01",
+                     popupName  : "입찰공고상세(비축(외자)) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+             case "14" :
+                 com.gfnOpenPopup({
+                     menuCangVal: "PNPE019_01",
+                     popupId    : "PNPE019_01",
+                     popupName  : "입찰공고상세(리스(일반용역)) 팝업",
+                     param      : data,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                 break;
+         }
+
+    /********************************************************************************
+     * 이름   	: fnOpenPopup
+     * 설명   	: 팝업호출
+     * 작성자 	: 개발자1
+     * 일  시 	: 2023.03.06
+     * 사용법 	: 팝업호출 => pnBidPbancUtil.fnOpenPopup:function('팝업아이디', 'datacolletion', '콜백함수', '콜백펑션');
+     *            팝업콜백 => scwin.callbackPop1 = function(data) {
+     *                                 				console.log("scwin.callbackPop1");
+     *                                 				console.log(data);
+     *                                 			 }
+     * 팝업		: 1.세부품명 팝업     : selectGodsCfnoList
+     * 			: 2.사전구격 팝업     : selectBfSpecList
+     * 			: 3.사업자등록번호 팝업 : selectBizRegNoL
+     * 			: 4.물품식별번호 팝업  : selectBizRegNoList
+     *          : 5.집행관 팝업      : selectUserGrpList
+    ********************************************************************************/
+    }, fnOpenPopup:function(popupId, paramObj, callbackFn, callinitFn) {
+
+        let sbmOption = "";
+
+        let title     = "";
+        let menuId    = "";
+
+        let listNm    = "";
+        let colsTit   = "";
+        let colsClmn  = "";
+        let colsType  = "";
+        let colsMap   = "";
+
+
+        let paramNm   = "";
+        let srchList  = "";
+        let paramList = "";
+        let paramVal  = "";
+        let paramIn   = "";
+
+        let autoType  = "N";
+
+        switch (popupId) {
+            case "selectIntpGdsCdList" : // 상품인증목록
+                sbmOption = {
+                    id         : "selectIntpGdsCdList",
+                    action     : "/pn/pnp/pnpj/BidComPopup/selectIntpGdsCdList.do",
+                    msgYn      : {succ : false, err : true},
+                    pagingInfo : ""
+                };
+
+                title      = "상품인증목록";
+                popupId    = "ComPopup";
+                menuId     = "PNPJ021_01";
+
+                listNm     = "result";
+                colsTit    = ["코드","코드명","상세명"];
+                colsClmn   = ["commCd","cdNm","cdDscr"];
+
+                paramNm    = "dlParamM";
+                srchList   = ["코드","코드명"];
+                paramList  = ["commCd","cdNm"];
+                paramVal   = [paramObj.commCd,paramObj.cdNm];
+                paramIn    = { [paramNm] :{"commCd":paramObj.commCd,"cdNm":paramObj.cdNm}};
+
+                com.gfnOpenPopup({
+                    menuCangVal	: menuId,
+                    popupId    	: popupId,
+                    popupName	: title+"검색",
+                    width		: 800,
+                    height		: 600,
+                    param 		: {	"sbmOption"		:	sbmOption	,
+                                     "colsTit"		:	colsTit		,
+                                     "colsClmn"		:	colsClmn	,
+                                     "listNm"		:	listNm		,
+                                     "paramNm"		:	paramNm		,
+                                     "paramIn"		:	paramIn		,
+                                     "srchList"		:	srchList	,
+                                     "paramList"	:	paramList	,
+                                     "paramVal"     :   paramVal    ,
+                                     "autoType"     :   "N"			,
+                                     "title"		:	title		},
+                    callbackFn 	: callbackFn
+                });
+                break;
+            case "IntpInfoInq" : // 업종정보 팝업
+                 let param = paramObj
+
+                com.gfnOpenPopup({
+                     menuCangVal : "FIIB004_01"
+                   , popupId     : "FIIB004_01"
+                   , popupName   : "업종정보"
+                   , param       : param
+                   , width       : 1100
+                   , height      : 900
+                   , callbackFn  : callbackFn
+                });
+                break;
+            case "selectGodsCfnoList" : // 세부품명 팝업
+                sbmOption = {
+                    id         : "selectGodsCfnoList",
+                    action     : "/fa/fac/faca/Bsne/selectGodsCfnoList.do",
+                    msgYn      : {succ : false, err : true},
+                    pagingInfo : ""
+                };
+
+                title      = "세부품명";
+                popupId    = "ComPopup";
+                menuId     = "PNPJ021_01";
+
+                listNm     = "dlGodsCfnoSrchL";
+                colsTit    = ["세부품명","세부품명번호"];
+                colsClmn   = ["itemClsfNm","itemClsfNo"];
+
+                paramNm    = "dlParamM";
+                srchList   = ["세부품명","세부품명번호"];
+                paramList  = ["itemClsfNm","itemClsfNo"];
+                paramVal   = [paramObj.itemClsfNm,paramObj.itemClsfNo];
+                paramIn    = { [paramNm] : {"itemClsfNo":paramObj.itemClsfNo,"itemClsfNm":paramObj.itemClsfNm}};
+
+                com.gfnOpenPopup({
+                    menuCangVal	: menuId,
+                    popupId    	: popupId,
+                    popupName	: title+"검색",
+                    width		: 800,
+                    height		: 600,
+                    param 		: {	"sbmOption"		:	sbmOption	,
+                                     "colsTit"		:	colsTit		,
+                                     "colsClmn"		:	colsClmn	,
+                                     "listNm"		:	listNm		,
+                                     "paramNm"		:	paramNm		,
+                                     "paramIn"		:	paramIn		,
+                                     "srchList"		:	srchList	,
+                                     "paramList"	:	paramList	,
+                                     "paramVal"     :   paramVal    ,
+                                     "autoType"     :   "N"			,
+                                     "title"		:	title		},
+                    callbackFn 	: callbackFn
+                });
+                break;
+            case "selectBfSpecList"	: // 사전규격등록 팝업
+                sbmOption = {
+                    id         : "selectBfSpecList",
+                    action     : "/pn/pnz/pnza/BfSpec/selectBfSpecList.do",
+                    msgYn      : {succ : false, err : true},
+                    pagingInfo : ""
+                };
+
+                title     = "사전규격번호";
+                popupId   = "ComPopup";
+                menuId    = "PNPJ021_01";
+
+                listNm    = "dlBfSpecL";
+                colsTit   = ["사전규격등록번호","사전규격명","계약요청접수-차수","제안요청서번호-차수","발주계획번호","조달업무구분"];
+                colsClmn  = ["bfSpecRegNo","bfSpecNm","ctrtDmndRcptNo","rfpNo","oderPlanNo","prcmBsneSeCdNm"];
+
+                paramNm   = "dlParamM";
+                srchList  = ["사전규격등록번호","사전규격명"];
+                paramList = ["popBfSpecRegNo","popBfSpecNm"];
+                paramVal  = [paramObj.popBfSpecRegNo,paramObj.popBfSpecNm];
+                paramIn   = { [paramNm] : {"popYn":"Y","popBfSpecRegNo":paramObj.popBfSpecRegNo,"popBfSpecNm":paramObj.popBfSpecNm,"popPrcmBsneSeCd":"01"}};
+
+                com.gfnOpenPopup({
+                    menuCangVal	: menuId,
+                    popupId		: popupId,
+                    popupName	: title+"검색",
+                    width		: 800,
+                    height		: 600,
+                    param 		: {	"sbmOption"		:	sbmOption	,
+                                     "colsTit"		:	colsTit		,
+                                     "colsClmn"		:	colsClmn	,
+                                     "listNm"		:	listNm		,
+                                     "paramNm"		:	paramNm		,
+                                     "paramIn"		:	paramIn		,
+                                     "srchList"		:	srchList	,
+                                     "paramList"	:	paramList	,
+                                     "paramVal"     :   paramVal    ,
+                                     "autoType"     :   "N"			,
+                                     "title"		:	title		},
+                    callbackFn 	: callbackFn
+                });
+                break;
+            case "selectBizRegNoL" : // 사업자등록번호 팝업
+                 sbmOption = {
+                    id         : "selectBizRegNoL",
+                    action     : "/pn/pnp/pnpj/BidComPopup/selectBizRegNoL.do",
+                    msgYn      : {succ : false, err : true},
+                    pagingInfo : ""
+                  };
+
+                  title     = "사업자등록업체";
+                  popupId   = "ComPopup";
+                  menuId    = "PNPJ021_01";
+
+                  listNm    = "result";
+                  colsTit   = ["사업자등록번호","사업명","전화번호","팩스번호","업체통합단체번호"];
+                  colsClmn  = ["bzmnRegNo","grpNm","baseTlphNo","baseFaxNo","untyGrpNo"];
+
+                  paramNm   = "dlParamM";
+                  srchList  = ["사업자등록번호","사업명"];
+                  paramList = ["bzmnRegNo","grpNm"];
+                  paramVal  = [paramObj.bzmnRegNo,paramObj.grpNm];
+                  paramIn   = { [paramNm] : {"bzmnRegNo":paramObj.bzmnRegNo,"grpNm":paramObj.grpNm}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId		: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 600,
+                        param 		: {	"sbmOption"	:	sbmOption	,
+                                        "colsTit"	:	colsTit		,
+                                        "colsClmn"	:	colsClmn	,
+                                        "listNm"	:	listNm		,
+                                        "paramNm"	:	paramNm		,
+                                        "paramIn"	:	paramIn		,
+                                        "srchList"	:	srchList	,
+                                        "paramList"	:	paramList	,
+                                        "paramVal"  :   paramVal    ,
+                                        "autoType"     :   "N"		,
+                                        "title"		:	title		},
+                        callbackFn : callbackFn
+                    });
+                    break;
+            case "selectBizRegNoList" : // 물품식별번호조회팝업
+                sbmOption = {
+                    id         : "selectBizRegNoList",
+                    action     : "/pn/pnp/pnpj/BidComPopup/selectGodsIdnfNoList.do",
+                    msgYn      : {succ : false, err : true},
+                    pagingInfo : ""
+                };
+
+                title      = "물품식별번호조회팝업";
+                popupId    = "ComPopup";
+                menuId     = "PNPJ021_01";
+
+                listNm     = "result";
+                colsTit    = ["세부품명번호","물품식별번호","세부품명","물품명"];
+                colsClmn   = ["itemClsfNo","itemIdnfNo","itemClsfNm","itemCfnm"];
+
+                paramNm    = "dlParamM";
+                srchList   = ["세부품명번호","세부품명","물품식별번호","물품명"];
+                paramList  = ["itemClsfNo","itemClsfNm","itemIdnfNo","itemCfnm"];
+                paramVal   = [paramObj.itemClsfNo,paramObj.itemClsfNm,paramObj.itemIdnfNo,paramObj.itemCfnm ];
+                paramIn    = { [paramNm] : {"itemClsfNo":paramObj.itemClsfNo,"itemClsfNm":paramObj.itemClsfNm,"itemCfnm":"","itemIdnfNo":""}};
+
+                com.gfnOpenPopup({
+                    menuCangVal	: menuId,
+                    popupId    	: popupId,
+                    popupName	: title+"검색",
+                    width		: 800,
+                    height		: 600,
+                    param 		: {	"sbmOption"		:	sbmOption	,
+                                     "colsTit"		:	colsTit		,
+                                     "colsClmn"		:	colsClmn	,
+                                     "listNm"		:	listNm		,
+                                     "paramNm"		:	paramNm		,
+                                     "paramIn"		:	paramIn		,
+                                     "srchList"		:	srchList	,
+                                     "paramList"	:	paramList	,
+                                     "paramVal"     :   paramVal    ,
+                                     "autoType"     :   "N"			,
+                                     "title"		:	title		},
+                    callbackFn 	: callbackFn
+                });
+                break;
+                case "WtoPvctRsnPL":  //WTO수의계약사유목록팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ013_01"
+                        , popupId		: "WtoPvctRsnPL"
+                        , popupName		: "WTO수의계약사유목록"
+                        , width			: 1200
+                        , height		: 600
+                        , callbackFn 	: callbackFn
+                    });
+                    break;
+                case "WtoGvmnPrcmAgrtPV":  //WTO정부조달협정팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ012_01"
+                        , popupId		: "WtoGvmnPrcmAgrtPV"
+                        , popupName		: "WTO정부조달협정"
+                        , width			: 1400
+                        , height		: 800
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "FtaGvmnPrcmAgrtPV":  //FTA정부조달협정팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ011_01"
+                        , popupId		: "FtaGvmnPrcmAgrtPV"
+                        , popupName		: "FTA정부조달협정"
+                        , width			: 1300
+                        , height		: 900
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "CncsnInsttPL"		:  //양허기관목록팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ001_01"
+                        , popupId		: "CncsnInsttPL"
+                        , popupName		: "양허기관목록"
+                        , width			: 1000
+                        , height		: 350
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "DmstSrchEmpL"		: //수요기관소속사원팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "FUUF042_01"
+                        , popupId		: "DmstSrchL"
+                        , popupName		: "수요기관소속사원"
+                        , width			: 800
+                        , height		: 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "IntlBidPrqfPV"	: //국제입찰참가자격팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ010_01"
+                        , popupId		: "IntlBidPrqfPV"
+                        , popupName		: "국제입찰참가자격"
+                        , width			: 1200
+                        , height		: 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "CorpPvctPrfmncSttusPL":  //법인별수의계약실적현황목록팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ009_01"
+                        , popupId		: "CorpPvctPrfmncSttusPL"
+                        , popupName		: "법인별수의계약실적현황목록"
+                        , param			: {	"bzmnRegNo"	: paramObj.bzmnRegNo	}
+                        , width         : 1200
+                        , height        : 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "CsfmSrvcNoPL":  //맞춤형서비스관리번호 조회 팝업
+                    com.gfnOpenPopup({
+                          menuCangVal 	: "SFCA003_01"
+                        , popupId 		: "CsfmSrvcNoPL"
+                        , popupName 	: "맞춤형서비스관리번호 조회 팝업"
+                        , param 		: {"csfmSrvcNo" : paramObj.csfmSrvcNo, "csfmSrvcBsnePgstCd": "SJJ02" , "includeCsfmSrvcDmnd" : true }
+                        , width 		: 1050
+                        , height 		: 700
+                        , callbackFn 	: callbackFn});
+                    break;
+                case "BidPlacUsePlanPL"	: //입찰실사용계획조회팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ008_01"
+                        , popupId		: "BidPlacUsePlanPL"
+                        , popupName		: "입찰실사용계획조회"
+                        , width         : 1200
+                        , height        : 800
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "MtmkAdncPrmsIntpChcPI":  //상호시장진출허용대상업종선택팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ007_01"
+                        , popupId		: "MtmkAdncPrmsIntpChcPI"
+                        , popupName		: "상호시장진출허용대상업종선택"
+                        , param			: {	  "cbsarSeCd"				:	paramObj.cbsarSeCd
+                                            , "cbsarMatcMndgCstrnSeCd"	:	paramObj.cbsarMatcMndgCstrnSeCd
+                                            , "intpCd"					:	paramObj.intpCd }
+                        , width			: 800
+                        , height		: 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "EvlSysUtztnGuidPV":  //평가시스템이용안내팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ006_01"
+                        , popupId		: "EvlSysUtztnGuidPV"
+                        , popupName		: "평가시스템이용안내"
+                        , width         : 1200
+                        , height        : 800
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "BidBaseInfoPV"	: //입찰에부치는사항기본정보팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ005_01"
+                        , popupId		: "BidBaseInfoPV"
+                        , popupName		: "입찰에부치는사항기본정보"
+                        , param			: {	"bidPbancNo" 	: paramObj.bidPbancNo,
+                                            "bidPbancOrd"	: paramObj.bidPbancOrd	}
+                        , width         : 1200
+                        , height        : 850
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "BidPbancPrdRgltGuidPV": //입찰공고기간관련규정안내팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ004_01"
+                        , popupId		: "BidPbancPrdRgltGuidPV"
+                        , popupName		: "입찰공고기간관련규정안내"
+                        , param			: {	"mngType" 	: paramObj.mngType,
+                                            "period"	: paramObj.period	}
+                        , width         : 1000
+                        , height        : 400
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "ChgRtrcnPbancAtetPV": //변경(취소)공고시 유의사항팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ003_01"
+                        , popupId		: "ChgRtrcnPbancAtetPV"
+                        , popupName		: "변경(취소)공고시 유의사항"
+                        , width			: 900
+                        , height		: 350
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "SmlamtPvctEtpsRcmnPL": //소액수의계약대상업체추천목록팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ016_01"
+                        , popupId		: "SmlamtPvctEtpsRcmnPL"
+                        , popupName		: "소액수의계약대상업체추천목록"
+                        , param			: { "usrDocNoVal": paramObj.usrDocNoVal }
+                        , width         : 1200
+                        , height        : 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "RnctGuidPV"		: //재공고안내팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ020_01"
+                        , popupId		: "RnctGuidPV"
+                        , popupName		: "재공고안내"
+                        , width			: 900
+                        , height		: 350
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "PbancIdntPL"		: //공고확인조회팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ022_01"
+                        , popupId		: "PbancIdntPL"
+                        , popupName		: "공고확인조회"
+                        , param			: {	"bidLmtUntyCd": paramObj.bidLmtUntyCd	}
+                        , width         : 1200
+                        , height        : 600
+                        , callbackFn	: callbackFn });
+                    break;
+                case "SmlrPbancPL"		: //유사공고회팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ018_01"
+                        , popupId		: "SmlrPbancPL"
+                        , popupName		: "유사공고조회"
+                        , param			: paramObj
+                        , width         : 1600
+                        , height        : 800
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "PbancTapPL"		: //공고탭목록팝업조회
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPA004_01"
+                        , popupId		: "PbancTapPL"
+                        , popupName		: "공고탭목록팝업조회"
+                        , width         : 1200
+                        , height        : 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "SbsnUsrPL"		: //대체자지정등록팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPK003_01"
+                        , popupId		: "SbsnUsrPL"
+                        , popupName		: "대체자지정등록"
+                        , param			: {	"picId": paramObj.picId	}
+                        , width         : 1200
+                        , height        : 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "OderPlanPL"		: //발주계획목록팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PRPA014_01"
+                        , popupId		: "OderPlanPL"
+                        , popupName		: "발주계획목록팝업"
+                        , width			: 800
+                        , height		: 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "DmstSrchL"		: //수요기관팝업
+                    com.gfnOpenPopup({
+                          menuCangVal	: "FUUB008_01"
+                        , popupId		: "DmstSrchL"
+                        , popupName		: "수요기관팝업"
+                        , width			: 800
+                        , height		: 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "PCCI004_01":		// 계약정보조회
+                    com.gfnOpenPopup({
+                          menuCangVal	: 'PCCI004_01'
+                        , popupId		: 'PCCI004_01'
+                        , popupName     : "계약정보조회팝업"
+                        , param			: {	["param"] : {	 "ctrtNo":paramObj.ctrtNo
+                                                            ,"ctrtNm":paramObj.ctrtNm	}	}
+                        , width			: 1100
+                        , height		: 900
+                        , callbackFn	: callbackFn });
+                    break;
+                case "CtrtModlPL"		: //계약모델목록팝업조회
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPA005_01"
+                        , popupId		: "CtrtModlPL"
+                        , popupName		: "계약모델목록팝업조회"
+                        , width         : 1200
+                        , height        : 600
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "FrcpPbancSpecPL"	: //외자공고규격조회
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PNPJ026_01"
+                        , popupId		: "FrcpPbancSpecPL"
+                        , popupName		: "외자공고규격조회"
+                        , width         : 1200
+                        , height        : 800
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "ElpdtDsgnNoSrchPL"	: //우수제품지정번호조회
+                    com.gfnOpenPopup({
+                          menuCangVal	: "PRRB014_01"
+                        , popupId		: "ElpdtDsgnNoSrchPL"
+                        , popupName		: "우수제품 지정목록"
+                        , param			: {	"etpmDsgnCrfcNo": paramObj.etpmDsgnCrfcNo }
+                        , width         : 1200
+                        , height        : 700
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "PbancInstPicNmV"	: //담당자정보조회
+                    com.gfnOpenPopup({
+                          menuCangVal	: "	PNPJ028_01"
+                        , popupId		: "PbancInstPicNmV"
+                        , popupName		: "담당자정보조회"
+                        , param			: paramObj
+                        , width         : 1200
+                        , height        : 700
+                        , callbackFn 	: callbackFn });
+                    break;
+                case "GangwonBqfrEtpsMngPL"	: //강원랜드 유자격자 업체조회
+                    com.gfnOpenPopup({
+                        menuCangVal     : "PNPJ030_01",
+                        popupId         : "GangwonBqfrEtpsMngPL",
+                        popupName       : "강원랜드 유자격자 업체조회",
+                        width           : 1200,
+                        height          : 600,
+                        callbackFn   	: callbackFn });
+                    break;
+                case "selectUserGrpList" : // 집행관 팝업
+                    sbmOption = {
+                        id         : "selectUserGrpList",
+                        action     : "/pn/pnp/pnpj/BidComPopup/selectUserGrpList.do",
+                        msgYn      : {succ : false, err : true},
+                        pagingInfo : ""
+                    };
+
+                    title      = "집행관팝업";
+                    popupId    = "ComPopup";
+                    menuId     = "PNPJ021_01";
+
+                    listNm     = "result";
+                    colsTit    = ["집행관명","집행관코드","조달청명","부서명"];
+                    colsClmn   = ["usrNm","usrId","untyGrpNm","ogdpDeptNm"];
+
+                    paramNm    = "dlParamM";
+                    srchList   = ["집행관명","집행관코드"];
+                    paramList  = ["usrNm","userId"];
+                    paramVal   = [paramObj.usrNm,paramObj.userId];
+                    paramIn    = { [paramNm] : {"usrNm":paramObj.usrNm,"userId":paramObj.userId}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId    	: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 600,
+                        param 		: {	"sbmOption"		:	sbmOption	,
+                                         "colsTit"		:	colsTit		,
+                                         "colsClmn"		:	colsClmn	,
+                                         "listNm"		:	listNm		,
+                                         "paramNm"		:	paramNm		,
+                                         "paramIn"		:	paramIn		,
+                                         "srchList"		:	srchList	,
+                                         "paramList"	:	paramList	,
+                                         "paramVal"     :   paramVal    ,
+                                         "autoType"     :   "N"			,
+                                         "title"		:	title		},
+                        callbackFn 	: callbackFn
+                    });
+                    break;
+                case "selectDmstUserGrpList" : // 재무관 팝업
+                    sbmOption = {
+                        id         : "selectDmstUserGrpList",
+                        action     : "/pn/pnp/pnpj/BidComPopup/selectDmstUserGrpList.do",
+                        msgYn      : {succ : false, err : true},
+                        pagingInfo : ""
+                    };
+
+                    title      = "재무관팝업";
+                    popupId    = "ComPopup";
+                    menuId     = "PNPJ021_01";
+
+                    listNm     = "result";
+                    colsTit    = ["사용자코드","담당자명","담당자부서명","담당자전화번호","대표수신자여부"];
+                    colsClmn   = ["usrId","usrNm","ogdpDeptNm","baseTlphNo",""];
+
+                    paramNm    = "dlParamM";
+                    srchList   = ["담당자부서명","담당자명"];
+                    paramList  = ["ogdpDeptNm","usrNm"];
+                    paramVal   = [paramObj.ogdpDeptNm,paramObj.usrNm];
+                    paramIn    = { [paramNm] : {"ogdpDeptNm":paramObj.ogdpDeptNm,"usrNm":paramObj.usrNm}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId    	: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 600,
+                        param 		: {	"sbmOption"		:	sbmOption	,
+                                         "colsTit"		:	colsTit		,
+                                         "colsClmn"		:	colsClmn	,
+                                         "listNm"		:	listNm		,
+                                         "paramNm"		:	paramNm		,
+                                         "paramIn"		:	paramIn		,
+                                         "srchList"		:	srchList	,
+                                         "paramList"	:	paramList	,
+                                         "paramVal"     :   paramVal    ,
+                                         "autoType"     :   "N"			,
+                                         "title"		:	title		},
+                        callbackFn 	: callbackFn
+                    });
+                    break;
+                case "selectBrcoDeptOrgnCdList"	: // 조당청지청 담당자 목록 팝업
+                    sbmOption = {
+                        id         : "selectBrcoDeptOrgnCdList",
+                        action     : "/pn/pnp/pnpj/BidComPopup/selectBrcoDeptOrgnCdList.do",
+                        msgYn      : {succ : false, err : true},
+                        pagingInfo : ""
+                    };
+
+                    title     = "담당자";
+                    popupId   = "ComPopup";
+                    menuId    = "PNPJ021_01";
+
+                    listNm    = "result";
+                    colsTit   = ["치청명","부서명","사번명","성명","지청코드","부서코드"];
+                    colsClmn  = ["brcoOrgnNm","orgnNm","ppsEmpNo","empNm","brcoOrgnCd","orgnCd"];
+
+                    colsType  = ["s","s","i","i"];
+                    colsMap   = ["brcoOrgn","orgn","",""];
+
+                    paramNm   = "dlParamM";
+                    srchList  = ["지청구분","팀","사번","성명"];
+                    paramList = ["upOrgnCd","orgnCd","empNo","empNm"];
+                    paramVal  = [paramObj.upOrgnCd,paramObj.orgnCd,paramObj.empNo,paramObj.empNm];
+                    paramIn   = { [paramNm] : {"popYn":"Y","upOrgnCd":paramObj.upOrgnCd,"orgnCd":paramObj.orgnCd,"empNo":paramObj.empNo,"empNm":paramObj.empNm}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId		: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 800,
+                        param 		: {	"sbmOption"		:	sbmOption	,
+                                         "colsTit"		:	colsTit		,
+                                         "colsClmn"		:	colsClmn	,
+                                         "colsType"     :   colsType    ,
+                                         "colsMap"      :   colsMap     ,
+                                         "listNm"		:	listNm		,
+                                         "paramNm"		:	paramNm		,
+                                         "paramIn"		:	paramIn		,
+                                         "srchList"		:	srchList	,
+                                         "paramList"	:	paramList	,
+                                         "paramVal"     :   paramVal    ,
+                                         "autoType"     :   "N"			,
+                                         "title"		:	title		},
+                        callbackFn 	: callbackFn
+                    });
+                    break;
+                case "selectBfSpecOpnnList" : // 사전규격업체의견 팝업
+                    sbmOption = {
+                        id         : "selectBfSpecOpnnList",
+                        action     : "/pn/pnp/pnpj/BidComPopup/selectBfSpecOpnnList.do",
+                        msgYn      : {succ : false, err : true},
+                        pagingInfo : ""
+                    };
+
+                    title      = "사전규격업체의견팝업";
+                    popupId    = "ComPopup";
+                    menuId     = "PNPJ021_01";
+
+                    listNm     = "result";
+                    colsTit    = ["업체명","업체담당자명","전화번호","EMAIL","의견명"];
+                    colsClmn   = ["ogdpNm","wrtrNm","tlphNo","eml","opnnNm"];
+                    colsType   = "none";
+
+                    paramNm    = "dlParamM";
+                    srchList   = [];
+                    paramList  = [];
+                    paramVal   = [];
+                    paramIn    = { [paramNm] : {"bfSpecRegNo":paramObj.bfSpecRegNo,"bfSpecOpnnSeCd":paramObj.bfSpecOpnnSeCd}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId    	: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 600,
+                        param 		: {	"sbmOption"		:	sbmOption	,
+                                         "colsTit"		:	colsTit		,
+                                         "colsClmn"		:	colsClmn	,
+                                         "listNm"		:	listNm		,
+                                         "paramNm"		:	paramNm		,
+                                         "colsType"     :   colsType    ,
+                                         "paramIn"		:	paramIn		,
+                                         "srchList"		:	srchList	,
+                                         "paramList"	:	paramList	,
+                                         "paramVal"     :   paramVal    ,
+                                         "autoType"     :   "Y"			,
+                                         "title"		:	title		},
+                        callbackFn 	: callbackFn
+                    });
+                    break;
+                case "selectAphrCdList" : // 공항만 팝업
+                    sbmOption = {
+                        id         : "selectAphrCdList",
+                        action     : "/pn/pnp/pnpj/BidComPopup/selectAphrCdList.do",
+                        msgYn      : {succ : false, err : true},
+                        pagingInfo : ""
+                    };
+
+                    title      = "공항만코드";
+                    popupId    = "ComPopup";
+                    menuId     = "PNPJ021_01";
+
+                    listNm     = "result";
+                    colsTit    = ["도착항코드","도착항영문명", "도착항명"];
+                    colsClmn   = ["aphrCd","engAphrNm","aphrNm"];
+
+                    paramNm    = "dlParamM";
+                    srchList   = ["도착항명","공항만유형코드"];
+                    paramList  = ["aphrNm","aphrTyCd"];
+                    paramVal   = [paramObj.aphrNm,paramObj.aphrTyCd];
+                    paramIn    = { [paramNm] : {"aphrNm":paramObj.aphrNm,"aphrTyCd":paramObj.aphrTyCd}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId    	: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 800,
+                        param 		: {	"sbmOption"		:	sbmOption	,
+                                         "colsTit"		:	colsTit		,
+                                         "colsClmn"		:	colsClmn	,
+                                         "listNm"		:	listNm		,
+                                         "paramNm"		:	paramNm		,
+                                         "paramIn"		:	paramIn		,
+                                         "srchList"		:	srchList	,
+                                         "paramList"	:	paramList	,
+                                         "paramVal"     :   paramVal    ,
+                                         "autoType"     :   "N"			,
+                                         "title"		:	title		},
+                        callbackFn 	: callbackFn
+                    });
+                    break;
+                case "selectTrffClsfCdList" : // 관세분류코드 팝업
+                    sbmOption = {
+                        id         : "selectTrffClsfCdList",
+                        action     : "/pn/pnp/pnpj/BidComPopup/selectTrffClsfCdList.do",
+                        msgYn      : {succ : false, err : true},
+                        pagingInfo : ""
+                    };
+
+                    title      = "관세분류번호";
+                    popupId    = "ComPopup";
+                    menuId     = "PNPJ021_01";
+
+                    listNm     = "result";
+                    colsTit    = ["HSK 코드","HSK 한글명"];
+                    colsClmn   = ["hskCd","kornHskNm"];
+
+                    paramNm    = "dlParamM";
+                    srchList   = ["HSK 코드","HSK 한글명"];
+                    paramList  = ["hskCd","kornHskNm"];
+                    paramVal   = [paramObj.hskCd,paramObj.kornHskNm];
+                    paramIn    = { [paramNm] : {"hskCd":paramObj.hskCd,"kornHskNm":paramObj.kornHskNm}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId    	: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 800,
+                        param 		: {	"sbmOption"		:	sbmOption	,
+                                         "colsTit"		:	colsTit		,
+                                         "colsClmn"		:	colsClmn	,
+                                         "listNm"		:	listNm		,
+                                         "paramNm"		:	paramNm		,
+                                         "paramIn"		:	paramIn		,
+                                         "srchList"		:	srchList	,
+                                         "paramList"	:	paramList	,
+                                         "paramVal"     :   paramVal    ,
+                                         "autoType"     :   "N"			,
+                                         "title"		:	title		},
+                        callbackFn 	: callbackFn
+                    });
+                    break;
+                case "selectFrcpEtpsCdList" : // 외자업체코드 팝업
+                    sbmOption = {
+                        id         : "selectFrcpEtpsCdList",
+                        action     : "/pn/pnp/pnpj/BidComPopup/selectFrcpEtpsCdList.do",
+                        msgYn      : {succ : false, err : true},
+                        pagingInfo : ""
+                    };
+
+                    title      = "외자업체코드";
+                    popupId    = "ComPopup";
+                    menuId     = "PNPJ021_01";
+
+                    listNm     = "result";
+                    colsTit    = ["업체코드","상호명","영문상호명"];
+                    colsClmn   = ["etcEtpsNo","etpsNm","etpsEngNm"];
+
+                    paramNm    = "dlParamM";
+                    srchList   = ["업체코드","상호명"];
+                    paramList  = ["etcEtpsNo","etpsNm"];
+                    paramVal   = [paramObj.etcEtpsNo,paramObj.etpsNm];
+                    paramIn    = { [paramNm] : {"etcEtpsNo":paramObj.etcEtpsNo,"etpsNm":paramObj.etpsNm}};
+
+                    com.gfnOpenPopup({
+                        menuCangVal	: menuId,
+                        popupId    	: popupId,
+                        popupName	: title+"검색",
+                        width		: 800,
+                        height		: 800,
+                        param 		: {	"sbmOption"		:	sbmOption	,
+                                         "colsTit"		:	colsTit		,
+                                         "colsClmn"		:	colsClmn	,
+                                         "listNm"		:	listNm		,
+                                         "paramNm"		:	paramNm		,
+                                         "paramIn"		:	paramIn		,
+                                         "srchList"		:	srchList	,
+                                         "paramList"	:	paramList	,
+                                         "paramVal"     :   paramVal    ,
+                                         "autoType"     :   "N"			,
+                                         "title"		:	title		},
+                        callbackFn 	: callbackFn
+                    });
+                    break;
+            }
+    /********************************************************************************
+     * 이름   	: gfnDmndSelect
+     * 설명   	: 계약요청번호와 계약요청차수로 공고서 작성화면 띄우는 로직 추가
+     * @param   : 계약요청접수번호	:	ctrtDmndRcptNo
+     * 			  계약요청접수차수	:	ctrtDmndRcptOrd
+    ********************************************************************************/
+    },gfnDmndSelect:async function(ctrtDmndRcptNo, ctrtDmndRcptOrd){
+            const inDataId = "dmCodeM";
+
+            const prcmBsneCd 	= "";
+            const pbancType  	= "";
+            const prcmMthoSeCd 	= "";
+
+            var sbmOption = {
+                    id 				: "selectCodeList",
+                    action  		: "/pn/pnp/pnpe/commBidPbac/selectCodeList.do",
+                    method  		: "POST",
+                    isProcessMsg 	: false,
+                    callbackFunc 	: null,
+                    msgYn   		: {succ: false, err : true}
+            };
+
+            var sbmParam = { [inDataId] : { "codeType"		: "10"
+                                           ,"codeWhereVal1"	: ctrtDmndRcptNo
+                                           ,"codeWhereVal2"	: ctrtDmndRcptOrd } };
+
+            const result   			= await com.gfnExecute(sbmOption, sbmParam);
+            let resultData 			= result.responseJSON.result;
+
+            if( resultData[0].scsbdMthdCd == "" || resultData[0].scsbdMthdCd == null ){
+                com.gfnAlert(["msg.pn.pne.chkModlTap","낙찰방법"]);
+                return false;
+            } else if( resultData[0].lcrtTyCd == "" || resultData[0].lcrtTyCd == null ){
+                com.gfnAlert(["msg.pn.pne.chkModlTap","계약법유형"]);
+                return false;
+            } else if( resultData[0].stdCtrtMthdCd == "" || resultData[0].stdCtrtMthdCd == null ){
+                com.gfnAlert(["msg.pn.pne.chkModlTap","표준계약방법코드"]);
+                return false;
+            } else if( resultData[0].ctrtTyCd == "" || resultData[0].ctrtTyCd == null ){
+                com.gfnAlert(["msg.pn.pne.chkModlTap","계약유형"]);
+                return false;
+            } else if( resultData[0].pbancModlNo == "" || resultData[0].pbancModlNo == null ){
+                com.gfnAlert(["msg.pn.pne.chkModlTap","계약모델탭정보"]);
+                return false;
+            }
+
+            let options = {
+                    isHistory: true
+                    ,param: {
+                         "ctrtDmndRcptNo"	:	ctrtDmndRcptNo
+                        ,"ctrtDmndRcptOrd"	:	ctrtDmndRcptOrd
+                        ,"pbancType"		:	"dmnd"
+                        ,"prcmMthoSeCd"		:	"KUT290002"
+                        ,"prcmBsneSeCd"		:	resultData[0].prcmBsneSeCd
+                        ,"tchrvNo"          :   resultData[0].tchrvNo
+                    }
+            };
+
+            switch( resultData[0].prcmBsneSeCd ){
+                case '01' : com.gfnOpenMenu("PNPE004_01", options); break;
+                case '03' : com.gfnOpenMenu("PNPE006_01", options); break;
+                case '05' : com.gfnOpenMenu("PNPE022_01", options); break;
+                case '07' : com.gfnOpenMenu("PNPE014_01", options); break;
+                case '10' : com.gfnOpenMenu("PNPE016_01", options); break;
+                case '11' : com.gfnOpenMenu("PNPE016_01", options); break;
+            }
+
+    },gfnPbancSelect:async function(strBidPbancNo,strBidPbancOrd,strPrcmBsneCd){
+        const inDataId = "dmParam";
+        var sbmOption = {
+                id : "selectCodeL",
+                action  : "/pn/pnp/pnpe/commBidPbac/selectBidPbacNoCnt.do",
+                method  : "POST",
+                isProcessMsg : false,
+                callbackFunc : null,
+                msgYn   : {succ: false, err : true}
+        };
+        var sbmParam = {[inDataId] : { "bidPbancNo"		: strBidPbancNo
+                                      ,"bidPbancOrd"	: strBidPbancOrd } };
+
+        const result   			= await com.gfnExecute(sbmOption, sbmParam);
+        let resultData 			= result.responseJSON.result;
+        let strPbancType    	= "";
+        let strPbancMode    	= "";
+        let strBidPbancPgstCd	= "";
+        let strScsbdMthdCd      = "";
+
+        if( resultData == null){
+
+        } else {
+            strPrcmBsneCd 		= resultData.prcmBsneSeCd;
+            strPbancType		= resultData.pbancType;
+            strPbancMode    	= resultData.pbancMode;
+            strBidPbancPgstCd 	= resultData.bidPbancPgstCd;
+            strScsbdMthdCd      = resultData.scsbdMthdCd
+        }
+
+        let data = {
+                "bidPbancNo"  	: strBidPbancNo		,
+                "bidPbancOrd" 	: strBidPbancOrd	,
+                "prcmBsneSeCd"	: strPrcmBsneCd 	,
+                "pbancType"     : strPbancType      ,
+                "pbancMode"     : strPbancMode		,
+                "bidPbancPgstCd": strBidPbancPgstCd ,
+                "strScsbdMthdCd": strScsbdMthdCd
+        }
+
+        console.log("data:",data);
+
+        return data;
+
+    },gfnPbancPopup: async function(bidPbancNo,bidPbancOrd){
+
+        let data = await pnBidPbancUtil.gfnPbancSelect(bidPbancNo,bidPbancOrd);
+
+        let dataParam = {["param"]:{ "bidPbancNo" 		: bidPbancNo,
+                                     "bidPbancOrd" 		: bidPbancOrd,
+                                     "bidPbancPgstCd"	: data.bidPbancPgstCd,
+                                     "pbancType"		: data.pbancType,
+                                     "pbancMode"    	: data.pbancMode,
+                                     "popupModeYn"  	: "Y"            }}
+
+        switch (data.prcmBsneSeCd) {
+            case "01" :
+                if( data.strScsbdMthdCd = "낙030004" ) {
+                     com.gfnOpenPopup({
+                         menuCangVal: "PNPN005_01",
+                         popupId    : "PNPN005_01",
+                         popupName  : "입찰공고[MAS구매공고] 팝업",
+                         param      : dataParam,
+                         width      : 1200,
+                         height     : 850,
+                         callbackFn : "" //콜백
+                     });
+                } else {
+                     com.gfnOpenPopup({
+                         menuCangVal: "PNPE009_01",
+                         popupId    : "PNPE009_01",
+                         popupName  : "입찰공고[물품] 팝업",
+                         param      : dataParam,
+                         width      : 1200,
+                         height     : 850,
+                         callbackFn : "" //콜백
+                     });
+                }
+                break;
+            case "02" :
+                com.gfnOpenPopup({
+                    menuCangVal: "PNPE020_01",
+                    popupId    : "PNPE020_01",
+                    popupName  : "입찰공고[외자] 팝업",
+                    param      : dataParam,
+                    width      : 1200,
+                    height     : 850,
+                    callbackFn : "" //콜백
+                });
+                break;
+            case "03" :
+                com.gfnOpenPopup({
+                    menuCangVal: "PNPE009_01",
+                    popupId    : "PNPE009_01",
+                    popupName  : "입찰공고[일반용역] 팝업",
+                    param      : dataParam,
+                    width      : 1200,
+                    height     : 850,
+                    callbackFn : "" //콜백
+                });
+                break;
+            case "04" :
+                com.gfnOpenPopup({
+                    menuCangVal: "PNPE020_01",
+                    popupId    : "PNPE020_01",
+                    popupName  : "입찰공고[일반용역(외자)] 팝업",
+                    param      : dataParam,
+                    width      : 1200,
+                    height     : 850,
+                    callbackFn : "" //콜백
+                });
+                break;
+            case "05" :
+                com.gfnOpenPopup({
+                     menuCangVal: "PNPE022_01",
+                     popupId    : "PNPE022_01",
+                     popupName  : "입찰공고[기술용역] 팝업",
+                     param      : dataParam,
+                     width      : 1200,
+                     height     : 850,
+                     callbackFn : "" //콜백
+                 });
+                break;
+            case "07" :
+                com.gfnOpenPopup({
+                    menuCangVal: "PNPE022_01",
+                    popupId    : "PNPE022_01",
+                    popupName  : "입찰공고[공사] 팝업",
+                    param      : dataParam,
+                    width      : 1200,
+                    height     : 850,
+                    callbackFn : "" //콜백
+                });
+                break;
+            case "09" :
+
+                break;
+        };
+    },callBackPopupListFn:function(data){
+        console.log("data=",data);
+    },gfnCodeNm:async function(strDocType,strPrcmBsneCd){
+        const inDataId = "dmCodeM";
+        const outDataId = "dlCodeList";
+        var sbmOption = {
+                id : "selectCodeL",
+                action  : "/pn/pnp/pnpe/commBidPbac/selectCodeList.do",
+                method  : "POST",
+                isProcessMsg : false,
+                callbackFunc : null,
+                msgYn   : {succ: false, err : true}
+        };
+        var sbmParam = {
+                [inDataId] : {"codeType": strDocType
+                             ,"codeWhereVal6": strPrcmBsneCd
+                             }
+                        };
+
+        const result = await com.gfnExecute(sbmOption, sbmParam);
+        let resultData = result.responseJSON.result;
+
+        return resultData[0].cdNm;
+
+    },gfnStrLimtByte: function(param){
+        let info = param.info; // event oneditkeyup info
+        let limitByte = param.limitByte; // 최대byte Length
+        let cnObj = param.cnObj; // 문자열이 들어갈 컴포넌트
+        let byteLabelObj = param.byteLabelObj; //byte를 나타내는 label 컴포넌트
+
+        let byteLen = comUtil.gfnGetByteLength(info.newValue);
+        if(byteLen > limitByte){
+            com.gfnAlert(['warn.pn.pnp.byteChk', limitByte]);
+            let subStrCn = comUtil.gfnGetByteSubstring(info.newValue,0,limitByte); //최대바이트까지 잘라서 넣어줌
+            cnObj.setValue(subStrCn);
+            byteLabelObj.setValue(comUtil.gfnGetByteLength(subStrCn)); //현재 문자열 계산해서 set
+        }else{
+            byteLabelObj.setValue(byteLen);
+        }
+    },gfnChkTime24HHMIFormat: function(timeCtr){
+        let regTime = /^([01][0-9]|2[0-3])([0-5][0-9])$/;
+        let timeVal = timeCtr.getValue();
+        if(!comUtil.gfnIsEmpty(timeVal) && !regTime.test(timeVal)){
+            com.gfnAlert(['warn.pn.pnp.timeChk']);
+            timeCtr.setValue("0000");
+            timeCtr.focus();
+            return false;
+        }
+        return true;
+    },gfnTimeValidator: function(time) {
+        let regEx = new RegExp(/^([01]\d|2[0-3])?([0-5]\d)$/);
+
+        if (!time || !regEx.test(time)) {
+            return "";
+        }
+
+        return time.padEnd(4, "0");
+    }
+    /********************************************************************************
+     * 이름   	: gfnSetUdcTooltip
+     * 설명   	: 동적으로 udc_tooltip 생성. 특정 group 내 마지막 child로 udc_tooltip을 생성함
+     * 사용방법    :
+     * 			1. udc_tooltip을 생성하고자 하는 group (th, td 등)의 userData1 속성에 tooltip contents의 key를 설정한다.
+     *          2. 페이지 내 init 함수 등에서 호출한다.
+     *             e.g. await pnBidPbancUtil.gfnSetUdcTooltip(reqGrpChk);
+     * @param grpObj: 페이지 내 최상위 group object
+    ********************************************************************************/
+    ,gfnSetUdcTooltip: async function(grpObj) {
+        grpObj = (typeof grpObj == "string") ? $p.getComponentById(grpObj) : grpObj;
+
+        let tooltipContents;
+        await $.getScript("bsnejs/pn/udcTooltipContents.js", function(data, textStatus, jqxhr) {
+            tooltipContents = udcTooltipContents.json;
+        });
+
+        const groups = com.gfnGetChildren(grpObj, {recursive: true, includePlugin: "group"});
+
+        let userData;
+        let compObj;
+        for (let group of groups) {
+            userData = group.getUserData("userData1");
+
+            if (userData && userData.startsWith("udcTooltip")) {
+                await $p.dynamicCreate(userData, "udc_tooltip",
+                        {
+                            class: "udc_help_tooltip tooltip",
+                        },
+                        group);
+                compObj = $p.getComponentById(userData);
+                compObj.setTooltipTitle(tooltipContents[userData].tooltipTitle);
+                compObj.setTooltipContent(tooltipContents[userData].tooltipContent, true);
+                compObj.setVisibleCloseButton(true);
+                if (tooltipContents[userData].tooltipWidth) {
+                    compObj.setTooltipWidth(tooltipContents[userData].tooltipWidth);
+                }
+            }
+        }
+
+    }
+    /********************************************************************************
+     * 이름   	: gfnGetInstCdByUntyGrpNo
+     * 설명   	: 통합단체번호로 기관코드 조회
+     * @param untyGrpNo
+     * @return result: grpNm, instCd
+    ********************************************************************************/
+    ,gfnGetInstCdByUntyGrpNo: async function(untyGrpNo) {
+        const sbmOption = {
+            id : "multiBidPbacTab",
+            action : "/pn/pnp/pnpj/BidComPopup/selectUsrGrpInstCdByUntyGrpNo.do",
+            msgYn : {succ: false, err : false}
+        };
+        const requestData = { "dlParamM" : { "untyGrpNo": untyGrpNo } };
+        const result = await com.gfnExecute(sbmOption, requestData);
+        let returnObj = {};
+        if (!comUtil.gfnIsEmpty(result.responseJSON.result)) {
+            returnObj.grpNm = result.responseJSON.result.grpNm;
+            returnObj.instCd = result.responseJSON.result.instCd;
+        }
+        return returnObj;
+    }
+    /********************************************************************************
+     * 이름       : gfnGetUsrInfo
+     * 설명       : 이용자ID, 통합단체번호로 이용자정보 조회
+     * @param usrId, untyGrpNo
+     * @return result: dlUsrInfoM, dlUntyGrpNoL
+    ********************************************************************************/
+    ,gfnGetUsrInfo: async function(usrId, untyGrpNo) {
+        const sbmOption = {
+            id : "sbmGfnGetUsrInfo",
+            action : "/pr/prr/prra/CtrtDmnd/selectUsrInfo.do",
+            msgYn : {succ: false, err : false}
+        };
+        const requestData = { "dlUsrInfoM" : { "usrId": usrId, "untyGrpNo": untyGrpNo } };
+        const result = await com.gfnExecute(sbmOption, requestData);
+
+        let returnObj = {};
+        if (!comUtil.gfnIsEmpty(result.responseJSON.dlUsrInfoM)) {
+            returnObj.dlUsrInfoM = result.responseJSON.dlUsrInfoM;
+            returnObj.dlUntyGrpNoL = result.responseJSON.dlUntyGrpNoL;
+        }
+        return returnObj;
+    }
+/********************************************************************************
+ * 이름   	: gfnVisibleButton
+ * 설명   	: 버튼에 대한 show hide 제어
+ * @param objArr, flag
+********************************************************************************/
+    ,gfnVisibleButton: function(objArr, flag) {
+         if (objArr.length > 0) {
+             for (let i in objArr) {
+                 if (flag) {
+                     objArr[i].show("");
+                     (objArr[i].hasClass("hide")) && (objArr[i].removeClass("hide"));
+                     (!objArr[i].hasClass("inline_block")) && (objArr[i].addClass("inline_block"));
+                 } else {
+                     objArr[i].hide("");
+                     (!objArr[i].hasClass("hide")) && (objArr[i].addClass("hide"));
+                     (objArr[i].hasClass("inline_block")) && (objArr[i].removeClass("inline_block"));
+                 }
+             }
+         }
+    }
+/********************************************************************************
+ * 이름   	: gfnVisibleButtonByAuthId
+ * 설명   	: 버튼에 대한 show hide 제어(해당 ID와 같은 사용자만 버튼이 보힘)
+ * @param objArr, flag, authId
+********************************************************************************/
+    ,gfnVisibleButtonByAuthId: function(objArr, flag, authId) {
+         let usrId = com.gfnGetUsrInfo().usrId;
+
+         if (objArr.length > 0) {
+             for (let i in objArr) {
+                 if (flag && (authId==usrId)) {
+                     objArr[i].show("");
+                     (objArr[i].hasClass("hide")) && (objArr[i].removeClass("hide"));
+                     (!objArr[i].hasClass("inline_block")) && (objArr[i].addClass("inline_block"));
+                 } else {
+                     objArr[i].hide("");
+                     (!objArr[i].hasClass("hide")) && (objArr[i].addClass("hide"));
+                     (objArr[i].hasClass("inline_block")) && (objArr[i].removeClass("inline_block"));
+                 }
+             }
+         }
+    }
+/********************************************************************************
+ * 이름   	: gfnGeTodayYYYYMMDD
+ * 설명   	: 현재 년월일을 YYYYMMDD 형태로 리턴
+********************************************************************************/
+   ,gfnGeTodayYYYYMMDD: function() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = ("0" + (1 +date.getMonth())).slice(-2);
+        var day = ("0" + date.getDate()).slice(-2);
+
+        return year+month+day;
+    }
+/********************************************************************************
+ * 이름   	: gfnGeTodayYYYYMMDDHHMI
+ * 설명   	: 현재 년월일을 YYYYMMDD 형태로 리턴
+********************************************************************************/
+  ,gfnGeTodayYYYYMMDDHHMI: function() {
+       var date = new Date();
+       var year = date.getFullYear();
+       var month = ("0" + (1 +date.getMonth())).slice(-2);
+       var day = ("0" + date.getDate()).slice(-2);
+       var hour = date.getHours();
+       var minute = date.getMinutes();
+
+       return year+month+day+hour+minute;
+   }
+  /********************************************************************************
+   * 이름   	: gfnAlert
+  ********************************************************************************/
+  ,gfnAlert: function(msgId, opts={}, closeCallbackFncName) {
+      let options = opts;
+      if (!options.popupName) {
+          let msgIdPrefix;
+          let msgIdSplitArray;
+          if (comUtil.gfnIsArray(msgId)) {
+              msgIdSplitArray = msgId[0].split(".");
+          } else {
+              msgIdSplitArray = msgId.split(".");
+          }
+          msgIdPrefix = msgIdSplitArray[0];
+          if (["warn", "error", "fail"].includes(msgIdPrefix)) {
+              options.popupName = "경고 메시지";
+          } else {
+              options.popupName = "안내 메시지";
+          }
+      }
+
+      return com.gfnAlert(msgId, options, closeCallbackFncName);
+  }
+  /********************************************************************************
+   * 이름   	: gfnRatioValidator
+   * 설명   	: 계약요청, 계약요청 접수를 위한 메뉴ID를 리턴
+   * @param type, prcmBsneSeCd, mode
+  ********************************************************************************/
+  ,gfnRatioValidator: function(ratio) {
+      let rtnVal;
+      if (comUtil.gfnIsNumber(ratio) && parseFloat(ratio) <= 100) {
+          rtnVal = ratio;
+      } else {
+          rtnVal = "";
+      }
+      return rtnVal;
+  }
+  /********************************************************************************
+   * 이름   	: gfnOpenMenuList
+   * 설명   	: 발주목록으로 이동
+   * @param type, prcmBsneSeCd, mode
+  ********************************************************************************/
+  ,gfnOpenMenuList: function() {
+      try {
+          let jsonString = window.sessionStorage.getItem("dmndListMenuInfo");
+          let menuInfo = JSON.parse(jsonString);
+          com.gfnOpenMenu(menuInfo.menuCangVal,  { isHistory : true, }, menuInfo.searchInfo);
+      } catch (error){
+          //세션에 정보가 없을 경우 처리
+          let usrInfo = com.gfnGetUsrInfo();
+
+          //조달청 직원이면 버튼 노출, 수요기관일 경우 업무 협의 데이터가 있을경우에만 업무협의 버튼 노출
+          if(usrInfo.ppsEmpYn=="Y"){
+              com.gfnOpenMenu("PRCA007_01",  { isHistory : true, });
+          }else{
+              com.gfnOpenMenu("PRCA001_03",  { isHistory : true, });
+          }
+      }
+  }
+/********************************************************************************
+ * 이름   	: getCtrtRqdcMenuId
+ * 설명   	: 계약요청, 계약요청 접수를 위한 메뉴ID를 리턴
+ * @param type, prcmBsneSeCd, mode
+********************************************************************************/
+    ,gfnGetCtrtRqdcMenuId: function(type, prcmBsneSeCd, mode, pgstCd=null) {
+        let menuVal="";
+        let modeVal=mode;
+
+        //계약요청의 경우 진행상태가 작성중(계230001)이면 상세로 돌리지 않고 수정모드로 넘김
+        if(type=="dmnd" && pgstCd=="계230001"){
+            modeVal="";
+        }
+
+        //계약요청접수의 경우 진행상태가 접수(진010003)이면 상세로 돌리지 않고 수정모드로 넘김
+        if(type=="dmndRcpt" && pgstCd=="진010003"){
+            modeVal="";
+        }
+
+        //계약요청
+        if(type=="dmnd"){
+            switch (prcmBsneSeCd) {
+
+            case "01":  //물품(내자)
+                menuVal= (modeVal=="R") ? "PRRA062_01" : "PRRA001_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "02": //물품(외자)
+                menuVal= (modeVal=="R") ? "PRRA061_01" : "PRRA004_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "03": //일반용역
+                menuVal= (modeVal=="R") ? "PRRA060_01" : "PRRA007_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "04": //일반용역
+                menuVal= (modeVal=="R") ? "PRRA061_02" : "PRRA004_02"; //상세페이지 : 신규및수정페이지
+                break;
+            case "05": //기술용역
+                menuVal= (modeVal=="R") ? "PRRA054_01" : "PRRA006_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "07": //공사
+                menuVal= (modeVal=="R") ? "PRRA052_01" : "PRRA005_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "09": //기타
+                menuVal= (modeVal=="R") ? "PRRA059_01" : "PRRA002_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "10": //리스(내자)
+                menuVal= (modeVal=="R") ? "PRRA058_01" : "PRRA003_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "11": //리스(외자)
+                menuVal= (modeVal=="R") ? "PRRA058_01" : "PRRA003_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "14": //리스(일반용역)
+                menuVal= (modeVal=="R") ? "PRRA058_01" : "PRRA003_01"; //상세페이지 : 신규및수정페이지
+                break;
+            default:
+                //특정할 업무가 없으면 통합목록으로 보냄
+                menuVal="PRCA001_02";
+                break;
+            }
+        }else if(type=="dmndRcpt"){
+            //계약요청접수
+            switch (prcmBsneSeCd) {
+
+            case "01":  //물품(내자)
+                menuVal= (modeVal=="R") ? "PRRA068_01" : "PRRA017_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "02": //물품(외자)
+                menuVal= (modeVal=="R") ? "PRRA067_01" : "PRRA031_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "03": //일반용역
+                menuVal= (modeVal=="R") ? "PRRA066_01" : "PRRA024_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "04": //일반용역
+                menuVal= (modeVal=="R") ? "PRRA067_02" : "PRRA031_02"; //상세페이지 : 신규및수정페이지
+                break;
+            case "05": //기술용역
+                menuVal= (modeVal=="R") ? "PRRA055_01" : "PRRA048_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "07": //공사
+                menuVal= (modeVal=="R") ? "PRRA065_01" : "PRRA038_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "09": //기타
+                menuVal= (modeVal=="R") ? "PRRA064_01" : "PRRA034_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "10": //리스
+                menuVal= (modeVal=="R") ? "PRRA063_01" : "PRRA039_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "11": //리스
+                menuVal= (modeVal=="R") ? "PRRA063_01" : "PRRA039_01"; //상세페이지 : 신규및수정페이지
+                break;
+            case "14": //리스(일반용역)
+                menuVal= (modeVal=="R") ? "PRRA063_01" : "PRRA039_01"; //상세페이지 : 신규및수정페이지
+                break;
+            default:
+                //특정할 업무가 없으면 통합목록으로 보냄
+                menuVal="PRCA001_02";
+                break;
+            }
+        }else{
+            //특정할 메뉴id가 없으면 통합목록으로 보냄
+            menuVal="PRCA001_02";
+        }
+
+        return menuVal;
+   }
+    /********************************************************************************
+     * 이름   	: gfnTextAreaAutoHeight
+     * 설명   	: textarea 높이 resize
+     * @param textarea event
+    ********************************************************************************/
+    ,gfnTextAreaAutoHeight: function(e, defaultHeight=null) {
+       const objTextarea = document.getElementById(e.target.id);
+       const offset = objTextarea.offsetHeight - objTextarea.clientHeight;
+       if(defaultHeight==null){
+           objTextarea.style.height = "auto";
+           objTextarea.style.height = objTextarea.scrollHeight + offset + "px";
+       }else{
+           if(Number(defaultHeight)< Number(objTextarea.scrollHeight) + Number(offset)){
+               objTextarea.style.height = "auto";
+               objTextarea.style.height = objTextarea.scrollHeight + offset + "px";
+           }else{
+               objTextarea.style.height =defaultHeight + "px";
+           }
+       }
+    }
+    /********************************************************************************
+     * 이름   	: gfnToggleTextAreaHeight
+     * 설명   	: toggle 버튼 클릭 시 textarea 높이 펼침/접기 toggle 처리
+     * @param objTextArea
+     * @param objBtn
+    ********************************************************************************/
+    ,gfnToggleTextAreaHeight: function(objTextArea, objBtn) {
+        const nInitHeight = objTextArea.getInitStyle("height") || objTextArea.getStyle("height");
+        if (!objTextArea.getUserData("initHeight")) {
+            objTextArea.setUserData("initHeight", nInitHeight);
+        }
+
+        if (objBtn?.hasClass("active") || objTextArea.getUserData("initHeight") == objTextArea.getStyle("height")) { // 펼침
+            prCtrtRqdcUtil.gfnTextAreaAutoHeight({
+                target: {
+                    id: objTextArea.getID()
+                }
+            });
+        } else { // 원래크기
+            objTextArea.setStyle("height", objTextArea.getUserData("initHeight"));
+        }
+
+        objBtn?.toggleClass("active");
+    }
+
+    /********************************************************************************
+     * 이름   	: fnGetPrgrsUntyPrcmBsneNo (스텝바)
+     * 설명   	: 조달업무통합번호구분코드, 조달업무통합번호, 차수로 진행통합조달업무번호 조회
+     * 사용방법    :
+     *
+     * @param prcmBsneUntyNoSeCd
+     * @param prcmBsneUntyNo
+     * @param prcmBsneUntyOrd
+    ********************************************************************************/
+   ,fnGetPrgrsUntyPrcmBsneNo : async function(prcmBsneUntyNoSeCd, prcmBsneUntyNo, prcmBsneUntyOrd, prcmBsneUntyOdn3Val) {
+        let dlPrgrsPrcmBsneM = {
+                prcmBsneUntyNoSeCd,
+                prcmBsneUntyNo,
+                prcmBsneUntyOrd : prcmBsneUntyOrd ?? " ",
+                prcmBsneUntyOdn3Val: prcmBsneUntyOdn3Val ?? " ",
+                prcmBsneUntyOdn4Val: " ",
+        };
+
+        let sbmOption = {
+            id: "sbmSrchPrgrs",
+            action: "/fa/fas/fasa/PrgrsPrcmBsne/selectUntyPrcmBsneNoAPI.do",
+            outData: "",
+            msgYn: { succ: false, err: true },
+        };
+
+        let retPrgrsUntyPrcmBsneNo = "";
+        try {
+
+            let result = await com.gfnExecute(sbmOption, { ["dlPrgrsPrcmBsneM"] : dlPrgrsPrcmBsneM });
+            if (comUtil.gfnIsNotEmpty(result.responseJSON.dlPrgrsPrcmBsneM)) {
+                retPrgrsUntyPrcmBsneNo = result.responseJSON.dlPrgrsPrcmBsneM.prgrsUntyPrcmBsneNo;
+            }else{
+                retPrgrsUntyPrcmBsneNo = "";
+            }
+
+        } catch (e) {
+            console.error(e);
+        }
+
+        return retPrgrsUntyPrcmBsneNo;
+    }
+   ,fnSetLongPrcm : async function(grpObj, newLotmSeCd, fsyrCtrtNo, readOnlyYn, subReadOnly){
+        //이행 데이터의 경우 수정이 필요하여 비활성화 처리를 하지 않음
+        if(newLotmSeCd == "신120002"|| newLotmSeCd == "신120005"){
+            //if(fsyrCtrtNo=="" || (fsyrCtrtNo!="" && (fsyrCtrtNo.charAt(0)=="T"|| fsyrCtrtNo.charAt(0)=="R"))){
+                  grpObj = (typeof grpObj === "string") ? $p.getComponentById(grpObj) : grpObj;
+
+                  if (comUtil.gfnIsEmpty(grpObj)) return false;
+
+                  let objArr = com.gfnGetChildren(grpObj, {
+                      includePlugin: "checkbox checkcombobox datePicker editor input inputCalendar multiselect radio selectbox searchbox secret textarea gridView trigger",
+                      recursive: true
+                  });
+
+                  try {
+                      for(let objIdx in objArr){
+                          let obj = objArr[objIdx];
+
+                          if(readOnlyYn=="N"){
+                              if(obj.id.includes("lcrtTyCd") ||
+                                      obj.id.includes("stdCtrtMthdCd")||
+                                      obj.id.includes("ctrtTyCd") ||
+                                      obj.id.includes("scsbdMthdCd") ||
+                                      obj.id.includes("radOvrlCtrtYn")
+                                    ){
+                                  if(fsyrCtrtNo!="" && (fsyrCtrtNo.charAt(0)=="T"|| fsyrCtrtNo.charAt(0)=="R")){
+                                      if(subReadOnly == "N" && (obj.id.includes("ctrtTyCd") || obj.id.includes("scsbdMthdCd"))){
+                                          obj.setDisabled(false);
+                                      }else{
+                                          obj.setDisabled(true);
+                                      }
+                                  }else{
+                                      obj.setDisabled(false);
+                                  }
+                              }else if(obj.id.includes("sbxFsyrCtrtNo") ||
+                                       obj.id.includes("ibxLotmCtrtOrd" ||
+                                       obj.id.includes("rdoCtrtInfoRlsYn") ||
+                                       obj.id.includes("sbxCtrtInfoNdcsRsn") ||
+                                       obj.id.includes("inptCtrtInfoNdcsEtcRsn")
+                                       )){
+                                          obj.setDisabled(true);
+                                 }else{
+                                  obj.setDisabled(false);
+                              }
+                          }
+                      }
+                  } catch (ex) {
+                       console.error("erorr meseage!",ex);
+                  } finally {
+                      objArr = null;
+                  }
+            //}
+        }
+   }
+
+   /********************************************************************************
+    * 이름   	: fnGetPrcmBsneNowPstats
+    * 설명   	: 진행상태 조회
+    * 사용방법    :
+    *
+    * @param prcmBsneUntyNo
+    * @param prcmBsneUntyOrd
+    * @param bsneClsfCd
+   ********************************************************************************/
+   ,fnGetPrcmBsneNowPstats : async function(prcmBsneUntyNo, prcmBsneUntyOrd, bsneClsfCd, inQryDiv) {
+       let dlBsnePrssPrgrsL = [
+           {
+               bsneClsfCd,
+               prcmBsneUntyNo,
+               prcmBsneUntyOrd,
+               inQryDiv,
+           }
+       ];
+
+       let sbmOption = {
+           id: "sbmPrcmBsneNowPstats",
+           action: "/fa/fas/fasa/BsnePrssPrgrs/selectPrcmBsneNowPstatsAPI.do",
+           msgYn: { succ: false, err: true },
+       };
+
+       let rtnObj = [];
+       let prcmBsneNowPstatsYn = 'N';
+
+       try {
+           let result = await com.gfnExecute(sbmOption, { ["dlBsnePrssPrgrsL"] : dlBsnePrssPrgrsL });
+           if (result.responseJSON.ErrorCode == "0") {
+               rtnObj = result.responseJSON.dlBsnePrssPrgrsL;
+
+               if (!comUtil.gfnIsEmptyArray(rtnObj)) {
+                   if (rtnObj[0].resultCode == "1") {
+                       prcmBsneNowPstatsYn = 'Y';
+                   }else{
+                       PrcmBsneNowPstatsYn = 'N';
+                   }
+               }
+
+           }
+
+       } catch (e) {
+           console.error(e);
+       }
+
+       return prcmBsneNowPstatsYn;
+   }
+
+   /********************************************************************************
+    * 이름    : fnReplaceAllHyphen
+    * 설명    : 하이픈, 공백 제거
+    * 사용방법    :
+    *
+    * @param prcmBsneUntyNo
+    * @param prcmBsneUntyOrd
+    * @param bsneClsfCd
+   ********************************************************************************/
+   ,fnReplaceAllHyphen : function(pVal) {
+       return comUtil.gfnReplaceAll(comUtil.gfnReplaceAll(pVal, "-", ""), " ", "");
+   }
+
+}
+

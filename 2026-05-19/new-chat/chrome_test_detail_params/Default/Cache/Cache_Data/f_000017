@@ -1,0 +1,1212 @@
+/*amd /com/udc/crossEditor.xml 39660 ee70ae9cb262ac307d987a5df0beb8c631fe4bbf9b87ded4e22eedd6ee1431ed */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',A:{palette:'support'},E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'}},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:'scwin.getCrossEditorName,scwin.getTextValue,scwin.getTextValueLength,scwin.getValue,scwin.getValueLength,scwin.insertHyperlink,scwin.insertImage,scwin.insertValue,scwin.isDirty,scwin.isInTable,scwin.isPrivacyInfo,scwin.isProhibitProfanity,scwin.resetEditorHeight,scwin.setActiveTab,scwin.setBodyStyle,scwin.setBodyValue,scwin.setCaretPos,scwin.setCaretPosById,scwin.setCharset,scwin.setDirty,scwin.setFocusEditor,scwin.setHeadValue,scwin.setReadonly,scwin.setUISize,scwin.setValue,scwin.showTab,scwin.showToolbar,scwin.getActiveTab,scwin.getBodyElementsByTagName,scwin.getBodyValue,scwin.getCaretObject,scwin.getCaretPos,scwin.getDocumentSize,scwin.getEditorDocument,scwin.getEditorVersion,scwin.getElementCurCell,scwin.getFilterBodyValue,scwin.getFilterValue,scwin.getHeadValue,scwin.getProhibitProfanity,scwin.setIndentPaddingValue,scwin.setUserData,scwin.getUserData,scwin.getCrossEditor,scwin.destroyEditor,scwin.setAutoHeight'}},{T:1,N:'link',A:{href:'/CrossEditor/css/namose_general.css',type:'text/css',rel:'stylesheet'}},{T:1,N:'link',A:{href:'/CrossEditor/css/namose_plugindrag.css',type:'text/css',rel:'stylesheet'}},{T:1,N:'link',A:{href:'/CrossEditor/css/material-palenight.css',type:'text/css',rel:'stylesheet'}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){
+/**
+ * @component
+ * @company
+ * @developer jcpark
+ * @variableClone true
+ * @notSupportBrowser
+ * @version
+ * @htmlRender
+ * @icon
+ * @disableIcon
+ * @width 100%
+ * @height 500px
+ * @description
+ */
+
+/**
+ * @property
+ * @name id
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description CrossEditor의 ID값
+ */
+
+/**
+ * @property
+ * @name style
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description HTML의 style 속성과 동일한 기능을 제공
+ */
+
+/**
+ * @property
+ * @name class
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description HTML의 class 속성과 동일한 기능을 제공
+ */
+
+/**
+ * @property
+ * @name width
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default 100%
+ * @necessary N
+ * @bindparent
+ * @description CrossEditor의 width 값 설정
+ */
+
+/**
+ * @property
+ * @name height
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default 500px
+ * @necessary N
+ * @bindparent
+ * @description CrossEditor의 height 값 설정
+ */
+
+/**
+ * @property
+ * @name userLang
+ * @category 02.Tooltip & Format & Multi-lang
+ * @type string
+ * @option
+ * @default auto
+ * @necessary N
+ * @bindparent
+ * @description 브라우저 언어와 상관없이 사용하는 다국어 리소스 중 특정 언어 리소스를 사용하고자 할 경우 사용
+ */
+
+/**
+ * @property
+ * @name newToolbar
+ * @category 05.Design
+ * @type combobox
+ * @option [true,false]
+ * @default true
+ * @necessary N
+ * @bindparent
+ * @description 도구 막대의 구성요소를 설정
+ */
+
+/**
+ * @property
+ * @name fullScreen
+ * @category 05.Design
+ * @type combobox
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent
+ * @description 처음 실행할 때 전체화면으로 보이도록 설정
+ */
+
+/**
+ * @property
+ * @name toolbarType
+ * @category 05.Design
+ * @type combobox
+ * @option [default,simple,basic,tables,custom]
+ * @default default
+ * @necessary N
+ * @bindparent 
+ * @description Toolbar 타입 지정
+ */
+
+/**
+ * @property
+ * @name uploadFileExecutePath
+ * @category 03.Data
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 별도의 이미지 서버 구성 시 실제 이미지 업로드를 실행할 URL경로를 설정
+ */
+
+/**
+ * @property
+ * @name uploadEtcFileExecutePath
+ * @category 03.Data
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 별도의 파일 서버 구성 시 실제 이미지 업로드를 실행할 URL경로를 설정
+ */
+
+/**
+ * @property
+ * @name uploadFileNameType
+ * @category 03.Data
+ * @type combobox
+ * @option [real,trans,random]
+ * @default real
+ * @necessary N
+ * @bindparent
+ * @description real:원본 파일의 파일명으로 저장,trans:원본 파일의 파일명을 변환하여 저장(Base64),random:원본 파일의 파일명을 변환하여 저장(yyyyMMddHHmmssfff_Random문자 8자리)
+ */
+
+/**
+ * @property
+ * @name createToolbar
+ * @category 05.Design
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 도구 막대의 구성요소를 설정합니다. toolbarType = custom 일 경우 사용 ex) "newdoc|copy|spacebar"
+ */
+
+/**
+ * @property
+ * @name accessibilityOption
+ * @category 01.Basic & ETC
+ * @type combobox
+ * @option [0,1,2]
+ * @default 0
+ * @necessary N
+ * @bindparent
+ * @description 사용자가 콘텐츠를 입력할 때 적용할 웹 접근성 준수 정도를 설정합니다.
+ */
+
+/**
+ * @property
+ * @name resizeBar
+ * @category 05.Design
+ * @type combobox
+ * @option [true,false]
+ * @default true
+ * @necessary N
+ * @bindparent
+ * @description 에디터 높이 조절 표시 여부를 지정합니다.
+ */
+
+/**
+ * @property
+ * @name setFocus
+ * @category 04.Action
+ * @type combobox
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent
+ * @description 크로스에디터를 처음 실행할 때 에디터 영역에 대한 focus를 설정합니다.
+ */
+
+/**
+ * @property
+ * @name menu
+ * @category 01.Basic & ETC
+ * @type combobox
+ * @option [true,false]
+ * @default true
+ * @necessary N
+ * @bindparent
+ * @description 메뉴의 화면 표시 여부를 지정합니다.
+ */
+
+/**
+ * @property
+ * @name readOnly
+ * @category 05.Design
+ * @type combobox
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent
+ * @description CrossEditor의 ReadOnly 값 설정
+ */
+
+/**
+ * @property
+ * @name indentPaddingValue
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @bindparent
+ * @description 문단 들여쓰기 간격 설정
+ */
+
+/**
+ * @property
+ * @name placeholder
+ * @category 01.Basic & ETC
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description placeholder 설정
+ */
+
+/**
+ * @property
+ * @name uploadFileSizeLimit
+ * @category 03.Data
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description 파일 업로드 시 업로드 파일의 용량을 제한합니다.
+ */ 
+
+/**
+ * @property
+ * @name uploadFileExtBlockList
+ * @category 03.Data
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description 파일 링크 시의 파일 종류 제한을 설정합니다.
+ */ 
+
+/**
+ * @property
+ * @name uploadImageFileExtBlockList
+ * @category 03.Data
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description 파일 링크 시의 이미지 파일 종류 제한을 설정합니다.
+ */ 
+
+/**
+ * @property
+ * @name returnKeyActionBR
+ * @category 03.Data
+ * @type string
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent 
+ * @description 'Enter' 키 입력 시 p태그를 br태그로 설정합니다.
+ */ 
+
+
+
+scwin.crossEditor = null;
+scwin.crossEditorId = ''; // 아이디
+scwin.options = {}; // CrossEditor Options
+
+/********************************************************************************
+ * 설명 : onpageload
+ ********************************************************************************/
+scwin.onpageload = function () {
+    // CrossEditor의 기본 옵션
+    const editorDefault = {
+        editorId: "crossEditor_" + new Date().getTime(),
+        accessibilityOption: 1,
+        width: "100%",
+        height: "auto",
+        userLang: "auto",
+        newToolbar: true,
+        fullScreen: false,
+        uploadFileNameType: "real", // real, trans, random
+        userToolbar: true,
+        resizeBar: true,
+        setFocus: false,
+        menu: true,
+        toolbarType: "default",
+        uploadFileExecutePath: "/fs/fsc/fsca/webEditorImageUpload.do",
+        uploadEtcFileExecutePath: "/fs/fsc/fsca/webEditorFileUpload.do",
+        uploadFileSizeLimit: "",
+        uploadFileExtBlockList: "",
+        uploadImageFileExtBlockList: "",
+        returnKeyActionBR: false,
+    };
+
+    // Toolbar Type
+    const editorToolbar = {
+        simple: "newdoc|copy|spacebar|word_style|spacebar|word_color|cancelattribute",
+        basic: "newdoc|undo|redo|copy|cut|selectall|spacebar|word_style|spacebar|word_color|cancelattribute|spacebar|word_justify|word_indentset|spacebar|word_listset|spacebar|image|inserthorizontalrule|specialchars|emoticon|enter|formatblock|fontname|fontsize|lineheight",
+        tables: "newdoc|undo|redo|copy|cut|selectall|spacebar|word_style|spacebar|word_color|cancelattribute|spacebar|word_justify|word_indentset|spacebar|word_listset|spacebar|image|hyperlink|remove_hyperlink|inserthorizontalrule|specialchars|emoticon||spacebar|tableinsert|tabledraginsert|spacebar|tablerowinsert|tablerowdelete|tablecolumninsert|tablecolumndelete|spacebar|tablecellmerge|tablecellsplit|spacebar|tablecellattribute|tablecellbgcolor|tableborder_group|enter|formatblock|fontname|fontsize|lineheight",
+    };
+
+    // 참고사항
+    /*
+    크로스에디터 스크립트인증 버전에서 사용불가 기능
+    - 관리자페이지
+    - 다른이름저장
+    - 리포트툴
+    - 이미지/동영상/파일업로드
+     */
+    const udcProp = $p.getOptions();
+    scwin.options = comUtil.gfnAssignDefined(editorDefault, udcProp); // 지정 하지 않은 값은 기본 값으로 지정 한다.
+
+    // 크로스에디터 생성되기 전 이벤트(옵션 변경)
+    $p.getFrame().scope.$p.emit("onComponentLoad", scwin.options);
+
+    scwin.crossEditor = new NamoSE(scwin.options.editorId);
+    scwin.crossEditor.params.AccessibilityOption = Number(scwin.options.accessibilityOption);  // 사용자가 콘텐츠를 입력할 때 적용할 웹 접근성 준수 정도를 설정합니다.
+    scwin.crossEditor.params.Width = scwin.options.width;  // CrossEditor의 width 값 설정
+    scwin.crossEditor.params.Height = scwin.options.height;  // CrossEditor의 height 값 설정
+    // scwin.crossEditor.params.UserLang = scwin.options.userLang;  // 브라우저 언어와 상관없이 사용하는 다국어 리소스 중 특정 언어 리소스를 사용하고자 할 경우 사용 합니다.
+    scwin.crossEditor.params.NewToolbar = String(scwin.options.newToolbar) === "true";  // 도구 막대의 구성요소를 설정
+    scwin.crossEditor.params.FullScreen = String(scwin.options.fullScreen) === "true";  // 크로스에디터를 처음 실행할 때 전체화면으로 보이도록 설정합니다.
+    scwin.crossEditor.params.ResizeBar = String(scwin.options.resizeBar) === "true";  // 에디터 높이 조절 표시 여부를 지정합니다.
+    scwin.crossEditor.params.SetFocus = String(scwin.options.setFocus) === "true";  // 크로스에디터를 처음 실행할 때 에디터 영역에 대한 focus를 설정합니다.
+    scwin.crossEditor.params.Menu = String(scwin.options.menu) === "true";  // 메뉴의 화면 표시 여부를 지정합니다.
+    scwin.crossEditor.params.UploadFileNameType = scwin.options.uploadFileNameType;  // 파일 업로드 시 파일명 저장 형식을 설정합니다.
+    scwin.crossEditor.params.UploadFileExecutePath = scwin.options.uploadFileExecutePath;  // 별도의 이미지 서버 구성 시 실제 이미지 업로드를 실행할 URL경로를 설정합니다.
+    scwin.crossEditor.params.UploadEtcFileExecutePath = scwin.options.uploadEtcFileExecutePath;  // 별도의 파일 서버 구성 시 실제 파일 업로드를 실행할 URL경로를 설정합니다.
+    scwin.crossEditor.params.ParentEditor = document.querySelector(`#${grpCrossEditor.id}`);  // 특정위치에 에디터를 로드 하려는 경우 에디터가 생성될 Element를 지정해 줍니다.
+    scwin.crossEditor.params.DeleteCommand = ["flash", "saveas"];  // 사용하지 않을 메뉴를 설정합니다.
+    scwin.crossEditor.params.Readonly = String(scwin.options.readOnly) === "true";  // CrossEditor의 Readonly 값 설정
+    scwin.crossEditor.params.HtmlTabHighlight = true;
+    scwin.crossEditor.params.Menu = false;
+    scwin.crossEditor.params.AllowContentScript = false;
+    scwin.crossEditor.params.AllowContentIframe = false;
+    scwin.crossEditor.params.UserLang = "kor";
+    scwin.crossEditor.params.Skin = "default";
+    scwin.crossEditor.params.ReturnKeyActionBR = scwin.options.returnKeyActionBR; // 'Enter' 키 입력 시 p태그를 br태그로 설정합니다.
+    scwin.crossEditor.params.TagBlockList = ["input","iframe","embed","button","form"];
+
+    if (scwin.options.uploadFileSizeLimit !== "") scwin.crossEditor.params.UploadFileSizeLimit = scwin.options.uploadFileSizeLimit;  // 파일 업로드 시 업로드 파일의 용량을 제한합니다.
+    if (scwin.options.uploadFileExtBlockList !== "") scwin.crossEditor.params.UploadFileExtBlockList = scwin.options.uploadFileExtBlockList; // 파일 링크 시의 파일 종류 제한을 설정합니다.
+    if (scwin.options.uploadImageFileExtBlockList !== "") scwin.crossEditor.params.UploadImageFileExtBlockList = scwin.options.uploadImageFileExtBlockList; // 파일 링크 시의 이미지 파일 종류 제한을 설정합니다.
+
+    // Placeholder 기능 추가
+    scwin.crossEditor.params.Css = "/CrossEditor/css/placeholder.css";
+    if (!comUtil.gfnIsEmpty(scwin.options.placeholder)) {
+        scwin.crossEditor.params.Placeholder = comUtil.gfnEscapeToChar(scwin.options.placeholder).replace(comUtil.pattern.newline, " \\A ");
+    }
+
+    // Toolbar Type 지정
+    if (scwin.options.toolbarType !== "default") {
+        // Toolbar UserToolbar 속성 지정
+        scwin.crossEditor.params.UserToolbar = scwin.options.userToolbar;  // 사용자가 직접 도구 막대의 구성요소를 지정할 수 있거나 혹은 할 수 없도록 설정합니다.
+        scwin.crossEditor.params.CreateToolbar = (scwin.options.toolbarType === "custom") ? scwin.options.createToolbar : editorToolbar[scwin.options.toolbarType];  // 도구 막대의 구성요소를 설정합니다.
+    }
+
+    // 문단 들여쓰기 간격 설정 지정(2023.12.20)
+    if (typeof scwin.options.indentPaddingValue != "undefined" && scwin.options.indentPaddingValue !== "") {
+        scwin.crossEditor.params.IndentPaddingValue = Number(scwin.options.indentPaddingValue);
+    }
+
+    // config.xml 미사용 설정 (웹취약점 조치사항)
+    let paramObj = {
+        "Name" : "Namo Cross Editor", // 필수
+        "WebLanguage" : "JSP", // 필수
+        "HTMLTabContents" : "body", // 필수
+        "Skin" : "default", // 필수
+        "NoUseConfigXml" : true // 필수
+    };
+
+    scwin.crossEditor.EditorStart(paramObj);
+};
+
+/********************************************************************************
+ * 설명 : onbeforepageunload
+ ********************************************************************************/
+scwin.onbeforepageunload = function () {
+    // CrossEditor 이벤트 삭제
+    if ($p.isWFramePopup(true) !== undefined && !$p.isWFramePopup(true)) {
+        (window.OnInitCompleted !== undefined) && (delete window.OnInitCompleted);
+        (window.CE_OnKeyActive !== undefined) && (delete window.CE_OnKeyActive);
+        (window.CE_OnMouseActive !== undefined) && (delete window.CE_OnMouseActive);
+        (window.CE_OnCustomMenu !== undefined) && (delete window.CE_OnCustomMenu);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 크로스에디터가 정상적으로 초기화되어 메소드의 호출이 가능하다는 것을 알리는 이벤트입니다.
+ ********************************************************************************/
+window.OnInitCompleted = function (e) {
+    scwin.setDirty();
+    $p.getFrame().scope.$p.emit("onInitCompleted", e);
+};
+
+/********************************************************************************
+ * 설명 : 편집 창에서 키보드 동작에 관한 이벤트가 발생할 경우 발생한 키보드의 가상키 값을 반환합니다.
+ ********************************************************************************/
+window.CE_OnKeyActive = function (e) {
+    $p.getFrame().scope.$p.emit("onKeyActive", e);
+};
+
+/********************************************************************************
+ * 설명 : 편집 창에서 마우스 동작에 관한 이벤트가 발생할 경우 발생한 마우스 정보를 반환합니다.
+ ********************************************************************************/
+window.CE_OnMouseActive = function (e) {
+    //console.log("e.type:" + e.type + " targetNode:" + e.targetNode.outerHTML);
+    $p.getFrame().scope.$p.emit("onMouseActive", e);
+};
+
+/********************************************************************************
+ * 설명 : Params의 AddMenu로 추가된 Custom 메뉴가 선택되었을 때 발생하는 이벤트입니다.
+ ********************************************************************************/
+window.CE_OnCustomMenu = function (e) {
+    $p.getFrame().scope.$p.emit("onCustomMenu", e);
+};
+
+/**
+ * @event
+ * @name onInitCompleted
+ * @description 크로스에디터가 정상적으로 초기화되어 메소드의 호출이 가능하다는 것을 알리는 이벤트입니다.
+ * @param {event} e 이벤트 객체 
+ * @example 
+ */
+scwin.emit_onInitCompleted = function (event) {
+    $p.getFrame().scope.$p.emit("onInitCompleted", e);
+};
+
+/**
+ * @event
+ * @name onKeyActive
+ * @description 편집 창에서 키보드 동작에 관한 이벤트가 발생할 경우 발생한 키보드의 가상키 값을 반환합니다.
+ * @param {event} e 이벤트 객체 
+ * @example 
+ */
+scwin.emit_onKeyActive = function (event) {
+    $p.getFrame().scope.$p.emit("onKeyActive", e);
+};
+
+/**
+ * @event
+ * @name onMouseActive
+ * @description 편집 창에서 마우스 동작에 관한 이벤트가 발생할 경우 발생한 마우스 정보를 반환합니다.
+ * @param {event} e 이벤트 객체 
+ * @example 
+ */
+scwin.emit_onMouseActive = function (event) {
+    $p.getFrame().scope.$p.emit("onMouseActive", e);
+};
+
+/**
+ * @event
+ * @name onCustomMenu
+ * @description Params의 AddMenu로 추가된 Custom 메뉴가 선택되었을 때 발생하는 이벤트입니다.
+ * @param {event} e 이벤트 객체 
+ * @example 
+ */
+scwin.emit_onCustomMenu = function (event) {
+    if (!e) return;
+    $p.getFrame().scope.$p.emit("onCustomMenu", e);
+};
+
+/**
+ * @event
+ * @name onComponentLoad
+ * @description 크로스에디터 생성되기 전 이벤트(옵션 변경)
+ * @param {options} options crossEditor options 객체 
+ * @example 
+ */
+scwin.emit_onComponentLoad = function () {
+    $p.getFrame().scope.$p.emit("onComponentLoad");
+};
+
+/**
+ * @method
+ * @name getCrossEditorName
+ * @description 현재 활성화된 CrossEditor의 Name을 얻습니다.
+ * @param 
+ * @returns {string} name CrossEditor Name 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getCrossEditorName = function () {
+    return scwin.options.editorId;
+};
+
+/**
+ * @method
+ * @name getActiveTab
+ * @description 현재 활성화된 탭의 번호를 얻습니다.
+ * @param 
+ * @returns {number} tabNumber 현재 활성화된 탭 번호를 돌려줍니다. [0:편집(Edit) 탭,1:html 탭,2:미리보기(Preview) 탭] 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getActiveTab = function () {
+    return scwin.crossEditor?.GetActiveTab();
+};
+
+/**
+ * @method
+ * @name getBodyElementsByTagName
+ * @description 편집문서 body 안의 태그 이름에 해당하는 객체를 컬렉션 형식으로 얻을 수 있습니다.
+ * @param {string} pVal 컬렉션 형식으로 가져올 태그 이름을 지정합니다. 
+ * @returns {object} collection 지정된 객체를 컬렉션 형식으로 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getBodyElementsByTagName = function (pVal) {
+    return scwin.crossEditor?.GetBodyElementsByTagName(pVal);
+};
+
+/**
+ * @method
+ * @name getBodyValue
+ * @description 현재 편집 중인 문서의 html body정보(<body>~</body>)를 얻어 옵니다.
+ * @param {string} type 양식을 설정합니다 [HTML,XHTML] 
+ * @returns {string} type body 정보를 문자열(XHTML 문법)로 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getBodyValue = function (type) {
+    return scwin.crossEditor?.GetBodyValue(type);
+};
+
+/**
+ * @method
+ * @name getCaretObject
+ * @description 현재 입력 캐럿의 Elements Node 정보를 반환합니다.
+ * @param 
+ * @returns {object} caret 현재 입력 캐럿의 Elements Node 정보를 반환합니다 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getCaretObject = function () {
+    return scwin.crossEditor?.GetCaretObject().outerHTML;
+};
+
+/**
+ * @method
+ * @name getCaretPos
+ * @description 현재 입력 캐럿의 위치를 구합니다.
+ * @param 
+ * @returns {object} position 현재 입력 캐럿의 위치를 구합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getCaretPos = function () {
+    return scwin.crossEditor?.GetCaretPos();
+};
+
+/**
+ * @method
+ * @name getDocumentSize
+ * @description 현재 작성 중인 문서의 크기를 구하여 byte 단위로 반환합니다. 이 때 현재 문서에 포함된 이미지와 flash 파일의 크기 까지 합산 됩니다.
+ * @param 
+ * @returns {number} size 현재 작성 중인 문서의 크기 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getDocumentSize = function () {
+    return scwin.crossEditor?.GetDocumentSize();
+};
+
+/**
+ * @method
+ * @name getEditorDocument
+ * @description 에디터에서 사용 중인 문서에 접근(access)하기 위해 필요한 객체를 리턴합니다.
+단, 편집모드 상태에서만 DOM객체에 접근하여 값을 가져올 수 있습니다.
+ * @param 
+ * @returns {object} document 에디터에서 사용 중인 문서에 접근(access)하기 위해 필요한 객체를 리턴합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getEditorDocument = function () {
+    return scwin.crossEditor?.GetEditorDocument('doc');
+};
+
+/**
+ * @method
+ * @name getEditorVersion
+ * @description 현재 실행 중인 에디터의 상세버전 정보를 얻어 옵니다.
+ * @param 
+ * @returns {object} version 현재 실행 중인 에디터의 상세버전 정보를 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getEditorVersion = function () {
+    return scwin.crossEditor?.GetEditorVersion();
+};
+
+/**
+ * @method
+ * @name getElementCurCell
+ * @description 현재 편집 중인 테이블 셀의 Elements 정보를 반환합니다.
+ * @param 
+ * @returns {object} element 현재 커서의 Element 정보 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getElementCurCell = function () {
+    return scwin.crossEditor?.GetElementCurCell().outerHTML;
+};
+
+/**
+ * @method
+ * @name getFilterBodyValue
+ * @description 현재 편집 중인 문서의 내용을 전자문서 유통필터에서 허용하는 태그와 속성으로 정리하여 body(<body>~</body>)안의 내용을 html 형식으로 얻어 옵니다.
+ * @param 
+ * @returns {object} html body 안의 정보를 html 형식으로 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getFilterBodyValue = function () {
+    return scwin.crossEditor?.GetFilterBodyValue();
+};
+
+/**
+ * @method
+ * @name getFilterValue
+ * @description 현재 편집 중인 문서의 내용을 전자문서 유통필터에서 허용하는 태그와 속성으로 정리하여 전체를 html 형식으로 얻어 옵니다.
+ * @param 
+ * @returns {object} html html 전체 양식을 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getFilterValue = function () {
+    return scwin.crossEditor?.GetFilterValue();
+};
+
+/**
+ * @method
+ * @name getHeadValue
+ * @description 현재 편집 중인 문서의 html head정보(<head>~</head>)를 얻어옵니다.
+ * @param 
+ * @returns {object} xhtml head 정보를 문자열(XHTML 문법)로 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getHeadValue = function () {
+    return scwin.crossEditor?.GetHeadValue();
+};
+
+/**
+ * @method
+ * @name getProhibitProfanity
+ * @description 편집 중인 문서의 내용 중 욕설에 관련된 단어 배열을 얻어옵니다.
+ * @param 
+ * @returns {object} array 현재 편집 중인 문서의 내용 중 욕설에 관련된 단어 배열을 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getProhibitProfanity = function () {
+    return scwin.crossEditor?.GetProhibitProfanity();
+};
+
+/**
+ * @method
+ * @name getTextValue
+ * @description 현재 편집 중인 문서의 내용을 텍스트 형식으로 얻어옵니다.
+ * @param {string} type HTML 양식을 설정합니다.[HTML,XHTML] 
+ * @returns {string} value 현재 편집 중인 문서의 내용 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getTextValue = function (type) {
+    return scwin.crossEditor?.GetTextValue(type);
+};
+
+/**
+ * @method
+ * @name getTextValueLength
+ * @description 현재 편집 중인 문서의 내용 전체를 html 형식으로 반환한 html 중 text만 추출하여 문자 개수를 얻습니다.
+ * @param 
+ * @returns {number} length 현재 편집 중인 문서의 내용 전체를 html 형식으로 반환한 html 중 text만 추출하여 문자 개수를 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getTextValueLength = function () {
+    return scwin.crossEditor?.GetTextValueLength();
+};
+
+/**
+ * @method
+ * @name getValue
+ * @description 현재 편집 중인 문서의 내용 전체를 html 형식으로 얻어 옵니다.
+ * @param {string} type HTML 양식을 설정합니다.[HTML,XHTML] 
+ * @returns {object} html html 전체 양식을 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getValue = function (type) {
+    return scwin.crossEditor?.GetValue(type);
+};
+
+/**
+ * @method
+ * @name getValueLength
+ * @description 현재 편집 중인 문서의 내용 전체를 html 형식으로 반환한 html 문자 개수를 얻습니다.
+ * @param 
+ * @returns {number} length 현재 편집 중인 문서의 내용 전체를 html 형식으로 반환한 html 문자 개수를 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getValueLength = function () {
+    return scwin.crossEditor?.GetValueLength();
+};
+
+/**
+ * @method
+ * @name insertHyperlink
+ * @description 현재 캐럿이 위치한 곳에 하이퍼링크를 생성합니다.
+ * @param {string} str 문서에 표시할 문자열을 입력합니다.
+입력 캐럿이 하이퍼링크에 있거나, 블럭이 설정되어 있을 경우에는 str 은 무시되며, 그 외의 경우에만 적용됩니다. 또한 str이 없는 경우는 href 가 사용됩니다.
+ * @param {string} href 하이퍼링크 주소를 입력합니다.
+ * @param {string} target 하이퍼링크 대상프레임 인덱스(0~4)를 입력합니다. [0:_blank,1:없음,2:_parent,3:	_self,4:_top]
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.insertHyperlink = function (str, href, target) {
+    scwin.crossEditor?.InsertHyperlink(str, href, target);
+};
+
+/**
+ * @method
+ * @name insertImage
+ * @description 그림과 그림 설명(title)을 삽입합니다.
+ * @param {string} src 이미지 파일 URL을 입력합니다.
+ * @param {string} title 이미지 파일 설명(title=" " 안의 내용)을 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.insertImage = function (src, title) {
+    scwin.crossEditor?.InsertImage(src, title);
+};
+
+/**
+ * @method
+ * @name insertValue
+ * @description 현재 편집 중인 문서의 특정 위치에 html 형식의 내용을 삽입합니다.
+ * @param {number} position 내용을 삽입할 위치를 입력합니다.
+ * @param {string} newVal 삽입할 내용을 html 형식으로 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.insertValue = function (position, newVal) {
+    scwin.crossEditor?.InsertValue(position, newVal);
+};
+
+/**
+ * @method
+ * @name isDirty
+ * @description 편집 중인 문서의 내용이 변경되었는지를 확인합니다.
+ * @param 
+ * @returns {boolean} isDirty 문서의 내용 변경 여부를 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.isDirty = function () {
+    // if (scwin.crossEditor?.IsDirty()) {
+    //     return true;
+    // } else 
+    if (scwin.getUserData("initData") !== scwin.getBodyValue()) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+/**
+ * @method
+ * @name isInTable
+ * @description 현재 커서가 테이블 안에 있는 경우를 체크합니다.
+ * @param 
+ * @returns {boolean} isInTable 현재 커서가 테이블 안에 있는 지 여부를 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.isInTable = function () {
+    return scwin.crossEditor?.IsInTable();
+};
+
+/**
+ * @method
+ * @name isPrivacyInfo
+ * @description 편집 중인 문서의 내용 중 개인정보에 해당하는 정보가 존재하는지 여부를 확인합니다.
+ * @param {boolean} bcheckJumin true : 주민등록번호 검사, false : 검사 대상에서 제외
+ * @param {boolean} bcheckPhone true : 전화번호 검사, false: 검사 대상에서 제외
+ * @param {boolean} bcheckEmail true : 메일주소 검사, false: 검사 대상에서 제외 
+ * @returns {boolean} isPrivacyInfo 개인정보 대상 존재 여부를 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.isPrivacyInfo = function (bcheckJumin, bcheckPhone, bcheckEmail) {
+    return scwin.crossEditor?.IsPrivacyInfo(bcheckJumin, bcheckPhone, bcheckEmail);
+};
+
+/**
+ * @method
+ * @name isProhibitProfanity
+ * @description 편집 중인 문서의 내용 중 욕설에 관련된 단어가 존재하는지 여부를 확인합니다.
+ * @param 
+ * @returns {boolean} isProhibitProfanity 욕설에 관련된 단어 존재 여부를 반환합니다. 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.isProhibitProfanity = function () {
+    return scwin.crossEditor?.IsProhibitProfanity();
+};
+
+/**
+ * @method
+ * @name resetEditorHeight
+ * @description 에디터 최초 실행 시 웹 문서에 바로 출력하지(display:none) 않을 경우 에디터의 출력 높이를 계산하지 못하여,
+에디터를 출력할 때 에디터의 출력 높이를 다시 계산해 줍니다.
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.resetEditorHeight = function () {
+    scwin.crossEditor?.ResetEditorHeight();
+};
+
+/**
+ * @method
+ * @name setActiveTab
+ * @description 크로스에디터가 실행된 이후 화면에 활성화될 탭을 지정합니다.
+ * @param {number} newVal 활성화할 탭 번호를 지정합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setActiveTab = function (newVal) {
+    scwin.crossEditor?.SetActiveTab(newVal);
+};
+
+/**
+ * @method
+ * @name setBodyStyle
+ * @description 현재 편집 중인 문서의 html body 태그의 스타일 속성을 설정합니다.
+ * @param {string} styleName 지정할 스타일의 속성명을 입력합니다.
+ * @param {string} value 지정할 스타일의 속성값을 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setBodyStyle = function (styleName, value) {
+    scwin.crossEditor?.SetBodyStyle(styleName, value);
+};
+
+/**
+ * @method
+ * @name setBodyValue
+ * @description 현재 편집 중인 문서의 html body정보(<body>~</body>)를 설정합니다.
+ * @param {string} newVal html body 정보에 설정할 내용을 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setBodyValue = function (newVal) {
+    scwin.crossEditor?.SetBodyValue(comUtil.gfnEscapeToChar(newVal));
+};
+
+/**
+ * @method
+ * @name setCaretPos
+ * @description 편집 영역의 캐럿의 위치를 지정합니다.
+ * @param {number} newVal 캐럿의 위치를 지정합니다. 최초 문단에서 부터의 글자 수
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCaretPos = function (newVal) {
+    scwin.crossEditor?.SetCaretPos(newVal);
+};
+
+/**
+ * @method
+ * @name setCaretPosById
+ * @description 지정된 ID값으로 캐럿의 위치를 지정합니다.
+ * @param {string} newVal 캐럿이 위치할 ID값을 지정합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCaretPosById = function (newVal) {
+    scwin.crossEditor?.SetCaretPosById(newVal);
+};
+
+/**
+ * @method
+ * @name setCharset
+ * @description 현재 편집 중인 문서의 html meta 태그의 charset를 변경합니다.
+ * @param {string} newVal 수정할 charset을 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setCharset = function (newVal) {
+    scwin.crossEditor?.SetCharSet(newVal);
+};
+
+/**
+ * @method
+ * @name setDirty
+ * @description 현재 문서 편집 상태를 초기화(False) 합니다.
+크로스에디터를 실행한 후 변경하지 않은 상태로 만들고 싶을 때 사용합니다.
+setDirty 실행 시 현재 작성 중인 문서가 초기문서로 설정이 되어 이후 문서의 변경 유무를 IsDirty 메소드를 통하여 확인할 수 있습니다.
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setDirty = function () {
+    setTimeout(function run() {
+        if (scwin.crossEditor?.ceEngine && scwin.crossEditor?.ceEngine?.getDocument()) {
+            scwin.setUserData("initData", scwin.getBodyValue());
+            scwin.crossEditor.SetDirty();
+        } else {
+            setTimeout(run, 500);
+        }
+    }, 500);
+};
+
+/**
+ * @method
+ * @name setFocusEditor
+ * @description 편집 영역으로 포커스를 이동시킵니다.
+ * @param {number} position 내용을 삽입할 위치를 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setFocusEditor = function (position) {
+    scwin.crossEditor?.SetFocusEditor(position);
+};
+
+/**
+ * @method
+ * @name setHeadValue
+ * @description 입력한 태그를 head 태그 내에 적용합니다.
+ * @param {string} headTagVal Head 태그 내부에 넣고 싶은 태그 값을 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setHeadValue = function (headTagVal) {
+    scwin.crossEditor?.SetHeadValue(headTagVal);
+};
+
+/**
+ * @method
+ * @name setReadonly
+ * @description 편집 창의 편집 상태를 설정합니다.
+ * @param {boolean} bReadonly readonly 여부를 설정합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setReadonly = function (bReadonly) {
+    scwin.crossEditor.params.Readonly = bReadonly;
+    scwin.crossEditor?.SetReadonly(bReadonly);
+};
+
+/**
+ * @method
+ * @name setUISize
+ * @description 에디터가 로드된 이후 에디터 전체의 너비와 높이를 동적으로 변경할 수 있습니다
+ * @param {string} newWidth 변경할 에디터의 너비를 입력합니다.
+ * @param {string} newHeight 변경할 에디터의 높이를 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setUISize = function (newWidth, newHeight) {
+    scwin.crossEditor?.SetUISize(newWidth, newHeight);
+};
+
+/**
+ * @method
+ * @name setValue
+ * @description 현재 편집 중인 문서의 내용 전체를 html 형식으로 설정합니다.
+ * @param {string} newVal 변환할 문서의 내용을 입력합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setValue = function (newVal) {
+    scwin.crossEditor?.SetValue(newVal);
+};
+
+/**
+ * @method
+ * @name showTab
+ * @description 편집 탭, html 탭, 미리보기 탭을 나타낼 것인지를 설정합니다.
+ * @param {boolean} bShow 탭 영역의 표시 여부를 지정합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.showTab = function (bShow) {
+    scwin.crossEditor?.ShowTab(bShow);
+};
+
+/**
+ * @method
+ * @name showToolbar
+ * @description 각 도구 막대(Toolbar)를 보이거나 감춥니다.
+ * @param {number} index 도구 막대(Toolbar)의 식별 번호를 입력합니다. 각 도구 막대의 식별 번호는 '0'부터 시작하여 순서대로 증가합니다.
+ * @param {number} show 도구 막대(Toolbar)의 표시 여부를 지정합니다.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.showToolbar = function (index, show) {
+    scwin.crossEditor?.ShowToolbar(index, show);
+};
+
+/**
+ * @method
+ * @name setIndentPaddingValue
+ * @description 문단 들여쓰기 간격을 설정합니다
+ * @param {string} newVal 문단 들여쓰기 간격 설정값
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setIndentPaddingValue = function (newVal) {
+    scwin.crossEditor.params.IndentPaddingValue = Number(newVal);
+};
+
+/**
+ * @method
+ * @name setUserData
+ * @description 웹스퀘어 컴포넌트에 임의의 데이터를 설정.
+ * @param {string} key 설정할 데이터의 key
+ * @param {string} value 설정한 데이터의 value
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setUserData = function (key, value) {
+    grpCrossEditor.setUserData(key, value);
+};
+
+/**
+ * @method
+ * @name getUserData
+ * @description setUserData로 웹스퀘어 컴포넌트에 설정한 key의 value 혹은 사용자가 직접 페이지 소스(XML)에 속성으로 정의한 value를 반환
+ * @param {string} key key에 해당하는 value
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getUserData = function (key) {
+    return grpCrossEditor.getUserData(key);
+};
+
+/**
+ * @method
+ * @name getCrossEditor
+ * @description 현재 활성화된 CrossEditor의 객체를 얻습니다.
+ * @param 
+ * @returns {object} editor CrossEditor의 객체 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.getCrossEditor = function () {
+    return scwin.crossEditor;
+};
+
+/**
+ * @method
+ * @name destroyEditor
+ * @description 현재 활성화된 CrossEditor의 객체를 소멸시킵니다.
+ * @param 
+ * @returns 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.destroyEditor = function () {
+    if (!comUtil.gfnIsEmpty(scwin.crossEditor.ceEngine)) {
+        scwin.crossEditor?.destroyEditor();
+        grpCrossEditor.render.innerHTML = "";
+    }
+};
+
+/**
+ * @method
+ * @name setAutoHeight
+ * @description readOnly일 경우 에디터의 높이를 자동으로 조절한다.
+ * @param 
+ * @returns 
+ * @hidden N
+ * @exception 
+ * @example 
+ */
+scwin.setAutoHeight = function () {
+    if (scwin.crossEditor.params.Readonly) {
+        setTimeout(function autoHeight() {
+            let height = scwin.crossEditor.GetEditor().contentDocument?.querySelector('.NamoSE_preview_frame')?.contentDocument.body.scrollHeight || 0;
+            if (height === 0) return;
+
+            if ((scwin.crossEditor.params.Height < height) && (0 < height)) {
+                height = height + 20;
+            }
+
+            if (height > 0) {
+                scwin.crossEditor?.SetUISize("", height);
+            } else {
+                setTimeout(autoHeight, 200);
+            }
+        }, 200);
+    }
+};
+
+
+
+}}}]}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload',useExternalClass:'true','ev:onbeforepageunload':'scwin.onbeforepageunload'},E:[{T:1,N:'xf:group',A:{style:'width: 100%;height: auto;',id:'grpCrossEditor'}}]}]}]})

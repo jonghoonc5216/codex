@@ -1,0 +1,602 @@
+/*amd /fa/fas/fasa/CmmBodyStepBarDV.xml 38246 04dc96d300c3cd08db9673f33a72db29b92d0f5dd65c1363aa215fd566d070a7 */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlBsnePrssPrgrsL',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'orgPrgrsUntyPrcmBsneNo',name:'원진행통합조달업무번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prgrsUntyPrcmBsneNo',name:'진행통합조달업무번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prssBsneUntNo',name:'절차업무단위번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prcsDt',name:'처리일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneFlowNo',name:'업무흐름번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'gupBsneUntNo',name:'그룹업무단위번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'stepBsneUntNo',name:'단계업무단위번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsnePrssPrgrsSeCd',name:'업무절차진행구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pgstCd',name:'진행상태코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prcrId',name:'처리자ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prcsRsn',name:'처리사유',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuCangVal',name:'메뉴호출값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cangParmVal',name:'호출파라미터값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'systemId',name:'시스템ID',dataType:'text'}}]},{T:1,N:'w2:data',A:{use:'false'},E:[{T:1,N:'w2:row',E:[{T:1,N:'prgrsUntyPrcmBsneNo',E:[{T:4,cdata:'000011'}]},{T:1,N:'prssBsneUntNo',E:[{T:4,cdata:'00004'}]},{T:1,N:'bsneFlowNo',E:[{T:4,cdata:'00001'}]},{T:1,N:'gupBsneUntNo',E:[{T:4,cdata:'00002'}]},{T:1,N:'stepBsneUntNo',E:[{T:4,cdata:'00003'}]},{T:1,N:'bsnePrssPrgrsSeCd',E:[{T:4,cdata:'0003'}]},{T:1,N:'prcrId',E:[{T:4,cdata:'test'}]}]},{T:1,N:'w2:row',E:[{T:1,N:'prgrsUntyPrcmBsneNo',E:[{T:4,cdata:'000011'}]},{T:1,N:'prssBsneUntNo',E:[{T:4,cdata:'00005'}]},{T:1,N:'bsneFlowNo',E:[{T:4,cdata:'00001'}]},{T:1,N:'gupBsneUntNo',E:[{T:4,cdata:'00002'}]},{T:1,N:'stepBsneUntNo',E:[{T:4,cdata:'00003'}]},{T:1,N:'bsnePrssPrgrsSeCd',E:[{T:4,cdata:'0002'}]},{T:1,N:'prcrId',E:[{T:4,cdata:'test'}]}]}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlBsnePrssPrgrsL3',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'prgrsUntyPrcmBsneNo',name:'진행통합조달업무번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneFlowNo',name:'업무흐름번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneFlowNm',name:'업무흐름번호명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'gupBsneUntNo',name:'그룹업무단위번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'gupBsneUntNm',name:'그룹업무단위번호명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'stepBsneUntNo',name:'단계업무단위번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'stepBsneUntNm',name:'단계업무단위번호명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prssBsneUntNo',name:'절차업무단위번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prssBsneUntNm',name:'절차업무단위번호명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prcsDt',name:'처리일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsnePrssPrgrsSeCdNm',name:'업무절차진행구분코드명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsnePrssPrgrsSeCd',name:'업무절차진행구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pgstCd',name:'진행상태코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'pgstCdNm',name:'진행상태코드명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prcrId',name:'처리자ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prcsRsn',name:'처리사유',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuCangVal',name:'메뉴호출값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cangParmVal',name:'호출파라미터값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'entryCndtn',name:'진입조건',dataType:'text'}},{T:1,N:'w2:column',A:{id:'afrStepViewYn',name:'이후 업무/단계 표시여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'befStepSrchYn',name:'이미종료된링크',dataType:'text'}},{T:1,N:'w2:column',A:{id:'multiYn',name:'여러건의 상위 조달업무번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cndnMatchYn',name:'조건일치여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'stepViewYn',name:'단계표시여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prssViewYn',name:'절차표시여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'curPrssYn',name:'현재절차여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'multiPrgrsUntyPrcmBsneNo',name:'복수 진행통합조달업무번호',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlBsnePrssPrgrsM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'prgrsUntyPrcmBsneNo',name:'진행통합조달업무번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'entryCndtn',name:'진입조건',dataType:'text'}},{T:1,N:'w2:key',A:{id:'afrStepViewYn',name:'이후 업무/단계 표시여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'stepBsneUntNo',name:'단계업무단위번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bsneFlowNo',name:'업무흐름번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'gupBsneUntNo',name:'그룹업무단위번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prssViewYn',name:'절차표시여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prssBsneUntNo',name:'절차업무단위번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'orgPrgrsUntyPrcmBsneNo',name:'원진행통합조달업무번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'nprsLnkYn',name:'미진행링크여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prgrsViewYn',name:'진행표시여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'afrPrcdrViewYn',name:'이후 절차 표시여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bsneFlowCangVal',name:'업무흐름호출값',dataType:'text'}},{T:1,N:'w2:key',A:{id:'inQryDiv',name:'조회구분',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlPrgrsPrcmBsneM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'prgrsUntyPrcmBsneNo',name:'진행통합조달업무번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bsneClsfCd',name:'업무분류코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bsneClsfCdNm',name:'업무분류코드명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prgrsUntyPrcmBsneNm',name:'진행통합조달업무명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prgrsUntyPrcmBsneCrtrYmd',name:'진행통합조달업무기준일자',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlBsneFlowPrssCndtL',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'bsneFlowNo',name:'업무흐름번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prgrsUntyPrcmBsneNo',name:'진행통합조달업무번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'gupBsneUntNo',name:'그룹번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'stepBsneUntNo',name:'단계번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prssBsneUntNo',name:'절차번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneUntSeCd',name:'업무단위구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneUntSqno',name:'업무단위순번',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cndtSqno',name:'조건순번',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneFlowCndtSeCd',name:'업무흐름조건구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cndtNm',name:'조건명  ',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cndtVal',name:'조건값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cndtValDscr',name:'조건값설명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'tblNm',name:'테이블명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'colNm',name:'컬럼명',dataType:'text'}}]}]}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){/**
+ * 업무구분 : 응용공통
+ * 화면명   : CmmBodyStepBarDV
+ * 화면설명 : 절차막대기 절차흐름
+ * 작성자   : 문제용
+ * 작성일자 : 2023.09.20
+ *
+ * 개정이력
+ *
+ * 수정일        수정자        수정내용
+ * ----------    --------     ---------------------------
+ * 2023.09.20    문제용  최초 생성
+ *
+ * Copyright (C) by Koneps All right reserved.
+ */
+/********************************************************************************
+ * 설명 : 페이지 로드 시 동적으로 절차 표시
+ ********************************************************************************/
+scwin.isHistBool = true;
+scwin.onpageload = async function() {
+    let paramM = $p.getParameter("param");
+    let param = paramM.param1;
+    let stepParam = paramM.stepParam;
+
+    let cSeCd = com.gfnGetContxtSeCd();
+    // eva.g2b.go.kr 일 경우에는 isHistory false로 뒤로가기 안되게
+    if(cSeCd=="콘010012") {
+        scwin.isHistBool = false;
+    }
+
+    udcHelpBox.setHelpBox(com.gfnGetMenuInfo());
+    //udcHelpBox.setHelpBoxBySqno(com.gfnGetMenuInfo(),1);
+
+    console.log("=start=====CmmBody param=========");
+    console.log(paramM);
+    console.log("=end=====CmmBody param=========");
+    // console.log( "===========param====start===========" )
+    // console.log(param);
+    // console.log( "===========param====end===========" )
+    // console.log( "===========paramHead====start===========" )
+    // console.log(paramHead);
+    // console.log( "===========paramHead====end===========" )
+
+    if( comUtil.gfnIsEmpty( param ) ){
+        return;
+    }
+
+    // paramHead.bsneFlowCangVal 가 CMM 으로 시작하지 않는 경우 어케 처리할 건가 ?
+    //if(param.stepBsneUntNo != undefined && param.stepBsneUntNo != ''){
+    if( !comUtil.gfnIsEmpty(param.stepBsneUntNo) ){
+        dlBsnePrssPrgrsM.set("stepBsneUntNo", param.stepBsneUntNo);
+        //if(param.stepBsneUntNm != undefined && param.stepBsneUntNm != ''){
+        if( !comUtil.gfnIsEmpty(param.stepBsneUntNm) ){
+            ibxStepNm.setLabel(param.stepBsneUntNm);
+        }else{
+            //if(param.stepFooter != undefined && param.stepFooter != ''){
+            if( !comUtil.gfnIsEmpty(param.stepFooter) ){
+                ibxStepNm.setLabel( param.stepFooter );
+            }
+        }
+        //if(param.entryCndtn != undefined && param.entryCndtn != ''){
+        if( !comUtil.gfnIsEmpty(param.entryCndtn) ){
+            if(typeof(param.entryCndtn) == "object"){
+                dlBsnePrssPrgrsM.set("entryCndtn", param.entryCndtn);
+            }else{
+                dlBsnePrssPrgrsM.set("entryCndtn", JSON.parse(param.entryCndtn));
+            }
+        }else{
+            dlBsnePrssPrgrsM.set("entryCndtn", JSON.parse("{}"));
+        }
+        //if(param.bsneFlowNo != undefined && param.bsneFlowNo != ''){
+        if( !comUtil.gfnIsEmpty(param.bsneFlowNo) ){
+            dlBsnePrssPrgrsM.set("bsneFlowNo", param.bsneFlowNo);
+        }
+        //if(param.bsneFlowCangVal != undefined && param.bsneFlowCangVal != ''){
+        if( !comUtil.gfnIsEmpty(param.bsneFlowCangVal) ){
+            dlBsnePrssPrgrsM.set("bsneFlowCangVal", param.bsneFlowCangVal);
+            //파라미터 업무흐름호출값만(뷰 용도) 있을 시 절차링크 안되도록
+            if( comUtil.gfnIsEmpty(param.prgrsUntyPrcmBsneNo ) ){
+                param.nprsLnkYn = "N";
+            }
+        }
+
+        //if(param.gupBsneUntNo != undefined && param.gupBsneUntNo != ''){
+        if( !comUtil.gfnIsEmpty(param.gupBsneUntNo) ){
+            dlBsnePrssPrgrsM.set("gupBsneUntNo", param.gupBsneUntNo);
+        }
+        //if(param.prgrsUntyPrcmBsneNo != undefined && param.prgrsUntyPrcmBsneNo != ''){
+        if( !comUtil.gfnIsEmpty(param.prgrsUntyPrcmBsneNo ) ){
+            dlBsnePrssPrgrsM.set("prgrsUntyPrcmBsneNo", param.prgrsUntyPrcmBsneNo);
+        }
+        //if(param.afrPrcdrViewYn != undefined && param.afrPrcdrViewYn != ''){
+        if( !comUtil.gfnIsEmpty(param.afrPrcdrViewYn ) ){
+            dlBsnePrssPrgrsM.set("afrPrcdrViewYn", param.afrPrcdrViewYn);
+        }
+        //if(param.prssViewYn != undefined && param.prssViewYn != ''){
+        if( !comUtil.gfnIsEmpty(param.prssViewYn ) ){
+            if(param.prssViewYn == 'N'){
+                $(".prgrs_wrap").attr("style","display:none;");
+            }
+            dlBsnePrssPrgrsM.set("prssViewYn", param.prssViewYn);
+        }
+        //if(param.prssBsneUntNo != undefined && param.prssBsneUntNo != ''){
+        if( !comUtil.gfnIsEmpty(param.prssBsneUntNo ) ){
+            dlBsnePrssPrgrsM.set("prssBsneUntNo", param.prssBsneUntNo);
+        }
+        //if(param.orgPrgrsUntyPrcmBsneNo != undefined && param.orgPrgrsUntyPrcmBsneNo != ''){
+        if( !comUtil.gfnIsEmpty(param.orgPrgrsUntyPrcmBsneNo ) ){
+            dlBsnePrssPrgrsM.set("orgPrgrsUntyPrcmBsneNo", param.orgPrgrsUntyPrcmBsneNo);
+        }
+        //if(param.nprsLnkYn != undefined && param.nprsLnkYn != ''){
+        if( !comUtil.gfnIsEmpty(param.nprsLnkYn ) ){
+            dlBsnePrssPrgrsM.set("nprsLnkYn", param.nprsLnkYn);
+        }
+        //if(param.prgrsViewYn != undefined && param.prgrsViewYn != ''){
+        if( !comUtil.gfnIsEmpty(param.prgrsViewYn ) ){
+            dlBsnePrssPrgrsM.set("prgrsViewYn", param.prgrsViewYn);
+        }
+
+        //절차클릭여부
+        //if(param.prssClickYn != undefined && param.prssClickYn != ''){
+        if( !comUtil.gfnIsEmpty(param.prssClickYn ) ){
+            //dlBsnePrssPrgrsM.set("prssClickYn", param.prssClickYn);
+        }
+        /* 조회구분 : 1 (전체그룹), 2 (통합조달업무번호가 속하는 그룹 최상위), 3 (파라미터 통합조달업무번호) <-3번만 사용  */
+        //if(param.inQryDiv != undefined && param.inQryDiv != ''){
+        if( !comUtil.gfnIsEmpty(param.inQryDiv ) ){
+            dlBsnePrssPrgrsM.set("inQryDiv", param.inQryDiv);
+        }
+
+        await scwin.fnSrchPrcdr();
+        //단계 클릭 시 절차바로 이동하도록 포커싱
+        //btnBkmark.focus();
+        //btnBkmark.blur();
+
+    }
+
+    if(dlPrgrsPrcmBsneM.get("bsneClsfCdNm") == ""){
+        $(".chip").attr("style","display:none;");
+    }else{
+        spnBsneClsfNm.setLabel(dlPrgrsPrcmBsneM.get("bsneClsfCdNm"));
+        ibxPrgrsUntyPrcmBsneNm.setLabel(comUtil.gfnEscapeToChar(dlPrgrsPrcmBsneM.get("prgrsUntyPrcmBsneNm")).replace(comUtil.pattern.brTag, "\n"));
+        //ibxPrgrsUntyPrcmBsneNm.setLabel(comUtil.gfnEscapeToChar(dlPrgrsPrcmBsneM.get("prgrsUntyPrcmBsneNm")));
+        //ibxPrgrsUntyPrcmBsneNm.setLabel(dlPrgrsPrcmBsneM.get("prgrsUntyPrcmBsneNm"));
+    }
+
+    let grpNum = 1;
+    let linkYn = true;
+    let stop = true;
+    //let orgPrgrsUntyPrcmBsneNo = dlBsnePrssPrgrsM.get("orgPrgrsUntyPrcmBsneNo");
+
+    //debugger;
+    for(i = 0 ; i < dlBsnePrssPrgrsL3.getRowCount() ; i++){
+        linkYn = true;
+        if(stop){
+            let idx = i;
+            let gupBsneUntNo = dlBsnePrssPrgrsL3.getCellData(idx, "gupBsneUntNo");
+            let stepBsneUntNo = dlBsnePrssPrgrsL3.getCellData(idx, "stepBsneUntNo");
+            let prssBsneUntNo = dlBsnePrssPrgrsL3.getCellData(idx, "prssBsneUntNo");
+            let prssBsneUntNm = dlBsnePrssPrgrsL3.getCellData(idx, "prssBsneUntNm");
+            let bsnePrssPrgrsSeCd = dlBsnePrssPrgrsL3.getCellData(idx, "bsnePrssPrgrsSeCd");
+            let menuNo = dlBsnePrssPrgrsL3.getCellData(idx, "menuCangVal");
+            let cangParmVal = dlBsnePrssPrgrsL3.getCellData(idx, "cangParmVal");
+            let prssViewYn = dlBsnePrssPrgrsL3.getCellData(idx, "prssViewYn");
+            let curPrssYn = dlBsnePrssPrgrsL3.getCellData(idx, "curPrssYn");
+            let multiYn = dlBsnePrssPrgrsL3.getCellData(idx, "multiYn");
+            let multiPrgrsUntyPrcmBsneNo = dlBsnePrssPrgrsL3.getCellData(idx, "multiPrgrsUntyPrcmBsneNo");
+            let prgrsUntyPrcmBsneNo = dlBsnePrssPrgrsL3.getCellData(idx, "prgrsUntyPrcmBsneNo");
+
+            if(prssViewYn == "Y"){
+                grpNum = grpNum + 1;
+                $p.dynamicCreate("group" + grpNum, "group", {tagname:"li"}, group1);
+                if(curPrssYn == "Y" && param.afrPrcdrViewYn == "N"){
+                    stop = false;
+                }
+                if(bsnePrssPrgrsSeCd == '업340003'){ // 미진행:업340001, 진행중:업340002, 진행완료:업340003
+                    eval("group" + grpNum).addClass("prgrs_con prgrs_cmplt");
+                    if(curPrssYn == "Y"){
+                        eval("group" + grpNum).addClass("cmplt_chk");
+                        linkYn = false;
+                        dlBsnePrssPrgrsL3.setRowPosition(i);
+                    }
+                    linkYn = true;
+                }else if(bsnePrssPrgrsSeCd == '업340002'){
+                    eval("group" + grpNum).addClass("prgrs_con prgrs_ing");
+                    if(curPrssYn == "Y"){
+                        eval("group" + grpNum).addClass("cmplt_chk");
+                        linkYn = false;
+                    }
+                    dlBsnePrssPrgrsL3.setRowPosition(i);
+                }else{
+                    if(curPrssYn == "Y"){
+                        if(param.prgrsViewYn == "Y"){
+                            eval("group" + grpNum).addClass("prgrs_con prgrs_ing");
+                        }
+                        dlBsnePrssPrgrsL3.setRowPosition(i);
+                        eval("group" + grpNum).addClass("cmplt_chk");
+                        linkYn = false;
+                    }
+                    eval("group" + grpNum).addClass("prgrs_con");
+                }
+                grpNum = grpNum + 1;
+                $p.dynamicCreate("group" + grpNum, "group", {tagname:"a",text:prssBsneUntNm}, eval("group" + (grpNum-1)));
+                if(linkYn){
+                    eval("group" + grpNum).setUserData("gupBsneUntNo", gupBsneUntNo);
+                    eval("group" + grpNum).setUserData("stepBsneUntNo", stepBsneUntNo);
+                    eval("group" + grpNum).setUserData("prssBsneUntNo", prssBsneUntNo);
+                    eval("group" + grpNum).setUserData("prssBsneUntNm", prssBsneUntNm);
+                    eval("group" + grpNum).setUserData("bsnePrssPrgrsSeCd", bsnePrssPrgrsSeCd);
+
+                    eval("group" + grpNum).bind("onclick", function(e){
+                        if( (param.multiYn == 'Y' || multiYn == 'Y') &&
+                                            (eval(this.getID()).getUserData("bsnePrssPrgrsSeCd") == "업340003"
+                                            || eval(this.getID()).getUserData("bsnePrssPrgrsSeCd") == "업340002"
+                                            )) {
+                            let data;
+                            if(param.multiYn == 'Y' ){
+                                data = {
+                                    "prgrsUntyPrcmBsneNo" : param.prgrsUntyPrcmBsneNo,
+                                    "multiPrgrsUntyPrcmBsneNo" : param.multiPrgrsUntyPrcmBsneNo,
+                                    "prssBsneUntNo" : prssBsneUntNo
+                                };
+                            }else if(multiYn == 'Y'){
+                                data = {
+                                    "prgrsUntyPrcmBsneNo" : prgrsUntyPrcmBsneNo,
+                                    "multiPrgrsUntyPrcmBsneNo" : multiPrgrsUntyPrcmBsneNo,
+                                    "prssBsneUntNo" : prssBsneUntNo
+                                };
+                            }
+                            var obj = {
+                                        "data": data
+                                        };
+
+                            com.gfnOpenPopup({
+                                menuCangVal : "FASA015_01",
+                                popupName : "복수 진행통합조달업무번호 조회",
+                                param : obj,
+                                width : 700,
+                                height: 500 ,
+                                callbackFn : "scwin.callbackSearchResult"
+                            });
+
+                        } else {
+                            if(param.prssClickYn  == 'N'){ //절차클릭여부
+                                return;
+                            }
+
+                            let option = {};
+                            let openMenuParam = {};
+                            if(eval(this.getID()).getUserData("bsnePrssPrgrsSeCd") == "업340003" || eval(this.getID()).getUserData("bsnePrssPrgrsSeCd") == "업340002"){
+                                if(menuNo.trim() == ''){
+                                    com.gfnAlert(['msg.common.nodata1', '메뉴호출값']);  //메뉴호출값 데이터가 없습니다.
+                                    return;
+                                }
+                                if(cangParmVal.trim() == ''){
+                                    com.gfnAlert(['msg.common.nodata1', '파라미터']);  //파라미터 데이터가 없습니다.
+                                    return;
+                                }else{
+                                    openMenuParam = JSON.parse(cangParmVal);
+                                    openMenuParam.param3 = $p.parent().wfmHeaderStepBar.getWindow().dlHeaderBsneParamM.get("param3");
+                                    openMenuParam.stepParam = $p.parent().wfmHeaderStepBar.getWindow().dlHeaderBsneParamM.get("stepParam");
+                                }
+                                // 화면 이동처리
+                                option = {
+                                    isHistory: scwin.isHistBool,
+                                    //param: JSON.parse(cangParmVal), // 화면에 전달할 JSON 데이터 객체
+                                    param: openMenuParam, // 화면에 전달할 JSON 데이터 객체
+                                }
+                            }else{
+                                if(param.nprsLnkYn != 'N'){ //미진행링크여부
+                                    if(menuNo.trim() == ''){
+                                        //alert('메뉴호출값이 존재하지 않습니다.');
+                                        com.gfnAlert(['msg.common.nodata1', '메뉴호출값']);  //메뉴호출값 데이터가 없습니다.
+                                        return;
+                                    }
+                                    dlBsnePrssPrgrsM.set("gupBsneUntNo", eval(this.getID()).getUserData("gupBsneUntNo"));
+                                    dlBsnePrssPrgrsM.set("stepBsneUntNo", eval(this.getID()).getUserData("stepBsneUntNo"));
+                                    dlBsnePrssPrgrsM.set("prssBsneUntNo", eval(this.getID()).getUserData("prssBsneUntNo"));
+                                    dlBsnePrssPrgrsM.set("prgrsUntyPrcmBsneNo", dlBsnePrssPrgrsM.get("prgrsUntyPrcmBsneNo") );
+                                    dlBsnePrssPrgrsM.set("orgPrgrsUntyPrcmBsneNo", dlBsnePrssPrgrsM.get("orgPrgrsUntyPrcmBsneNo") );
+                                    //let param1 = {"param1" : dlBsnePrssPrgrsM.getJSON(), "param2": $p.parent().wfmHeaderStepBar.getWindow().scwin.fnGetBsneParam2() };
+                                    let param1 = {"param1" : dlBsnePrssPrgrsM.getJSON(), "param2": $p.parent().wfmHeaderStepBar.getWindow().dlHeaderBsneParamM.get("param2"), "param3": $p.parent().wfmHeaderStepBar.getWindow().dlHeaderBsneParamM.get("param3"), "stepParam": $p.parent().wfmHeaderStepBar.getWindow().dlHeaderBsneParamM.get("stepParam") };
+                                    // 화면 이동처리
+                                    option = {
+                                        isHistory: scwin.isHistBool,
+                                        param: param1, // 화면에 전달할 JSON 데이터 객체
+                                    }
+                                }else{
+                                    return;
+                                }
+                            }
+                            com.gfnOpenMenu(menuNo,option);
+                        }
+                    });
+                }
+            }
+        }
+    }
+    //위 절차 동적 생성 후 화면에 표시하는 함수
+    if(dlBsnePrssPrgrsL3.getRowCount() > 0){
+        scwin.stepBarDraw();
+
+        //진입조건이 맞지 않을 경우
+        let presentChk = document.getElementsByClassName("cmplt_chk");
+        if(presentChk.length < 1 && param.isClickYn == 'N' && param.bsneFlowCangVal == ""){
+            //alert("화면진입조건이 적합하지 않습니다.\n(일부 맞는 조건 혹은 현재 진행중 상태로 이동합니다.)");
+            com.gfnAlert(['msg.alert.NoMatchEntryCndtn']);  //화면진입조건이 적합하지 않습니다.\n(일부 맞는 단계 조건 혹은 현재 진행중 상태로 이동합니다.
+        }else{
+            //debugger;
+            let progressBox = document.querySelector('.prgrs_wrap > ul');
+            console.log(progressBox.scrollWidth + "   " + progressBox.clientWidth);
+            //alert(dlBsnePrssPrgrsL3.getRowPosition());
+            let prsssBox2 = document.querySelectorAll('.prgrs_wrap > ul > li');
+            let prssPoint = 0;
+            let prssIdx = dlBsnePrssPrgrsL3.getMatchedIndex("curPrssYn", "Y");
+            for (a = 0; a < prsssBox2.length; a++) {
+                if(a == prssIdx){
+                    break;
+                }
+                prssPoint = prssPoint + prsssBox2[a].scrollWidth;
+            }
+            if(progressBox.scrollWidth > prssPoint ){
+                progressBox.scrollLeft =  prssPoint;
+            }
+        }
+        //포커스ID
+        if(param.focusId != undefined && param.focusId != ''){
+            eval("$p.parent()." + param.focusId + ".focus()");
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 스텝바 절차 조회
+ ********************************************************************************/
+scwin.fnSrchPrcdr = async function () {
+
+    //console.log("========dlBsnePrssPrgrsM.getJSON========="+JSON.stringify(dlBsnePrssPrgrsM.getJSON()));
+
+    let sbmOption = {
+        id: "sbmSrchPrcdrFlowPrss",
+        action: "/fa/fas/fasa/BsnePrssPrgrs/selectCmmStepBarPrss.do",
+        inData: "dlBsnePrssPrgrsM",
+        outData: "dlBsnePrssPrgrsL3 dlPrgrsPrcmBsneM dlBsneFlowPrssCndtL",
+        msgYn: { succ: false, err: true },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 복수 진행통합조달업무번호 조회 결과 메뉴이동
+ ********************************************************************************/
+scwin.callbackSearchResult = function(obj) {
+    if(obj != undefined){
+        console.log(obj);
+        let menuNo = obj.menuCangVal;
+        let cangParmVal = obj.cangParmVal;
+
+        if(menuNo.trim() == ''){
+            //alert('메뉴호출값이 존재하지 않습니다.');
+            com.gfnAlert(['msg.common.nodata1', '메뉴호출값']);  //메뉴호출값 데이터가 없습니다.
+            return;
+        }
+        if(cangParmVal.trim() == ''){
+            //alert('파라미터값이 존재하지 않습니다.');
+            com.gfnAlert(['msg.common.nodata1', '파라미터']);  //파라미터 데이터가 없습니다.
+            return;
+        }
+        // 화면 이동처리
+        let option = {
+            isHistory: scwin.isHistBool,
+            param: JSON.parse(cangParmVal), // 화면에 전달할 JSON 데이터 객체
+        }
+        com.gfnOpenMenu(menuNo,option);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 스텝바 절차상태 업데이트(업무처리화면에서 호출하는 함수)
+ ********************************************************************************/
+scwin.fnUpdatePrssPrgrsInfo = async function (rowJSON) {
+
+    let realRow = dlBsnePrssPrgrsL3.getRowPosition(); // 현재 index
+
+    if(realRow == null){
+        //alert("현재 절차는 진행중이 아닙니다.");
+        com.gfnAlert(['msg.common.checkData', '현재 절차는 진행중이 아닙니다. \n']);  //{0} 데이터를 확인해 주세요.
+        return;
+    }
+    let cangParmVal;
+    if(rowJSON.cangParmVal != undefined && rowJSON.cangParmVal != ''){
+        cangParmVal = JSON.parse(rowJSON.cangParmVal);
+    }
+
+    let paramJSON = {
+                     "param1" : dlBsnePrssPrgrsM.getJSON(),
+                     "param2" : cangParmVal
+    };
+
+    console.log("=======scwin.fnUpdatePrssPrgrsInfo start==========================");
+    console.log(paramJSON);
+    console.log("=======scwin.fnUpdatePrssPrgrsInfo end==========================");
+
+    let prssJSON =  [ { "orgPrgrsUntyPrcmBsneNo" : dlBsnePrssPrgrsM.get("prgrsUntyPrcmBsneNo"),
+                     "prgrsUntyPrcmBsneNo" : dlBsnePrssPrgrsL3.getCellData(realRow, "prgrsUntyPrcmBsneNo"),
+                     "bsneFlowNo":   dlBsnePrssPrgrsL3.getCellData(realRow, "bsneFlowNo"),
+                     "gupBsneUntNo": dlBsnePrssPrgrsL3.getCellData(realRow, "gupBsneUntNo"),
+                     "stepBsneUntNo": dlBsnePrssPrgrsL3.getCellData(realRow, "stepBsneUntNo"),
+                     "prssBsneUntNo": dlBsnePrssPrgrsL3.getCellData(realRow, "prssBsneUntNo"),
+                     "multiPrgrsUntyPrcmBsneNo" : dlBsnePrssPrgrsL3.getCellData(realRow, "multiPrgrsUntyPrcmBsneNo"),
+                     "bsnePrssPrgrsSeCd": rowJSON.bsnePrssPrgrsSeCd ,
+                     "pgstCd": rowJSON.pgstCd ,
+                     "prcrId": rowJSON.prcrId ,
+                     "prcsRsn": rowJSON.prcsRsn ,
+                     "menuCangVal": rowJSON.menuCangVal ,
+                     "cangParmVal": JSON.stringify(paramJSON),
+                     "systemId": rowJSON.systemId
+                      }
+                       ];
+
+    dlBsnePrssPrgrsL.insertJSON(0, prssJSON);
+
+    let sbmOption = {
+        id: "sbmSavePrssPrgrsL",
+        action: "/fa/fas/fasa/BsnePrssPrgrs/savePrssPrgrsInfoAPI.do",
+        inData: "dlBsnePrssPrgrsL",
+        outData: "",
+        msgYn: { succ: false, err: true },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+    } catch (e) {
+        console.error(e);
+    }
+
+};
+
+/********************************************************************************
+ * 설명 : 스텝바 절차상태 업데이트(업무처리화면에서 호출하는 함수)
+ ********************************************************************************/
+scwin.fnUpdatePrssPrgrsInfo2 = async function (dataObject) {
+
+    let prssPrgsList = dataObject.data.prssPrgsList;
+
+    dlBsnePrssPrgrsL.insertJSON(0, prssPrgsList);
+
+    let sbmOption = {
+        id: "sbmSavePrssPrgrsL",
+        action: "/fa/fas/fasa/BsnePrssPrgrs/savePrssPrgrsInfoAPI.do",
+        inData: "dlBsnePrssPrgrsL",
+        outData: "",
+        msgYn: { succ: false, err: true },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+/********************************************************************************
+ * 설명 : 진행통합조달업무명 변경(타 업무에서 호출)
+ ********************************************************************************/
+scwin.fnModifyPrgrsUntyPrcmBsneNm = async function (bsneNm) {
+
+    ibxPrgrsUntyPrcmBsneNm.setLabel(comUtil.gfnEscapeToChar(bsneNm));
+}
+
+/********************************************************************************
+ * 설명 : 절차막대기 이벤트(리사이즈, 클릭이벤트 등)
+ ********************************************************************************/
+scwin.stepBarDraw = function() {
+
+    // progress bar 좌우 버튼 클릭시 이벤트
+    const btnNaviLeft = document.querySelector('.prgrs_wrap .btn-nav.left');
+    const btnNaviRight = document.querySelector('.prgrs_wrap .btn-nav.right');
+    const scrollableNav = document.querySelector('.prgrs_ul');
+
+    function btnNaviLeftFunction() {
+        scrollableNav.scrollLeft -= 100;
+    }
+    btnNaviLeft.addEventListener('click', btnNaviLeftFunction);
+
+    function btnNaviRightFunction() {
+        scrollableNav.scrollLeft += 100;
+    }
+    btnNaviRight.addEventListener('click', btnNaviRightFunction);
+
+    // 상단 스크롤되는 아이템에 스크롤 컨트롤 대신 drag 동작 이벤트
+    const slider = document.querySelector('.prgrs_ul');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mousemove', (e) => {
+        if(!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * .5; //scroll-fast
+        slider.scrollLeft = scrollLeft - walk;
+        // console.log(walk);
+    });
+
+    // 프로그레스 바 prgrs_wrap 스크롤 시 네비게이션 버튼 활성화 이벤트
+    document.querySelector('.prgrs_wrap > ul').addEventListener('scroll', function() {
+        let progressBox = document.querySelector('.prgrs_wrap > ul');
+        let btnNavLeft = document.querySelector('.prgrs_wrap .btn-nav.left');
+        let btnNavRight = document.querySelector('.prgrs_wrap .btn-nav.right');
+
+        btnNavLeft.setAttribute('disabled', 'true');
+        btnNavRight.setAttribute('disabled', 'true');
+
+        // // 스크롤 생기지 않는 경우
+        // if (progressBox.scrollWidth == progressBox.clientWidth) {
+        //     btnNavLeft.setAttribute('disabled', 'true');
+        //     btnNavRight.setAttribute('disabled', 'true');
+        //     // console.log('scroll left');
+        // } else {
+        //     btnNavLeft.removeAttribute('disabled', 'true');
+        //     btnNavRight.removeAttribute('disabled', 'true');
+        //     // console.log('scrolling');
+        // }
+
+        // 스크롤 우측 끝까지 갔을 때
+        if (Math.abs(progressBox.scrollLeft) === progressBox.scrollWidth - progressBox.clientWidth) {
+            // console.log('scroll right');
+            progressBox.classList.add('right');
+            btnNavRight.setAttribute('disabled', 'true');
+        } else {
+            progressBox.classList.remove('right');
+            btnNavRight.removeAttribute('disabled', 'true');
+        }
+        // 스크롤 좌측 끝에 갔을 때
+        if (progressBox.scrollLeft <= 0) {
+            btnNavLeft.setAttribute('disabled', 'true');
+            // console.log('scroll left');
+        } else {
+            btnNavLeft.removeAttribute('disabled', 'true');
+            // console.log('scrolling');
+        }
+    });
+
+    //  프로그레스 바 li 클릭 시 active 클래스 적용 이벤트
+    // let itemLink = document.querySelectorAll(".prgrs_wrap li");
+    // let ii;
+    // for (ii = 0; ii < itemLink.length; ii++) {
+    //     // if (itemLink[i].classList.contains("present")) {
+    //     //     itemLink[i].parentElement.classList.add('present');
+    //     // }
+    //     itemLink[ii].addEventListener("click", function() {
+    //         for (let jj = 0; jj < itemLink.length; jj++) {
+    //             itemLink[jj].classList.remove('cmplt_chk');
+    //         }
+    //         this.classList.add('cmplt_chk');
+    //     });
+    // };
+    // previous selector 클래스 추가
+    //$('.prgrs_wrap li.prgrs_ing').prevAll().addClass('prgrs_cmplt');
+    // nextAll selector 클래스 추가
+    //$('.prgrs_wrap li.prgrs_ing').nextAll('li').addClass('disabled');
+    // $('.step-list-wrap .nav.depth1 > li.disabled > .btn-link.depth1').addClass('disabled');
+    // disabled selector에 active 클래스 삭제
+    // $('.prgrs_wrap li.disabled').click( function() {
+    //     $(this).removeClass('cmplt_chk');
+    // });
+
+    // 스크롤 생기지 않는 경우
+    let progressScrollBx = document.querySelector('.prgrs_wrap > ul');
+    if (progressScrollBx.scrollWidth <= progressScrollBx.clientWidth) {
+        document.querySelector('.prgrs_wrap .btn-nav.left').setAttribute('disabled', 'true');
+        document.querySelector('.prgrs_wrap .btn-nav.right').setAttribute('disabled', 'true');
+    } else {
+        document.querySelector('.prgrs_wrap .btn-nav.left').removeAttribute('disabled', 'true');
+        document.querySelector('.prgrs_wrap .btn-nav.right').removeAttribute('disabled', 'true');
+    }
+
+};
+
+
+}}}]},{T:1,N:'w2:require',A:{as:'udc_helpBox',type:'page',variableClone:'true',src:'/kn/com/udc/helpBox.xml'}}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'xf:group',A:{class:'dfbox ttl_type1',id:'',style:''},E:[{T:1,N:'w2:textbox',A:{class:'df_tit fl highlight',id:'ibxStepNm',label:'',style:''}},{T:1,N:'xf:group',A:{class:'ttl_inner',id:''},E:[{T:1,N:'w2:span',A:{class:'chip mt4',id:'spnBsneClsfNm',label:'',style:''}},{T:1,N:'w2:textbox',A:{class:'df_tit',id:'ibxPrgrsUntyPrcmBsneNm',label:'',style:'',escape:'true'}},{T:1,N:'xf:trigger',A:{class:'btn_sm bkmark',id:'btnBkmark',style:'display:none;',type:'button'},E:[{T:1,N:'xf:label'}]}]}]},{T:1,N:'xf:group',A:{class:'prgrs_wrap',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'prgrs_ul',id:'group1',style:'',tagname:'ul'}},{T:1,N:'xf:trigger',A:{class:'btn-nav left',id:'',style:'',title:'이전 메뉴 보기',type:'button'},E:[{T:1,N:'xf:label'}]},{T:1,N:'xf:trigger',A:{class:'btn-nav right',id:'',style:'',title:'다음 메뉴 보기',type:'button'},E:[{T:1,N:'xf:label'}]}]},{T:1,N:'xf:group',A:{id:''},E:[{T:1,N:'w2:udc_helpBox',A:{style:'',class:'',id:'udcHelpBox'}}]}]}]}]})

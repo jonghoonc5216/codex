@@ -1,0 +1,45 @@
+﻿{
+    "api_key":  "",
+    "search_keyword":  "공원",
+    "business_categories":  [
+                                "일반용역",
+                                "기술용역"
+                            ],
+    "output_excel":  "조달청_사전규격_자동수집.xlsx",
+    "seed_excel":  "",
+    "overlap_days":  1,
+    "chunk_days":  15,
+    "num_of_rows":  999,
+    "open_excel_after_update":  true,
+    "search_keywords":  [
+                            "공원",
+                            "파크",
+                            "조경",
+                            "관광",
+                            "유원지",
+                            "체육",
+                            "탐방로",
+                            "수목원",
+                            "정원",
+                            "숲",
+                            "휴양림",
+                            "치유",
+                            "야영장",
+                            "레포츠",
+                            "산림",
+                            "체험",
+                            "생태",
+                            "경관",
+                            "도시재생",
+                            "바람길",
+                            "둘레길"
+                        ],
+    "exclude_keywords":  [
+                             "위탁",
+                             "건설폐기물",
+                             "임차",
+                             "감리",
+                             "건설사업관리"
+                         ],
+    "display_mode":  "since_last_success"
+}

@@ -1,0 +1,3910 @@
+
+// =============================================================================
+/**
+ * 드림시큐리티 HTML5 PKI utility
+ *
+ * @date 2023.01.02
+ * @author hgjkim
+ * @namespace pkiUtil
+ * @description
+     드림시큐리티 PKI 모듈을 유틸함수로 재정의
+
+ */
+// =============================================================================
+
+
+/*
+ * 드림시큐리티 PKI 모듈명
+ */
+var pkiUtil = {};
+
+/*
+ * Global 변수 선언
+ */
+
+//간편인증 관련 설정
+/** @global 개인 간편인증 제공 모듈 */
+pkiUtil.serviceProvider = "MOIS"; //DREAM, MOIS
+/** @global 개인 간편인증 제공 형태 */
+pkiUtil.serviceMoisType = "INSTALL"; //RELAY, INSTALL
+/** @global 개인사업자용 간편인증 제공 모듈 */
+pkiUtil.signServiceProvider = "BIZ"; //DREAM, BIZ
+
+
+/** @global 드림시큐리티 모듈 프로바이더 */
+const DREAM_PROVIDER = "JCAOS" ;
+/** @global 암호화정보 유지 세션 */
+const DREAM_SESSION  = "g2b_encrypt_session";
+
+const DREAM_SESSION_BASE = "www.g2b.go.kr";
+
+
+
+/** @global 인증서 종류 */
+const CERT_TYPE = {
+     SIGN : "SIGN",   //전자서명
+     KM   : "KM"      //암호화
+};
+
+/** @global 인증서 포멧*/
+const CERT_FROMAT = {
+     PEM  : "PEM",
+     DER  : "DER"
+};
+
+/** @global 업무구분*/
+const CERT_BIZ = {
+     WEB  : "WEB" ,
+     BID  : "BID" ,
+     DB   : "BID",
+     ESB  : "ESB",
+     TAX  : "TAX",
+     FILEUPLOAD   : "FILE",  //첨부문서 업로드 업무
+     CLOUD   : "CLOUD"       //입찰서 암호화
+};
+
+/** @global PKI 알고리즘 구분 */
+const PKI_ALG = {
+     RANDOM : "SHA256DRBG",
+     HASH   : "SHA256" ,
+     ARIA_K : "ARIA" ,
+     SEED_K : "SEED" ,
+     AES_K  : "AES" ,
+     ARIA_HTML5 : "ARIA/128",
+     RSA    : "RSA/ECB/PKCSV1_5Padding" ,
+     ARIA   : "ARIA/CBC/PKCS5Padding" ,
+     AES    : "AES/CBC/PKCS5Padding" ,
+     SIGN    : "SHA256withRSA",
+     SIGN_P7    : "SHA256",
+     PADDING_NO    : "/NONE/NoPadding",
+     PADDING_PKCS5 : "/ECB/PKCSV1_5Padding" ,
+     PADDING       : "PKCSV1_5Padding"
+};
+/** @global XML content type */
+const XML_CONTENT_TYPE = {
+     XML    : "text/xml" ,
+     BIN    : "text/plain"
+};
+
+/** @global 언어셋 */
+const PKI_LANG_SET = {
+     EUCKR  : "euc-kr" ,
+     UTF8   : "utf8"
+};
+/** @global 인증서 header, footer */
+const  CERT_STRING = {
+     HEADER : "-----BEGIN CERTIFICATE-----",
+     TAILER : "-----END CERTIFICATE-----"
+};
+
+
+/** @global 인증서 등록여부 체크용 변수 */
+pkiUtil.selectCertInfo = {};
+pkiUtil.isCheckRegistSVR  = false;
+
+/**
+ * 최종 오류 메시지 가져오기
+ *
+ * @return {string} 오류메시지
+ */
+pkiUtil.getErrMsg = function() {
+    return MagicLineJSAPI.getLastErrorMessage();
+};
+
+/**
+ * HASH값 생성 (알고리즘:SHA256)
+ *
+ * @param inValue
+ *            {string} 입력값(utf8)
+ * @return {string} hexa 인코딩된 hash값
+ */
+pkiUtil.genHash = function(inValue) {
+    let md = magicjs.md.create(PKI_ALG.HASH);
+    md.init();
+    md.update(inValue, PKI_LANG_SET.UTF8 );
+    let digestpw = md.digest();
+    return digestpw.toHex();
+};
+/**
+ * HASH값 생성 (알고리즘:SHA256)
+ *
+ * @param inValue {string}
+ *            입력값
+ * @param langSet {string}
+ *            입력값의 언어셋
+ * @return {string} hexa 인코딩된 hash값
+ */
+pkiUtil.genHash_langset = function(inValue, langSet) {
+    let md = magicjs.md.create(PKI_ALG.HASH);
+    md.init();
+    md.update(inValue, langSet );
+    let digestpw = md.digest();
+    return digestpw.toHex();
+};
+
+
+/**
+ * HASH값 검증 (알고리즘:SHA256)
+ *
+ * @param inValue {string} hash 생성에 사용한 데이터
+ * @param hashValue {string} 검증하고자 하는 hash값
+ * @return { boolean } 검증 결과
+ *
+ */
+pkiUtil.verifyHash = function(inValue, hashValue) {
+    let md = magicjs.md.create(PKI_ALG.HASH);
+    md.init();
+    md.update(inValue, PKI_LANG_SET.UTF8 );
+    let digestpw = md.digest();
+    let hexaMD = digestpw.toHex();
+
+    if( hashValue.trim() === hexaMD ) {
+        return true ;
+    }else {
+        return false;
+    }
+};
+
+
+/**
+ * hexa 인코딩
+ *
+ * @param inValue {string} 입력 데이터
+ * @return {string} hexa 인코딩된 값
+ */
+pkiUtil.hexEncode = function(inValue) {
+    return magicjs.hex.encode( unescape(encodeURIComponent(inValue) ) );
+};
+/**
+ * hexa 디코딩
+ *
+ * @param inValue {string} hexa인코딩된 입력 데이터
+ * @return {string} hexa 디코딩된 값
+ */
+pkiUtil.hexDecode = function(inValue) {
+    let org =  magicjs.hex.decode( inValue );
+    return decodeURIComponent(escape(org));
+};
+/**
+ * base64 인코딩
+ *
+ * @param inValue {string} 입력 데이터
+ * @return {string} base64 인코딩된 값
+ */
+pkiUtil.b64Encode = function(inValue) {
+    let b64 = magicjs.base64.encode( unescape(encodeURIComponent(inValue) ) );
+    return pkiUtil.insertNewLine( b64 );
+};
+/**
+ * base64 디코딩
+ *
+ * @param inValue {string} base64 인코딩된 입력 데이터
+ * @return {string} base64 디코딩된 값
+ */
+pkiUtil.b64Decode = function(inValue) {
+    let delNewlineData = pkiUtil.deleteNewLine(inValue);
+    let org =  magicjs.base64.decode( delNewlineData );
+    return decodeURIComponent(escape(org));
+};
+
+/**
+ * 개행문제 제거
+ *
+ * @param inValue {string} 입력 데이터
+ * @return {string} 입력데이터에 대하여 개행문자(\r\n)값이 제거된 문자열
+ */
+pkiUtil.deleteNewLine = function(inData) {
+    if( inData == null || inData == "" || inData.length <= 0 ) {
+        return "";
+    }
+    return inData.replace(/\r|\n/g,  "" );
+};
+/**
+ * 개행문제 추가 (75자 마다 개행문자(\n)을 입력)
+ *
+ * @param inValue {string} 입력 데이터
+ * @return {string} 입력데이터에 대하여 75자마다 개행문자(\r\n)값이 추가된 문자열
+ */
+pkiUtil.insertNewLine = function(inData) {
+    if( inData == null || inData == "" || inData.length <= 0 ) {
+        return "";
+    }
+    if( inData.indexOf("\n") > -1 ) {
+        return inData;
+    }
+
+    let sb = "";
+    for( let i=0 ; inData.length > i ; i++ ) {
+        if( i>0 && (i% 76) == 0 ) {
+            sb += "\n";
+        }
+        sb += inData.charAt(i);
+    }
+    sb += "\n";
+    return  sb;
+};
+
+/**
+ * 입력받은 DN값을 메모리에 보관
+ * @param dnList {string or json array} 입력 DN
+ * @return {string} 성공 : 성공메시지, 실패 :false
+ */
+pkiUtil.setDnList = function( dnList ) {
+    return MagicLineJSAPI.saveDN_List(dnList);
+}
+
+/**
+ * setDnList()에서 설정한 DN값 반환
+ * @return {json array} DN list
+ */
+pkiUtil.getDnList = function() {
+    return MagicLineJSAPI.getDN_List();
+}
+
+/**
+ * 인증서 선택창에 입력된 DN목록만 보이도록 한다.
+ *  @param  sessionId {string} 세션 ID
+ *  @param dnList {string or json array} 입력 DN
+ *  @return {string} 성공 : 성공메시지, 실패 :false
+ */
+pkiUtil.initCertWindowDNList = function(sessionId, dnList) {
+
+    let rst = MagicLineJSAPI.selectSession(sessionId);
+    if( rst == false ) {
+        MagicLineJSAPI.genrateSessionkey(sessionId, PKI_ALG.ARIA_HTML5 )
+    }
+
+    return MagicLineJSAPI.setDN_Filter(sessionId, dnList);
+}
+
+
+
+/** @global 인증서 선택창 설정: POLICY OID: 개인 인증서 */
+const PKI_CERT_POID_PERSON =
+    [
+        "1.2.410.200004.5.1.1.5",    //KOSCOM 개인 범용
+        "1.2.410.200004.5.1.1.9",    //KOSCOM 개인 은행거래용
+        "1.2.410.200004.5.2.1.2",    //한국정보인증 개인 범용
+        "1.2.410.200004.5.2.1.7.1",  //한국정보인증 개인 은행거래용
+        "1.2.410.200004.5.2.1.7.2",  //한국정보인증 개인 증권거래용
+        "1.2.410.200004.5.2.1.7.3",  //한국정보인증 개인 신용카드용
+        "1.2.410.200004.5.4.1.1",    //한국전자인증 개인 범용
+        "1.2.410.200004.5.4.1.106",  //한국전자인증 개인 인터넷뱅킹
+        "1.2.410.200004.5.4.1.107",  //한국전자인증 개인 증권거래
+        "1.2.410.200004.5.4.1.108",  //한국전자인증 개인 보험
+        "1.2.410.200004.5.4.1.109",  //한국전자인증 개인 신용카드
+        "1.2.410.200005.1.1.1",      //금융결제원 개인 범용
+        "1.2.410.200005.1.1.1.1",      //금융결제원 개인
+        "1.2.410.200005.1.1.1.2",      //금융결제원 개인
+        "1.2.410.200005.1.1.1.3",      //금융결제원 개인
+        "1.2.410.200005.1.1.1.4",      //금융결제원 개인
+        "1.2.410.200005.1.1.1.5",      //금융결제원 개인
+        "1.2.410.200005.1.1.4",      //금융결제원 개인 은행증권거래용
+        "1.2.410.200005.1.1.4.1",      //금융결제원 개인 은행증권거래용
+        "1.2.410.200005.1.1.4.2",      //금융결제원 개인 은행증권거래용
+        "1.2.410.200005.1.1.4.3",      //금융결제원 개인 은행증권거래용
+        "1.2.410.200005.1.1.4.4",      //금융결제원 개인 은행증권거래용
+        "1.2.410.200005.1.1.4.5",      //금융결제원 개인 은행증권거래용
+        "1.2.410.200005.1.1.4.7",      //금융결제원 개인 은행증권거래용
+        "1.2.410.200012.1.1.1",      //KTNET 개인 범용
+        "1.2.410.100001.2.2.1",      //GPKI 개인 행정전자서명용(행정)
+        "1.2.410.100001.2.2.2",      //GPKI 개인 행정전자서명용(공공/금융)
+        "1.2.410.100001.5.3.1.3",    //EPKI 개인 행정전자서명용
+        "1.2.410.200005.1.1.1.10",   //금융인증서 개인
+        "1.2.410.200057.100.4"       //드림시큐리티 테스트용 개인
+    ];
+
+/** @global 인증서 선택창 설정: POLICY OID: 법인 인증서 */
+const PKI_CERT_POID_COMPANY =
+    [
+        "1.2.410.200004.5.1.1.7",       //KOSCOM 범용 법인(플레티넘)
+        "1.2.410.200004.5.1.1.8",       //KOSCOM 서버
+        "1.2.410.200004.5.1.1.12",      //KOSCOM 특별등급 법인(실버)
+        "1.2.410.200004.5.1.1.12.901",  //KOSCOM 비축용
+        "1.2.410.200004.5.1.1.12.916",  //KOSCOM 비축용
+        "1.2.410.200004.5.2.1.1",       //한국정보인증 범용 법인
+        "1.2.410.200004.5.2.1.3",       //한국정보인증 특별등급 법인
+        "1.2.410.200004.5.2.1.4",       //한국정보인증 서버
+        "1.2.410.200004.5.2.1.6.84",    //한국정보인증 비축용 인증서
+        "1.2.410.200004.5.2.1.6.434",   //한국정보인증 특법인(수요기관용)
+        "1.2.410.200004.5.2.1.6.539",   //한국정보인증 이음장터 용도제한
+        "1.2.410.200004.5.2.1.300",     //한국정보인증 해외 사설인증서
+        "1.2.410.200004.5.4.1.2",       //한국전자인증 법용 법인
+        "1.2.410.200004.5.4.1.3",       //한국전자인증 서버
+        "1.2.410.200004.5.4.1.12",      //한국전자인증 비축용
+        "1.2.410.200004.5.4.2.409",     //한국전자인증 비축용
+        "1.2.410.200004.5.4.2.526",     //한국전자인증 입찰전용
+        "1.2.410.200004.5.4.2.527",     //한국전자인증 입찰전용
+
+//      "1.2.410.200005.1.1.2",         //금융결제원 사업자용 은행보험용.
+        "1.2.410.200005.1.1.3",         //금융결제원 서버
+        "1.2.410.200005.1.1.5",         //금융결제원 범용 법인
+        "1.2.410.200005.1.1.5.1",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.2",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.3",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.4",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.5",       //금융결제원 법인
+        "1.2.410.200005.1.1.6.3",       //금융결제원 비축용
+
+        "1.2.410.200012.1.1.3",         //KTNET 범용 법인
+        "1.2.410.200012.1.1.4",         //KTNET 공공기관/암호화
+        "1.2.410.200012.1.1.5",         //KTNET 서버
+        "1.2.410.200012.1.1.121",
+        "1.2.410.200012.1.1.125",       //KTNET 민간/서명
+        "1.2.410.200012.1.1.126",       //KTNET 민간/암호화
+        "1.2.410.100001.2.1.1",        //GPKI 전자관인
+        "1.2.410.100001.2.1.2",        //GPKI 서버용
+        "1.2.410.100001.2.1.3",        //GPKI 특수목적용
+        "1.2.410.100001.2.1.4",        //GPKI 전자관인(공공/금융)
+        "1.2.410.100001.2.1.5",        //GPKI 서버용(공공/금융)
+        "1.2.410.100001.2.1.6",        //GPKI 특수목적용(공공/금융)
+        "1.2.410.100001.2.2.1",        //GPKI 개인 행정전자서명용(행정)
+        "1.2.410.100001.2.2.2",        //GPKI 개인 행정전자서명용(공공/금융)
+        "1.2.410.100001.5.3.1.1",      //EPKI 전자관인
+        "1.2.410.100001.5.3.1.3",      //EPKI 개인 행정전자서명용
+        "1.2.410.100001.5.3.1.5",      //EPKI 특수목적용
+        "1.2.410.100001.5.3.1.7",      //EPKI 컴퓨터용
+
+        "1.2.410.200005.1.1.8.11",     //금융인증서 법인
+        "1.2.410.200005.1.1.8.12",     //금융인증서 법인
+        "1.2.410.200005.1.1.8.13",     //금융인증서 법인
+
+        "1.2.410.200057.100.3",        //드림시큐리티 테스트용 법인(조달청)
+        "1.2.410.200057.100.2",        //드림시큐리티 테스트용 법인(조달기관)
+        "1.2.410.200057.100.1"        //드림시큐리티 테스트용 법인(수요기관)
+    ];
+
+/** @global 인증서 선택창 설정: POLICY OID: 세금계산서용 인증서*/
+const PKI_CERT_POID_TAX =
+    [
+        "1.2.410.200004.5.1.1.7",       //KOSCOM 범용 법인(플레티넘)
+        "1.2.410.200004.5.1.1.8",       //KOSCOM 서버
+        "1.2.410.200004.5.1.1.12",      //KOSCOM 특별등급 법인(실버)
+//        "1.2.410.200004.5.1.1.12.901",  //KOSCOM 비축용
+//        "1.2.410.200004.5.1.1.12.916",  //KOSCOM 비축용
+        "1.2.410.200004.5.2.1.1",       //한국정보인증 범용 법인
+        "1.2.410.200004.5.2.1.3",       //한국정보인증 특별등급 법인
+        "1.2.410.200004.5.2.1.4",       //한국정보인증 서버
+//        "1.2.410.200004.5.2.1.6.84",    //한국정보인증 비축용 인증서
+//        "1.2.410.200004.5.2.1.6.434",   //한국정보인증 특법인(수요기관용)
+//        "1.2.410.200004.5.2.1.6.539",   //한국정보인증 이음장터 용도제한
+//        "1.2.410.200004.5.2.1.300",     //한국정보인증 해외 사설인증서
+        "1.2.410.200004.5.4.1.2",       //한국전자인증 법용 법인
+        "1.2.410.200004.5.4.1.3",       //한국전자인증 서버
+//        "1.2.410.200004.5.4.1.12",      //한국전자인증 비축용
+//        "1.2.410.200004.5.4.2.409",     //한국전자인증 비축용
+
+        "1.2.410.200005.1.1.3",         //금융결제원 서버
+        "1.2.410.200005.1.1.5",         //금융결제원 범용 법인
+        "1.2.410.200005.1.1.5.1",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.2",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.3",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.4",       //금융결제원 법인
+        "1.2.410.200005.1.1.5.5",       //금융결제원 법인
+        "1.2.410.200005.1.1.6.8",       //금융결제원 전자세금계산서용
+//        "1.2.410.200005.1.1.6.3",       //금융결제원 비축용
+
+        "1.2.410.200012.1.1.3",         //KTNET 범용 법인
+        "1.2.410.200012.1.1.4",         //KTNET 공공기관/암호화
+        "1.2.410.200012.1.1.5",         //KTNET 서버
+        "1.2.410.200012.1.1.121",
+        "1.2.410.200012.1.1.125",       //KTNET 민간/서명
+        "1.2.410.200012.1.1.126",       //KTNET 민간/암호화
+//        "1.2.410.100001.2.1.1",        //GPKI 전자관인
+//        "1.2.410.100001.2.1.2",        //GPKI 서버용
+//        "1.2.410.100001.2.1.3",        //GPKI 특수목적용
+//        "1.2.410.100001.2.2.1",        //GPKI 개인 행정전자서명용
+//        "1.2.410.100001.5.3.1.1",      //EPKI 전자관인
+//        "1.2.410.100001.5.3.1.3",      //EPKI 개인 행정전자서명용
+//        "1.2.410.100001.5.3.1.5",      //EPKI 특수목적용
+//        "1.2.410.100001.5.3.1.7",      //EPKI 컴퓨터용
+
+        "1.2.410.200005.1.1.8.11",     //금융인증서 법인
+        "1.2.410.200005.1.1.8.12",     //금융인증서 법인
+        "1.2.410.200005.1.1.8.13",     //금융인증서 법인
+
+//        "1.2.410.200057.100.3",        //드림시큐리티 테스트용 법인(조달청)
+//        "1.2.410.200057.100.2",        //드림시큐리티 테스트용 법인(조달기관)
+//        "1.2.410.200057.100.1"        //드림시큐리티 테스트용 법인(수요기관)
+        "1.2.410.200004.5.4.2.527",     //한국전자인증 입찰전용
+    ];
+
+
+
+/** @global 인증서 선택창 설정: POLICY OID: 인증서 전체 */
+const PKI_CERT_POID_ALL = PKI_CERT_POID_COMPANY.concat( PKI_CERT_POID_PERSON );
+
+/** @global 인증서 선택창 설정: POLICY OID: 인증서 등록창 */
+const PKI_CERT_POID_CERTREG = PKI_CERT_POID_ALL ;
+
+/** @global 인증서 선택창 설정: 인증서 저장매체 */
+const PKI_CERT_MEDIA=["web", "new_cloud", "hdd","token","smartcertnx"];
+
+/** @global 인증서 선택창 설정: 인증서 종류 구분
+ * PPKI : 사설인증서
+ */
+const PKI_CERT_CA=["NPKI", "GPKI", "MPKI", "PPKI"];
+
+/** @global 인증서 선택창 설정: 좌측선택창 모양
+ * "share" : 공동인증서
+ * "finance" : 금융인증서
+ * "finance_user" : 금융인증서 개인
+ * "finance_corp" : 금융인증서 법인
+ * []:off
+ */
+const PKI_CERT_TYPE=["share", "finance"];
+const PKI_CERT_TYPE_USER=["share", "finance_user"];
+const PKI_CERT_TYPE_COMPANY=["share", "finance_corp"];
+
+
+/** @global 인증서 선택창 설정: 만료인증서 보이기
+ *  true : 만료인증서 보이기
+ *  false : 않보이기
+ */
+const PKI_CERT_SHOWEXPIRE = true;
+
+
+/**
+ * 인증서 선택창 모양설정(입력값에 따라 설정)
+ *
+ * @param {json array} policyOidList :
+ *            Policy OID list
+ * @param {json array} useMedia :
+ *            인증서 저장매체
+ * @param {json array} certAuth :
+ *            인증서 종류(표시되는 인증서 종류)
+ * @param {json array} certType :
+ *            인증서 선택창 좌측 탭 모양
+ * @param {boolean} showExpire :
+ *            만료인증서 보기
+ * @return {void}
+ */
+pkiUtil.initCertWindow = function( policyOidList, useMedia, certAuth, certType, showExpire ) {
+    MagicLineJSAPI.setCertWindow_oid(policyOidList);
+    MagicLineJSAPI.setCertWindow_storageList(useMedia);
+    MagicLineJSAPI.setCertWindow_certType(certAuth);
+    MagicLineJSAPI.setCertWindow_storageTabList(certType);
+    MagicLineJSAPI.setCertWindow_showExpireCert(showExpire);
+};
+/**
+ * 인증서 선택창 모양설정(로그인시 지정된 것만 표시)
+ *
+ * @return {void}
+ */
+pkiUtil.initCertWindowLogin= function( ) {
+    MagicLineJSAPI.setCertWindow_oid(PKI_CERT_POID_PERSON);
+    MagicLineJSAPI.setCertWindow_storageList(PKI_CERT_MEDIA);
+    MagicLineJSAPI.setCertWindow_certType(PKI_CERT_CA);
+    MagicLineJSAPI.setCertWindow_storageTabList(PKI_CERT_TYPE_USER);
+    MagicLineJSAPI.setCertWindow_showExpireCert(PKI_CERT_SHOWEXPIRE);
+};
+
+/**
+ * 전자서명 함수에서 인증서가 선택되어 있지 않을때 sessionId를 기반으로 인증서 선택창을 정의하기 위한 함수
+ * @param  {string} sessionId 세션 ID
+ */
+pkiUtil.initCertWindowCompany= function( sessionId ) {
+    let usrCert = pkiUtil.getCert( sessionId, CERT_TYPE.SIGN );
+
+    if( usrCert != false && usrCert != undefined ) {
+        let userCertPoid = pkiUtil.getPolicyOID( sessionId );
+        let baseCertPoid = "not defined";
+        if( sessionId.toLowerCase() == "www.g2b.go.kr/company" ) {
+            baseCertPoid  = PKI_CERT_POID_COMPANY;
+        }else if( sessionId.toLowerCase() == "www.g2b.go.kr/tax" ) {
+            baseCertPoid  = PKI_CERT_POID_TAX;
+        }else if( sessionId.toLowerCase() == "www.g2b.go.kr/person" ) {
+            baseCertPoid  = PKI_CERT_POID_PERSON;
+        }
+        baseCertPoid  = JSON.stringify( baseCertPoid );
+        if( baseCertPoid.indexOf( userCertPoid ) == -1) {
+            pkiUtil.initSession( sessionId );
+            usrCert = false;
+        }
+    }
+
+    if( usrCert == false || usrCert == undefined )
+    {
+        if( sessionId.toLowerCase() == "www.g2b.go.kr/company" ) {
+            MagicLineJSAPI.setCertWindow_oid(PKI_CERT_POID_COMPANY);
+            MagicLineJSAPI.setCertWindow_storageList(PKI_CERT_MEDIA);
+            MagicLineJSAPI.setCertWindow_certType(PKI_CERT_CA);
+            MagicLineJSAPI.setCertWindow_storageTabList(PKI_CERT_TYPE_COMPANY);
+            MagicLineJSAPI.setCertWindow_showExpireCert(PKI_CERT_SHOWEXPIRE);
+        }else if( sessionId.toLowerCase() == "www.g2b.go.kr/tax" ) {
+            MagicLineJSAPI.setCertWindow_oid(PKI_CERT_POID_TAX);
+            MagicLineJSAPI.setCertWindow_storageList(PKI_CERT_MEDIA);
+            MagicLineJSAPI.setCertWindow_certType(PKI_CERT_CA);
+            MagicLineJSAPI.setCertWindow_storageTabList(PKI_CERT_TYPE_COMPANY);
+            MagicLineJSAPI.setCertWindow_showExpireCert(PKI_CERT_SHOWEXPIRE);
+        }else if( sessionId.toLowerCase() == "www.g2b.go.kr/person" ) {
+            MagicLineJSAPI.setCertWindow_oid(PKI_CERT_POID_PERSON);
+            MagicLineJSAPI.setCertWindow_storageList(PKI_CERT_MEDIA);
+            MagicLineJSAPI.setCertWindow_certType(PKI_CERT_CA);
+            MagicLineJSAPI.setCertWindow_storageTabList(PKI_CERT_TYPE_USER);
+            MagicLineJSAPI.setCertWindow_showExpireCert(PKI_CERT_SHOWEXPIRE);
+        }
+    }
+};
+
+
+/**
+ * 인증서 선택창 모양설정(모든 인증서 및 저장매체 보이기)
+ *
+ * @return {void}
+ */
+pkiUtil.initCertWindowAll = function( ) {
+    let useMedia = ["web","new_cloud", "hdd", "token","smartcertnx" ];
+    let certAuth = ["NPKI", "GPKI", "EPKI", "PPKI"];
+    let certType = ["share", "finance"];
+    let showExpire = false;
+    MagicLineJSAPI.setCertWindow_oid("");
+    MagicLineJSAPI.setCertWindow_storageList(useMedia);
+    MagicLineJSAPI.setCertWindow_certType(certAuth);
+    MagicLineJSAPI.setCertWindow_storageTabList(certType);
+    MagicLineJSAPI.setCertWindow_showExpireCert(showExpire);
+};
+
+
+/**
+ * 암호화 인증서 설정
+ *
+ * @param  certDp {string} 업무 구분
+ * @param  kmCert {string} 암호화 인증서
+ * @return {void}
+ */
+pkiUtil.setEncryptCert =  function( certDp, kmCert ) {
+    MagicLineJSAPI.setEncServerCertificate( certDp, kmCert );
+};
+/**
+ * 암호화 인증서 가져오기
+ *
+ * @param  certDp {string} 업무 구분
+ * @return {String} 암호화 인증서
+ */
+pkiUtil.getEncryptCert =  function( certDp ) {
+   return MagicLineJSAPI.getEncServerCertificate( certDp, CERT_FROMAT.PEM );
+};
+/**
+ * 로그인시 사용할 암호화 인증서 설정
+ *
+ * @param  certDp {string} 업무 구분
+ * @return {void}
+ */
+pkiUtil.setLoginKmCert =  function( kmCert ) {
+    MagicLineJSAPI.setEncServerCertificate(CERT_BIZ.WEB, kmCert );
+};
+
+
+
+/**
+ * 브라우저 세션 설정 : 세션 초기화
+ * @param  sessionId {string} 세션 ID
+ * @return {void}
+ */
+pkiUtil.initSession =  function( sessionId ) {
+// MagicLineJSAPI.genrateSessionkey(sessionId, PKI_ALG.ARIA_HTML5 );
+    delete pkiUtil.selectCertInfo[sessionId];
+    return MagicLineJSAPI.deleteSession(sessionId);
+};
+
+
+/**
+ * 브라우저 세션 설정 : 로그아웃 세션 삭제
+ * @param  sessionId {string} 세션 ID
+ * @return {boolean} 세션 삭제 결과
+ */
+pkiUtil.logoutSession =  function( sessionId ) {
+    delete pkiUtil.selectCertInfo[sessionId];
+    return MagicLineJSAPI.deleteSession(sessionId);
+};
+
+/**
+ * 브라우저 세션 설정 : 모든 세션 삭제
+ * @return {boolean} 세션 삭제 결과
+ */
+pkiUtil.deleteSessionAll =  function(  ) {
+    pkiUtil.selectCertInfo = {};
+    return MagicLineJSAPI.deleteSessionAll();
+};
+
+
+/**
+ * ID/PW 로그인 정보 생성
+ *
+ * @param  sessionId {string} 세션 ID
+ * @param  loginId {string} 로그인ID
+ * @param  loginPw {string} 로그인 비밀번호
+ * @return {string} 로그인 정보
+ */
+pkiUtil.idLogin =  async function( sessionId, loginId, loginPw ) {
+    MagicLineJSAPI.deleteSession(sessionId);
+
+    let kmCert = await pkiUtil.getKmCert(CERT_BIZ.WEB);
+    if (!kmCert) {
+        console.log('서버 암호화용 인증서가 없습니다.');
+        return false;
+    }
+
+    let rst =pkiUtil.sessionInitKey(sessionId, false);
+    if( rst == false ) {
+        callbackfun( false );
+        return false;
+    }
+
+    let sskey =  pkiUtil.sessionGetKeyFromCert( sessionId, kmCert );
+    if (!sskey) {
+        console.log('세션키 생성에 실패하였습니다.');
+        return false;
+    }
+
+    const serverTime = $p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss");
+
+    // ID, 비밀번호해쉬값, 서버시간 세션키 암호화
+    let loginInfo = MagicLineJSAPI.makeLoginPinInfo(loginId, loginPw, kmCert, serverTime);
+
+    return [loginInfo, sskey];
+};
+
+/**
+ * 인중서 로그인 정보 생성 (async 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {string} 로그인 정보
+ */
+pkiUtil.certLogin = async function( sessionId ) {
+    let result = false;
+
+    await pkiUtil.sleep( 300 );
+
+    pkiUtil.initCertWindowLogin();
+
+    let kmCert = await pkiUtil.getKmCert(CERT_BIZ.WEB);
+    if (!kmCert) {
+        console.log('서버 암호화용 인증서가 없습니다.');
+        return false;
+    }
+
+    try {
+        result = await pkiUtil.certLogin_sync(sessionId);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+/**
+ * 인중서 로그인 정보 생성 (callback function 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @param  callbackfun {new function() } 로그인정보 생성후 실행 함수
+ * @return {boolean} 처리결과
+ */
+pkiUtil.certLogin_call = async function( sessionId, callbackfun  ) {
+
+    MagicLineJSAPI.deleteSession(sessionId);
+
+    let rst =pkiUtil.sessionInitKey(sessionId, false);
+    if( rst == false ) {
+        callbackfun( false );
+        return false;
+    }
+
+//    rst = await pkiUtil.certSelectPerson( sessionId );
+//    if( rst == false ) {
+//        callbackfun( false );
+//        return false;
+//    }
+
+    let cert = MagicLineJSAPI.getEncServerCertificate(CERT_BIZ.WEB, CERT_FROMAT.PEM );
+    if (!cert) {
+          callbackfun( false );
+          return false;
+    }
+    let sskey = pkiUtil.sessionGetKeyFromCert( sessionId, cert );
+    if (!sskey) {
+        callbackfun( false );
+        return false;
+    }
+
+    const serverTime = $p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss");
+
+    let loginObject = new Object();
+    loginObject.timestamp = serverTime;
+    let loginInfo = JSON.stringify(loginObject );
+
+    MagicLineJSAPI.makeSignedData(sessionId, loginInfo, null, function(result){
+        callbackfun( [ result, sskey ] );
+    });
+
+//    MagicLineJSAPI.makeLoginCertificateInfo(sessionId, cert, serverTime, function(result) {
+//        if( result == false ) {
+//            reject( result );
+//        }else{
+//            resolve( [ result, sskey ] );
+//        }
+//    });
+
+};
+/**
+ * 인중서 로그인 정보 생성 (async 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {string} 로그인 정보
+ */
+pkiUtil.certLogin_sync = async function( sessionId ) {
+
+    MagicLineJSAPI.deleteSession(sessionId);
+
+    let rst =pkiUtil.sessionInitKey(sessionId, false);
+    if( rst == false ) {
+        return false;
+    }
+
+//    rst = await pkiUtil.certSelectPerson( sessionId );
+//    if( rst == false ) {
+//        callbackfun( false );
+//        return false;
+//    }
+
+    let cert = MagicLineJSAPI.getEncServerCertificate(CERT_BIZ.WEB, CERT_FROMAT.PEM );
+    if (!cert) {
+          return false;
+    }
+    let sskey =  pkiUtil.sessionGetKeyFromCert( sessionId, cert );
+    if (!sskey) {
+        return false;
+    }
+
+    return new Promise((resolve, reject)=>{
+        const serverTime = $p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss");
+        let loginObject = new Object();
+        loginObject.cert = pkiUtil.getCert(sessionId, "SIGN");
+        loginObject.timestamp = serverTime;
+        let loginInfo = JSON.stringify(loginObject );
+
+        MagicLineJSAPI.makeSignedData(sessionId, loginInfo, null, function(result){
+            if( result == false ) {
+                resolve( result );
+            }else{
+                resolve( [ result, sskey ] );
+            }
+        });
+//        const serverTime = $p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss");
+//        MagicLineJSAPI.makeLoginCertificateInfo(sessionId, cert, serverTime, function(result) {
+//            if( result == false ) {
+//                reject( result );
+//            }else{
+//                resolve( [ result, sskey ] );
+//            }
+//
+//        });
+    });
+};
+
+
+/**
+ * 개인 인중서 선택 (async 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {boolean} 인증서선택결과
+ */
+pkiUtil.certSelectPerson = async function( sessionId ) {
+//    MagicLineJSAPI.deleteSession(sessionId);
+
+    let kmCert = await pkiUtil.getKmCert(CERT_BIZ.WEB);
+    if (!kmCert) {
+        console.log('서버 암호화용 인증서가 없습니다.');
+        return false;
+    }
+
+    MagicLineJSAPI.setCertWindow_oid(PKI_CERT_POID_PERSON);
+    MagicLineJSAPI.setCertWindow_storageList(PKI_CERT_MEDIA);
+    MagicLineJSAPI.setCertWindow_certType(PKI_CERT_CA);
+    MagicLineJSAPI.setCertWindow_storageTabList(PKI_CERT_TYPE_USER);
+    MagicLineJSAPI.setCertWindow_showExpireCert(PKI_CERT_SHOWEXPIRE);
+
+    let result =pkiUtil.sessionInitKey(sessionId, false);
+    if( result == false ) {
+        return false;
+    }
+
+    try {
+        result = await pkiUtil.certSelect(sessionId);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+
+/**
+ * 법인 인중서 선택 (async 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {boolean} 인증서선택결과
+ */
+pkiUtil.certSelectCompany = async function( sessionId ) {
+
+//    MagicLineJSAPI.deleteSession(sessionId);
+
+    let kmCert = await pkiUtil.getKmCert(CERT_BIZ.WEB);
+    if (!kmCert) {
+        console.log('서버 암호화용 인증서가 없습니다.');
+        return false;
+    }
+
+    MagicLineJSAPI.setCertWindow_oid(PKI_CERT_POID_COMPANY);
+    MagicLineJSAPI.setCertWindow_storageList(PKI_CERT_MEDIA);
+    MagicLineJSAPI.setCertWindow_certType(PKI_CERT_CA);
+    MagicLineJSAPI.setCertWindow_storageTabList(PKI_CERT_TYPE_COMPANY);
+    MagicLineJSAPI.setCertWindow_showExpireCert(PKI_CERT_SHOWEXPIRE);
+
+    let result =pkiUtil.sessionInitKey(sessionId, false);
+    if( result == false ) {
+        return false;
+    }
+
+    try {
+        result = await pkiUtil.certSelect(sessionId);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+
+
+/**
+ * 인중서 선택 (async 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {boolean} 인증서선택결과
+ */
+pkiUtil.certSelect = async function( sessionId ) {
+
+    await pkiUtil.sleep( 300 );
+
+    let result = false;
+    pkiUtil.initCertWindowCompany( sessionId );
+    try {
+        result = await pkiUtil.certSelect_sync(sessionId);
+    }catch(e){
+        return false;
+    }
+    if( result != false  && pkiUtil.isCheckRegistSVR == true ) {
+        if( await pkiUtil.isSvrValidCert(sessionId ) == false ) {
+            pkiUtil.certUnSelect( sessionId );
+            result = false;
+        }
+    }
+    return result;
+};
+
+/**
+ * 인증서 유효성 및 등록여부 검사
+ * @param sessionId {string} 세션 ID
+ * @returns {boolean} 성공/실패
+ */
+pkiUtil.isSvrValidCert = async function( sessionId ) {
+    let newCertDn = pkiUtil.getSubject( sessionId );
+    let newCertSn = pkiUtil.getPolicyOID( sessionId );
+
+    if( pkiUtil.selectCertInfo[sessionId]  != undefined ) {
+        if( (pkiUtil.selectCertInfo[sessionId].preCertDn == newCertDn) && (pkiUtil.selectCertInfo[sessionId].preCertSN == newCertSn) && pkiUtil.selectCertInfo[sessionId].IsValid == true ) {
+            return true;
+        }
+    }
+
+    let signCert = pkiUtil.getCert(sessionId, "SIGN");
+
+    let  resultJson = await pkiUtil.chkRegstCert( signCert )
+    if( resultJson == false  ) {
+        pkiUtil.IsValid   = false;
+        alert( "인증서 등록여부 검사에 실패하였습니다.");
+        return false;
+    }else if(  resultJson.result == "fail" ) {
+        pkiUtil.IsValid   = false;
+        alert( resultJson.message );
+        return false;
+    }else if( resultJson.status == "notComplate" ) {
+        alert( resultJson.message );
+    }
+
+    let newInfo = new Object();
+    newInfo.preCertDn = newCertDn;
+    newInfo.preCertSN = newCertSn;
+    newInfo.IsValid   = true;
+    pkiUtil.selectCertInfo[sessionId] = newInfo;
+
+    return true;
+}
+
+
+/**
+ * 인중서 선택 (callback function 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @param  callbackfun {new function() } 인증서 선택후 실행할 함수
+ * @return {boolean} 처리결과
+ */
+pkiUtil.certSelect_call = function( sessionId, callbackfun  ) {
+    MagicLineJSAPI.selectCert(sessionId, function( result ){
+        callbackfun( result );
+    });
+};
+
+/**
+ * 인중서 선택 (async 방식)
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {boolean} 인증서선택결과
+ */
+pkiUtil.certSelect_sync = async function( sessionId  ) {
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.selectCert(sessionId, function( result ){
+            if( result == false ) {
+                resolve( result );
+            }else{
+                resolve( result );
+            }
+        });
+    });
+};
+/**
+ * 인중서 선택 해제
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {boolean} 인증서선택결과
+ */
+pkiUtil.certUnSelect = function( sessionId ) {
+    delete pkiUtil.selectCertInfo[sessionId];
+    MagicLineJSAPI.deleteSession(sessionId);
+    return MagicLineJSAPI.unselectCert(sessionId );
+};
+
+/**
+ * 선택한 인중서 상세 정보
+ *
+ * @param  sessionId {string} 세션 ID
+ * @return {json} 인증서 정보 : <pre>
+ * "version" : 인증서 버전
+ * "serialNum" : 인증서 시리얼번호
+ * "issuer" : 인증서 발급자
+ * "notBefore" : 유효기간 시작
+ * "notAfter" : 유효기간 종료
+ * "subject" : 인증서  사용자 DN
+ * "publickey" : 공개키
+ * "authKeyID" : 인증키 ID
+ * "subjectKeyId" : 사용자키 ID
+ * "keyUsage" : 키사용 용도
+ * "policyIdentifier" : 인증정책 OID(Policy OID )
+ * "policyNotice" : 인증정책 안내
+ * "realName" : 실제사용자
+ * "vidHashAlgo" : VID hash알고리즘
+ * "vidHash" : VID</pre>
+ */
+pkiUtil.getCertInfo = function( sessionId ) {
+    return MagicLineJSAPI.selectedCert_detailInfo(sessionId );
+};
+/**
+ * 선택한 인증서의 저장매체
+ * @param  sessionId {string} 세션 ID
+ * @return {string} 인증서 저장매체 :<pre>
+ * "web" : 웹브라우저 인증서
+ * "hdd" : 하드디스크
+ * "token" : 보안토큰
+ * "mobile" : 휴대폰 인증서
+ * "smartcertnx" : 스마트인증</pre>
+ */
+pkiUtil.getCertMedia = function( sessionId ) {
+    return MagicLineJSAPI.selectedCert_media(sessionId );
+};
+
+/**
+* 사용자 인증서 얻기
+* @param  sessionId {string} 세션 ID
+* @param  gubun {string} 인증서 종류 : "SIGN" : 전자서명용, "KM" :암호화용*
+* @return {string} 인증서
+*/
+pkiUtil.getCert = function( sessionId, gubun ) {
+    let gubunString = gubun.toLowerCase();
+    return MagicLineJSAPI.selectedCert_certPEM(sessionId, gubunString );
+};
+
+/**
+* 인증서 종류
+* @param  sessionId {string} 세션 ID
+* @return {string} 인증서 종류 :
+ * GPKI, NPKI, PPKI(사설인증서),
+ */
+pkiUtil.getCertType = function( sessionId ) {
+    return MagicLineJSAPI.selectedCert_certType(sessionId);;
+};
+
+/**
+* 인증서 발급자
+* @param  sessionId {string} 세션 ID
+* @return {string} 인증서를 발급한 기관의 약자
+*/
+pkiUtil.getIssuer = function( sessionId ) {
+    return MagicLineJSAPI.selectedCert_issuerCA(sessionId);
+};
+
+/**
+* 인증서 OID 얻기
+* @param  sessionId {string} 세션 ID
+* @return {string} 인증서 Policy OID
+*/
+pkiUtil.getPolicyOID = function( sessionId ) {
+    return MagicLineJSAPI.selectedCert_policyOid(sessionId);
+};
+
+/**
+* 인증서 소유자 DN얻기
+* @param  sessionId {string} 세션 ID
+* @return {string} 인증서 소유자 DN
+*/
+pkiUtil.getSubject = function( sessionId ) {
+    return MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+};
+
+/**
+* 인증서 policy oid 검사
+* @param  sessionId {string} 세션 ID
+* @param  validoid {json} 인증서 policy oid
+* @return {boolean} 검사 결과
+*/
+pkiUtil.checkPolicyOid = function( sessionId, validoid ) {
+    return MagicLineJSAPI.selectedCert_checkPolicyOid(sessionId, validoid);
+}
+
+
+/**
+* 인증서 R값 얻기
+* @param  sessionId {string} 세션 ID
+* @param  gubun {string} 업무 구분(CERT_BIZ 코드값)
+* @return {string} 암호화된 R값( rsaEncrypt(R) )
+*/
+pkiUtil.getEncryptRvalue = function( sessionId, gubun ) {
+     let encCert = MagicLineJSAPI.getEncServerCertificate(gubun, CERT_FROMAT.PEM );
+    if (!encCert) {
+          return false;
+    }
+    let rValue = MagicLineJSAPI.selectedCert_rValue(sessionId);
+    if( rValue == false || rValue == undefined ) {
+        return false;
+    }
+
+    let encRvalue = MagicLineJSAPI.rsaEncrypt(rValue, encCert);
+    if( encRvalue == false ) {
+        return false;
+    }
+    return encRvalue;
+};
+
+/**
+* 인증서 등록 정보 얻기 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  gubun {string} 업무 구분(CERT_BIZ 코드값)
+* @return {string} 인증서 등록 정보( pkcs#7signedType( rsaEncrypt(R)) )
+*/
+pkiUtil.getCertRegData = async function( sessionId, gubun ) {
+    await pkiUtil.sleep( 300 );
+    let kmCert = await pkiUtil.getKmCert(gubun);
+    if (!kmCert) {
+        console.log('서버 암호화용 인증서가 없습니다.');
+        return false;
+    }
+
+    let result = false;
+    try{
+        result = await pkiUtil.getCertRegData_sync(sessionId, gubun);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+/**
+* 인증서 등록 정보 얻기 (callback function 방식)
+* @param  sessionId {string} 세션 ID
+* @param  gubun {string} 업무 구분(CERT_BIZ 코드값)
+* @param  callbackfun {new function()} 수행 후 실행할 함수
+* @return {boolean} 처리결과
+*/
+pkiUtil.getCertRegData_call = function( sessionId, gubun,  callbackfun  ) {
+    let encRvalue = pkiUtil.getEncryptRvalue(sessionId, gubun );
+    if( encRvalue == false ) {
+        callbackfun( false );
+        return false;
+    }
+
+    MagicLineJSAPI.makeSignedData(sessionId, encRvalue, null, function(encryptRvalue){
+        callbackfun( encryptRvalue );
+    });
+};
+/**
+* 인증서 등록 정보 얻기 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  gubun {string} 업무 구분(CERT_BIZ 코드값)
+* @return {string} 인증서 등록 정보( pkcs#7signedType( rsaEncrypt(R)) )
+*/
+pkiUtil.getCertRegData_sync = async function( sessionId, gubun  ) {
+    let encRvalue = pkiUtil.getEncryptRvalue(sessionId, gubun );
+    if( encRvalue == false ) {
+        return false;
+    }
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.makeSignedData(sessionId, encRvalue, null, function(encryptRvalue){
+            if( encryptRvalue == false ) {
+                resolve( encryptRvalue );
+            }else{
+                resolve( encryptRvalue );
+            }
+        });
+    });
+};
+
+
+/**
+* json 전자서명 생성 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  inJson {JSON} 입력데이터
+* @return {string} 전자서명값( pkcs#1 )
+*/
+pkiUtil.jsonGenSignValue = async function( sessionId, inJson ) {
+    await pkiUtil.sleep( 300 );
+
+    pkiUtil.initCertWindowCompany( sessionId );
+
+    let inData = jsonCanonicalizer( inJson );
+    return await pkiUtil.genSignValue( sessionId, inData );
+};
+
+/**
+* 전자서명 생성 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  indata {string} 입력데이터
+* @return {string} 전자서명값( pkcs#1 )
+*/
+pkiUtil.genSignValue = async function( sessionId, indata ) {
+    await pkiUtil.sleep( 300 );
+
+    pkiUtil.initCertWindowCompany( sessionId );
+    let result = false;
+    try{
+        result = await pkiUtil.genSignValue_sync(sessionId, indata);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+/**
+* 전자서명 생성 (callback function 방식)
+* @param  sessionId {string} 세션 ID
+* @param  indata {string} 입력데이터
+* @param  callbackfun { new function() } 수행후 실행할 함수
+* @return {boolean} 처리결과
+*/
+pkiUtil.genSignValue_call = async function( sessionId, indata, callbackfun  ) {
+    await pkiUtil.sleep(1000);
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        callbackfun( false );
+        return false;
+    }
+
+    MagicLineJSAPI.makePKCS1(sessionId, indata, function(result){
+        callbackfun(result);
+    });
+};
+/**
+* 전자서명 생성 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  indata {string} 입력데이터
+* @return {string} 전자서명값( pkcs#1 )
+*/
+pkiUtil.genSignValue_sync = async function( sessionId, indata  ) {
+    await pkiUtil.sleep(1000);
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        return false;
+    }
+
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.makePKCS1(sessionId, indata, function(result){
+            if( result == false ) {
+                resolve( result );
+            }else{
+                resolve( result );
+            }
+        });
+    });
+};
+
+
+
+/**
+* JSON 전자서명 검사
+* @param  sessionId {string} 세션 ID
+* @param  inJson {JSON} 입력데이터
+* @param  signValue {string} 전자서명값 ( pkcs#1 )
+* @return {boolean} 검사 결과
+*/
+pkiUtil.jsonVerifySignValue = function( sessionId, inJson, signValue ) {
+
+    let inData = jsonCanonicalizer( inJson );
+    return pkiUtil.verifySignValue(   sessionId, inData, signValue  );
+};
+
+/**
+* 전자서명 검사
+* @param  sessionId {string} 세션 ID
+* @param  indata {string} 입력데이터
+* @param  signValue {string} 전자서명값 ( pkcs#1 )
+* @return {boolean} 검사 결과
+*/
+pkiUtil.verifySignValue = function( sessionId, indata, signValue ) {
+
+    let signCert  = MagicLineJSAPI.selectedCert_certPEM(sessionId, (CERT_TYPE.SIGN).toLowerCase() );
+    if( signCert == false ) {
+        return false;
+    }
+
+    return MagicLineJSAPI.verifyPKCS1(signCert, signValue, indata);
+};
+
+/**
+* 전자서명 검사
+* @param  indata {string} 입력데이터
+* @param  signValue {string} 전자서명값 ( pkcs#1 )
+* @param  signCert {string} 전자서명인증서
+* @return {boolean} 검사 결과
+*/
+pkiUtil.verifySignData = function( indata, signValue, signCert  ) {
+
+    return MagicLineJSAPI.verifyPKCS1(signCert, signValue, indata);
+};
+
+
+
+/**
+* pkcs7 기능 : 전자서명 생성  (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  indata {string} 입력데이터
+* @return {string} 전자서명값, pkcs#7 signed Type
+*/
+pkiUtil.pkcs7GenSignedData = async function( sessionId, indata ) {
+    await pkiUtil.sleep( 300 );
+
+    pkiUtil.initCertWindowCompany( sessionId );
+    let result = false;
+    try {
+        result = await pkiUtil.certSelect( sessionId );
+        if( result == false ){
+            return false;
+        }
+        result = await pkiUtil.pkcs7GenSignedData_sync(sessionId, indata);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+/**
+* pkcs7 기능 : 전자서명 생성  (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  indata {string} 입력데이터
+* @param  callbackfun {new function()} 수행후 실행할 함수
+* @return {boolean} 처리결과
+*/
+pkiUtil.pkcs7GenSignedData_call = async function( sessionId, indata, callbackfun  ) {
+    await pkiUtil.sleep(1000);
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        callbackfun( false );
+        return false;
+    }
+
+    MagicLineJSAPI.makeSignedData(sessionId, indata, null, function(result){
+        callbackfun( result );
+    });
+};
+/**
+* pkcs7 기능 : 전자서명 생성  (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  indata {string} 입력데이터
+* @return {string} 전자서명값, pkcs#7 signed Type
+*/
+pkiUtil.pkcs7GenSignedData_sync = async function( sessionId, indata  ) {
+    await pkiUtil.sleep(1000);
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        return false;
+    }
+
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.makeSignedData(sessionId, indata, null, function(result){
+            if( result == false ) {
+                resolve( result );
+            }else{
+                resolve( result );
+            }
+        });
+    });
+};
+/**
+* pkcs7 기능 : 전자서명 추가 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  signedText {string} 전자서명값, pkcs#7 signed Type
+* @return {string} 전자서명값, pkcs#7 signed Type
+*/
+pkiUtil.pkcs7AddSigner = async function( sessionId, signedText ) {
+    let result = false;
+    try {
+        result = await pkiUtil.pkcs7AddSigner_sync(sessionId, signedText);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+/**
+* pkcs7 기능 : 전자서명 추가 (callback funtion 방식)
+* @param  sessionId {string} 세션 ID
+* @param  signedText {string} 전자서명값, pkcs#7 signed Type
+* @param  callbackfun {new function} 수행후 실행할 함수
+* @return {boolean} 처리결과
+*/
+pkiUtil.pkcs7AddSigner_call = function( sessionId, signedText, callbackfun  ) {
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        callbackfun( false );
+        return false;
+    }
+
+    let rst = MagicLineJSAPI.verifySignedData(signedText);
+    if (rst == false) {
+        callbackfun( false );
+        return false;
+    }
+
+    for (var i=0; i < rst.signerInfos.length; i++) {
+        if( userDN == rst.signerInfos[i].certInfo.subject ){
+            return false;
+        }
+    }
+
+    MagicLineJSAPI.addSigner(sessionId, signedText, null, function(result){
+        callbackfun( result );
+    });
+};
+/**
+* pkcs7 기능 : 전자서명 추가 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  signedText {string} 전자서명값, pkcs#7 signed Type
+* @return {string} 전자서명값, pkcs#7 signed Type
+*/
+pkiUtil.pkcs7AddSigner_sync = async function( sessionId, signedText  ) {
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        return false;
+    }
+
+    let rst = MagicLineJSAPI.verifySignedData(signedText);
+    if (rst == false) {
+        return false;
+    }
+
+    for (var i=0; i < rst.signerInfos.length; i++) {
+        if( userDN == rst.signerInfos[i].certInfo.subject ){
+            return false;
+        }
+    }
+
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.addSigner(sessionId, signedText, null, function(result){
+            if( result == false ) {
+                resolve( result );
+            }else{
+                resolve( result );
+            }
+        });
+    });
+};
+
+
+/**
+* pkcs7 기능 : 전자서명 검사
+* @param  signedText {string} 전자서명값, pkcs#7 signed Type
+* @return {array} 전자서명 결과 :
+*  0 : 원문 데이터
+*  1 : 전자서명 갯수
+*  2 : arrary 전자서명에 사용된 인증서
+*  3 : arrary 전자서명에 사용된 인증서 DN
+*
+*/
+pkiUtil.pkcs7VerifySignedData = function( signedText ) {
+    let result = MagicLineJSAPI.verifySignedData(signedText);
+    if( result == false ) {
+        return false;
+    }
+
+    let plainText = result.content; // 서명원문
+    let signCerts = [];
+    let signerDNs = [];
+    let signerNo = 0;
+    for (var i=0; i<result.signerInfos.length; i++) {
+        signCerts.push( result.signerInfos[i].certPEM );
+        signerDNs.push( result.signerInfos[i].certInfo.subject );
+        signerNo++;
+    }
+    return[ plainText, signerNo, signCerts, signerDNs ];
+};
+
+/**
+* pkcs7 기능 : pkcs7 암호화
+* @param  indata {string} 입력데이터
+* @param  encCert {string} 암호화 인증서
+* @return {string} 암호화된 값, pkcs#7 enveloped Type
+*/
+pkiUtil.pkcs7GenEncryptData = function( indata, encCert ) {
+    let kmCerts     = [];
+    kmCerts.push(encCert);
+
+    return MagicLineJSAPI.makeEnvelopedData(kmCerts, indata );
+};
+pkiUtil.pkcs7GenMultiEncryptData = function( indata, kmCerts ) {
+
+    return MagicLineJSAPI.makeEnvelopedData(kmCerts, indata );
+};
+
+/**
+* pkcs7 기능 : pkcs7 복호화 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  inEncdata {string} 암호화된 데이터, pkcs#7 enveloped Type
+* @return {string} 복호화된 값
+*/
+pkiUtil.pkcs7DecryptData = async function( sessionId, inEncdata ) {
+    pkiUtil.initCertWindowCompany( sessionId );
+
+    let result = false;
+    try {
+        result = await pkiUtil.pkcs7DecryptData_sync(sessionId, inEncdata);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+/**
+* pkcs7 기능 : pkcs7 복호화 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  inEncdata {string} 암호화된 데이터, pkcs#7 enveloped Type
+* @param  callbackfun { new function() } 수행후 실행할 함수
+* @return {boolean} 처리결과
+*/
+pkiUtil.pkcs7DecryptData_call = function( sessionId, inEncdata, callbackfun ) {
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        callbackfun( false );
+        return false;
+    }
+
+    MagicLineJSAPI.processkmCertEnvelopData(sessionId, inEncdata, function(result){
+        if( result == false ) {
+            MagicLineJSAPI.processSignCertEnvelopData(sessionId, inEncdata, function(result){
+                callbackfun(result);
+            });
+        }else{
+            callbackfun(result);
+        }
+    });
+};
+/**
+* pkcs7 기능 : pkcs7 복호화 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  inEncdata {string} 암호화된 데이터, pkcs#7 enveloped Type
+* @return {string} 복호화된 값
+*/
+pkiUtil.pkcs7DecryptData_sync = async function( sessionId, inEncdata  ) {
+    let userDN = MagicLineJSAPI.selectedCert_subjectDn(sessionId);
+    if( userDN == false ) {
+        return false;
+    }
+
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.processkmCertEnvelopData(sessionId, inEncdata, function(result){
+            if( result == false ) {
+                 MagicLineJSAPI.processSignCertEnvelopData(sessionId, inEncdata, function(result){
+                     if( result == false ) {
+                         resolve( result );
+                     }else{
+                         resolve( result );
+                     }
+                 });
+            }else{
+                resolve( result );
+
+            }
+        });
+    });
+};
+
+
+
+/**
+* 세션키 기능 : 세션키 생성
+* @param  sessionId {string} 세션 ID
+* @param  reUsed {boolean} 세션키 재활용 여부:
+*           true: 재활용, false: 재생성
+* @return {string} 복호화된 값
+*/
+pkiUtil.sessionInitKey = function(sessionId, reUsed) {
+    if( reUsed == true  )
+    {
+        let kmCert = MagicLineJSAPI.getEncServerCertificate( CERT_BIZ.WEB, CERT_FROMAT.PEM );
+        if ( kmCert != false ) {
+            let sskey     = MagicLineJSAPI.getSessionKeyInfo( sessionId, kmCert );
+            if( sskey != false ) {
+                return true;
+            }
+        }
+    }
+    return MagicLineJSAPI.genrateSessionkey(sessionId, PKI_ALG.ARIA_HTML5 );
+};
+
+/**
+* 세션키 기능 : 암호화된 세션키 가져오기
+* @param  sessionId {string} 세션 ID
+* @param  gubun {string} 업무구분(CERT_BIZ 코드값)
+* @return {string} 암호화된 세션키
+*/
+pkiUtil.sessionGetKey = function(sessionId, gubun) {
+    let kmCert = MagicLineJSAPI.getEncServerCertificate( gubun, CERT_FROMAT.DER );
+    if (!kmCert) {
+        return false;
+    }
+    let rstJson = {
+            "sskey" : MagicLineJSAPI.getSessionKeyInfo( sessionId, kmCert ),
+            "ssId"  : sessionId
+    }
+    return JSON.stringify(rstJson);
+};
+
+pkiUtil.sessionGetKeyFromCert = function(sessionId, kmCert) {
+    let rstJson = {
+            "sskey" : MagicLineJSAPI.getSessionKeyInfo( sessionId, kmCert ),
+            "ssId"  : sessionId
+    }
+    return JSON.stringify(rstJson);
+};
+/**
+* 세션키 기능 : 암호화
+* @param  sessionId {string} 세션 ID
+* @param  inData {string} 입력값
+* @return {string} 암호화된 값
+*/
+pkiUtil.sessionEncrypt = function(sessionId, inData) {
+    return MagicLineJSAPI.sessionkeyEncrypt(sessionId, inData);
+};
+
+/**
+* 세션키 기능 : 복호화
+* @param  sessionId {string} 세션 ID
+* @param  inData {string} 암호화된 입력값
+* @return {string} 복호화된 값
+*/
+pkiUtil.sessionDecrypt = function(sessionId, inData) {
+    return MagicLineJSAPI.sessionkeyDecrypt(sessionId, inData);
+};
+
+
+/**
+ * RSA 암호화 기능 : 암호화
+* @param  inData {string} 입력값
+* @param  kmCert {string} 암호화 인증서
+* @return {string} RSA 암호화된 값
+*/
+pkiUtil.rsaEncrypt = function(inData, kmCert) {
+    return MagicLineJSAPI.rsaEncrypt(inData, kmCert);
+};
+
+/**
+ * RSA 암호화 기능 : 복호화 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  inEncdata {string} 암호화된 입력값
+* @return {string} RSA 복호화된 값
+*/
+pkiUtil.rsaDecrypt = async function( sessionId, inEncdata ) {
+    pkiUtil.initCertWindowCompany( sessionId );
+
+    let result = false;
+    try {
+        result = await pkiUtil.rsaDecrypt_sync(sessionId, inEncdata);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+/**
+ * RSA 암호화 기능 : 복호화 (callback function 방식)
+* @param  sessionId {string} 세션 ID
+* @param  inEncdata {string} 암호화된 입력값
+* @param  callbackfun {new function()} 수행후 실행할 함수
+* @return {boolean} 처리결과
+*/
+pkiUtil.rsaDecrypt_call = function(sessionId, inEncData, callbackfun) {
+    MagicLineJSAPI.rsaKmCertDecrypt(sessionId, inEncData, function(result){
+        if( result == false ) {
+            MagicLineJSAPI.rsaSignCertDecrypt(sessionId, inEncData, function(result2){
+                callbackfun( result2 );
+            });
+        }else{
+            callbackfun( result );
+        }
+
+    });
+};
+/**
+ * RSA 암호화 기능 : 복호화 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  inEncdata {string} 암호화된 입력값
+* @return {string} RSA 복호화된 값
+*/
+pkiUtil.rsaDecrypt_sync = async function(sessionId, inEncData) {
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.rsaKmCertDecrypt(sessionId, inEncData, function(result){
+            if( result == false ) {
+                MagicLineJSAPI.rsaSignCertDecrypt(sessionId, inEncData, function(result){
+                    if( result == false ) {
+                        resolve( result );
+                    }else{
+                        resolve( result );
+                    }
+                });
+            }else{
+                resolve( result );
+            }
+        });
+    });
+};
+
+
+/**
+ * soap/xml 기능 : signedInfo에 대한 전자서명 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  signedinfo {string} 서버에서 생성한 SignedInfo 값
+* @return {string} 전자서명값
+*/
+pkiUtil.genSignForSignedInfo = async function( sessionId, signedinfo ) {
+    pkiUtil.initCertWindowCompany( sessionId );
+
+    await pkiUtil.sleep( 1000 );
+
+    let result = false;
+    try {
+        result = await pkiUtil.genSignForSignedInfo_sync(sessionId, signedinfo);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+
+/**
+ * soap/xml 기능 : signedInfo에 대한 전자서명 (callback function 방식)
+* @param  sessionId {string} 세션 ID
+* @param  signedinfo {string} 서버에서 생성한 SignedInfo 값
+* @param  callbackfun {new function() } 수행후 실행할 함수
+* @return {boolean} 처리결과
+*/
+pkiUtil.genSignForSignedInfo_call =  function(sessionId, signedinfoString, callbackfun) {
+    let signedinfo;
+    try {
+        signedinfo = JSON.parse(signedinfoString);
+    }catch (ex){
+        callbackfun( false );
+        return false;
+    }
+
+    MagicLineJSAPI.makeSignedInfoSign(sessionId, signedinfo, function(result){
+        if( result == false ) {
+            callbackfun( result ) ;
+        }else{
+            if (typeof (result) == "object") {
+                try {
+                    result = JSON.stringify(result);
+                } catch (ex) { }
+             }
+            callbackfun( result ) ;
+        }
+    });
+};
+
+/**
+ * soap/xml 기능 : signedInfo에 대한 전자서명 (async 방식)
+* @param  sessionId {string} 세션 ID
+* @param  signedinfo {string} 서버에서 생성한 SignedInfo 값
+* @return {string} 전자서명값
+*/
+pkiUtil.genSignForSignedInfo_sync = async function(sessionId, signedinfo) {
+//    try {
+//        signedinfo = JSON.parse(signedinfo);
+//    }catch (ex){
+//    }
+
+    return new Promise((resolve, reject)=>{
+        MagicLineJSAPI.makeSignedInfoSign(sessionId, signedinfo, function(result){
+            if( result == false ) {
+                resolve( result );
+            }else{
+                let retStr = "";
+                if (typeof (result) == "object") {
+                    try {
+//                        result = JSON.stringify(result);
+                        retStr= result[0];
+                    } catch (ex) {
+                        retStr=result;
+                    }
+                }else {
+                    retStr = result;
+                }
+                resolve( retStr );
+            }
+        });
+    });
+};
+
+/**
+ * soap/xml 기능 : 입찰서 암호화
+* @param  sessionId {string} 세션 ID
+* @param  bidXMLDocument {string} 입찰서 xml
+* @param  bidCert {string} 입찰서 암호화에 사용될 암호화 인증서
+* @return {array} 암호화된 입찰서 정보 :
+*  0: 암호화된 입찰서
+*  1: 입찰서 원문에 대한 HASH값
+*  2: 암호화된 입찰서에 대한 HASH값
+*/
+pkiUtil.genEncryptBidXML = function(sessionId, bidXMLDocument, bidCert ) {
+
+    let envelopeValue;             // 암호화된 XML
+    let bidXmlHashValue;           // 원문 입찰서 hash값
+    let bidXmlEncHashValue;        // 암호화된 입찰서 hash값
+
+    let kmCerts = [];             // 암호화인증서
+
+    kmCerts.push(bidCert);
+    let userKmCert = pkiUtil.getCert(sessionId, CERT_TYPE.KM);
+    if (userKmCert != false) {
+        kmCerts.push(userKmCert);
+    }
+
+    bidXmlHashValue = pkiUtil.genHash( bidXMLDocument );
+    if (bidXmlHashValue == false) {
+        return;
+    }
+
+    envelopeValue = MagicLineJSAPI.makeEnvelopedData(kmCerts, bidXMLDocument);
+    if (envelopeValue == false) {
+       return;
+    }
+
+    bidXmlEncHashValue = pkiUtil.genHash( envelopeValue );
+    if (bidXmlEncHashValue == false) {
+        return;
+    }
+
+    return [envelopeValue, bidXmlHashValue, bidXmlEncHashValue ];
+};
+
+/**
+ * soap/xml 기능 : 암호화된 입찰서 검증 (async 방식)
+ *
+* @param  sessionId {string} 세션 ID
+* @param  envelopeValue {string} 암호화된 입찰서
+* @param  orgHashVal {string} 입찰서 원문 HASH값
+* @param  encHashVal {string} 암호화된 입찰서 HASH값
+* @return {array} 검사 결과
+*/
+pkiUtil.checkEncryptBidXML = async function(sessionId, envelopeValue, orgHashVal, encHashVal ) {
+    let rst = pkiUtil.verifyHash(envelopeValue, encHashVal );
+    if(rst == false ) {
+        return false;
+    }
+
+//  if( pkiUtil.getCertType(sessionId) == "NPKI" && pkiUtil.getCertMedia (sessionId) != "fincert" ) {
+    let kmCert = pkiUtil.getCert( sessionId, CERT_TYPE.KM );
+    if( kmCert == false || kmCert == undefined || pkiUtil.getCertMedia (sessionId) == 'token' ) {
+        return true;
+    }
+
+    let decBidXML = await pkiUtil.pkcs7DecryptData( sessionId, envelopeValue );
+    if( decBidXML == false ) {
+        return false;
+    }
+
+    rst = pkiUtil.verifyHash(decBidXML, orgHashVal );
+    if(rst == false ) {
+        return false;
+    }
+
+    return true;
+};
+
+/**
+ * 간편인증 기능 : 간편인증 신원확인 기능
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleAuth = async function( sessionId, inSignData ) {
+    let result = false;
+    try {
+        result = await pkiUtil.makeSimpleAuth_sync(sessionId, inSignData);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+
+/**
+ * 간편인증 기능 : 간편인증 신원확인 기능 (function call방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @param callbackfun (function) 처리 후 호출 함수
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleAuth_call =  function(sessionId, inSignData, callbackfun) {
+
+    MagicLineJSAPI.makeSimpleAuth(inSignData, sessionId, function(result) {
+        if (result.code == false) {
+            callbackfun( false );
+        }else{
+            callbackfun( result.txId );
+        }
+    });
+};
+
+/**
+ * 간편인증 기능 : 간편인증 신원확인 기능 (sync 방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleAuth_sync = async function(sessionId, inSignData ) {
+
+    return new Promise((resolve, reject)=>{
+      MagicLineJSAPI.makeSimpleAuth(inSignData, sessionId, function(result) {
+            if (result.code == false) {
+                resolve( false );
+            }else{
+                resolve( result.txId );
+            }
+      });
+  });
+};
+
+
+
+/**
+ * 간편인증 기능 : 개인사업자 간편인증 신원확인 기능
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleSignBiz = async function( sessionId, inSignData ) {
+    let result = false;
+    try {
+        result = await pkiUtil.makeSimpleSignBiz_sync(sessionId, inSignData);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+
+/**
+ * 간편인증 기능 : 개인사업자 간편인증 신원확인 기능 (function call방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @param callbackfun (function) 처리 후 호출 함수
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.isDreamEzauthJsLoad=false;
+pkiUtil.makeSimpleSignBiz_call =  async function(sessionId, inSignData, callbackfun) {
+
+//    document.addEventListener( "DOMContentLoaded", function () {
+    if( pkiUtil.isDreamEzauthJsLoad == false ){
+        console.log("event DOMContentLoaded" );
+        var hubUA = window.navigator.userAgent.toUpperCase();
+        if (hubUA.indexOf("MOBILEAPP") > -1 || hubUA.indexOf("MOBILE") > -1) {
+            var mobileScript = document.createElement('script');
+            mobileScript.src = '/MagicLine4Web/ezauth/js/MLH_EzauthMobile.js';
+            document.head.appendChild(mobileScript);
+        } else {
+            var pcScript = document.createElement('script');
+            pcScript.src = '/MagicLine4Web/ezauth/js/MLH_Ezauth.js';
+            document.head.appendChild(pcScript);
+        }
+        pkiUtil.isDreamEzauthJsLoad = true;
+        await pkiUtil.sleep( 300 );
+    }
+//    });
+
+    MagicLineJSAPI.makeSimpleBizSign(inSignData, sessionId, function(result) {
+        if (result.code == false) {
+            callbackfun( false );
+        }else{
+            callbackfun( result.txId );
+        }
+    });
+};
+
+/**
+ * 간편인증 기능 : 개인사업자 간편인증 신원확인 기능 (sync 방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleSignBiz_sync = async function(sessionId, inSignData ) {
+
+//	document.addEventListener( "DOMContentLoaded", function () {
+    if( pkiUtil.isDreamEzauthJsLoad == false ){
+        console.log("event DOMContentLoaded" );
+        var hubUA = window.navigator.userAgent.toUpperCase();
+        if (hubUA.indexOf("MOBILEAPP") > -1 || hubUA.indexOf("MOBILE") > -1) {
+            var mobileScript = document.createElement('script');
+//            mobileScript.src = '/MagicLine4Web/ezauth/js/MLH_EzauthMobile.js';
+            //임시 js 추가
+            mobileScript.src = '/MagicLine4Web/ezauth/js/MLH_Ezauth.js';
+            document.head.appendChild(mobileScript);
+        } else {
+            var pcScript = document.createElement('script');
+            pcScript.src = '/MagicLine4Web/ezauth/js/MLH_Ezauth.js';
+            document.head.appendChild(pcScript);
+        }
+        pkiUtil.isDreamEzauthJsLoad = true;
+        await pkiUtil.sleep( 300 );
+    }
+//	});
+
+    return new Promise((resolve, reject)=>{
+      MagicLineJSAPI.makeSimpleBizSign(inSignData, sessionId, function(result) {
+            if (result.code == false) {
+                resolve( false );
+            }else{
+                resolve( result.txId );
+            }
+      });
+  });
+};
+
+
+
+
+/**
+ * 간편인증 기능 : 개인 간편인증 전자서명 기능
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleSignPerson = async function( sessionId, inSignData ) {
+    let result = false;
+    try {
+        result = await pkiUtil.makeSimpleSignPerson_sync(sessionId, inSignData);
+    }catch(e){
+        return false;
+    }
+    return result;
+};
+
+/**
+ * 간편인증 기능 : 개인 간편인증 전자서명 기능 (function call방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터
+ * @param callbackfun (function) 처리 후 호출 함수
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleSignPerson_call =  function(sessionId, inSignData, callbackfun) {
+
+    MagicLineJSAPI.makeSimpleSign(inSignData, sessionId, function(result) {
+        if (result.code == false) {
+            callbackfun( false );
+        }else{
+            callbackfun( result.txId );
+        }
+    });
+};
+
+/**
+ * 간편인증 기능 : 개인 간편인증 전자서명 기능 (sync 방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleSignPerson_sync = async function(sessionId, inSignData ) {
+
+    return new Promise((resolve, reject)=>{
+      MagicLineJSAPI.makeSimpleSign(inSignData, sessionId, function(result) {
+            if (result.code == false) {
+                resolve( false );
+            }else{
+                resolve( result.txId );
+            }
+      });
+  });
+};
+
+
+
+/**
+ * 간편인증 기능 : 간편인증 전자서명 기능
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleSign = async function( sessionId, inSignData ) {
+    if( pkiUtil.signServiceProvider == "DREAM" ) {
+        return await pkiUtil.makeSimpleSignPerson_sync( sessionId, inSignData );
+    }else{
+        return await pkiUtil.makeSimpleSignBiz_sync( sessionId, inSignData );
+    }
+
+
+};
+
+/**
+ * 간편인증 기능 : 간편인증 전자서명 기능 (function call방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터
+ * @param callbackfun (function) 처리 후 호출 함수
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleLogin_call = async function(sessionId, inSignData, callbackfun) {
+    if( pkiUtil.signServiceProvider == "DREAM" ) {
+        pkiUtil.makeSimpleSignPerson_call( sessionId, inSignData );
+    }else{
+        await pkiUtil.makeSimpleSignBiz_call( sessionId, inSignData, callbackfun );
+    }
+};
+
+/**
+ * 간편인증 기능 : 간편인증 전자서명 기능 (sync 방식)
+ * @param sessionId {string} 세션 ID
+ * @param inSignData {string} 입력데이터
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleSign_sync = async function(sessionId, inSignData ) {
+    if( pkiUtil.signServiceProvider == "DREAM" ) {
+        return await pkiUtil.makeSimpleSignPerson_sync( sessionId, inSignData );
+    }else{
+        return await pkiUtil.makeSimpleSignBiz_sync( sessionId, inSignData );
+    }
+};
+
+
+
+
+
+var jsonCanonicalizer = function(object) {
+
+    var buffer = '';
+    serialize(object);
+    return buffer;
+
+    function serialize(object) {
+        if (object !== null && typeof object === 'object') {
+            if (Array.isArray(object)) {
+                buffer += '[';
+                let next = false;
+                // Array - Maintain element order
+                object.forEach((element) => {
+                    if (next) {
+                        buffer += ',';
+                    }
+                    next = true;
+                    // Recursive call
+                    serialize(element);
+                });
+                buffer += ']';
+            } else {
+                buffer += '{';
+                let next = false;
+                // Object - Sort properties before serializing
+                Object.keys(object).sort().forEach((property) => {
+                    if (next) {
+                        buffer += ',';
+                    }
+                    next = true;
+                    // Properties are just strings - Use ES6
+                    buffer += JSON.stringify(property);
+                    buffer += ':';
+                    // Recursive call
+                    serialize(object[property]);
+                });
+                buffer += '}';
+            }
+        } else {
+            // Primitive data type - Use ES6
+            buffer += JSON.stringify(object);
+        }
+    }
+};
+
+
+/**
+ * 간편인증 기능 : 간편인증 신원확인 OneCall 기능
+ * @param bizCode {string} 요청프로그램의 구분코드 앞 4자리(소스코드의 4자리)
+ * @param reqTaskId {string} 업무처리 ID(예: 문서번호, 처리순번, 요청코드순번 등)
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @param certDp {string} 업무 구분
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+
+
+pkiUtil.simAuthErrMsg = "";
+pkiUtil.makeSimpleAuthOneCall = async function( bizCode, reqTaskId,  inSignData  ) {
+    return pkiUtil.makeSimpleAuthOneCall2(bizCode, reqTaskId,  inSignData, {} )
+};
+
+/**
+ * 간편인증 기능 : 간편인증 신원확인 OneCall 기능 사용자 정보가 입력되는 형태(행안부 설치형 간편인증만 지원)
+ * @param bizCode {string} 요청프로그램의 구분코드 앞 4자리(소스코드의 4자리)
+ * @param reqTaskId {string} 업무처리 ID(예: 문서번호, 처리순번, 요청코드순번 등)
+ * @param inSignData {string} 입력데이터, 나라장터에서는 미입력
+ * @param certDp {string} 업무 구분
+ * @param inUserInfo {json} 사용자 정보
+ * {
+        name:"",       //이름 (ex 홍길동)
+        phone1:"",     //휴대폰번호 앞자리 3자리 (ex 010)
+        phone2:"",     //휴대폰번호 뒷자리 7,8자리 (ex 12345678)
+        telcoTycd: "", //S,K,L
+        ssn1: "",      //주민등록번호 앞자리 (ex 900101)
+        ssn2: "",      //주민등록번호 뒷자리 (ex 1999999)
+        birthday:""    //생년월일 (ex 19900101)
+    }
+ * @returns 성공 트랜젝션 ID
+ *          실패 false
+ */
+pkiUtil.makeSimpleAuthOneCall2 = async function( bizCode, reqTaskId,  inSignData, inUserInfo ) {
+    pkiUtil.simAuthErrMsg  = "";
+
+    let sessionId = DREAM_SESSION_BASE + "/person";
+    let reqType = "simpleAuth";
+
+    let kmCert = await pkiUtil.getKmCert(CERT_BIZ.WEB);
+    if (kmCert == false) {
+       pkiUtil.simAuthErrMsg = "서버 인증서를 가져올 수 었습니다.";
+       return false;
+    }
+
+    let result = pkiUtil.sessionInitKey(sessionId, false);
+    if( result == false ) {
+        pkiUtil.simAuthErrMsg = "간편인증 초기화 오류가 발생하였습니다.";
+        return false;
+    }
+
+    if( (pkiUtil.serviceProvider == "DREAM") ){
+        result = await pkiUtil.makeSimpleAuth(sessionId, inSignData);
+        pkiUtil.simAuthErrMsg = pkiUtil.getErrMsg();
+    }else {
+        if( "RELAY" == pkiUtil.serviceMoisType ){
+            result = await moSimAuthR.makeSimAuth (bizCode, reqTaskId, reqType, inSignData );
+            pkiUtil.simAuthErrMsg = moSimAuthR.ErrorMessage;
+        }
+        else{
+            result = await moSimAuthI.makeSimAuth( reqType, inSignData, inUserInfo );
+        }
+    }
+    return result;
+};
+
+/**
+ * 간편인증 기능 : 간편인증 처리 오류 메시지 반환
+ */
+pkiUtil.getSimpleAuthMessage = function() {
+    return pkiUtil.simAuthErrMsg ;
+}
+
+
+/**
+ * 서버 암호화인증서 얻기(브라우저에 저장되어 있는지 확인 후 없는경우 서버에서 얻기)
+ * @param certDp {string} 업무 구분자
+ * @returns returns {string} 인증서
+ */
+pkiUtil.getKmCert = async function( certDp ) {
+    let kmCert = pkiUtil.getEncryptCert(certDp);
+    if (kmCert == false) {
+        kmCert = await pkiUtil.getSvrKmCert(certDp);
+        pkiUtil.setEncryptCert(certDp, kmCert);
+    }
+    return kmCert;
+}
+
+/**
+ * 서버 암호화인증서 얻기(서버에서 직접가져오기)
+ * @param certDp {string} 업무 구분자
+ * @returns returns {string} 인증서
+ */
+pkiUtil.getSvrKmCert = async function( certDp ) {
+    let jsonObject = new Object() ;
+    jsonObject.certDp = certDp;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coeb/getSvrCertSv.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(jsonObject),
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData.kmCert );
+                } else {
+                    resolve( false );
+                }
+            },
+            error : function ( msg ) {
+                reject( false );
+            }
+        });
+    });
+};
+
+pkiUtil.sleep = async function( sec ) {
+    return new Promise( resolve => setTimeout(resolve, sec));
+}
+
+
+/**
+ * 인증서 유효성 검사 및 기관 인증서 테이블에 등록된 인증서 여부 체크
+ * @param signCert {string} 전자서명인증서
+ * @returns returns {json}
+ *            "result" : 처리 결과(  success : 인증서 등록, not login, 인증서 정보 불완전  / fail : 인증서 유효성 검사 실패, 인증서 미등록 )
+ *            "status" : 상태값 ( "notValid" : 유효성검사실패, "notLogin" : not Login, "notRegist" : 인증서 미등록, "notComplate" : 불완전등록(DN만 등록된 상태, 유효기간 잘못등록),"complate": 정상
+ */
+pkiUtil.chkRegstCert = async function( signCert ) {
+    let jsonObject = new Object() ;
+    jsonObject.signCert = signCert;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coeb/checkValidReg.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(jsonObject),
+            success: function(resData){
+                resolve( resData );
+            },
+            error : function ( msg ) {
+                resolve( false );
+            }
+        });
+    });
+};
+
+
+
+
+//=============================================================================
+/**
+ * 입찰대리인 본인확인
+ *
+ * @date 2023.09.21
+ * @author hgjkim
+ * @namespace pkiUtil
+ * @description
+     입찰대리인 본인확인
+ */
+// =============================================================================
+
+/**
+ * 입찰대리인 본인확인 처리
+ * @returns true : 성공 , false : 실패
+ */
+pkiUtil.bidUserAuth = async function( ) {
+    let rst = await  pkiUtil.isUserAuth();
+    if( rst == false ){
+        await com.gfnAlert("error.comm.userAuthReq");
+        return false;
+    }else if( rst.result == "success" ) {
+        //본인확인이 되어 있음
+        return true;
+    } else 	if( rst.result == "notlogin" ) {
+        //로그인이 되어 있지 않음
+        await com.gfnAlert("msg.login.required");
+        return false;
+    }
+
+    let txid = await pkiUtil.getAuthProviderPopUP();
+    if( txid == false ) {
+        //본인확인 실패 및 취소...
+        //메시지 창은 본인확인창에서 처리함
+        return false;
+    }
+
+    //화면이 닫히기를 기다린다.
+    //await pkiUtil.sleep(500);
+
+    rst = await pkiUtil.userAuthChk( txid );
+    if( rst == false ){
+        await com.gfnAlert("error.comm.userAuth");
+        return false;
+    } else if( rst.result == "success" ) {
+        return true;
+    } else if( rst.result == "notlogin" ) {
+        await com.gfnAlert("msg.login.required");
+    } else if( rst.result == "notAuth" ){
+        await com.gfnAlert("error.comm.userNotAuth");
+    } else if( rst.result == "missMatch" ){
+        await com.gfnAlert("error.comm.userNotMatch");
+    }else if( rst.result ==  "upFail" ){
+        await com.gfnAlert("error.comm.userAuthUpdate");
+    }
+    return false;
+};
+
+/**
+ * 서버에 질의하여 본인확인이 되어있는지 확인한다.
+ * @returns returns 본인확인여부 질의 결과
+ *      success : 성공
+ *      fail : 실패
+ *      notlogin : 사용자로그인 않됨 *
+ */
+pkiUtil.isUserAuth = async function() {
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/isUserAuth.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: "",
+            success: function(resData){
+                if( resData.result == "success" ){
+                    resolve( resData );
+                }else{
+                    resolve( resData );
+                }
+            },
+            error : function ( msg ) {
+                resolve( false );
+            }
+        });
+    });
+};
+
+/**
+ * 본인확인 수행 후 결과를 확인한다.
+ * @param txId 본인확인 수행한 결과 TX ID
+ * @returns returns 본인확인 결과
+ *      success : 성공
+ *      fail : 실패
+ *      notlogin : 사용자로그인 않됨
+ *      missMatch : 사용자 정보 불일치
+ *      upFail : 정보업데이트 실패
+ */
+pkiUtil.userAuthChk = async function( txId ) {
+    let jsonObject = new Object() ;
+    jsonObject.txId = txId;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/userAuthCheck.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(jsonObject),
+            success: function(resData){
+                 if( resData.result == "success" ){
+                     resolve( resData );
+                 }else{
+                     console.log( resData.message );
+                     resolve( resData );
+                 }
+            },
+            error : function ( msg ) {
+                resolve( false );
+            }
+        });
+    });
+};
+
+/**
+ * 본인확인 팝업창 생성 및 본인확인 수행
+ * @returns txID 본인확인 결과 TX ID
+ */
+pkiUtil.getAuthProviderPopUP = async function () {
+
+    return new Promise((resolve, reject)=>{
+        let mobileInfoJson  = new Object() ;
+        let requestInfoJson = new Object() ;
+        let userInfoJson    = new Object() ;
+        const data = {
+            "requestInfoJson" :  requestInfoJson,
+            "mobileInfoJson" : mobileInfoJson,
+            "userInfoJson" : userInfoJson,
+        };
+
+        com.gfnOpenPopup({
+            menuCangVal: "FUUF064_01",
+            popupId: "authProviderSelect",
+            popupName: "본인확인서비스 선택",
+            param: data,
+            width: 510,
+            height: 430,
+            callbackFn:
+                function(result) {
+                    if (result == undefined) {
+                        resolve( false );
+                    }else{
+                        resolve( result );
+                    }
+                }
+        });
+    });
+};
+
+
+
+/**
+ * 개인사업자인지 법인사업자인지 확인한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil
+ * @param
+ * @returns "unkonwn" : 로그인않됨, "indivisual" : 개인사업자, "corporation" : 법인
+ * @author hgkim_In01
+ * @example
+ * @since
+ */
+pkiUtil.bizTypeCheck = async function(  ) {
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coeb/bizTypeCheck.do",
+            contentType: "application/json; charset=utf-8",
+            dataType:"json",
+            timeout: 2000,
+//            data:inJsonValue,
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData.status );
+                } else {
+                    resolve( resData.status );
+                }
+            },
+            error : function ( request, status, error ) {
+                resolve( "unknown" );
+            }
+        });
+    });
+};
+
+
+
+
+//=============================================================================
+/**
+ * 금융결제원 본인확인 UCPID
+ *
+ * @date 2023.09.21
+ * @author hgjkim
+ * @namespace pkiUtil
+ * @description
+     금융결제원 본인확인 UCPID
+ */
+// =============================================================================
+
+//const FINACE_CONNECT_URL  = "https://t-4user.yeskey.or.kr";
+const FINACE_CONNECT_URL  = "https://4user.yeskey.or.kr";
+pkiUtil.finaceErrMsg = "";
+
+
+/**
+ * comm-api에서 nonce값, 금융인증서API 초기화값을 얻는다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil 내부함수
+ * @returns
+ *    성공 : JSON Object
+ *     {  orgId : 조직 ID,
+ *        orgName : 조직 명,
+ *        clientId : 클라이언트 ID,
+ *        orgUrl : 접속 가능 주소,
+ *        txId : tx id,
+ *        data : nonce 값
+ *      }
+ *    실패 : false
+ */
+pkiUtil.getNonceVal = async function( ) {
+    let jsonObject = new Object() ;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/getNonce.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(jsonObject),
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    pkiUtil.finaceErrMsg = "서버에서 정보(Nonce)를 얻을수 없습니다.";
+                    resolve( false );
+                }
+            },
+            error : function ( msg ) {
+                reject( false );
+            }
+        });
+    });
+};
+
+/**
+ * comm-api에서 금융인증서를 이용한 본인확인을 요청한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil 내부함수
+ * @param txId         pkiUtil.getNonceVal()에서 얻은 txId값
+ * @param nonceValue   pkiUtil.getNonceVal()에서 얻은 nonce값
+ * @param signedValue  pkiUtil.finaceSign()에서 얻은 전자서명값
+ * @returns txId
+ */
+pkiUtil.reqFinAuth = async function( txId, nonceValue, signedValue ) {
+    let rt =  await pkiUtil.reqFinAuth2( txId, nonceValue, signedValue, "");
+    return rt;
+};
+
+pkiUtil.reqFinAuth2 = async function( txId, nonceValue, signedValue, userPhone ) {
+    let jsonObject = new Object() ;
+    jsonObject.txId = txId;
+    jsonObject.nonce = nonceValue;
+    jsonObject.signValue = signedValue;
+    jsonObject.userPhone = userPhone;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/reqFinAuth.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(jsonObject),
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData.txId );
+                } else {
+                    pkiUtil.finaceErrMsg = resData.message;
+                    resolve( false );
+                }
+            },
+            error : function ( msg ) {
+                reject( false );
+            }
+        });
+    });
+};
+
+
+/**
+ * PC 웹브라우저에서 금융결제원 모듈을 초기화한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil 내부함수
+ * @param jsonObject pkiUtil.getNonceVal()함수의 결과값 JSON Object
+ *      {  orgId : 조직 ID,
+ *        orgName : 조직 명,
+ *        clientId : 클라이언트 ID,
+ *        orgUrl : 접속 가능 주소,
+ *        txId : tx id,
+ *        data : nonce 값
+ *      }
+ * @returns 성공/실패
+ */
+pkiUtil.finaceInit = async function( jsonObject ) {
+    return new Promise((resolve, reject)=>{
+        FinCert.Sdk.init({
+            "orgCode": jsonObject.orgId,
+            "apiKey": jsonObject.clientId,
+            "lang": "kor",
+            "success": function () {
+                //console.log("yeskey 초기화 성공");
+                resolve( true );
+            },
+            "fail": function (error) {
+                //console.log(error.code + " : " + error.message);
+                pkiUtil.finaceErrMsg = "금융인증서 초기화에 실패하였습니다.[" +error.message+"]";
+                resolve( false );
+            }
+        });
+    });
+};
+
+/**
+ * 스마트폰에서 사용하기 위하여 금융결제원 모듈을 초기화한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil 내부함수
+ * @param jsonObject pkiUtil.getNonceVal()함수의 결과값 JSON Object
+ *         {  orgId : 조직 ID,
+ *           orgName : 조직 명,
+ *           clientId : 클라이언트 ID,
+ *           orgUrl : 접속 가능 주소,
+ *           txId : tx id,
+ *           data : nonce 값
+ *         }
+ * @param mobileInfo 스마트폰의 정보 JSON Object
+ *         { clientOrigin : App 고유 정보( 안드로이드 앱 : package 명, iOS 앱 : Bundle ID ),
+ *           clientType   : 클라이언트 종류 ( 'ANDROID' : 안드로이드, 'IOS' : iOS ),
+ *           uniqVal      : 사용자 연결기기 프로그램에서만 유도할 수 있는 고유값 (UUID canonical String 값, 안전한 저장관리를 위해  keystore, keychain 사용 권고)
+ *         }
+ * @returns 성공/실패
+ */
+pkiUtil.finaceMobileInit = async function( jsonObject,  mobileInfo ) {
+    return new Promise((resolve, reject)=>{
+        FinCert.Sdk.init({
+            "orgCode": jsonObject.orgId,   //조직 ID
+            "apiKey": jsonObject.clientId, //클라이언트 ID
+            "lang": "kor",                 //사용언어 : 한국어
+            "clientOrigin":  mobileInfo.clientOrigin, //앱 고유 정보 (Only App), 안드로이드 앱 : package 명, iOS 앱 : Bundle ID
+            "clientType": mobileInfo.clientType,  //클라이언트 종류 (Only App), 'ANDROID' : 안드로이드, 'IOS' : iOS
+            "uniqVal": 	mobileInfo.uniqVal,       //사용자 연결기기 프로그램에서만 유도할 수 있는 고유값 (Only App), UUID canonical String 값, 안전한 저장관리를 위해  keystore, keychain 사용 권고
+            "success": function () {
+                //console.log("yeskey 초기화 성공");
+                resolve( true );
+            },
+            "fail": function (error) {
+                //console.log(error.code + " : " + error.message);
+                pkiUtil.finaceErrMsg = "금융인증서 초기화에 실패하였습니다.[" +error.message+"]";
+                resolve( false );
+            }
+        });
+    });
+};
+
+/**
+ * 금융인증서를 이용하여 전자서명을 한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil 내부함수
+ * @param jsonObject pkiUtil.getNonceVal()함수의 결과값 JSON Object
+ *         {  orgId : 조직 ID,
+ *           orgName : 조직 명,
+ *           clientId : 클라이언트 ID,
+ *           orgUrl : 접속 가능 주소,
+ *           txId : tx id,
+ *           data : nonce 값
+ *         }
+ * @param agreeTerm 이용 약관
+ * @param useAgreeJson 정보제공 동의 항목 JSON Object
+ *       {
+ *          useRealName : 이름 제공 동의(true/false),
+ *          useGender   : 성별 제공 동의(true/false),
+ *          useNationalInfo : 국적 제공 동의(true/false),
+ *          useBirthDate : 생년월일 제공동의(true/false),
+ *          useCi : CI 제공동의(true/false)
+ *       }
+ * @returns 전자서명값
+ */
+pkiUtil.finaceSign = async function( jsonObject, agreeTerm, useAgreeJson ) {
+
+    return new Promise((resolve, reject)=>{
+        FinCert.Sdk.sign({
+            "content": {
+                "ucpidInfo": {
+                    "userAgreement": agreeTerm, // 약관 내용
+                    "userAgreeInfo": {
+                        "realName": useAgreeJson.useRealName,
+                        "gender": useAgreeJson.useGender,
+                        "nationalInfo": useAgreeJson.useNationalInfo,
+                        "birthDate": useAgreeJson.useBirthDate,
+                        "ci": useAgreeJson.useCi
+                    },
+                    "ispUrlInfo": jsonObject.orgUrl, // 이용기관 URL
+                    "ucpidNonce": jsonObject.data    // Nonce
+                }
+            },
+            "info": {
+                "signType": "12"
+            },
+            "success": async function (result) {
+                //console.log("UCPID 전자서명문 : " + result.signedVals[0]);
+                resolve( result.signedVals[0]  );
+            },
+            "fail": function (error) {
+                // console.log( "에러메시지 : " + error.message + ", 에러코드 : " + error.code);
+                pkiUtil.finaceErrMsg =  error.message  ;
+                resolve( false );
+            }
+        });
+    });
+};
+
+pkiUtil.finaceUserInfo = async function() {
+    return new Promise((resolve, reject)=>{
+        FinCert.Sdk.getUserInfo({
+            "success":  function (result) {
+                resolve( JSON.stringify(result) );
+            },
+            "fail": function (error) {
+                // console.log( "에러메시지 : " + error.message + ", 에러코드 : " + error.code);
+                pkiUtil.finaceErrMsg =  error.message  ;
+                resolve( false );
+            }
+        });
+    });
+};
+
+
+
+/**
+ * 금융결제원 금융인증서 API를 로드한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil
+ * @returns void
+ */
+pkiUtil.loadFinanceModule = async function ( ) {
+    let isComplate = true;
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ("0" + (1 + today.getMonth())).slice(-2);
+    let day = ("0" + today.getDate()).slice(-2);
+
+    var scriptElem = document.createElement('script');
+    scriptElem.src = FINACE_CONNECT_URL + "/v1/fincert.js?dt=" + year + month + day;
+    scriptElem.id = "finaceAuthScript";
+
+    isHaveScript =  document.getElementById("finaceAuthScript");
+    if( isHaveScript == null ) {
+        document.querySelector('body').appendChild(scriptElem);
+        isComplate = await pkiUtil.waitLoadFinanceModuleComplate();
+    }
+    return isComplate;
+};
+
+/**
+ * 금융결제원 금융인증서 API가 정상적으로 로드될때까지 15초가 대기한다.
+ *  - 내부에서 15초 동안 0.5초 간격으로 모듈이 로드되었는지 체크
+ *  - 15초가 지나도 API가 로드되지 않으면 오류처리한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil 내부함수
+ */
+pkiUtil.waitLoadFinanceModuleComplate = async function ( ) {
+    let cnt = 0;
+    let complate = false;
+    while( cnt < 30 ){
+        let rst = await pkiUtil.loadFinanceModuleTest();
+        if( rst == false ){
+            await pkiUtil.sleep(500);
+        }else{
+            complate = true;
+            break;
+        }
+    }
+    return complate;
+};
+
+/**
+ * 금융결제원 금융인증서 API가 동작하는지 체크한다.
+ *  - base64함수를 동작 테스트 해보는 것
+ *  - try catch에 잡히면 아직 모듈이 로드되지 않은것
+ *  - base64함수가 success, fail 중 하나의 결과가 나오면 API가 로드된 것임
+ * @date 2023. 12. 6.
+ */
+pkiUtil.loadFinanceModuleTest = async function ( ) {
+
+    return new Promise((resolve, reject)=>{
+        try{
+//            console.log( "check start");
+            FinCert.Sdk.convertBase64UrlToBase64({
+                "base64Url": "MIIHxAYJ",
+                "success": function(result) {
+//                    console.log( "check ok");
+                    resolve(true);
+                },
+                "fail": function(error) {
+//                    console.log( "check ok");
+                    resolve(true);
+                }
+            });
+        }catch(e) {
+//            console.log( "check fail");
+            resolve(false);
+        }
+    });
+};
+
+
+/**
+ * 사용자 PC 브라우저용) 금융인증서를 이용하여 본인확인한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil
+ * @param agreeTerm 이용약관
+ * @param useAgreeJson 정보제공 동의 JSON Object
+ *       {
+ *          useRealName : 이름 제공 동의(true/false),
+ *          useGender   : 성별 제공 동의(true/false),
+ *          useNationalInfo : 국적 제공 동의(true/false),
+ *          useBirthDate : 생년월일 제공동의(true/false),
+ *          useCi : CI 제공동의(true/false)
+ *       }
+ * @returns  txid
+ */
+pkiUtil.finaceAuth = async function( agreeTerm, useAgreeJson ) {
+    let jsonObject = await pkiUtil.getNonceVal();
+    if( jsonObject == false ) {
+        return false;
+    }
+
+    let rstInit  = await pkiUtil.finaceInit( jsonObject );
+    if( rstInit == false ) {
+        return false;
+    }
+
+    let finSignValue = await pkiUtil.finaceSign( jsonObject, agreeTerm, useAgreeJson );
+    if( finSignValue == false ) {
+        return false;
+    }
+
+    let finUserInfo = await pkiUtil.finaceUserInfo();
+    if( finUserInfo == false ) {
+        return false;
+    }
+    //{"phone":"+82108757****","name":"김**","birthday":"19******"}
+    let usrPhone = (JSON.parse(finUserInfo)).phone;
+    usrPhone = usrPhone.replaceAll( "+82", "0" );
+
+    let rstReq = await pkiUtil.reqFinAuth2( jsonObject.txId, jsonObject.data, finSignValue,  usrPhone );
+    return rstReq ;
+};
+
+/**
+ * 스마트폰 APP용) 금융인증서를 이용하여 본인확인한다.
+ * @date 2023. 12. 6.
+ * @memberOf pkiUtil
+ * @param agreeTerm 이용약관
+ * @param useAgreeJson 정보제공 동의 JSON Object
+ *       {
+ *          useRealName : 이름 제공 동의(true/false),
+ *          useGender   : 성별 제공 동의(true/false),
+ *          useNationalInfo : 국적 제공 동의(true/false),
+ *          useBirthDate : 생년월일 제공동의(true/false),
+ *          useCi : CI 제공동의(true/false)
+ *       }
+ * @param mobileInfo 스마트폰의 정보 JSON Object
+ *         { clientOrigin : App 고유 정보( 안드로이드 앱 : package 명, iOS 앱 : Bundle ID ),
+ *           clientType   : 클라이언트 종류 ( 'ANDROID' : 안드로이드, 'IOS' : iOS ),
+ *           uniqVal      : 사용자 연결기기 프로그램에서만 유도할 수 있는 고유값 (UUID canonical String 값, 안전한 저장관리를 위해  keystore, keychain 사용 권고)
+ *         }
+ * @returns  txid
+ */
+pkiUtil.finaceAuthMobile = async function( agreeTerm, useAgreeJson, mobileInfo ) {
+    let jsonObject = await pkiUtil.getNonceVal();
+    if( jsonObject == false ) {
+        return false;
+    }
+
+    let rstInit  = await pkiUtil.finaceMobileInit( jsonObject, mobileInfo );
+    if( rstInit == false ) {
+        return false;
+    }
+
+    let finSignValue = await pkiUtil.finaceSign( jsonObject, agreeTerm, useAgreeJson );
+    if( finSignValue == false ) {
+        return false;
+    }
+
+    let rstReq = await pkiUtil.reqFinAuth( jsonObject.txId, jsonObject.data, finSignValue );
+    return rstReq ;
+};
+
+/**
+ * 오류정보를 반환한다.
+ * @returns  가장 최근의 오류내용
+ */
+pkiUtil.finaceErrorMessage = function( ) {
+    return pkiUtil.finaceErrMsg ;
+};
+
+
+/********************************************************************************
+ * 설명 : 금융인증서 본인확인 버튼 클릭
+ * 금융인증서 본인확인 서비스를 호출하여 본인확인을 수행한다.
+ * 본인확인 처리 결과는 Session에 저장된다.
+ ********************************************************************************/
+pkiUtil.finaceAuthReq = async function ( mobileInfoJson ) {
+
+    let jsonData = {};
+    if ( mobileInfoJson != undefined && mobileInfoJson.clientOrigin != undefined
+        && mobileInfoJson.clientType != undefined && mobileInfoJson.uniqVal != undefined) {
+        jsonData = {
+            "mobileInfoJson": mobileInfoJson,
+        };
+    }
+
+    bRstTxId = await pkiUtil.finAuthReq(jsonData);
+    if (bRstTxId == undefined) {
+        return false;
+    }
+
+    return(bRstTxId);
+};
+
+//금융인증서 본인확인 화면을 호출하는 함수
+pkiUtil.finAuthReq = async function (jsonData) {
+    return new Promise((resolve, reject) => {
+        com.gfnOpenPopup({
+            menuCangVal: "FUUF063_01",
+            popupId: "finaceAuthService",
+            popupName: "금융인증서 본인확인서비스",
+            param: jsonData,
+            width: 600,
+            height: 610,
+            callbackFn: function (result) {
+                resolve(result);
+            }
+        });
+    });
+};
+
+
+//=============================================================================
+/**
+* 모바일신분증 본인확인
+*
+* @date 2024.10.31
+* @author hgjkim
+* @namespace pkiUtil
+* @description
+   카카오뱅크 본인확인 UCPID
+*/
+//=============================================================================
+
+pkiUtil.mobileId = async function (e) {
+    try{
+        let tmpVal = loc_prefix;
+    }catch(e) {
+        await comUtil.gfnDynamicLoadScriptPromise("/kn/com/mip/layerQR.js");
+    }
+
+    let ret = await fnMipAuth();
+    // ret.STS :  TRX_STSCODE,
+    // ret.TRX_CODE : 트랜잭션 ID(Code), 세션에서 CI 찾을수 있음
+    // ret.ENC_CI : 암호화된 CI
+
+    if (ret.STS == '0000' || ret.STS == '0001') {
+        // '0000' : 아무 것도 하지 않음
+        // '0001' : QR만 보여준 상태. 신분증 앱으로 액션이 없었음
+        return false;
+    }
+
+    if (!ret.TRX_CODE) {
+        com.gfnAlert("warn.fu.fuu.selfCertfail");
+        // console.log(""본인인증에 실패하였습니다. 다시 시도해 주십시오.");
+        return false;
+    }
+    return(ret.TRX_CODE);
+};
+
+
+//=============================================================================
+/**
+* 카카오뱅크 본인확인 UCPID
+*
+* @date 2024.10.31
+* @author hgjkim
+* @namespace pkiUtil
+* @description
+   카카오뱅크 본인확인 UCPID
+*/
+//=============================================================================
+
+/**
+ * 카카오뱅크로 본인확인 요청을 전송하는 API
+ * @param
+ * @returns json형태의 응답데이터
+ */
+pkiUtil.kabankUcpidReq = async function ( clientCallbackUrl ) {
+    let jsonObject = new Object() ;
+    jsonObject.clientCallbackUrl = clientCallbackUrl;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/reqKakaoAuth.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data:JSON.stringify(jsonObject),
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    resolve( resData );
+                }
+            }
+        });
+    });
+};
+
+pkiUtil.kabankUcpidReqMobile = async function (uiType, iosScheme, androidScheme, clientCallbackUrl ) {
+    let jsonObject = new Object() ;
+    jsonObject.uiType = uiType;
+    jsonObject.iosScheme = iosScheme;
+    jsonObject.androidScheme = androidScheme;
+    jsonObject.clientCallbackUrl = clientCallbackUrl;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/reqKakaoAuth.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data:JSON.stringify(jsonObject),
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    resolve( resData );
+                }
+            }
+        });
+    });
+};
+
+/**
+ * 카카오뱅크로 본인확인 결과를 확인하는 API
+ * @param txId
+ * @returns
+ */
+
+
+pkiUtil.kabankUcpidRes = async function (txId) {
+    let jsonObject = new Object() ;
+    jsonObject.txId = txId;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/chkRstKakaoAuth.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data:JSON.stringify(jsonObject),
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    resolve( resData );
+                }
+            }
+        });
+    });
+};
+
+/**
+ * 카카오뱅크로 본인확인을 요청한다.
+ * - 인증 UI는 카카오뱅크 화면을 사용(팝업화면)
+ * - callback 함수(기본:comm-api의 config의 kakaobank.callback.okUrl의 값)을 사용하면 인증이 완료되면 kabankAuthCallback()함수를 호출
+ *   별도 정의한 callback URL을 사용하면 해당 결과를 확인하는 kabankAuthRes()를 호출해야 한다.
+ * - 동작절차
+ *    kabankAuthReq() -> 카카오뱅크 인증UI -> callback URL ->   kabankAuthRes()
+ * @returns
+ */
+pkiUtil.kabankAuthReq = async function ( clientCallbackUrl ) {
+    //팝업차단 방지, 새창을 먼저 띠운다.
+    let kakaobankPopup = window.open( "",  "kakaobank 본인확인",   "toolbar=no,scrollbars=no,location=no,resizable=no,status=no,menubar=no,width=500,height=600"  );
+    res  = await pkiUtil.kabankUcpidReq( clientCallbackUrl ) ;
+    if( res.result != "success" ) {
+        kakaobankPopup.close();
+        await pkiUtil.sleep(500);
+        alert( res.message );
+        return false;
+    }
+    //팝업차단 방지, 새창에 URL을 추가한다.
+    kakaobankPopup.location.href = res.url;
+
+    //창이 닫힐때까지 waiting(사용자가 완료 버튼을 누를때임)
+    while(1){
+        if(  kakaobankPopup.closed == true ){
+            break;
+        }
+        await pkiUtil.sleep(500);
+    }
+
+    return res.txId;
+};
+
+/**
+ *
+ * Function description...
+ * @date 2024. 11. 12.
+ * @memberOf member
+ * @param param
+ * @returns returns json
+ *         {
+ *         result,  //성공 success, 실패 fail
+ *         message, //실패시 오류메시지
+ *         txId,    //트랜젝션 ID
+ *         appScheme, //APP_TO_APP인경우 카카오뱅크인증서 앱스킴
+ *         onelinkUrl, //APP_TO_APP인경우 카카오뱅크 원링크 URL
+ *         url       //STD_WEB인경우 카카오뱅크 인증 표준 웹 페이지 URL
+ *         }
+ */
+pkiUtil.kabankAuthReqMobile = async function ( iosScheme, androidScheme, clienCallbackUrl ) {
+    //팝업차단 방지, 새창을 먼저 띠운다.
+
+    res  = await pkiUtil.kabankUcpidReqMobile( "APP_TO_APP",  iosScheme, androidScheme, clienCallbackUrl ) ;
+    if( res.result != "success" ) {
+        alert( res.message );
+        return false;
+    }
+    return res.txId;
+};
+
+
+/**
+ * 카카오뱅코르 본인확인 결과를 확인한다.
+ * @param txId
+ * @returns
+ */
+pkiUtil.kabankAuthRes = async function( txId ) {
+    res  = await pkiUtil.kabankUcpidRes( txId ) ;
+    if( res.result != "success" ) {
+        alert( res.message );
+        return false;
+    }
+    return res.txId;
+};
+
+/**
+ * 카카오뱅크 client callback url이 호출하는 함수
+ */
+pkiUtil.kabankAuthCallback = async function( txId ) {
+    if( txId == "false" ) {
+        alert( "처리중 오류가 발생하였습니다." );
+        return false;
+    }
+    return await pkiUtil.kabankAuthRes( txId );
+}
+
+//=============================================================================
+/**
+* NICE 본인확인
+*
+* @date 2024.10.31
+* @author hgjkim
+* @namespace pkiUtil
+* @description
+   NICE 본인확인
+*/
+//=============================================================================
+
+/**
+ * NICE로 본인확인을 요청한다.
+ * - 인증 UI는 NICE 화면을 사용(팝업화면)
+ * - 동작절차
+ *    niceAuthReq() ( selectNiceID() -> nice 본인확인 페이지 -> niceAuthCallback() )
+ * @returns
+ */
+
+pkiUtil.isNiceComplate = 0;
+pkiUtil.niceTxId = "";
+
+pkiUtil.niceAuthReq = async function ( ) {
+
+    pkiUtil.isNiceComplate = 0;
+    pkiUtil.niceTxId = "";
+
+    let nicePopup = await pkiUtil.selectNiceID();
+
+    //NICE 창이 닫힐때까지 waiting(사용자가 완료 버튼을 누를때임)
+    while(1){
+        if(  nicePopup.closed == true ){
+            break;
+        }
+        await pkiUtil.sleep(500);
+    }
+
+    if( pkiUtil.isNiceComplate == 0 ) {
+//        alert( "사용자가 NICE본인확인창을 취소하였습니다." );
+        return false;
+    }
+
+    return pkiUtil.niceTxId;
+}
+
+
+pkiUtil.selectNiceID = async function ( ) {
+
+//    let nicePopup = window.open( "",  'NicePopupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no, resizable=no');
+//    nicePopup.location.href = '/co/coe/coea/selectNiceID.do';
+
+    let nicePopup = window.open('/co/coe/coea/selectNiceID.do', 'NicePopupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no, resizable=no');
+    return nicePopup;
+};
+
+pkiUtil.niceAuthCallback = function( resultJson ) {
+    if( resultJson.result == "false" ) {
+        alert( "본인확인 처리중 오류가 발생하였습니다.(" + resultJson.sMessageCd +")" );
+        return false;
+    }
+    pkiUtil.isNiceComplate = 1;
+    pkiUtil.niceTxId = resultJson.txId;
+}
+
+
+//=============================================================================
+/**
+* 통합 본인확인
+*
+* @date 2024.10.31
+* @author hgjkim
+* @namespace pkiUtil
+* @description
+   본인확인
+*/
+//=============================================================================
+
+/**
+ * 통합 본인확인 main
+ * @param param
+ * @returns {json} 본인확인 데이터
+ * "provider"       // 서비스 제공자:  "yeskey" 금융인증서, "nice" nice본인확인, "Kakaobank" 카카오뱅크
+ * "time"           // 본인확인 시간 (yyyymmdd)
+ * "txid"           // 트랜젝선 ID
+ * "sAuthType"      // 본인확인 Type( Nice의 경우 반환값 , "M"으로 고정 )
+ * "sConnInfo"      // ci
+ * "sName"          // 이름
+ * "sBirthDate"     // 생년 월일 (yyyymmdd)
+ * "sGender"        // 설별    : 0 : 여자, 1 : 남자, -1 : 미설정
+ * "sNationalInfo"  // 국적    : 0 : 내국인, 1 : 외국인, -1: 미설정
+ * "sMobileNo"      // 전화번호
+ * "returnVal"	     // 결과 S/F
+ * "sMessageCd"	 // 결과 메시지
+ * "result"         // 결과 (공통모듈용)sucess/fail
+ * "message"        // 결과 메시지(공통모듈용)
+ */
+pkiUtil.usrAuthAll = async function ( data ) {
+    let res = await pkiUtil.usrAuthSelectPopUP( data );
+    await pkiUtil.sleep(500); //창이 닫힐동안 기다리도록 함
+    if( res== false || res.result == "fail") {
+        return false;
+    }
+
+    return( res );
+};
+
+/**
+ *  본인확인 팝업 화면 호출
+ * @returns {json} 본인확인 데이터
+ */
+pkiUtil.usrAuthSelectPopUP = async function ( data ) {
+
+    let authWinWidthSize = 740;
+    let authHeightSize = 430;
+    if(typeof(data) == "object" && Object.hasOwn(data, "kacaoBankHideYn" ) == true &&   data.kacaoBankHideYn == "Y" ) {
+        authWinWidthSize = 520;
+    }
+
+    return new Promise((resolve, reject)=>{
+        com.gfnOpenPopup({
+            menuCangVal: "FUUF076_01",
+            popupId: "usrAuthAllSelect",
+            popupName: "본인확인서비스선택",
+            param: data,
+            width: authWinWidthSize,
+            height: authHeightSize,
+            callbackFn:
+                function(result) {
+                    if (result == undefined) {
+                        resolve( false );
+                    }else{
+                        resolve( result );
+                    }
+                }
+        });
+    });
+};
+
+/**
+ *  본인확인 팝업 화면에서 호출하는 서버에서 결과 가져오기
+ * @returns {json} 본인확인 데이터
+ */
+pkiUtil.getAuthAllRes = async function ( txId ) {
+    let jsonObject = new Object() ;
+    jsonObject.txId = txId;
+
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/userAuthRst.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data:JSON.stringify(jsonObject),
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    resolve( resData );
+                }
+            }
+        });
+    });
+};
+
+
+//=============================================================================
+/**
+ * 행안부 중계형 간편인증
+ *
+ * @date 2023.09.21
+ * @author hgjkim
+ * @namespace pkiUtil
+ * @description
+     행안부 중계형 간편인증
+
+     ※ Document File : /koneps-front-ws/src/main/webapp/jsdocDeveloper/index.html
+     ※ Document Url : http://localhost:8080/jsdocDeveloper/index.html
+ */
+// =============================================================================
+
+var moSimAuthR = {};
+
+/* 팝업 변수 */
+moSimAuthR.Popup = null;
+moSimAuthR.Status = "toolbar=no,scrollbars=no,location=no,resizable=no,status=no,menubar=no,width=838,height=611";	// option
+
+/* 오류 메시지 */
+moSimAuthR.ErrorMessage = "";
+
+/* 사용 변수 */
+moSimAuthR.TxID = "";
+moSimAuthR.reqBizCode = "";
+moSimAuthR.reqTaskId = "";
+moSimAuthR.SignData = "";
+moSimAuthR.EncSignData = "";
+moSimAuthR.isComplate = 0;
+
+/**
+ * 마지막 오류 메시지를 반환한다.
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @param
+ * @return {String} 마지막 발생한 오류 내용
+ * @example
+moSimAuthR.getErrMsg();
+//last error message
+*/
+moSimAuthR.getErrMsg = function() {
+    return moSimAuthR.ErrorMessage;
+};
+
+/**
+ * 오류 메시지를 설정한다.
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @param errMsg {string} 오류 메시지
+ * @return
+ * @example
+moSimAuthR.setErrMsg("설정하고자 하는 오류메시지");
+*/
+moSimAuthR.setErrMsg = function( errMsg ) {
+    moSimAuthR.ErrorMessage =errMsg ;
+};
+
+/**
+ * 서버에 접속하여 행안부 중계형 서버에 접속정보(인가코드 포함)를 생성한다.
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @return {String} JSON형식의 중계형 간편인증 접속 정보 : { "result": "sucess"/"error", "accKey" : 접속인증키 , "accToken" : 접속토큰, "connUrl" : 간편인증서버 URL, "msg" : 오류메시지 }
+ * @example
+moSimAuthR.getAccessInfo( );
+// 접속정보 JSON
+*/
+moSimAuthR.getAccessInfo = async function(  ) {
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/getAccessInfo.do",
+//            url:"/ts/tsa/tsae/getAccessInfo.do",
+            contentType: "application/json; charset=utf-8",
+            dataType:"json",
+//            data:inJsonValue,
+
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    moSimAuthR.ErrorMessage = resData.msg;
+                    resolve( false );
+                }
+            }
+        });
+    });
+};
+
+/**
+ * 서버에 접속하여 전자서명 원문에 대하여 암호화를 요청한다.
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @param inJsonValue {String} JSON형식의 전자서명 원문 : {"sign" : 전자서명 원문}
+ * @return {String} JSON형식의 암호화된 문자열 : {"result": 성공: "sucess" / 실패 : "error", "msg" : 오류메시지(오류 발생시), "sign" : 암호화된 전자서명 원문 }
+ * @example
+moSimAuthR.getEncryptSignData( json형식의 전자서명 원문 );
+// JSON 형식의 암호화된 문자열
+*/
+moSimAuthR.getEncryptSignData = async function( inJsonValue ) {
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/encSignTarget.do",
+//            url:"/ts/tsa/tsae/encSignTarget.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data:inJsonValue,
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    moSimAuthR.ErrorMessage = resData.msg;
+                    resolve( false );
+                }
+            }
+        });
+    });
+};
+
+/**
+ * 서버에 접속하여 암호화된 결과를 처리 요청한다.
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @param inJsonValue {String} JSON형식의 행안부 간편인증의 결과값
+ * @return {String} JSON형식의 처리결과 : {"result": 성공: "sucess" / 실패 : "error", "msg" : 오류메시지(오류 발생시), "txId" : tx ID }
+ * @example
+moSimAuthR.getEncryptSignData( json형식의 간편인증결과 );
+// JSON 형식의 결과 문자열
+*/
+moSimAuthR.simAuthResult = async function( inJsonValue ) {
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            type:"POST",
+            url:"/co/coe/coea/decryptResult.do",
+//            url:"/ts/tsa/tsae/decryptResult.do",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data:inJsonValue,
+            success: function(resData){
+                if(resData.result=="success"){
+                    resolve( resData );
+                } else {
+                    moSimAuthR.ErrorMessage = resData.msg;
+                    resolve( false );
+                }
+            }
+        });
+    });
+};
+
+
+/**
+ * 간편인증 POP UP 화면 생성
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @param fn {String} 처리 요청 구분코드, 본인인증 : "simpleAuth",  전자서명 : "simpleSign", 비회원 본인인증 : "simpleAuthNonMember",  비회원 전자서명 : "simpleSignNonMember"
+ * @param accKey {String}  접속인증키
+ * @param accToken {String}  접속Token
+ * @param signTarget {String} 전자서명 원문(전자서명시)
+ * @return {String} JSON형식의 처리결과 : {"result": 성공: "sucess" / 실패 : "error", "msg" : 오류메시지(오류 발생시), "txId" : tx ID }
+ * @example
+moSimAuthR.sendData( "simpleAuth",  접속인증키, 접속Token, "")
+ */
+
+moSimAuthR.InitVal = false;
+moSimAuthR.InitCount = 0;
+
+/* 간편인증 팝업 페이지 호출 */
+moSimAuthR.sendData  = function(fn, accKey, accToken, signTarget ){
+    setTimeout(function(){
+        if(moSimAuthR.InitVal){
+            if(fn == "simpleAuth"){
+                moSimAuthR.Popup.postMessage('{"simpleType":"simpleAuth", "accKey":"'+accKey+'", "accToken":"'+accToken+'"}',"*");
+            } else if(fn == "simpleSign"){
+                moSimAuthR.Popup.postMessage('{"simpleType":"simpleSign", "accKey":"'+accKey+'", "accToken":"'+accToken+'","signTarget":"'+signTarget+'"}',"*");
+            } else if(fn == "simpleAuthNonMember"){
+                moSimAuthR.Popup.postMessage('{"simpleType":"simpleAuthNonMember", "accKey":"'+accKey+'", "accToken":"'+accToken+'"}',"*");
+            } else if(fn == "simpleSignNonMember"){
+                moSimAuthR.Popup.postMessage('{"simpleType":"simpleSignNonMember", "accKey":"'+accKey+'", "accToken":"'+accToken+'","signTarget":"'+signTarget+'"}',"*");
+            }
+            moSimAuthR.InitVal = false;
+            moSimAuthR.InitCount = 0;
+        } else {
+            if(moSimAuthR.InitCount > 20){
+                moSimAuthR.InitCount = 0;
+                return;
+            }
+            moSimAuthR.sendData(fn, accKey, accToken, signTarget);
+            moSimAuthR.InitCount++;
+        }
+    },300);
+
+}
+
+/**
+ * 간편인증 POP UP으로 부터 전송되어온 메시지 처리
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @param  event
+ */
+moSimAuthR.receiveMsg = async function(event) {
+    var data = event.data;
+    var jsonData = JSON.parse(data);
+    //===========================================================================
+    // window.open 으로 호출한 중계서비스 인증화면의 초기화 상태값을 받는 부분
+    if(jsonData.initFlag == "true"){
+        moSimAuthR.InitVal = true;
+        console.log( "Init 성공");
+        return;
+    }
+    //===========================================================================
+
+    //===========================================================================
+    // 인증창으로 postMessage 접속 데이터를 전송 후 트랜젝션 아이디가 생성 되고 응답 받는 부분
+    if(jsonData.fn == "getToken"){
+        if(jsonData.status == "success"){
+            moSimAuthR.TxID = jsonData.res.txId;
+            console.log( "getToken 성공, Txid :" + jsonData.res.txId);
+            moSimAuthR.isComplate = 1;
+        } else {
+            moSimAuthR.ErrorMessage = "getToken fail =  "+JSON.stringify(jsonData.res);
+            console.log(moSimAuthR.ErrorMessage );
+        }
+    //===========================================================================
+
+        // 인증요청 버튼을 누르고 인증사업자에게 호출 후 응답데이터를 받는 부분
+    } else if(jsonData.fn == "authRequest"){
+        if(jsonData.status == "success"){
+            console.log("request response success." );
+            moSimAuthR.isComplate = 2;
+        } else {
+            try{
+                moSimAuthR.ErrorMessage = "request response fail = "+ jsonData.res.clientMessage;
+                console.log(moSimAuthR.ErrorMessage);
+            }catch(e){
+            }
+        }
+    //===========================================================================
+
+    // 인증완료 버튼을 누르고 인증사업자에게 호출 후 응답데이터를 받는 부분
+    } else {
+        if(jsonData.status == "success"){
+            console.log("인증 완료 success" );
+            var jsonData = JSON.parse(data);
+            //===========================================================================
+            // txId (트랜젝션 아이디) 추출
+            var txId = jsonData.res.reqTxId;
+            //===========================================================================
+            if(jsonData.fn == "signComplete" || jsonData.fn == "signNonMemberComplete"){
+                jsonData.signTargetOri = moSimAuthR.SignData;
+            }
+            jsonData.reqBizCode = moSimAuthR.reqBizCode;
+            jsonData.reqTaskId = moSimAuthR.reqTaskId;
+            let reqJsonData = JSON.stringify(jsonData);
+
+            moSimAuthR.isComplate = 3;
+            let result =  await moSimAuthR.simAuthResult(reqJsonData );
+            if( result == false ) {
+                moSimAuthR.ErrorMessage = "simple auth fail = "+JSON.stringify(result.res);
+                console.log(moSimAuthR.ErrorMessage );
+                moSimAuthR.isComplate = 4;
+            }else{
+                moSimAuthR.isComplate = 5;
+            }
+
+            console.log("간편인증처리 완료 txid =  "+txId);
+        } else {
+            moSimAuthR.ErrorMessage = "simple auth fail = "+ jsonData.res.clientMessage;
+            console.log(moSimAuthR.ErrorMessage );
+        }
+    }
+    //===========================================================================
+}
+
+/**
+ * SLEEP 처리
+ * @memberOf moSimAuthR
+ * @date 2023.10.01
+ * @param sec {number} sleep milisecond
+ */
+moSimAuthR.sleep = async function( sec ) {
+    return new Promise( resolve => setTimeout(resolve, sec));
+}
+
+/**
+ * 행안부 중계형 간편인증
+ * @date 2023. 10. 01.
+ * @memberOf moSimAuthR
+ * @param bizCode {String} 요청자의 업무구분코드 4자리(소스코드의 4자리)
+ * @param reqTaskId {String} 업무처리 ID(예: 문서번호, 처리순번, 요청코드순번 등)
+ * @param reqAuthType {String} 요청코드 : 본인확인 : "simpleAuth", 전자서명 : "simpleSign"
+ * @param inSignData {String} 전자서명 원문
+ * @return {String} TxID
+ */
+moSimAuthR.makeSimAuth = async function( bizCode, reqTaskId, reqAuthType, inSignData ) {
+
+    moSimAuthR.reqBizCode = bizCode;
+    moSimAuthR.reqTaskId = reqTaskId;
+    let authType = reqAuthType ; //"simpleAuth"
+    moSimAuthR.TxID = "";
+
+    //step 1 이벤트 listener 생성
+    window.addEventListener("message", moSimAuthR.receiveMsg, false);
+
+    try {
+
+        //step 2 접속정보 수신
+        let jsonAccessInfo = await moSimAuthR.getAccessInfo( );
+        if( jsonAccessInfo == false ) {
+            console.log(moSimAuthR.ErrorMessage);
+            return false;
+        }
+
+      //step 3 전자서명처리시 원문을 암호화
+        if( authType == "simpleSign" ) {
+//      if( inSignData != null && inSignData != ""  && inSignData != "undefined" ) {
+//            authType = "simpleSign";
+
+            moSimAuthR.SignData = inSignData;
+
+            let jsonObject = new Object() ;
+            jsonObject.sign = inSignData;
+
+            let encSignRst = await moSimAuthR.getEncryptSignData(JSON.stringify(jsonObject ));
+            if( encSignRst == false ) {
+                console.log(moSimAuthR.ErrorMessage );
+                return false;
+            }
+
+            moSimAuthR.EncSignData = encSignRst.sign;
+            console.log(moSimAuthR.sign );
+        }
+
+        if(jsonAccessInfo.accKey == "" || jsonAccessInfo.accToken == ""){
+            moSimAuthR.ErrorMessage = "행안부 간편인증 접속 정보가 없습니다.";
+            console.log(moSimAuthR.ErrorMessage);
+            return false;
+        }
+
+        //step 4 간편인증창이 닫혀있지 않으면 간편인증창을 강제로 닫음
+        if( moSimAuthR.Popup != null && moSimAuthR.Popup.closed == false ) {
+            moSimAuthR.Popup.close();
+        }
+
+        //step 5 간편인증창을 신규로 열고 간편인증을 요청함
+        if(moSimAuthR.Popup == null || moSimAuthR.Popup.closed == true){
+            moSimAuthR.Popup = window.open(jsonAccessInfo.connUrl, authType, moSimAuthR.Status);	//팝업 호출
+            moSimAuthR.sendData(authType, jsonAccessInfo.accKey, jsonAccessInfo.accToken, moSimAuthR.EncSignData );
+        }
+
+       //step 6 간편인증창이 닫힐때까지 waiting(사용자가 완료 버튼을 누를때임)
+        while(1){
+            if(  moSimAuthR.Popup.closed == true && moSimAuthR.isComplate != 3){
+                break;
+            }
+            await moSimAuthR.sleep(500);
+        }
+
+        if( moSimAuthR.TxID === "" || moSimAuthR.isComplate <= 2 ){
+           moSimAuthR.ErrorMessage = "사용자의 요청에 의하여 간편인증을 취소하였습니다.  ";
+           return false;
+        }
+    } finally {
+        //step 7 이벤트를 삭제
+        window.removeEventListener("message", moSimAuthR.receiveMsg );
+    }
+    return moSimAuthR.TxID;
+}
+
+
+//=============================================================================
+/**
+ * 행안부 설치형 간편인증
+ *
+ * @date 2023.09.21
+ * @author hgjkim
+ * @namespace pkiUtil
+ * @description
+     행안부 중계형 간편인증
+
+     ※ Document File :
+     ※ Document Url :
+ */
+// =============================================================================
+var moSimAuthI = {};
+
+moSimAuthI.simAuthUrl = "/moisSimauth/moisSimAuth.html";
+
+/**
+ * 간편인증 화면을 생성한다.
+ * @memberOf moSimAuthI
+ * @date 2023.10.01
+ * @return {Object} 간편인증을 위한 div 객체
+ * @example
+moSimAuthI.loadSimAuthDiv();
+*/
+moSimAuthI.loadSimAuthDiv = async function() {
+    let body   = document.getElementsByTagName('body')[0];
+    let div    = document.createElement('div');
+    let iframe = document.createElement('iframe');
+
+    iframe.setAttribute("id",          "moisSimAuth");
+    iframe.setAttribute("name",        "moisSimAuth");
+    iframe.setAttribute("src",         moSimAuthI.simAuthUrl);
+    iframe.setAttribute("scrolling",   "no");
+    iframe.setAttribute("width",       "100%");
+    iframe.setAttribute("height",      "100%");
+    iframe.setAttribute("frameBorder", "1");
+    iframe.setAttribute("translate",   "yes");
+    iframe.setAttribute("style",       "position:fixed; z-index:100010; top:0px; left:0px; width:100%; height:100%;");
+
+    div.id    = "moisBagDiv";
+//    div.style = "display: none";
+    div.appendChild(iframe);
+
+    simDiv =  document.getElementById("moisSimAuth");
+    if (simDiv == null) {
+        body.appendChild(div);
+    }
+
+    let simIframe = document.getElementById("moisSimAuth").contentWindow;
+    while(1) {
+        await moSimAuthI.sleep(200);
+        if( simIframe.isOpenMoisBackground == true ) {
+            break;
+        }
+    }
+    return simDiv;
+}
+
+/**
+ * 간편인증 화면을 보여준다.
+ * @memberOf moSimAuthI
+ * @date 2023.10.01
+ * @example
+moSimAuthI.showSimAuth();
+*/
+moSimAuthI.showSimAuth = async function() {
+    $('#moisBagDiv').show();
+}
+
+/**
+ * 간편인증 화면을 숨긴다.
+ * @memberOf moSimAuthI
+ * @date 2023.10.01
+ * @example
+moSimAuthI.hideSimAuth();
+*/
+moSimAuthI.hideSimAuth = async function() {
+    $('#moisBagDiv').hide();
+}
+
+/**
+ * 간편인증 화면을 제거한다.
+ * @memberOf moSimAuthI
+ * @date 2023.10.01
+ * @example
+moSimAuthI.unloadSimAuth();
+*/
+moSimAuthI.unloadSimAuth = async function() {
+    $('#moisBagDiv').remove();
+}
+
+/**
+ * SLEEP 처리
+ * @memberOf moSimAuthI
+ * @date 2023.10.01
+ * @param sec {number} sleep milisecond
+ */
+moSimAuthI.sleep = async function( sec ) {
+    return new Promise( resolve => setTimeout(resolve, sec));
+}
+
+
+/**
+ * 간편인증 화면에 기본값을 설정한다.
+ * @memberOf moSimAuthI
+ * @date 2023.10.01
+ * @param reqType {string} 간편인증:"simpleAuth", 전자서명: "simpleSign"
+ * @param inSignData {string} 전자서명 입력값
+ * @param inUserInfo {json} 사용자 정보 json
+ * {
+        name:"",       //이름 (ex 홍길동)
+        phone1:"",     //휴대폰번호 앞자리 3자리 (ex 010)
+        phone2:"",     //휴대폰번호 뒷자리 7,8자리 (ex 12345678)
+        telcoTycd: "", //S,K,L
+        ssn1: "",      //주민등록번호 앞자리 (ex 900101)
+        ssn2: "",      //주민등록번호 뒷자리 (ex 1999999)
+        birthday:""    //생년월일 (ex 19900101)
+    };
+ * @return {string} tx id
+ * @example
+inUserInfo = {
+        name:"고길동",       //이름 (ex 홍길동)
+        phone1:"010",     //휴대폰번호 앞자리 3자리 (ex 010)
+        phone2:"12341234",     //휴대폰번호 뒷자리 7,8자리 (ex 12345678)
+        telcoTycd: "S", //S,K,L
+        ssn1: "",      //주민등록번호 앞자리 (ex 900101)
+        ssn2: "",      //주민등록번호 뒷자리 (ex 1999999)
+        birthday:"20230101"    //생년월일 (ex 19900101)
+    };
+ let bRstTxId2 = await moSimAuthI.makeSimAuth( "simpleAuth", "", {} );
+ alert( bRstTxId2 );
+*/
+moSimAuthI.makeSimAuth = async function( reqType /*간편인증:"simpleAuth", 전자서명: "simpleSign"*/, inSignData, inUserInfo ) {
+
+    let reqTxId = false;
+    try {
+        //step1. 간편인증 백그라운드 열기
+        await moSimAuthI.loadSimAuthDiv();
+
+        //step2. 간편인증 백그라운드 보이기
+        moSimAuthI.showSimAuth();
+
+        //step3 간편인증 요청
+        let insReqType = "GOV_SIMPLE_AUTH";
+        if( "simpleSign" == reqType ) {
+            insReqType = "GOV_SIMPLE_SIGN";
+        }
+
+        let simIframe = document.getElementById("moisSimAuth").contentWindow;
+
+        if( inUserInfo != "" && inUserInfo != null && inUserInfo != {} ) {
+            simIframe.setPreUserInfo( inUserInfo.name, inUserInfo.phone1,  inUserInfo.phone2,
+                    inUserInfo.telcoTycd,  inUserInfo.inSsn1,  inUserInfo.inSsn2,  inUserInfo.birthday  ) ;
+        }
+
+        simIframe.reqSimpleAuth( insReqType, inSignData );
+
+        //step4 사용자가 간편인증 창을 닫을 때까지 기다림
+        while( 1 ) {
+            await moSimAuthI.sleep(200);
+            if( simIframe.isCloseMoisWindow == true ) {
+                break;
+            }
+        }
+
+        if( simIframe.moisStatus == 53 ){
+            reqTxId = simIframe.moisInsTxId;
+        }else if( simIframe.moisStatus == 99 ){
+            pkiUtil.simAuthErrMsg = "사용자가 간편인증을 취소하였습니다.";
+            reqTxId = "";
+        }
+
+        //step5 백그라운드 숨기기
+        moSimAuthI.hideSimAuth();
+        //step5 백그라운드 닫기
+        moSimAuthI.unloadSimAuth();
+    } finally {
+    }
+
+    return reqTxId;
+}

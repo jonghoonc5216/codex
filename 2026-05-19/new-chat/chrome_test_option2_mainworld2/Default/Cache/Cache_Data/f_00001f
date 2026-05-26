@@ -1,0 +1,477 @@
+@charset "utf-8";
+
+.gnb-btm-wrapper {padding: 0.8rem 0 0.8rem 0; background-color: #fff;}
+
+.gnb-btm-wrap {position: relative; max-width: 160rem; margin: 0 auto;}
+.gnb-btm-wrap:after {content: ""; display: block; clear: both;}
+.hide-title {color: transparent; font-size: 0; width: 0; height: 0;}
+
+h1.logo {display: inline-block; background-image: none;}
+.logo,
+.logo_nuri,
+.logo_reserve,
+.logo_customer,
+.logo_accounting,
+.logo_legalScreening{display: inline-block; width: 20.8rem; height: 4rem; padding-top:.5rem; color: transparent; font-size: 0;  border: 0;}
+
+.logo {background: url('/kn/com/images/portal/gnb/ci.svg') no-repeat 0 center; background-size: 20.4rem;}
+.logo_accounting {background: url('/kn/com/images/portal/gnb/CI_01_accounting.svg') no-repeat 0 center; background-size: 20.4rem; }
+.logo_reserve {background: url('/kn/com/images/portal/gnb/CI_02_reserve.svg') no-repeat 0 center; background-size: 20.4rem;}
+.logo_legalScreening {background: url('/kn/com/images/portal/gnb/CI_03_legalScreening.svg') no-repeat 0 center; background-size: 20.4rem; }
+.logo_nuri {background: url('/kn/com/images/portal/gnb/CI_04_nuri.svg') no-repeat 0 center; background-size: 20.4rem;}
+.logo_customer{background: url('/kn/com/images/portal/gnb/CI_customer.svg') no-repeat 0 center; background-size: 20.4rem; }
+
+.gnb-btm-wrap .img-move {width: auto; height: 4.7rem; padding-left: 2rem;}
+
+
+/* 운영자페이지 상단 */
+.gnb-btm-wrap.oper .site-title {font-size: 0rem;vertical-align: bottom;white-space: nowrap;}
+.gnb-btm-wrap.oper h1.logo {display: inline-block; background-image: none;}
+.gnb-btm-wrap.oper .logo {width: 26.0rem;height: 4.1rem; background: url('/kn/com/images/portal/gnb/ci-oper.png') no-repeat 0 center; background-size: 26.0rem;}
+
+/* 우측 사용자 영역 */
+.gnb-btm-wrap .inner.right {float: right; display: inline-flex; align-items: center;position: relative;}
+.gnb-btm-wrap .inner.right .btn {position: relative; color: transparent; width: 4.7rem; height: 4.7rem; font-size: 0; border: 0; border-radius: 50%; background-color: transparent; background-size: 2.0rem; background-repeat: no-repeat;  background-position: center; margin: 0 0rem 0 1.6rem;}
+.gnb-btm-wrap .inner.right .btn:before {content: ""; position: absolute; background-repeat: no-repeat; background-position: center;}
+.gnb-btm-wrap .btn.menu-open.mobile {width: 3.8rem; height: 4.6rem; padding: 1.4rem 0.8rem;}
+.gnb-btm-wrap .btn.menu-open.mobile:after {top: 2.1rem;}
+
+/* 나의 나라장터(우측 사용자 영역) */
+.inner.right .user-wrap {display: inline-block; position: relative; z-index: 2;}
+.inner.right .user-wrap .btn.user:before {width: 4.7rem; height: 4.7rem; background-image: url('/kn/com/images/portal/gnb/ic_user.svg'); background-position: center 0.8rem; background-color: #6263f7; background-size: 2.8rem; border-radius: 50%;}
+
+/* 전자캐비넷 */
+.gnb-btm-wrapper.cabinet .gnb-btm-wrap .btn.menu-open.mobile {width: 3.8rem; height: 4.6rem; padding: 1.4rem 0.8rem; position: absolute; top: -5rem; right: 1rem;}
+.inner.right .btn.e-cabinet:before {width: 4.7rem; height: 4.7rem; background-image: url('/kn/com/images/portal/gnb/ic_cabinet.svg'); background-position: center; background-color: #1da4e1; background-size: 2.2rem; border-radius: 50%;}
+.inner.right .btn.e-approve:before {width: 4.7rem; height: 4.7rem; background-image: url('/kn/com/images/portal/gnb/ic_approve.svg'); background-position: center; background-color: #1da4e1;  background-size: 2.2rem; border-radius: 50%;}
+.inner.right .btn.e-document:before {width: 4.7rem; height: 4.7rem; background-image: url('/kn/com/images/portal/gnb/ic_document.svg'); background-position: center; background-color: #1da4e1;  background-size: 2.3rem; border-radius: 50%;}
+/* 전자캐비넷 툴팁, 통합검색 툴팁 */
+.inner.right .btn.e-cabinet .tooltip.e-cabinet,
+.inner.right .btn.e-approve .tooltip.e-approve,
+.inner.right .btn.e-document .tooltip.e-document,
+.inner.right .srch-wrap .tooltip.total-srch,
+.inner.right .user-wrap .tooltip.user, .inner.right .user-wrap .tooltip.user-guide {
+    display: inline-block;
+    /* display: none; */
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 5.9rem;
+    left: 50%;
+    color: #000000;
+    font-size: 1.4rem;
+    margin-left: 0.8rem;
+    padding: 0.9rem 1.8rem;
+    transform: translateX(-50%);
+    transition: all 0.2s ease-in-out;
+    background-color: #ffffff;
+    border: 1px solid #4876ef;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 10%);
+    white-space: nowrap;
+}
+.inner.right .btn.e-approve .tooltip.e-approve, .inner.right .btn.e-document .tooltip.e-document { margin-left: 0rem; }
+
+.inner.right .btn.e-cabinet .tooltip.e-cabinet {margin: 0;}
+
+.inner.right .btn.e-cabinet .tooltip.e-cabinet:before,
+.inner.right .btn.e-approve .tooltip.e-approve:before,
+.inner.right .btn.e-document .tooltip.e-document:before,
+.inner.right .srch-wrap .tooltip.total-srch:before,
+.inner.right .user-wrap .tooltip.user:before,
+.inner.right .user-wrap .tooltip.user-guide:before {
+    content: "";
+    position: absolute;
+    top: -1.0rem;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.7rem solid transparent;
+    border-right: 0.7rem solid transparent;
+    border-bottom: 1.0rem solid #4876ef;
+    transform: translateX(-50%);
+}
+
+.inner.right .btn.e-cabinet .tooltip.e-cabinet:after,
+.inner.right .btn.e-approve .tooltip.e-approve:after,
+.inner.right .btn.e-document .tooltip.e-document:after,
+.inner.right .srch-wrap .tooltip.total-srch:after,
+.inner.right .user-wrap .tooltip.user:after,
+.inner.right .user-wrap .tooltip.user-guide:after {
+    content: "";
+    position: absolute;
+    top: -0.8rem;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.7rem solid transparent;
+    border-right: 0.7rem solid transparent;
+    border-bottom: 1.0rem solid #ffffff;
+    transform: translateX(-50%);
+}
+
+.inner.right .btn.e-cabinet:hover .tooltip.e-cabinet,
+.inner.right .btn.e-approve:hover .tooltip.e-approve,
+.inner.right .btn.e-document:hover .tooltip.e-document,
+.inner.right .srch-wrap .btn.srch:hover ~ .tooltip.total-srch,
+.inner.right .user-wrap .tooltip.user-guide.on,
+.inner.right .user-wrap .btn.user:hover ~ .tooltip.user:not(.guide) {
+    visibility: visible; opacity: 1; z-index: 3;
+}
+
+.inner.right .user-wrap .popup-content.user {
+    display: none;
+    position: absolute;
+    top: 4.7rem;
+    left: 50%;
+   /*  min-width: 40rem; */
+    min-width: 30rem;
+    width: auto;
+    background-color: transparent;
+    transform: translateX(-50%);
+    padding-top: 1.2rem;
+}
+.inner.right .user-wrap:hover .popup-content.user {display: block;}
+
+.inner.right .user-wrap .popup-content.user:before {
+    content: "";
+    position: absolute;
+    top: 0.3rem;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    margin-left: 0.1rem;
+    border-left: 0.6rem solid transparent;
+    border-right: 0.6rem solid transparent;
+    border-bottom: 0.9rem solid #4876ef;
+}
+
+.inner.right .user-wrap .popup-content.user:after {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    margin-left: 0.1rem;
+    border-left: 0.6rem solid transparent;
+    border-right: 0.6rem solid transparent;
+    border-bottom: 0.9rem solid #ffffff;
+}
+
+.user-wrap .popup-content.user ul {
+    display: flex;
+    background-color: #fff;
+    border: 0.1rem solid #4876ef;
+    border-radius: 0.4rem;
+}
+/*단장님 시연 관련 기존 24.05.28  */
+/* .user-wrap .popup-content.user .inner.left {width: 18rem;padding:2.0rem;background-color: #ebf1fa;text-align: center;border-radius: 0.4rem 0 0 0.4rem;position: relative;}
+
+
+.popup-content.user .inner.left .user-icon {
+    display: inline-block;
+    width: 6.0rem;
+    height: 6.0rem;
+    color: transparent;
+    font-size: 0;
+    background: #ffffff url('/kn/com/images/portal/gnb/ic_my_user.svg') no-repeat center;
+    background-size: 3.2rem;
+    border-radius: 50%;
+    vertical-align: top;
+    margin-bottom: 1.6rem;
+}
+
+.popup-content.user .inner.left .user-intro {background-color: transparent; font-size: 1.3rem;display: inline-flex;flex-wrap: wrap;justify-content: center;line-height: 1.8rem;}
+.popup-content.user .inner.left .user-intro.my-unlock:after {content:""; display: block; background: #fff  url(/kn/com/images/portal/gnb/ico-my01.svg) no-repeat right 1.5rem center; width:7.4rem; height:7.4rem; border-radius:50%;margin: 1.5rem auto;}
+.popup-content.user .inner.left .user-intro.my-lock:after {content:""; display: block; background: #fff  url(/kn/com/images/portal/gnb/ico-my02.svg) no-repeat center center; width:7.4rem; height:7.4rem; border-radius:50%;margin: 1.7rem auto;}
+.popup-content.user .inner.left .user-intro .name {color: #4876ef;white-space: nowrap; max-width: 14rem;display: inline-block; overflow: hidden; text-overflow: ellipsis;}
+.popup-content.user .inner.left .user-intro .name.grp {color: #191919; font-weight:500;font-size: 1.4rem;white-space: nowrap; width: 14rem; display: inline-block; overflow: hidden;text-overflow: ellipsis;}
+.popup-content.user .inner.left .greeting-txt {font-size: 1.3rem;display: inline-block;color: #191919;margin-left: 0.3rem;}
+
+.popup-content.user .inner.left .txt-process {
+    color: #858585;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    text-align: center;
+   position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+}
+
+.popup-content.user .inner.left .btn.login-ctrl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #191919;
+    font-size: 1.4rem;
+    width: 100%;
+    height: 3.2rem;
+    border: 0.1rem solid #4876ef;
+    border-radius: 1.6rem;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+*/
+
+/* 팝업로그인창 변경작업 24.05.28 */
+.user-wrap .popup-content.user .inner.left {display:flex;padding: 2rem;background-color: #ebf1fa;text-align: center;border-radius: 0.4rem 0 0 0.4rem;position: relative;flex-wrap: wrap;}
+
+.popup-content.user .inner.left .user-icon {
+    display: inline-block;
+    width: 6.0rem;
+    height: 6.0rem;
+    color: transparent;
+    font-size: 0;
+    background: #ffffff url('/kn/com/images/portal/gnb/ic_my_user.svg') no-repeat center;
+    background-size: 3.2rem;
+    border-radius: 50%;
+    vertical-align: top;
+    margin-bottom: 1.6rem;
+}
+
+.popup-content.user .inner.left .user-intro {background-color: transparent;font-size: 1.3rem;display: inline-flex;flex-direction:column;justify-content: flex-start;/* line-height: 1.2rem; */}
+.popup-content.user .inner.left .user-intro.my-unlock{width:7.4rem; }
+.popup-content.user .inner.left .user-intro.my-unlock:after {content:"";display: block;background: #fff  url(/kn/com/images/portal/gnb/ico-my01.svg) no-repeat 2.5rem center;width:7rem; height:7rem;border-radius:50%;margin: 0.5rem auto;}
+.popup-content.user .inner.left .user-intro.my-lock:after {content:""; display: block; background: #fff  url(/kn/com/images/portal/gnb/ico-my02.svg) no-repeat center center; width:7.4rem; height:7.4rem; border-radius:50%;margin: 1.7rem auto;}
+/* .popup-content.user .user-intro.r-txt{width: calc(100% - 6rem);} */
+
+.popup-content.user .user-intro.r-txt{/* display: flex; flex-direction: column; align-items: center; */ text-align:center}
+.popup-content.user .user-intro.r-txt span{display:block; padding-bottom:.5rem}
+.popup-content.user .user-intro .name {color: #4876ef;white-space: nowrap;max-width: 100%;width:20rem; display: inline-block;overflow: hidden;text-overflow: ellipsis;font-size: 1.4rem;font-weight: 500;}
+.popup-content.user .user-intro .name.grp {color: #191919;font-weight:500;font-size: 1.4rem;white-space: nowrap;width: 100%;display: inline-block;overflow: hidden;text-overflow: ellipsis;padding: 0 0 .5rem;}
+.popup-content.user .greeting-txt {font-size: 1.3rem;display: inline-block;color: #191919;margin-left: 0.3rem;}
+
+.popup-content.user .inner .txt-process {
+    color: #858585;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    text-align: center;
+    /* position: absolute; */
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    /* text-align: right; */
+    width: 100%;
+}
+
+.popup-content.user .inner.left .btn.login-ctrl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #191919;
+    font-size: 1.4rem;
+    width: 100%;
+    height: 3.2rem;
+    border: 0.1rem solid #4876ef;
+    border-radius: 1.6rem;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+
+
+
+
+
+.user-wrap .popup-content.user .inner.right {
+    /* width: 21.8rem; */
+    width:100%;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /* flex-direction: column;  */
+    padding: 2.4rem 2.4rem;
+}
+
+.popup-content.user .inner.right .btn.shortcut {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    height: 3.2rem;
+    color: #191919;
+    font-size: 1.4rem;
+    border-radius: 1.5rem;
+    margin: 0;
+    padding: 0 3.2rem 0 1.2rem;
+    background: #ecebeb url('/kn/com/images/portal/gnb/ic_arr_right.svg') no-repeat right 1.8rem center;
+    background-size: 0.6rem 1.1rem;
+}
+
+.popup-content.user .inner.right .btn.shortcut ~ .btn.shortcut {margin-top: 1.0rem;}
+
+.popup-content.user .inner.right .btn.shortcut.my-user {
+    color: #ffffff;
+    align-self: flex-end;
+    background-color: #4876ef;
+    background-image: none;
+    justify-content: center;
+    padding: 0 1.2rem 0 1.2rem;
+}
+
+/* 검색영역(우측 사용자 영역) */
+.inner.right .srch-wrap {display: inline-block; position: relative;}
+.inner.right .srch-wrap .btn.srch:before {top: 0; left: 0; width: 4.7rem; height: 4.7rem; border-radius: 50%;
+    background-image: url('/kn/com/images/portal/gnb/ic_search.svg'); background-color: #4876ef; background-size: 2rem;}
+.inner.right .srch-wrap .btn.srch.close {
+    background-image: url('/kn/com/images/portal/gnb/ic_close_white.svg');
+    background-size: 1.7rem;
+}
+
+/* 검색버튼 클릭시 노출 레이어 배경 dimmed */
+/* .inner.right .srch-wrap .popup-srch.bg,  */
+.popup-srch.bg {
+    display: none;
+    position: fixed;
+    top: 12.4rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+/* .inner.right .srch-wrap .popup-srch.bg.appear,  */
+.popup-srch.bg.appear {display: block;height:100vh;}
+
+/* 검색버튼 클릭시 노출 레이어 팝업 */
+/* .inner.right .srch-wrap .popup-content.srch, */
+.popup-content.srch {
+    display: none;
+    position: fixed;
+    /* top: 0; */
+    top: 11.3rem;
+    left: 0;
+    right: 0;
+    /* margin-top: 12.4rem; */
+    margin: 0;
+  /*   padding: 2.4rem 22.0rem 4.8rem; */
+      padding:2.4rem 0;
+    background-color: #f4f6f8;
+    border-top: .0625rem solid #cdcece;
+    border-bottom-right-radius: 10rem;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 60%);
+    z-index: 4;
+}
+
+.popup-content.srch .pop-cnt-wrap{width:72%; margin:0 auto}
+.popup-content.srch .pop-cnt-wrap .shbox.srch_keyword .srch_step{width:calc(6.4%);}
+
+
+.popup-content.srch .pop-cnt-wrap .inner.ipt-srch {
+    display: flex; align-items: center; border-bottom: 0.1rem solid #dbdbdb;
+}
+
+.popup-content.srch .pop-cnt-wrap .inner.ipt-srch .w2input {width: calc(100% - 6.0rem); height: 6.0rem; font-size: 2.4rem; border: 0; padding:0 2rem; box-shadow: none; background-color:#f4f6f8;}
+
+.popup-content.srch .pop-cnt-wrap .inner.ipt-srch .w2input_focus {
+    border: 0; background-color: transparent;
+}
+
+.popup-content.srch .pop-cnt-wrap .inner.ipt-srch input::placeholder {
+    color: #707070; font-size: 2.4rem; font-weight: 500;
+}
+
+.popup-content.srch .pop-cnt-wrap .inner.ipt-srch .btn.search {
+    background: url(/kn/com/images/portal/gnb/ic_srch.svg) no-repeat center;
+    background-size: 3.0rem;
+}
+
+
+.popup-content.srch .pop-cnt-wrap .inner.content {display: flex;margin-top: 1.6rem;justify-content: space-between;}
+.popup-content.srch .pop-cnt-wrap .inner.content .inner-wrap {width: 50%;padding: 0 2rem;}
+.pop-cnt-wrap .inner.content .inner-wrap.left {/* margin-right: 4.0rem; */}
+.pop-cnt-wrap .inner.content .inner-wrap.right {/* margin-left: 4.0rem; */}
+.pop-cnt-wrap .inner.content .title.srch {display: flex; height: 4rem;align-items: center; color: #343434;font-size: 1.8rem;font-weight: 500;/* margin-bottom: 1.2rem; */}
+.pop-cnt-wrap .inner.content .btn.chip {
+    width: auto;
+    height: 3.2rem;
+    color: #707070;
+    font-size: 1.4rem;
+    border-radius: 3.0rem;
+    border: 0.1rem solid #dbdbdb;
+    margin: 0 .5rem 1rem 0;
+    padding: 0 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    min-width: 9rem;
+    /* flex-direction: row; */
+}
+
+.popup-content.srch .pop-cnt-wrap .btn.close {
+    position: absolute; top: 2.8rem; right: 8.0rem;
+    background: url(/kn/com/images/portal/gnb/ic_close.svg) no-repeat center;
+    background-size: 2.2rem;
+}
+
+.inner.right .btn.e-customer,
+.inner.right .btn.remote {
+    width: auto;
+    min-width: 11rem;
+    text-align: center;
+    height: 3.6rem;
+    color: #4876ef;
+    font-size: 1.6rem;
+    border-radius: 2.5rem;
+    background-color: #eef5ff;
+    padding: 0 1.6rem;
+    line-height: 3.3rem;
+    border:0.1rem solid #a7bffe;
+}
+
+.inner.right .btn.e-customer {margin-left: 1.6rem;}
+.remote-wrap { z-index:100; position: absolute; top: 4.5rem; right: 0; background-color:#ecebeb; border-radius:1.0rem; padding:1.0rem 1.5rem;box-shadow: 0 0.7rem 1.2rem rgba(0, 0, 0, 0.15);}
+.remote-wrap .list {padding-bottom: 0.5rem;}
+.remote-wrap .list:last-child {padding-bottom: 0.2rem;}
+.remote-wrap .list a {display:inline-block; font-size: 1.4rem; text-align: left; white-space: nowrap; color:#222;}
+.remote-wrap .list a:hover {color:#4876ef}
+
+
+/* 연관공고 연관검색어 추가 keh1016 */
+.pop-cnt-wrap .tSerword,
+.pop-cnt-wrap .tNoti_list{overflow:hidden;max-height: 22rem;overflow-y:auto;padding: 1rem 0;width: 100%;/* border: solid 1px #ddd; */display: block;margin: 0;}
+.pop-cnt-wrap .inner-wrap.left .btn.chip{text-align:center}
+.pop-cnt-wrap .inner-wrap.right .tNoti_list a.btn.chip{
+    display:block;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    max-width:100%;
+    overflow:hidden;
+    line-height:2.7rem;
+    box-sizing: border-box;
+    }
+
+@media only screen and (max-width:1400px) {
+    .popup-content.srch{padding-left:17rem; padding-right:17rem}
+    .popup-content.srch .pop-cnt-wrap{width:95%}
+
+}
+
+@media only screen and (max-width:1023px) {
+    .popup-content.srch .pop-cnt-wrap .inner.content{display:block}
+    .popup-content.srch .pop-cnt-wrap .inner.content .inner-wrap{width:100%}
+
+}

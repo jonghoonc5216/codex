@@ -1,0 +1,2937 @@
+/*amd /com/udc/kUpload.xml 152455 93f4f8e4a19f40b6555147d8d9b46cb5b8f99f19db0cab59741b17e3420e056d */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',A:{palette:'support'},E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:dataMap',A:{id:'dlUntyAtchFileM',baseNode:'map'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'untyAtchFileNo',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'atchFileSqnos',name:'선택된파일순번',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bsnePath',name:'업무경로',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bsneClsfCd',name:'조달업무구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'tblNm',name:'테이블명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'colNm',name:'컬럼명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'webPathUse',name:'웹NAS사용여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'isScanEnabled',name:'악성코드 점검 여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'imgUrl',name:'이미지경로',dataType:'text'}},{T:1,N:'w2:key',A:{id:'atchFileKndCds',name:'조회파일타입',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ignoreAtchFileKndCds',name:'제외파일타입',dataType:'text'}},{T:1,N:'w2:key',A:{id:'kbrdrIds',name:'입력자ID',dataType:'text'}},{T:1,N:'w2:key',A:{id:'kuploadId',name:'kuploadId',dataType:'text'}},{T:1,N:'w2:key',A:{id:'viewMode',name:'viewMode',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{id:'dlDownAtflGrpDetlM',baseNode:'map'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'untyAtchFileNo',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'atchFileSqno',name:'첨부파일순번',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{id:'dlDownAtflGrpDetlResultM',baseNode:'map'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'viewUrlPath',name:'미리보기url',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{id:'dlUntyAtchFileL',baseNode:'list',repeatNode:'map',saveRemovedData:'true','ev:ondataload':'scwin.dlUntyAtchFileL_ondataload','ev:oninsertrow':'scwin.dlUntyAtchFileL_oninsertrow','ev:oncelldatachange':'scwin.dlUntyAtchFileL_oncelldatachange'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'CHK',name:'chk',dataType:'text',ignoreStatus:'true'}},{T:1,N:'w2:column',A:{id:'untyAtchFileNo',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneClsfCd',name:'조달업무구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'tblNm',name:'테이블명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'colNm',name:'컬럼명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileSqno',name:'순번',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileDscr',name:'설명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileKndCd',name:'추가1',dataType:'text'}},{T:1,N:'w2:column',A:{id:'orgnlAtchFileNm',name:'파일명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileExtnNm',name:'확장자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileSz',name:'사이즈',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileNm',name:'name3',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflPathNm',name:'name5',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflRmrk',name:'name9',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrId',name:'name10',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrIpar',name:'name11',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rgstDttm',name:'name12',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrId',name:'name13',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrIpar',name:'name14',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chngDttm',name:'name15',dataType:'text'}},{T:1,N:'w2:column',A:{id:'delYn',name:'name16',dataType:'text'}},{T:1,N:'w2:column',A:{id:'sessUserNo',name:'name17',dataType:'text'}},{T:1,N:'w2:column',A:{id:'nIndex',name:'0부터 시작되는 파일의 순서 정보',dataType:'text'}},{T:1,N:'w2:column',A:{id:'imgUrl',name:'이미지경로',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrNm',name:'등록자명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptDt',name:'등록일시',dataType:'text'}},{T:1,N:'w2:column',A:{id:'dwnldPrmsYn',name:'다운로드허용여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'befRowStatus',name:'이전로우상태값',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{id:'deleteList',baseNode:'list',repeatNode:'map',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'CHK',name:'chk',dataType:'text'}},{T:1,N:'w2:column',A:{id:'untyAtchFileNo',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneClsfCd',name:'조달업무구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'tblNm',name:'테이블명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'colNm',name:'컬럼명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileSqno',name:'순번',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileDscr',name:'설명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileKndCd',name:'추가1',dataType:'text'}},{T:1,N:'w2:column',A:{id:'orgnlAtchFileNm',name:'파일명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileExtnNm',name:'확장자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileSz',name:'사이즈',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileNm',name:'name3',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflPathNm',name:'name5',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflRmrk',name:'name9',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrId',name:'name10',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrIpar',name:'name11',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rgstDttm',name:'name12',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrId',name:'name13',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrIpar',name:'name14',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chngDttm',name:'name15',dataType:'text'}},{T:1,N:'w2:column',A:{id:'delYn',name:'name16',dataType:'text'}},{T:1,N:'w2:column',A:{id:'sessUserNo',name:'name17',dataType:'text'}},{T:1,N:'w2:column',A:{id:'nIndex',name:'0부터 시작되는 파일의 순서 정보',dataType:'text'}},{T:1,N:'w2:column',A:{id:'imgUrl',name:'이미지경로',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrNm',name:'등록자명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptDt',name:'등록일시',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{id:'editList',baseNode:'list',repeatNode:'map',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'CHK',name:'chk',dataType:'text'}},{T:1,N:'w2:column',A:{id:'untyAtchFileNo',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneClsfCd',name:'조달업무구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'tblNm',name:'테이블명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'colNm',name:'컬럼명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileSqno',name:'순번',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileDscr',name:'설명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileKndCd',name:'추가1',dataType:'text'}},{T:1,N:'w2:column',A:{id:'orgnlAtchFileNm',name:'파일명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileExtnNm',name:'확장자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileSz',name:'사이즈',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileNm',name:'name3',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflPathNm',name:'name5',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflRmrk',name:'name9',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrId',name:'name10',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrIpar',name:'name11',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rgstDttm',name:'name12',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrId',name:'name13',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrIpar',name:'name14',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chngDttm',name:'name15',dataType:'text'}},{T:1,N:'w2:column',A:{id:'delYn',name:'name16',dataType:'text'}},{T:1,N:'w2:column',A:{id:'sessUserNo',name:'name17',dataType:'text'}},{T:1,N:'w2:column',A:{id:'nIndex',name:'0부터 시작되는 파일의 순서 정보',dataType:'text'}},{T:1,N:'w2:column',A:{id:'imgUrl',name:'이미지경로',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrNm',name:'등록자명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptDt',name:'등록일시',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{id:'dlUntyAtchFileL_valid',baseNode:'list',repeatNode:'map',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'CHK',name:'chk',dataType:'text'}},{T:1,N:'w2:column',A:{id:'untyAtchFileNo',name:'통합첨부파일번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneClsfCd',name:'조달업무구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'tblNm',name:'테이블명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'colNm',name:'컬럼명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileSqno',name:'순번',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileDscr',name:'설명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileKndCd',name:'추가1',dataType:'text'}},{T:1,N:'w2:column',A:{id:'orgnlAtchFileNm',name:'파일명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileExtnNm',name:'확장자',dataType:'text'}},{T:1,N:'w2:column',A:{id:'fileSz',name:'사이즈',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atchFileNm',name:'name3',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflPathNm',name:'name5',dataType:'text'}},{T:1,N:'w2:column',A:{id:'atflRmrk',name:'name9',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrId',name:'name10',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rstrIpar',name:'name11',dataType:'text'}},{T:1,N:'w2:column',A:{id:'rgstDttm',name:'name12',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrId',name:'name13',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chnrIpar',name:'name14',dataType:'text'}},{T:1,N:'w2:column',A:{id:'chngDttm',name:'name15',dataType:'text'}},{T:1,N:'w2:column',A:{id:'delYn',name:'name16',dataType:'text'}},{T:1,N:'w2:column',A:{id:'sessUserNo',name:'name17',dataType:'text'}},{T:1,N:'w2:column',A:{id:'nIndex',name:'0부터 시작되는 파일의 순서 정보',dataType:'text'}},{T:1,N:'w2:column',A:{id:'kbrdrNm',name:'등록자명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'inptDt',name:'등록일시',dataType:'text'}}]}]}]}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:'scwin.init,scwin.setUntyAtchFileNo,scwin.setBsnePath,scwin.getUntyAtchFileNo,scwin.getBsnePath,scwin.setViewMode,scwin.send,scwin.destroy,scwin.getNewFileCount,scwin.deleteWhol,scwin.load,scwin.cert,scwin.getFileListInfo,scwin.isModified,scwin.validateDataCollect,scwin.setTblNm,scwin.setColNm,scwin.modifyRowStatus,scwin.setContinuedAddFile,scwin.setContinuedDeleteFile,scwin.getTotalFileCount,scwin.checkDelete,scwin.focus,scwin.setGroupTitleRequired,scwin.downloadAllFile,scwin.getPreviewImgFilePath,scwin.getFileDataList,scwin.setOriginalFileName,scwin.resizeColumn,scwin.setDownloadFileName,scwin.getTotalFileSize'}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){
+/**
+ * @component
+ * @company 111ddd
+ * @developer jinyulchoi
+ * @variableClone true
+ * @notSupportBrowser
+ * @version
+ * @htmlRender
+ * @icon iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAC00lEQVR4XqXTa0iTURzH8WFqXna1
+6aYz5+VRZ6I2r1CvqhddzBRFyzVdzUp0DtNNZ02blYVFFokFmdELoUhjRUFipVFgRBekGxRBvYiC
+giKiy6v49uwRnK/rwAN/Duf/4XfOeY6s2XOBbz/5py/QKwsUi7Q21GleFsVsRaapRWbYgSzWQrih
+GZl8O2GBWttAVIKT0MRmolLbCIlci9g6ByiMXmKzevFPveLFu984fRf5+AtKazt58wUm7n2i94if
+6h0HcfbfICb3ENFLa6QUEiBPdRNvbuGPKL7/8J3ZZ28Z988QGFZHO/1Dfqn+/PUHY5PPURr3okyx
+LAQ60Jld2FtH2FJ7DHvTVcyruilee5ij5+/TemCMsrqzrK45gaXTj1ZMqzTUBwFVhgu9uYfk/Gby
+V+xDn+MiptCNpsCLVugiJXkbK4VNrF5WjTHLSWxxP9Hx1iCgEBwoMl3cfvxairrTNYwm20NcfjdF
+2RYuW63M2DYyaLOTu3wXyeZe5EkLEkSkuZALndy89UQC6h1n0KYfJM9k5/LW9TytyWG0opxMEdMX
+9SJk96FJ2BUEwjLcRGV0cePWrATYHQPkx61hvLKUl1WZnC6vIN3UgKbkMLqCfowF+1Ek1gaBqIwW
+wrM6uHp7DvDsPs6VA33MeisZLislO34zWrExrrCPpAIfumIf0caqIBCd3oY80yEmeCQBlsYBzl26
+I9WBUWk5iTLVi9HsEw96D7El+wlPtgeByLQOVOmNTEw9kBqq204hW7KFgaHr88i6hhFCTW4R6UHI
+62OxoS4IxAh7UaU6mZx+KC22OY6jy3ETqt/JyPjdeaRcTKYSnCTkHEKVYluwhaR2lpg8XJt+JS20
+OkfRLPOK13iCEL2NwZOT80iTbwK1uZtIQ/WCW9C1iGfgJUQnPiR1GRGJLajF/0IheFCb9hCq3SbO
+VyFTViBPbBDnu8R6wxzwv8/5L6DnlFYJO/EUAAAAAElFTkSuQmCC
+ * @disableIcon
+ * @width
+ * @height
+ * @description
+ */
+
+/**
+ * @property
+ * @name style
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @description desc
+ */
+
+/**
+ * @property
+ * @name class
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @description desc
+ */
+
+/**
+ * @property
+ * @name id
+ * @category 01.Basic & ETC
+ * @type string
+ * @option
+ * @default
+ * @necessary N
+ * @description desc
+ */
+
+/**
+ * @property
+ * @name totalCountDisplay
+ * @category 05.Design
+ * @type combobox
+ * @option [true,false]
+ * @default true
+ * @necessary N
+ * @bindparent
+ * @description 토탈카운트 display 여부[Default : true]
+ */
+
+const objViewMode = { viewMode : "view" };
+scwin.fileScope   = undefined;  //현재 Frame의 scope
+scwin.parentScope = undefined;  //부모 Frame의 scope
+scwin.kUploadId = ''; // 아이디
+scwin.options = {};
+
+// 파일 전송을 계속 진행할 지 여부
+scwin.continuedAddFile = true;
+// 파일 전송이 계속 진행이 불가능할때 사용자한테 표출되는 안내 메시지
+scwin.continuedAddMsgInfo = undefined;
+
+// 파일 삭제를 계속 진행할 지 여부
+scwin.continuedDeleteFile   = true;
+// 파일 삭제를 계속 진행이 불가능할때 사용자한테 표출되는 안내 메시지
+scwin.continuedDeleteMsgInfo = undefined;
+
+// 파일 업로드를 위해 선택된 파일 객체
+scwin.objFile = null;
+
+// 기존 AddUploadedFile로 추가된 파일 정보를 담는 전역 변수
+scwin.originFileArr = [];
+
+/********************************************************************************
+ * 설명 : onpageload 이벤트
+ ********************************************************************************/
+scwin.onpageload = async function () {
+    (window.RAONKUPLOAD === undefined || window.RAONKUPLOAD === null) && (await comUtil.gfnDynamicLoadScriptPromise("/kupload/js/raonkupload.js"));
+
+    /* kupload 사용화면에서 설정한 옵션 값 얻기 */
+    const udcProp = $p.getOptions();
+    if (udcProp.totalCountDisplay === "false" || udcProp.totalCountDisplay === false) {
+        grpTotalArea.hide();
+    }
+    kuploadLoadingArea.show('flex');
+};
+
+/********************************************************************************
+ * 설명 : 공통코드 세팅
+ ********************************************************************************/
+scwin.setCommonCode = function (codeOption) {
+    com.gfnSetCommonCode([codeOption]);
+};
+
+/**
+ * @method
+ * @name init
+ * @description 초기화
+ * @param {object} paramOption 옵션
+ * @returns {string} kuploadId kuploadId 생성한 컴포넌트 아이디
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.init = async function (paramOption) {
+    scwin.fileScope   = $p.getFrame().scope;
+    scwin.parentScope = $p.parent().$p.getFrame().scope;
+    // 옵션 기본 값
+    const pagingDefault = {
+        untyAtchFileNo: '', // 선택 | 통합첨부파일번호
+        bsnePath: '',  // 필수 | 업무경로
+        //bsneClsfCd: '', // 필수 | 조달업무구분코드
+        tblNm: '', // 필수 | 테이블명
+        colNm: '', // 필수 | 컬럼명
+        webPathUse: "N", // 웹nas 사용여부
+        isScanEnabled: false, // 선택 | 악성코드 점검 여부 true, false(Default)
+        mode: 'edit', // 필수 | 모드 (edit, view)
+        useMergePdfFile: false, // 선택 | 첨부파일인쇄 버튼 사용 유무 true, false(Default)
+        useDeleteButton: true, // 선택 | 선택삭제 버튼 사용 유무 true(Default), false
+        useAddFileButton: true, // 선택 | 파일추가 버튼 사용 유무 true(Default), false
+        groupTitle: '파일첨부', // 선택 | 타이틀 설정
+        groupTitleClass: '', // 선택 | 타이틀 class 설정
+        groupTitleTooltip: false, // 선택 | 타이틀 툴팁 사용유무
+        groupTitleTooltipTitle: "제목", // 선택 | 타이틀 툴팁 제목
+        groupTitleTooltipContent: "내용", // 선택 | 타이틀 툴팁 내용
+        groupTitleRequired: false, // 선택 | 타이틀에 필수항목 설정 여부 true, false(Default)
+        btnFileDownTitle: '다운로드',
+        btnFileAddnTitle: '파일추가',
+        btnChceDelTitle: '선택삭제',
+        fileNameTitle: '파일명',
+        fileSizeTitle: '파일크기',
+        titleKbrdrNmTitle: '등록자명',
+        titleInptDtTitle: '등록일시',
+        previewColumnTitle: '미리보기',
+        noResultMessage: '데이터가 없음',
+        gridVisibleRowNum: 3, // 선택 | 그리드 옵션, 화면에 표시할 행 수
+        sendImmediately: 'N', // 사용안함 - 그리드 타입에서는 사용 안함 //  파일 추가후 즉시 저장(자동 send) :: 이 경우 자동으로 reload를 하게 됨
+        reloadAfterSend: 'Y', // 선택 | 수동 send 이후 자동 load
+        loadingUse: 'N', // 선택 | 최초 파일 로드시 프로세스메시지(로딩) 사용 여부
+        extensionAllowOrLimit: "0",  // 선택 | 설정값이 "0" 이면 설정한 파일 확장자명만 "제한"으로 설정되며, "1"로 설정시 "허용"으로 설정
+        extensionArr: "",  // 선택 | 제한 및 허용할 확장자명을 ",(콤마)"로 구분하여 설정
+        downloadMulti: "", // 선택 | "downloadMulti"로 설정 시 멀티 다운로드 설정
+        maxTotalFileCount: "0",  // 선택 | 업로드 할 최대 파일 개수 제한값을 설정합니다. 기본값은 "0" 제한없음이고, "0 보다 큰 수" 설정시 해당 개수 초과로 첨부 할 수 없습니다.
+        maxOneFileSize: "0",  // 선택 | 업로드할 때 파일당 용량제한을 설정합니다. 기본값은 "0" 용량 제한없음이고, "사용자 설정값" 으로 설정합니다.
+        maxTotalFileSize: "50MB",  // 선택 | 업로드할 때 총 업로드 될 파일의 용량제한을 설정합니다. 기본값은 "0" 용량 제한없음이고, "사용자 설정값" 으로 설정합니다.
+        multiFileSelect : "1", // 선택 | 기본값은 "1" 이고 여러 개의 파일 선택할 수 있도록 설정합니다. "0" 으로 설정시 한개씩만 설정합니다.
+        allowedZeroFileSize: "0", // 선택 | 0byte 파일의 업로드를 허용 할지 설정합니다. 기본값은 "0" 허용안함이고, "1"로 설정시 허용입니다.
+        checkImageSize: false,  // 선택 | 이미지 업로드일 경우 이미지의 width, height 값 비교 여부
+        checkImageRatio: false,  // 선택 | 이미지 업로드일 경우 이미지의 width, height 비율값 비교 여부
+        imgRatio: "", // 선택 | 이미지 업로드일 경우 이미지의 비율값 width:height
+        exactImageSize: true,  // 선택 | 이미지 업로드일 경우 이미지의 width, height 값을 동일하게 비교할 지 여부(false일 경우 해당 사이즈보다 클 경우에만 동작) true(Default), false
+        imageWidth: 0, // 선택 | checkImageSize === true 일 경우 비교할 Image Width 값
+        imageHeight: 0,  // 선택 | checkImageSize === true 일 경우 비교할 Image Height 값
+        preview: false, // 선택 | 문서 미리보기 여부
+        listViewDragAndDrop: "1",   // 선택 | 업로드 영역에 드래그 앤 드랍해서 파일추가할 수 있도록 설정합니다.(편집 모드)
+        zipFileName: "download.zip", // 선택 | zip 다운로드 파일명
+        downloadFileName: [], // 선택 | 변경할 다운로드 파일명 배열
+        totalCountVisible: true, // 선택 | kUpload 파일카운트 노출여부
+        useExcuteDownload: true, // 선택 | kUpload 파일 다운로드 기능 사용 여부 true(Default), false
+        useExcuteFileOpen: true, // 선택 | kUpload 파일 열기 기능 사용 여부 true(Default), false
+        useRowMove: true, // 선택 | kUpload 파일 이동 기능 사용 여부 true(Default), false
+        /* 선택 | magicjs 암호화 (화면개발자 설정 Y, N : 실제 1사용 0안함) */
+        security: {
+            use: 'N', //  magicjs 연동 기능을 사용여부 Y 시 아래 설정 적용 됨
+            signatureUse: 'N', // 전자서명 사용할지에 대한 설정
+            sessionId: '', // 전자서명 사용 시 sessionId 값 할당
+            encryptUse: 'N', // 암호화 전송 사용 여부 설정
+            hashUse: 'N', // 해시값 추출 할 지에 대한 설정
+            decryptInServer: 'N', // 암호화 전송 시 서버에서 암호화 된채로 저장할지, 복호화 하여 저장할 지 설정
+            magicLineObj: null, // 매직라인 오브젝트를 넘긴다
+            kmCert: "",  // 입찰공고건 별 암호화 인증서
+        },
+        /* 선택 | webFilter 적용 정보 (화면개발자 설정 )  */
+        webFilter: {
+            "use" : "N", //webFilter 적용 기능 사용여부 (Y/N(default)) Y 시 아래 설정 적용 됨
+            "type" : "anly", //웹필터유형 anly(분석-비동기 default), block(차단-동기) 차단인경우, 개인정보 포함시 업로드 불가능함.
+            "contents" : "",  //내용(공고번호, 계약번호 등 웹필터 로그에 기재할 주요KEY값 기재 필요) - 미입력시 테이블명.컬럼명 설정
+        },
+        /* 선택 | 압축파일 확장자 체크 */
+        zipExt: {
+            use: 'N', // 사용여부
+            deleteErrorList: 'Y', // 검사 결과로 검출된 오류파일들을 리스트에서 삭제시키는 설정 (화면개발자 설정 Y, N : 실제 true사용 false안함) */
+            inspectZipOptions: {
+                findExt: ['pdf'] // zip 파일 검사시 체크할 확장자
+            }
+        },
+        // 선택 | 추가 컬럼에 대한 설정
+        addColumn: {
+            atchFileDscr: { // [설명] 컬럼
+                use: 'N', // 사용유무
+                title: '설명', // 컬럼 타이틀
+            },
+            atchFileKndCd: { // [추가1] 컬럼
+                use: 'N', // 사용유무
+                title: '추가', // 컬럼 타이틀
+                selectCode: {}, // [추가1] 사용시 필수
+            },
+            kbrdrNm: { // [설명] 컬럼
+                use: 'N', // 사용유무
+                title: '등록자명', // 컬럼 타이틀
+            },
+            inptDt: { // [설명] 컬럼
+                use: 'N', // 사용유무
+                title: '등록일시', // 컬럼 타이틀
+            },
+            validateData: {}, // 추가 컬럼의 밸리데이션 체크
+        },
+        atchFileKndCds: "",  // 해당 파일 타입이 포함된 리스트만 조회(여러개일 경우 ,로 구분)
+        ignoreAtchFileKndCds: "", // 해당 파일 타입을 제외하고 조회(여러개일 경우 ,로 구분)
+        kbrdrIds: "",   // 입력자ID로 조회(여러개일 경우 ,로 구분)
+        consoleLogUse: 'N', // 로그를 출력 할지
+        delAutoFlag : true   // 첨부문서 삭제시 자동삭제여부 (true : 자동삭제, false : send이벤트를 통해서 삭제)
+
+    };
+    //UDC 내부 버튼 이벤트 이전 실행될 이벤트 선언 type = function
+    //매개변수 : 현재 UDC의 scope 객체.
+    const fileScope = scwin.fileScope;
+    pagingDefault.evPreBtnMergePdfFile  = function(fileScope) {return;};    //첨부파일인쇄 버튼 클릭시 실행 이벤트
+    pagingDefault.evPreBtnRowUp         = function(fileScope) {return;};    //위로 버튼 클릭시 실행 이벤트
+    pagingDefault.evPreBtnRowDown       = function(fileScope) {return;};    //아래로 버튼 클릭시 실행 이벤트
+    pagingDefault.evPreBtnChceDel       = function(fileScope) {return;};    //선택삭제 버튼 클릭시 실행 이벤트
+    pagingDefault.ebPreBtnChceDelRtrcn  = function(fileScope) {return;};    //선택삭제취소 버튼 클릭시 실행 이벤트
+    pagingDefault.evPreBtnFileAddn      = function(fileScope) {return;};    //파일추가 버튼 클릭시 실행 이벤트
+    pagingDefault.evPreBtnFileDown      = function(fileScope) {return;};    //다운로드 버튼 클릭시 실행 이벤트
+    //데이터콜렉션리스트 셀데이터체인지 이벤트
+    pagingDefault.evCellDataChange  = function(fileScope, info) {return;};
+    
+    if (comUtil.gfnIsEmpty(paramOption.bsnePath)) {
+        com.gfnAlert(['warn.common.fileUploadInit', 'bsnePath']);
+        return;
+    }
+
+    const menuCangVal = com.gfnGetMenuCangVal();
+    const menuInfo = comUtil.gfnGetMenuInfo(menuCangVal);
+
+    if (Array.isArray(menuInfo)) {
+        paramOption.bsneClsfCd = menuInfo[0].bsneClsfCd;
+    } else {
+        paramOption.bsneClsfCd = menuInfo.bsneClsfCd;
+    }
+
+    if (comUtil.gfnIsEmpty(paramOption.bsneClsfCd)) {
+        com.gfnAlert(['warn.common.fileUploadInit', 'bsneClsfCd']);
+        return;
+    }
+
+    if (comUtil.gfnIsEmpty(paramOption.tblNm)) {
+        com.gfnAlert(['warn.common.fileUploadInit', 'tblNm']);
+        return;
+    }
+
+    if (comUtil.gfnIsEmpty(paramOption.colNm)) {
+        com.gfnAlert(['warn.common.fileUploadInit', 'colNm']);
+        return;
+    }
+
+    // 화면에 표시할 행 수
+    if (Number(paramOption?.gridVisibleRowNum) > 0 || paramOption?.gridVisibleRowNum === "all") {
+        // 정상 파라미터
+    } else {
+        paramOption.gridVisibleRowNum = 3;
+    }
+
+    // 데이터형을 string으로 변경
+    paramOption.extensionAllowOrLimit = (!comUtil.gfnIsEmpty(paramOption.extensionAllowOrLimit)) ? String(paramOption.extensionAllowOrLimit) : "0";  // 선택 | 설정값이 "0" 이면 설정한 파일 확장자명만 "제한"으로 설정되며, "1"로 설정시 "허용"으로 설정
+    paramOption.maxTotalFileCount = (!comUtil.gfnIsEmpty(paramOption.maxTotalFileCount)) ? String(paramOption.maxTotalFileCount) : "0";  // 선택 | 업로드 할 최대 파일 개수 제한값을 설정합니다. 기본값은 "0" 제한없음이고, "0 보다 큰 수" 설정시 해당 개수 초과로 첨부 할 수 없습니다.
+    paramOption.allowedZeroFileSize = (!comUtil.gfnIsEmpty(paramOption.allowedZeroFileSize)) ? String(paramOption.allowedZeroFileSize) : "0"; // 선택 | 0byte 파일의 업로드를 허용 할지 설정합니다. 기본값은 "0" 허용안함이고, "1"로 설정시 허용입니다.
+
+    // 옵션 저장
+    scwin.options = comUtil.gfnAssignDefined(pagingDefault, paramOption); // 지정 하지 않은 값은 기본 값으로 지정 한다.
+
+    // 사용 안하는 옵션 처리
+    scwin.options.sendImmediately = 'N'; // 파일 추가후 즉시 저장
+
+    // gridVisibleRowNum이 지정되지 않았다면 기본 3행만 노출, 지정되었다면 지정된 row수 만큼 노출
+    if (scwin.options.gridVisibleRowNum === "all") {
+        grdFile.options.visibleRowNum = "all";
+    } else {
+        const gridVisibleRowNum = Number.parseInt(scwin.options.gridVisibleRowNum);
+        grdFile.setVisibleRowNum((dlUntyAtchFileL.getRowCount() < gridVisibleRowNum) ? ((dlUntyAtchFileL.getRowCount() > 1) ? dlUntyAtchFileL.getRowCount() : 1) : gridVisibleRowNum);
+    }
+
+    // 타이틀 지정
+    groupTitle.setValue(scwin.options.groupTitle);
+
+    // 타이틀 class 지정
+    grpGroupTitle.addClass(scwin.options.groupTitleClass);
+
+    // 타이틀 필수항목 설정 여부
+    if (scwin.options.groupTitleRequired) {
+        groupTitle.addClass("req_box");
+    } else {
+        spnReq.render.remove();
+    }
+
+    // 명칭 변경
+    btnFileDown.setValue(scwin.options.btnFileDownTitle);
+    btnFileAddn.setValue(scwin.options.btnFileAddnTitle);
+    btnChceDel.setValue(scwin.options.btnChceDelTitle);
+
+    grdFile.setHeaderValue('fileName', scwin.options.fileNameTitle, false);
+    grdFile.setHeaderValue('fileSize', scwin.options.fileSizeTitle, false);
+    grdFile.setHeaderValue('titleKbrdrNm', scwin.options.titleKbrdrNmTitle, false);
+    grdFile.setHeaderValue('titleInptDt', scwin.options.titleInptDtTitle, false);
+    grdFile.setHeaderValue('previewColumn', scwin.options.previewColumnTitle, false);
+
+    grdFile.setNoResultMessage(scwin.options.noResultMessage);
+
+    // totalCount 초기화
+    tbxTotCnt.setValue("0");
+
+    //2023.11.22 totalCount 추가
+    if (!scwin.options.totalCountVisible) {
+        grpTotalArea.hide();
+    }
+
+    if (scwin.options.maxTotalFileSize === "0") {
+        scwin.options.maxTotalFileSize = "0MB";
+    }
+
+    // 파일 용량 표시 설정
+    scwin.setMaxTotalFileSizeInfo();
+
+    // 재사용을 위한 초기화
+    dlUntyAtchFileM.reset();
+    dlUntyAtchFileL.reset();
+
+    // dataMap에 데이터 조회를 위한 키를 지정 해 준다.
+    if (!comUtil.gfnIsEmpty(scwin.options.untyAtchFileNo)) {
+        dlUntyAtchFileM.set('untyAtchFileNo', scwin.options.untyAtchFileNo);
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.bsnePath)) {
+        scwin.options.bsnePath = scwin.options.bsnePath.replace(/^\/+/, "").replace(/\/+$/, "");
+        dlUntyAtchFileM.set('bsnePath', scwin.options.bsnePath);
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.bsneClsfCd)) {
+        dlUntyAtchFileM.set('bsneClsfCd', scwin.options.bsneClsfCd);
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.tblNm)) {
+        dlUntyAtchFileM.set('tblNm', scwin.options.tblNm);
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.colNm)) {
+        dlUntyAtchFileM.set('colNm', scwin.options.colNm);
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.atchFileKndCds)) {
+        dlUntyAtchFileM.set('atchFileKndCds', scwin.options.atchFileKndCds);
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.ignoreAtchFileKndCds)) {
+        dlUntyAtchFileM.set('ignoreAtchFileKndCds', scwin.options.ignoreAtchFileKndCds);
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.kbrdrIds)) {
+        dlUntyAtchFileM.set('kbrdrIds', scwin.options.kbrdrIds);
+    }
+
+    dlUntyAtchFileM.set('webPathUse', scwin.options.webPathUse);
+    dlUntyAtchFileM.set('isScanEnabled', scwin.options.isScanEnabled);
+
+    grdFile.setColumnVisible("atchFileDscr", false); // hide
+    grdFile.setColumnVisible("atchFileKndCd", false); // hide
+
+    let addColumnWidth = 0;
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.atchFileDscr) && scwin.options.addColumn.atchFileDscr.use == 'Y') addColumnWidth++;
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.atchFileKndCd) && scwin.options.addColumn.atchFileKndCd.use == 'Y') addColumnWidth++;
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.kbrdrNm) && scwin.options.addColumn.kbrdrNm.use == 'Y') addColumnWidth++;
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.inptDt) && scwin.options.addColumn.inptDt.use == 'Y') addColumnWidth++;
+
+    if (addColumnWidth > 0) {
+        chkColumn = (addColumnWidth == 1) ? 60 : 30;
+    }
+
+    // 컬럼을 보이게 하고, 타이틀, 셀렉트박스 코드 설정, 밸리데이션 체크 해제를 한다.
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.atchFileDscr)) {
+        if (scwin.options.addColumn.atchFileDscr.use == 'Y') { // 사용여부
+            grdFile.setHeaderValue('titleAtchFileDscr', scwin.options.addColumn.atchFileDscr.title); // title
+            dlUntyAtchFileL_valid.setColumnName("atchFileDscr", scwin.options.addColumn.atchFileDscr.title);
+            grdFile.setColumnVisible("atchFileDscr", true); // show
+            (scwin.options.addColumn.atchFileDscr.width !== undefined) && (grdFile.setColumnWidth("atchFileDscr", scwin.options.addColumn.atchFileDscr.width)); // width
+
+            // 필수입력 컬럼 CSS 설정
+            let validateInfo = scwin.options.addColumn.validateData?.atchFileDscr?.trim();
+            if (!comUtil.gfnIsEmpty(validateInfo)) {
+                if (validateInfo.includes("required:true")) {
+                    grdFile.setHeaderClass('titleAtchFileDscr', 'req');
+                }
+            }
+        } else {
+            // 사용유무 옵션에의해 밸리데이션 체크 해제
+            scwin.options.addColumn.validateData.atchFileDscr = '';
+        }
+    }
+
+    // 미리보기 버튼 처리
+    grdFile.setColumnVisible("nIndex", (scwin.options.useExcuteFileOpen) ? scwin.options.preview : false);
+
+    // 컬럼을 보이게 하고, 타이틀, 셀렉트박스 코드 설정, 밸리데이션 체크 해제를 한다.
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.atchFileKndCd)) {
+        if (scwin.options.addColumn.atchFileKndCd.use == 'Y') { // 사용여부
+            grdFile.setHeaderValue('titleAtchFileKndCd', scwin.options.addColumn.atchFileKndCd.title); // title
+            dlUntyAtchFileL_valid.setColumnName("atchFileKndCd", scwin.options.addColumn.atchFileKndCd.title);
+            grdFile.setColumnVisible("atchFileKndCd", true); // show
+            (scwin.options.addColumn.atchFileKndCd.width !== undefined) && (grdFile.setColumnWidth("atchFileKndCd", scwin.options.addColumn.atchFileKndCd.width)); // width
+
+            // selectbox
+            if (Object.keys(scwin.options.addColumn.atchFileKndCd.selectCode).length > 0) {
+                scwin.setCommonCode(scwin.options.addColumn.atchFileKndCd.selectCode);
+            }
+
+            // 필수입력 컬럼 CSS 설정
+            let validateInfo = scwin.options.addColumn.validateData?.atchFileKndCd?.trim();
+            if (!comUtil.gfnIsEmpty(validateInfo)) {
+                if (validateInfo.includes("required:true")) {
+                    grdFile.setHeaderClass('titleAtchFileKndCd', 'req');
+                }
+            }
+        } else {
+            // 사용유무 옵션에의해 밸리데이션 체크 해제
+            scwin.options.addColumn.validateData.atchFileKndCd = '';
+            scwin.setCommonCode({ commClsfCd: "xxxx", bsneClsfNo: "xxxx", compID: "grdFile:atchFileKndCd", firstRow: ["", "선택"] });
+        }
+    }
+
+    // 컬럼을 보이게 하고, 타이틀, 셀렉트박스 코드 설정, 밸리데이션 체크 해제를 한다.
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.kbrdrNm)) {
+        if (scwin.options.addColumn.kbrdrNm.use == 'Y') { // 사용여부
+            grdFile.setHeaderValue('titleKbrdrNm', scwin.options.addColumn.kbrdrNm.title); // title
+            dlUntyAtchFileL_valid.setColumnName("kbrdrNm", scwin.options.addColumn.kbrdrNm.title);
+            grdFile.setColumnVisible("kbrdrNm", true); // show
+            (scwin.options.addColumn.kbrdrNm.width !== undefined) && (grdFile.setColumnWidth("kbrdrNm", scwin.options.addColumn.kbrdrNm.width)); // width
+
+            // 필수입력 컬럼 CSS 설정
+            let validateInfo = scwin.options.addColumn.validateData?.kbrdrNm?.trim();
+            if (!comUtil.gfnIsEmpty(validateInfo)) {
+                if (validateInfo.includes("required:true")) {
+                    grdFile.setHeaderClass('titleKbrdrNm', 'req');
+                }
+            }
+        } else {
+            // 사용유무 옵션에의해 밸리데이션 체크 해제
+            scwin.options.addColumn.validateData.kbrdrNm = '';
+        }
+    }
+
+    // 컬럼을 보이게 하고, 타이틀, 셀렉트박스 코드 설정, 밸리데이션 체크 해제를 한다.
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.inptDt)) {
+        if (scwin.options.addColumn.inptDt.use == 'Y') { // 사용여부
+            grdFile.setHeaderValue('titleInptDt', scwin.options.addColumn.inptDt.title); // title
+            dlUntyAtchFileL_valid.setColumnName("inptDt", scwin.options.addColumn.inptDt.title);
+            grdFile.setColumnVisible("inptDt", true); // show
+            (scwin.options.addColumn.inptDt.width !== undefined) && (grdFile.setColumnWidth("inptDt", scwin.options.addColumn.inptDt.width)); // width
+
+            // 필수입력 컬럼 CSS 설정
+            let validateInfo = scwin.options.addColumn.validateData?.inptDt?.trim();
+            if (!comUtil.gfnIsEmpty(validateInfo)) {
+                if (validateInfo.includes("required:true")) {
+                    grdFile.setHeaderClass('titleInptDt', 'req');
+                }
+            }
+        } else {
+            // 사용유무 옵션에의해 밸리데이션 체크 해제
+            scwin.options.addColumn.validateData.inptDt = '';
+        }
+    }
+
+    // 추가 버튼 설정
+    if (!comUtil.gfnIsEmpty(scwin.options.addButtons) && Array.isArray(scwin.options.addButtons) && scwin.options.addButtons.length > 0) {
+        grpDynButtons.removeClass("hide");
+        scwin.options.addButtons.forEach((data, index) => {
+            let button = $p.dynamicCreate("btnAddButton" + index, "trigger", {}, grpDynButtons);
+            if (button === undefined) return;
+            button.setValue(data.label);
+            button.addClass("btn_cm");
+            if (!comUtil.gfnIsEmpty(data["class"])) {
+                button.addClass(data["class"]);
+            }
+            if (!comUtil.gfnIsEmpty(data.handler)) {
+                button.setUserData("handler", data.handler);
+                button.bind("onclick", function (e) {
+                    const handler = this.getUserData("handler").replace(/^scwin\./, "");
+                    $p.getParentWindow().scwin[handler](e);
+                });
+            }
+        });
+    }
+
+    // 다운로드 기능 제거
+    if (scwin.options.mode.toUpperCase() === "VIEW" && !scwin.options.useExcuteDownload) {
+        grdFile.setColumnVisible("CHK", false);
+    }
+
+    //삭제자동플래그에 따라 화면 UI 설정
+    btnChceDelRtrcn.addClass('hide');
+    if(scwin.options.delAutoFlag === false) {
+        btnChceDelRtrcn.removeClass('hide');    //삭제취소 버튼 hide
+        grdFile.setRowStatusColumnWidth(60);    //데이터콜렉션 상태값 show
+    }
+
+    // 업로드 아이디를 지정 한다. 웹스퀘어의 아이디 생성 방식으로 인해 id는 겹치지 않도록 생성 된다.
+    scwin.kUploadId = kupload_holder.getID() + '_upload';
+    scwin.kUploadHolder = kupload_holder.getID();
+    scwin.fileLog('kupload id  : ' + scwin.kUploadId);
+
+    // 드랍존 생성을 위해서 target_upload 어트리뷰트를 추가함
+    const ele = document.getElementById(dropzone.getID());
+    WebSquare.xml.setAttribute(ele, "target_upload", scwin.kUploadId);
+
+    // kupload 를 생성함
+    const options = {
+        Id: scwin.kUploadId || "kupload",
+        MaxTotalFileCount: scwin.options.maxTotalFileCount,
+        MaxOneFileSize: scwin.options.maxOneFileSize,
+        MaxTotalFileSize: (scwin.options.maxTotalFileSize.startsWith("0")) ? "0" : scwin.options.maxTotalFileSize,
+        MultiFileSelect : scwin.options.multiFileSelect,
+        UploadHolder: scwin.kUploadHolder,
+        ExtensionAllowOrLimit: scwin.options.extensionAllowOrLimit,
+        ExtensionArr: scwin.options.extensionArr,
+        DownloadMulti: scwin.options.downloadMulti,
+        ZipFileName: scwin.options.zipFileName,
+        AllowedZeroFileSize: scwin.options.allowedZeroFileSize,
+        ListViewDragAndDrop: scwin.options.listViewDragAndDrop,
+        IsScanEnabled: scwin.options.isScanEnabled,
+        bsnePath: scwin.options.bsnePath,
+        mode: scwin.options.mode.toLowerCase(),
+        security: scwin.options.security,
+    };
+
+    objViewMode.viewMode = scwin.options.mode;
+    await scwin.makeKupload(options);
+
+    return scwin.kUploadId;
+};
+
+/********************************************************************************
+ * 설명 : 업로드 생성
+ ********************************************************************************/
+scwin.makeKupload = async function (options) {
+    scwin.destroy();
+    // header 설정, commonScope 참고1
+    const pattern = 'XSRF-TOKEN=([^;]+)';
+    const cookie = document.cookie.match(new RegExp(pattern));
+    const csrfValue = (cookie != null && cookie.length > 1) ? cookie[1] : "";
+
+    const uploadConfig = {
+        Id: options.Id,
+        InitXml: "raonkupload.config.txt", // 설정 파일
+        UseDropzone: '1',
+        UploadHolder: options.UploadHolder,
+        InitVisible: false, // false 화면에 표시하지 않는다
+        Width: "100%",
+        HandlerUrl: "/fs/fsc/fsca/fileUpload.do",
+        MaxOneFileSize: options.MaxOneFileSize || options.MaxTotalFileSize,
+        MaxTotalFileSize: options.MaxTotalFileSize,
+        MaxTotalFileCount: options.MaxTotalFileCount, // 업로드 할 최대 파일 개수 0제한 없음
+        MultiFileSelect : options.MultiFileSelect, // 선택 | 기본값은 "1" 이고 여러 개의 파일 선택할 수 있도록 설정합니다. "0" 으로 설정시 한개씩만 설정합니다.
+        FolderNameRule: options.bsnePath + "/yyyy/mm/dd",
+        Mode: options.mode, // edit, view
+        ButtonBarEdit: '0', // edit Mode 버튼 바 표시 여부 : 0 안함
+        ButtonBarView: '0', // view Mode 버튼 바 표시 여부 : 0 안함
+        ExtensionAllowOrLimit: options.ExtensionAllowOrLimit || '0',
+        ExtensionArr: options.ExtensionArr,
+        DownloadMulti: options.DownloadMulti,
+        ZipFileName: options.ZipFileName, // zip 다운로드 파일명
+        AllowedZeroFileSize: options.AllowedZeroFileSize, // 0byte 파일의 업로드를 허용 할지 설정합니다. 기본값은 "0" 허용안함이고, "1"로 설정시 허용입니다.
+        ListViewDragAndDrop: options.ListViewDragAndDrop,  // 선택 | 업로드 영역에 드래그 앤 드랍해서 파일추가할 수 있도록 설정합니다.(편집 모드)
+        IsScanEnabled: options.IsScanEnabled,  // 선택 | 악성코드 점검 여부 true, false(Default)
+        UseExcuteDownloadInMobile: (WebSquare.util.isMobile()) ? '1' : '0', // 선택 | 모바일일 경우 '1', '0'(Default)
+        SizeForChunkUpload : '1MB',
+        DetectFileChanged : "1", // 파일전송 전 변경감지 여부 추가
+        RequestConfigFileSync: true,    //환경설정 로드 방식을 동기로 추가 (2026.04.06)
+        Security: {
+            UseMagicJs: options.security.use == 'Y' ? '1' : '0',//  magicjs 연동 기능을 사용여부 화면개발자 설정 Y, N : 실제 1사용 0안함
+        },
+        // magicjs 추가 2022-05-16
+        AddCSRFToken: {
+            'X-CSRF-Token': csrfValue
+        },
+        Event: {
+            UploadingCancel: function (uploadID, paramObj) {
+                if(paramObj.arrUploadedFileList) {
+                    for(var idx=0, fileInfo; idx < paramObj.arrUploadedFileList.length; idx++) {
+                        fileInfo = paramObj.arrUploadedFileList[idx];
+                        if(fileInfo.status == "complete") {
+                            let grdDataCollection = com.gfnGetGridViewDataList(grdFile);
+                            grdDataCollection.setCellData(fileInfo.order, "untyAtchFileNo", dlUntyAtchFileM.get('untyAtchFileNo'));
+                            grdDataCollection.modifyRowStatus(fileInfo.order, "R");
+                            RAONKUPLOAD.SetUploadedFile(fileInfo.order, fileInfo.order, comUtil.gfnEscapeToChar(fileInfo.originName), "", fileInfo.fileSize, dlUntyAtchFileM.get('untyAtchFileNo') + "," + (fileInfo.order + 1), uploadID);
+                        }
+                    }
+                }
+            },
+            CreationComplete: async function (uploadID) {
+                scwin.fileLog('file > Event > CreationComplete');
+                scwin.setViewMode(scwin.options.mode, scwin.options.untyAtchFileNo); // 모드 edit/view
+                scwin.setUseMergePdfFile(scwin.options.useMergePdfFile); // 첨부파일인쇄버튼 삭제 유무
+                scwin.setUseDeleteButton(scwin.options.useDeleteButton); // 선택버튼 삭제 유무
+                scwin.setUseAddFileButton(scwin.options.useAddFileButton); // 파일추가버튼 삭제 유무
+
+                dlUntyAtchFileM.set("kuploadId", scwin.kUploadId);
+                dlUntyAtchFileM.set("viewMode", objViewMode.viewMode);
+
+                await scwin.load(); // 데이터 로드
+                await scwin.security(); // MagicLineJSAPI
+                kuploadLoadingArea.hide();
+
+                if (scwin.options.groupTitleTooltip) {
+                    btnToolTip.removeClass("hide");
+                    if (grpTooltipTitle.render !== undefined) {
+                        grpTooltipTitle.render.innerHTML = scwin.options.groupTitleTooltipTitle;
+                    }
+                    if (grpTooltipContent.render !== undefined) {
+                        grpTooltipContent.render.innerHTML = scwin.options.groupTitleTooltipContent;
+                    }
+                }
+
+                // 전체 파일 용량 표시 설정
+                scwin.setTotalFileSizeInfo();
+
+                // print 시 hidden 컬럼 처리 - hiddenPrint 클래스 추가
+                $p.setTimeout(function() {
+                    grdFile.hiddenList?.forEach((col, index) => {
+                        const headerId = grdFile.getHeaderColID(index);
+                        if(comUtil.gfnIsEmpty(headerId)) return;
+                        const tdIndex = document.querySelector(`#${grdFile.getID()}_${headerId}`).attributes["colindex"].value;
+
+                        if (col || col === "true") {
+                            for (let i = 0; i < grdFile.getRowCount(); i++) {
+                                document.querySelectorAll(`#${grdFile.getID()} tbody td[colindex="${tdIndex}"]`)[i]?.classList.add("hiddenPrint");
+                                //document.querySelectorAll(`#${grdFile.getID()} tbody td[colindex="${tdIndex}"]`)[i]?.setAttribute("hiddenclass", "hiddenPrint");
+                            }
+                        } else {
+                            for (let i = 0; i < grdFile.getRowCount(); i++) {
+                                document.querySelectorAll(`#${grdFile.getID()} tbody td[colindex="${tdIndex}"]`)[i]?.classList.remove("hiddenPrint");
+                                //document.querySelectorAll(`#${grdFile.getID()} tbody td[colindex="${tdIndex}"]`)[i]?.removeAttribute("hiddenclass");
+                            }
+                        }
+                    });
+                }, { delay : 1000 });
+
+                $p.emit("CreationCplt", uploadID, dlUntyAtchFileM.get('untyAtchFileNo'), dlUntyAtchFileL.getAllJSON());
+            },
+            BeforeAddFile: function (uploadID, paramObj) {
+                // 업로드된 파일과 파일명이 동일한지 확인
+                const duplicateFile = dlUntyAtchFileL.getAllJSON().filter(row => row.orgnlAtchFileNm === paramObj.strName);
+                if (duplicateFile.length > 0) {
+                    com.gfnAlert(["msg.alert.dupNm", paramObj.strName, "파일"]);
+                    return false;
+                }
+
+                // 파일명 길이 400byte 제한(확장자 포함)
+                if (comUtil.gfnGetByteLength(paramObj.objFile.name) > 400) {
+                    com.gfnAlert(["msg.fs.fsc.fileNmMaxbyte", "400", ""]);
+                    return false;
+                }
+
+                scwin.fileLog('file > Event > BeforeAddFile');
+            },
+            AfterAddFile: async function (uploadID, paramObj) {
+                scwin.fileLog('file > Event > AfterAddFile');
+
+                // 이미지 사이즈 체크 여부
+                if ((scwin.options.checkImageSize || scwin.options.checkImageRatio) && paramObj.objFile.type.indexOf('image') > -1) {
+                    await checkImageFileSize();
+                } else {
+                    await insertFileAfter();
+                }
+
+                // gridVisibleRowNum이 지정되지 않았다면 기본 3행만 노출, 지정되었다면 지정된 row수 만큼 노출
+                if (scwin.options.gridVisibleRowNum === "all") {
+                    grdFile.options.visibleRowNum = "all";
+                } else {
+                    const gridVisibleRowNum = Number.parseInt(scwin.options.gridVisibleRowNum);
+                    grdFile.setVisibleRowNum((dlUntyAtchFileL.getRowCount() < gridVisibleRowNum) ? ((dlUntyAtchFileL.getRowCount() > 1) ? dlUntyAtchFileL.getRowCount() : 1) : gridVisibleRowNum);
+                }
+
+                async function checkImageFileSize() {
+                    let urlCreator = window.URL || window.webkitURL || window;
+                    let img = new Image();
+
+                    img.onerror = function () { // 이미지 로드 오류가 난 경우
+                        // 메모리 해제
+                        urlCreator.revokeObjectURL(this.src);
+
+                        delete img;
+                    };
+
+                    img.onload = async function () {
+                        // 메모리 해제
+                        urlCreator.revokeObjectURL(this.src);
+
+                        let width = this.width; // 이미지의 width 값
+                        let height = this.height; // 이미지의 height 값
+
+                        delete img;
+
+                        if (scwin.options.checkImageRatio && scwin.options.imgRatio != "") {
+                            let ratioValue = scwin.options.imgRatio.trim().split(":");
+                            let ratioX = width * Number(ratioValue[1]);
+                            let ratioY = height * Number(ratioValue[0]);
+
+                            if (ratioX !== ratioY) {
+                                // '{0}' 이미지 파일 사이즈를 {1} x {2} 비율에 맞게 등록해주세요.
+                                await com.gfnAlert(["msg.common.checkImageSizeRatio", paramObj.strName, ratioValue[0], ratioValue[1]]);
+
+                                RAONKUPLOAD.SetSelectFile(paramObj.nIndex, 1, scwin.kUploadId);
+                                RAONKUPLOAD.DeleteSelectedFile(scwin.kUploadId);
+                            } else {
+                                await insertFileAfter();
+                            }
+                        } else if ((scwin.options.exactImageSize && (Number(scwin.options.imageWidth) !== Number(width) || Number(scwin.options.imageHeight) !== Number(height)))
+                            || (!scwin.options.exactImageSize && (Number(scwin.options.imageWidth) < Number(width) || Number(scwin.options.imageHeight) < Number(height)))) {
+
+                            await com.gfnAlert([(scwin.options.exactImageSize) ? 'msg.common.checkImageSize' : 'msg.common.lessImageSize', paramObj.strName, scwin.options.imageWidth, scwin.options.imageHeight]);
+
+                            RAONKUPLOAD.SetSelectFile(paramObj.nIndex, 1, scwin.kUploadId);
+                            RAONKUPLOAD.DeleteSelectedFile(scwin.kUploadId);
+                        } else {
+                            await insertFileAfter();
+                        }
+                    };
+
+                    let webkitURL = urlCreator.createObjectURL(paramObj.objFile);
+                    img.src = webkitURL;
+                }
+
+                // 전체 파일 용량 표시 설정
+                scwin.setTotalFileSizeInfo();
+
+                async function insertFileAfter() {
+                    /* 파일 추가 후 실행
+                        uploadID : 업로드 컴포넌트 아이디
+                        paramObj : 추가된 파일 정보
+                        console.log('AfterAddFile', uploadID, paramObj);
+
+                        추가된 파일 정보를 dataList에 추가한다
+                    */
+                    const fileInfo = {
+                        untyAtchFileNo: '',
+                        atchFileSqno: '',
+                        bsneClsfCd: dlUntyAtchFileM.get('bsneClsfCd'),
+                        // tblNm : dlUntyAtchFileM.get('tblNm'),
+                        // colNm : dlUntyAtchFileM.get('colNm'),
+                        atchFileDscr: '',
+                        atchFileKndCd: '',
+                        orgnlAtchFileNm: paramObj.strName,
+                        fileExtnNm: '',
+                        fileSz: paramObj.objFile.size || 0,
+                        atchFileNm: '',
+                        atflPathNm: '',
+                        atflRmrk: '',
+                        rstrId: '',
+                        rstrIpar: '',
+                        rgstDttm: '',
+                        chnrId: '',
+                        chnrIpar: '',
+                        chngDttm: '',
+                        delYn: '',
+                        sessUserNo: '',
+                        nIndex: paramObj.nIndex // customValue 를 수정 할 때 사용
+                    };
+
+                    dlUntyAtchFileL.setJSON([fileInfo], true); // dataList에 데이터 추가
+                    dlUntyAtchFileL.modifyRowStatus(dlUntyAtchFileL.getTotalRow() - 1, 'C'); // 상태를 등록 상태로 변경
+
+                    /* 파일 확장자 체크 관련  */
+                    // 확장자 체크 사용
+                    let useFileExt = false;
+                    if (scwin.options.zipExt.use === 'Y') {
+                        useFileExt = true;
+
+                        // 압축파일 확장자 체크 속성 Y/N을 true/false 로 변환한다.
+                        if (scwin.options.zipExt?.deleteErrorList === 'Y') {
+                            scwin.options.zipExt.deleteErrorList = true;
+                        } else {
+                            scwin.options.zipExt.deleteErrorList = false;
+                        }
+
+                        if (comUtil.gfnIsEmpty(scwin.options.zipExt?.inspectZipOptions?.findExt) == false && typeof scwin.options.zipExt?.inspectZipOptions?.findExt == 'string' && scwin.getType(scwin.options.zipExt?.inspectZipOptions?.findExt) == 'String') {
+                            null;
+                        } else if (comUtil.gfnIsEmpty(scwin.options.zipExt?.inspectZipOptions?.findExt) == false && typeof scwin.options.zipExt?.inspectZipOptions?.findExt == 'object' && scwin.getType(scwin.options.zipExt?.inspectZipOptions?.findExt) == 'Array') {
+                            null;
+                        } else {
+                            console.error('findExt가 부적절합니다.');
+                            useFileExt = false;
+                        }
+                    }
+
+                    if (useFileExt) {
+                        RAONKUPLOAD.DetectFileExtensionAndInspectZipFile(scwin.options.zipExt, function (err, result) {
+                            if (err) {
+                                console.log('파일 검사 중 오류 발생 >> 파일명 : ' + err.list.originalName + ' ' + err.message);
+                                dlUntyAtchFileL.removeRow(paramObj.nIndex);
+                                return false;
+                            }
+
+                            // 검사 통과
+                            if (result.isSuccess) {
+                                console.log('검사 이상 없음');
+                                // 검사 이상이 없는 경우 이 부분에서 전송 시작을 하시면 됩니다.
+                            } else {
+                                console.log('이상 파일 존재');
+                                // 확장자 변조된 파일 리스트 추출 예시
+                                const errorDetectFileList = result.errorDetectFileList;
+                                const errorDetectFileListLength = errorDetectFileList.length;
+                                // 확장자 변조된 파일이 있는 경우
+                                if (errorDetectFileListLength > 0) {
+                                    console.log('<< 확장자 변조된 파일 리스트 >>');
+                                    for (let i = 0; i < errorDetectFileListLength; i++) {
+                                        const errorFileName = errorDetectFileList[i].originalName;
+                                        console.log(errorFileName); // 확장자 변조 오류 파일명
+                                    }
+                                }
+
+                                // zip 파일 검사 결과
+                                const errorZipInspect = result.errorZipInspect;
+                                const errorZipInspectLength = errorZipInspect.length;
+
+                                // 허용하지 않는 zip 파일이 있는 경우
+                                if (errorZipInspectLength > 0) {
+                                    console.log('<< 허용되지 않는 zip 파일 리스트 >>');
+                                    for (let i = 0; i < errorZipInspectLength; i++) {
+                                        // const errorFileName = errorZipInspect[i].list.originalName; // zip 검사 오류 파일명
+                                        const errorFilesInZip = errorZipInspect[i].errorFilesInZip; // 해당 zip 파일 안의 오류 파일들 리스트
+                                        const errorFilesInZipLen = errorFilesInZip.length;
+                                        for (let j = 0; j < errorFilesInZipLen; j++) {
+                                            const errorFileName2 = errorFilesInZip[j].fileName;
+                                            let errorReason = '';
+
+                                            if (errorFilesInZip[j].isFolder) {
+                                                // 폴더인 경우
+                                                errorReason = '(폴더)';
+                                            } else if (errorFilesInZip[j].isDetectedExt) {
+                                                // 확장자가 변조된 파일인 경우
+                                                errorReason = '(확장자 변조)';
+                                            } else {
+                                                errorReason = '(허용하지 않는 파일 확장자)'; // 허용하지 않는 확장자인 경우
+                                            }
+                                            console.log('-- ' + errorFileName2 + ' ' + errorReason);
+                                        }
+                                    }
+
+                                    dlUntyAtchFileL.removeRow(paramObj.nIndex);
+                                    return false;
+                                }
+                            }
+                        }, uploadID);
+                    }
+
+                    // print 시 hidden 컬럼 처리 - hiddenPrint 클래스 추가
+                    $p.setTimeout(function() {
+                        grdFile.hiddenList?.forEach((col, index) => {
+                            const headerId = grdFile.getHeaderColID(index);
+                            if(comUtil.gfnIsEmpty(headerId)) return;
+                            const tdIndex = document.querySelector(`#${grdFile.getID()}_${headerId}`).attributes["colindex"].value;
+
+                            if (col || col === "true") {
+                                for (let i = 0; i < grdFile.getRowCount(); i++) {
+                                    document.querySelectorAll(`#${grdFile.getID()} tbody td[colindex="${tdIndex}"]`)[i]?.classList.add("hiddenPrint");
+                                    //document.querySelectorAll(`#${grdFile.getID()} tbody td[colindex="${tdIndex}"]`)[i]?.setAttribute("hiddenclass", "hiddenPrint");
+                                }
+                            } else {
+                                for (let i = 0; i < grdFile.getRowCount(); i++) {
+                                    document.querySelectorAll(`#${grdFile.getID()} tbody td[colindex="${tdIndex}"]`)[i]?.classList.remove("hiddenPrint");
+                                }
+                            }
+                        });
+                    }, { delay : 1000 });
+
+                    $p.emit("insertFileAftr", uploadID, paramObj);
+                }
+            },
+
+            BeforeUpload: function (uploadID) {
+                scwin.fileLog('file > Event > BeforeUpload');
+                /* 파일 전송 시작 전 발생합니다 */
+                //scwin.continuedAddFile 변수 체크
+                $p.emit("beforeUpld", uploadID, dlUntyAtchFileM.get('untyAtchFileNo'), dlUntyAtchFileL.getAllJSON(), scwin.fileScope);
+
+                if(scwin.continuedAddFile === true) {
+                    if(scwin.options.delAutoFlag === false) {
+                        if(dlUntyAtchFileL.getRowIndexByStatus('D').length > 0) {
+                            const listIndex = dlUntyAtchFileL.getRowIndexByStatus('D');
+                            RAONKUPLOAD.SetSelectFile(-1, 0, scwin.kUploadId);
+                            for (let idx in listIndex) {
+                                // 체크상태 유지하며 index 선택
+                                RAONKUPLOAD.SetSelectFile(listIndex[idx], 1, scwin.kUploadId);
+                            }
+                            //첨부파일 삭제 가능여부 true로 초기화
+                            scwin.setContinuedDeleteFile(true);
+                            RAONKUPLOAD.DeleteSelectedFile(scwin.kUploadId);
+                            if (scwin.continuedDeleteFile === false) {
+                                //default : 첨부파일 삭제가 불가능 합니다.
+                                let _msgInfo = scwin.continuedDeleteMsgInfo?.msgInfo || "msg.comm.fileDelNotAble";
+                                let _option  = scwin.continuedDeleteMsgInfo?.option || {};
+                                com.gfnAlert(_msgInfo, _option);
+                                return scwin.continuedDeleteFile;
+                            }
+                        }
+                    }
+                }
+                else {
+                    //default : 첨부파일 입력이 불가능 합니다.
+                    let _msgInfo = scwin.continuedAddMsgInfo?.msgInfo || "msg.comm.fileAddNotAble";
+                    let _option  = scwin.continuedAddMsgInfo?.option || {};
+                    com.gfnAlert(_msgInfo, _option);
+                }
+                return scwin.continuedAddFile;
+            },
+            UploadComplete: async function (uploadID) {
+                scwin.fileLog('file > Event > UploadComplete');
+                /* 업로드 성공시 실행
+                    scwin.saveEdit : 변경된 정보를 저장
+                    reloadAfterSend == Y
+                        scwin.load : 변경된 정보를 다시 로드
+                    saveUpldCplt : 완료시 udc를 사용하는 화면에 saveUpldCplt 이벤트 발생
+                 */
+
+                await scwin.saveEdit();
+                // 전자서명
+                const result = RAONKUPLOAD.GetListInfo('array', uploadID);
+                const newFiles = result.newFile;
+                scwin.completeFileListHash = [];
+                if (!comUtil.gfnIsEmpty(newFiles) && !comUtil.gfnIsEmpty(newFiles.length)) {
+                    for (let i = 0; i < newFiles.length; i++) {
+                        if (!comUtil.gfnIsEmpty(newFiles[i].extraDataObject) && !comUtil.gfnIsEmpty(newFiles[i].originalFileHash)) {
+                            // magicjs 추가 2022-05-16
+                            // 원본파일 hash 값,
+                            // hash 사용함 또는 전자서명 사용함 일 때 값이 들어있습니다.
+                            scwin.completeFileListHash[i].originalFileHash = newFiles[i].extraDataObject.originalFileHash;
+                            // 서버에 암호화된 채로 파일을 저장하겠다고 설정한 경우에 값이 들어있습니다.
+                            scwin.completeFileListHash[i].encryptedFileHash = newFiles[i].extraDataObject.encryptedFileHash;
+                            // 전자서명 사용함 일 때 값이 들어있습니다.
+                            scwin.completeFileListHash[i].signedData = newFiles[i].extraDataObject.signedData;
+                            // 파일 암호화 할 때 사용한 cipherKey 값이 들어있습니다.
+                            // hex.encode(secretKey) + hex.encode(iv) 값이 암호화된 값입니다.
+                            scwin.completeFileListHash[i].cipherKey = newFiles[i].extraDataObject.cipherKey;
+                        }
+                    }
+                }
+                /* 업로드 성공시 실행
+                    scwin.saveDel : 삭제된 첨부문서를 DB Delete
+                 */
+                await scwin.saveDel();
+
+                // 저장후 재조회
+                if (scwin.options.reloadAfterSend == 'Y') {
+                    await scwin.load();
+                }
+
+                // 전체 파일 용량 표시 설정
+                scwin.setTotalFileSizeInfo();
+
+                $p.emit("saveUpldCplt", uploadID, dlUntyAtchFileM.get('untyAtchFileNo'), scwin.completeFileListHash);
+
+            },
+            BeforeOpenFile: function (uploadID, paramObj) {
+                // uploadID  파일 열기 요청한 업로드의 id를 의미합니다.
+                // paramObj  열기 실행될 파일에 대한 정보가 있는 object 입니다.
+                // - paramObj.strIsWebFile  Web파일과 Local 파일의 구분 값을 의미합니다. (0:local, 1:web)
+                // - paramObj.strKey  파일의 Unique Key를 의미합니다.
+                // - paramObj.strName  원본 파일명을 의미합니다.
+                // - paramObj.strPath  파일의 경로를 의미합니다.
+                // - paramObj.strIsLargeFile  파일 대용량을 의미합니다. (0:일반, 1:대용량)
+                scwin.fileLog('file > Event > beforeOpenFile');
+                /* 파일 열기 전 발생합니다. */
+                $p.emit("beforeOpenFile", uploadID, paramObj, dlUntyAtchFileM.get('untyAtchFileNo'), dlUntyAtchFileL.getAllJSON());
+            },
+            DownloadCompleteFile: function (uploadID, paramObj) {
+                // uploadID  다운로드가 발생한 업로드의 id를 의미합니다.
+                // paramObj  다운로드 완료된 파일에 대한 정보가 있는 object 입니다.
+                // - paramObj.strPath  파일 경로를 의미합니다.
+                // - paramObj.strDownloadedPath  로컬에 저장된 경로를 의미합니다.
+                // - paramObj.strType  다운로드일 경우 "download"를 의미합니다.
+                // - paramObj.customValue  다운로드된 파일의 customValue를 의미합니다.
+                // - paramObj.size  다운로드된 파일의 사이즈를 의미합니다.
+                // - paramObj.originalName  다운로드된 파일의 원본 파일명을 의미합니다.
+                scwin.fileLog('file > Event > DownloadCompleteFile');
+                /* 파일 다운로드 완료 후 발생합니다. */
+                $p.emit("downloadCpltFile", uploadID, paramObj, dlUntyAtchFileM.get('untyAtchFileNo'), dlUntyAtchFileL.getAllJSON());
+            },
+            DownloadCompleteAllFile: function (uploadID, paramObj) {
+                // uploadID  모든 파일 다운로드가 완료된 업로드의 id를 의미합니다.
+                // paramObj  다운로드 완료된 파일에 대한 개수가 있는 object 입니다.
+                // - paramObj.strCmd  다운로드일 경우 "download"를 의미합니다.
+                // - paramObj.nCount  다운로드된 파일의 개수를 의미합니다.
+                scwin.fileLog('file > Event > DownloadCompleteAllFile');
+                /* 모든 파일 다운로드 완료 후 발생합니다. */
+                $p.emit("downloadCpltAllFile", uploadID, paramObj, dlUntyAtchFileM.get('untyAtchFileNo'), dlUntyAtchFileL.getAllJSON());
+            },
+            OnError: function (uploadID, paramObj) {
+                scwin.fileLog('file > Event > OnError');
+                /* 오류 발생시 이벤트 processErr를 발생 */
+                const errMsg = '' + paramObj.strMessage + '\n (Code : ' + paramObj.strCode + ')';
+                if(paramObj.arrUploadedFileList) {
+                    for(var idx=0, fileInfo; idx < paramObj.arrUploadedFileList.length; idx++) {
+                        fileInfo = paramObj.arrUploadedFileList[idx];
+                        if(fileInfo.status == "complete") {
+                            let grdDataCollection = com.gfnGetGridViewDataList(grdFile);
+                            grdDataCollection.setCellData(fileInfo.order, "untyAtchFileNo", dlUntyAtchFileM.get('untyAtchFileNo'));
+                            grdDataCollection.modifyRowStatus(fileInfo.order, "R");
+                            RAONKUPLOAD.SetUploadedFile(fileInfo.order, fileInfo.order, comUtil.gfnEscapeToChar(fileInfo.originName), "", fileInfo.fileSize, dlUntyAtchFileM.get('untyAtchFileNo') + "," + (fileInfo.order + 1), uploadID); // 전송완료된 건에 대하여 완료건으로 처리하는 API 호출
+                       }
+                    }
+                }
+                if (paramObj.strCode == "024") {
+                    com.gfnAlert(['msg.alert.notallowedextension']);
+                } else if (paramObj.strCode == "C020") {
+                    com.gfnServerAlert(errMsg);
+                } else if (paramObj.strCode == "C021") {
+                    // 업로드 전에 파일 변경 검사를 하여 오류가 발생한 경우
+                    // 이 경우에는 오류 발생한 파일 정보를 추가로 얻으실 수 있습니다.
+                    // paramObj.arrErrorFileList[0].originName : 파일명
+                    console.log("kupload 오류 발생 파일 리스트 = ", paramObj.arrErrorFileList);
+                    com.gfnServerAlert(errMsg);
+                } else if (comUtil.gfnIsEmpty(paramObj.strCode)) {
+                    // 에러코드가 넘어오지 않는 현상이 존재하여 일시적으로 경고창 제거(request for check download status error)
+                    // 기능자체는 문제없이 작동
+                } else if (paramObj.strCode === "910" || paramObj.strCode === "911"){
+                    let uploadedFileLen = paramObj.arrUploadedFileList.length;
+
+                    // 오류 발생한 파일 정보 가져오기
+                    let errorFileInfo = paramObj.arrUploadedFileList[uploadedFileLen-1];
+                    let hashErrorMsg = "";
+                    hashErrorMsg += errorFileInfo.originName + " 파일에서 업로드중 오류(H)가 발생하였습니다. 다시 시도하여 주십시오";
+                    com.gfnServerAlert(hashErrorMsg);
+                } else if (paramObj.strCode === "920"){
+                    let uploadedFileLen = paramObj.arrUploadedFileList.length;
+                    // 오류 발생한 파일 정보 가져오기
+                    let errorFileInfo = paramObj.arrUploadedFileList[uploadedFileLen-1];
+                    let hashErrorMsg = "";
+                    hashErrorMsg += errorFileInfo.originName + " 파일에서 업로드중 개인정보가 검출되었습니다.";
+                    hashErrorMsg += "\n아래 검출 내역을 수정하시길 바랍니다.";
+                    hashErrorMsg += "\n" + paramObj.strMessage;
+                    com.gfnServerAlert(hashErrorMsg);
+                } else {
+                    com.gfnServerAlert(errMsg);
+                }
+                $p.emit("processErr", uploadID, paramObj);
+            },
+            BeforeDeleteFile: function (uploadID, paramObj) {
+                scwin.fileLog('file > Event > BeforeDeleteFile');
+
+                /* 파일 삭제 전 발생 */
+                $p.emit("deleteFileBeoe", uploadID, paramObj, scwin.fileScope);
+                return scwin.continuedDeleteFile;
+            },
+            AfterDeleteFile: function (uploadID, paramObj) {
+                scwin.fileLog('file > Event > AfterDeleteFile');
+
+                // 전체 파일 용량 표시 설정
+                setTimeout(function() {
+                    scwin.setTotalFileSizeInfo();
+
+                    /* 파일 삭제 후 발생 */
+                    $p.emit("deleteFileAftr", uploadID, paramObj);
+                }, 200);
+
+                return true;
+            },
+            TransferComplete: function (uploadID, paramObj) {
+                console.log("TransferComplete");
+            },
+            TransferStatusChange: async function (uploadID, paramObj) {
+                switch(paramObj.strType) {
+                    case "download" :
+                        // 파일 업로드, 다운로드 시 발생하는 이벤트
+                        if (scwin.options.downloadFileName.length === 0) return;
+                        // 진행 상태가 다운로드 이전일 때
+                        if (paramObj.strStatus === "before") {
+                            let selectList = RAONKUPLOAD.GetSelectedListInfo("array", uploadID);
+                            let fileInfoArr = selectList.webFile;
+                            let cnt = RAONKUPLOAD.GetSelectedFileCount(uploadID);
+
+                            if (cnt === 0) break;
+
+                            // 기존 파일 정보 백업
+                            scwin.originFileArr = fileInfoArr;
+
+                            fileInfoArr.forEach((fileInfo, index) => {
+                                const order = parseInt(fileInfo.order);
+                                const uniqKey = fileInfo.uniqKey;
+                                const uploadPath = fileInfo.uploadPath;
+                                const size = fileInfo.size;
+                                const customValue = fileInfo.customValue;
+                                const fileExtension = fileInfo.originalName.substring(fileInfo.originalName.lastIndexOf(".") + 1);
+
+                                //RAONKUPLOAD.SetUploadedFile(order, uniqKey, "변경할 파일명_" + index + "." + fileExtension, uploadPath, size, customValue, uploadID);
+                                RAONKUPLOAD.SetUploadedFile(order, uniqKey, scwin.options.downloadFileName[uniqKey] + "." + fileExtension, uploadPath, size, customValue, uploadID);
+                            });
+
+                            fileInfoArr.forEach(fileInfo => {
+                                RAONKUPLOAD.SetSelectFile(fileInfo.order, "1", uploadID);
+                            });
+                        } else if (paramObj.strStatus === "complete" || paramObj.strStatus === "error" || paramObj.strStatus === "cancel") {
+                            // 다운로드 완료, 에러, 취소 시 기존 파일명으로 되돌려 놓는다.
+                            let cnt = scwin.originFileArr.length;
+
+                            if (cnt === 0) break;
+
+                            scwin.originFileArr.forEach(fileInfo => {
+                                const order = parseInt(fileInfo.order);
+                                const uniqKey = fileInfo.uniqKey;
+                                const uploadPath = fileInfo.uploadPath;
+                                const size = fileInfo.size;
+                                const customValue = fileInfo.customValue;
+                                const originalName = fileInfo.originalName;
+
+                                RAONKUPLOAD.SetUploadedFile(order, uniqKey, originalName, uploadPath, size, customValue, uploadID);
+                            });
+
+                            scwin.originFileArr.forEach(fileInfo => {
+                                RAONKUPLOAD.SetSelectFile(fileInfo.order, "1", uploadID);
+                            });
+
+                            // 기존 파일 정보 초기화
+                            scwin.originFileArr = [];
+                        }
+
+                    break;
+                    case "upload" :
+                        //진행상태가 업로드 이전일때
+                        if (paramObj.strStatus === "before") {
+
+                        }
+
+                    break;
+                };
+            },
+            Alert: function (uploadID, message) {
+                const url = "/kn/com/MessageBox.xml";
+                const msgSize = getMessageSize(comUtil.gfnEscapeToEnter(message));
+
+                const options = {
+                    cancelText : "아니요",
+                    className : "messagebox",
+                    confirmText : "확인",
+                    height : msgSize.height,
+                    id : "kupload_" + scwin.kUploadId,
+                    msgInfo : [],
+                    popupName : "경고 메시지",
+                    width : msgSize.width,
+                    yesText : "예",
+                };
+
+                const data = {
+                    callbackFn: "",
+                    callbackParam: {},
+                    cancelText: "아니요",
+                    confirmText: "확인",
+                    id: "kupload_" + scwin.kUploadId,
+                    message: comUtil.gfnEscapeToEnter(message),
+                    messageFontStyle: undefined,
+                    messageType: "alert",
+                    yesText: "예",
+                };
+
+                _gcm.openPopup($p, url, options, data);
+
+                function getMessageSize(errorMsg) {
+                    let msgDiv = document.createElement("div");
+                    msgDiv.style.display = "inline-block";
+                    msgDiv.style.visibility = "hidden";
+                    msgDiv.style.position = "absolute";
+                    msgDiv.style.width = "auto";
+                    msgDiv.style.top = "0px";
+                    msgDiv.style.left = "0px";
+                    msgDiv.innerHTML = errorMsg;
+
+                    document.querySelector('body').appendChild(msgDiv);
+
+                    let width = msgDiv.clientWidth;
+                    let height = msgDiv.clientHeight;
+
+                    width = (width + 120 < 380) ? 380 : width + 120;
+                    height = (height + 180 < 223) ? 223 : height + 180;
+
+                    msgDiv.remove();
+
+                    return { width, height };
+                };
+            },
+        }
+    };
+
+    new RAONKUpload(uploadConfig);
+};
+
+/********************************************************************************
+ * 설명 : 전체 파일 용량 표시 설정
+ ********************************************************************************/
+scwin.setTotalFileSizeInfo = function() {
+    if (scwin.options.maxTotalFileSize === undefined) return;
+    let totalFileSize = RAONKUPLOAD.GetTotalFileSize(scwin.kUploadId);
+
+    if (totalFileSize === 0) {
+        spnTotalFileSize.setValue("0");
+        return;
+    } else if (Number.parseInt(totalFileSize) < 1024) {
+        spnTotalFileSize.setValue(comUtil.gfnFormatNumber(totalFileSize) + " B");
+        return;
+    }
+
+    if (scwin.options.maxTotalFileSize.includes("KB")) {
+        totalFileSize = Number.parseFloat(totalFileSize / 1024).toFixed(2);
+    } else if (scwin.options.maxTotalFileSize.includes("MB")) {
+        totalFileSize = Number.parseFloat(totalFileSize / (1024 * 1024)).toFixed(3);
+    } else if (scwin.options.maxTotalFileSize.includes("GB")) {
+        totalFileSize = Number.parseFloat(totalFileSize / (1024 * 1024 * 1024)).toFixed(4);
+    } else {
+        totalFileSize = Number.parseFloat(totalFileSize);
+    }
+
+    spnTotalFileSize.setValue(comUtil.gfnFormatNumber(totalFileSize));
+
+};
+
+/********************************************************************************
+ * 설명 : 전체 파일 제한 용량 표시 설정
+ ********************************************************************************/
+scwin.setMaxTotalFileSizeInfo = function() {
+    // B(byte), KB(kilobyte), MB(megabyte), GB(gigabyte), 용량 제한이 없을 경우 용량 제한 표시 hide 처리
+    if (scwin.options.maxTotalFileSize.startsWith("0")) {
+        spnMaxTotalFileSize.setValue("0");
+        spnFileSizeSplit.hide();
+        spnMaxTotalFileSize.hide();
+        spnFileSizeType.hide();
+    } else if (scwin.options.maxTotalFileSize.includes("KB")) {
+        spnMaxTotalFileSize.setValue(comUtil.gfnFormatNumber(Number.parseFloat(scwin.options.maxTotalFileSize.replaceAll("KB", ""))));
+        spnFileSizeType.setValue("KB");
+    } else if (scwin.options.maxTotalFileSize.includes("MB")) {
+        spnMaxTotalFileSize.setValue(comUtil.gfnFormatNumber(Number.parseFloat(scwin.options.maxTotalFileSize.replaceAll("MB", ""))));
+        spnFileSizeType.setValue("MB");
+    } else if (scwin.options.maxTotalFileSize.includes("GB")) {
+        spnMaxTotalFileSize.setValue(comUtil.gfnFormatNumber(Number.parseFloat(scwin.options.maxTotalFileSize.replaceAll("GB", ""))));
+        spnFileSizeType.setValue("GB");
+    } else {
+        spnMaxTotalFileSize.setValue(comUtil.gfnFormatNumber(Number.parseFloat(scwin.options.maxTotalFileSize.replaceAll("B", ""))));
+        spnFileSizeType.setValue("B");
+    }
+};
+
+/********************************************************************************
+ * 설명 : 파일추가 버튼 연결
+ ********************************************************************************/
+scwin.btnFileAddn_onclick = async function (e) {
+    scwin.fileLog('파일 추가 버튼 클릭');
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evPreBtnFileAddn === "function") {
+        let isContinue = await scwin.options.evPreBtnFileAddn(scwin.fileScope);
+        if(isContinue === false) {
+            return;
+        }
+    }
+    RAONKUPLOAD.OpenFileDialog(scwin.kUploadId);
+};
+
+/********************************************************************************
+ * 설명 : 선택삭제 버튼 연결
+ ********************************************************************************/
+scwin.btnChceDel_onclick = async function (e) {
+    scwin.fileLog('파일 삭제 버튼 클릭');
+    // VIEW 모드에서는 삭제가 되지 않는다.
+    if (objViewMode.viewMode.toUpperCase() === "VIEW") return;
+
+    //첨부파일 삭제 가능여부 true로 초기화
+    scwin.setContinuedDeleteFile(true);
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evPreBtnChceDel === "function") {
+        let isContinue = await scwin.options.evPreBtnChceDel(scwin.fileScope);
+        if(isContinue === false) {
+            return;
+        }
+    }
+    RAONKUPLOAD.SetSelectFile(-1, 0, scwin.kUploadId); // 전체 선택 해제
+    // 2025.07.07 변경 - local 파일은 먼저 삭제
+    let localRemoveRows = grdFile.getCheckedIndex('CHK').filter(idx => {
+            return comUtil.gfnIsEmpty(grdFile.getRowJSON(idx)?.untyAtchFileNo);
+        }) || [];
+    localRemoveRows.forEach(idx => {RAONKUPLOAD.SetSelectFile(idx, 1, scwin.kUploadId);});
+    if(localRemoveRows.length > 0) {
+        RAONKUPLOAD.DeleteSelectedFile(scwin.kUploadId);
+        dlUntyAtchFileL.removeRows(localRemoveRows);
+        scwin.resetFileIndex(false);
+        if((grdFile.getCheckedIndex('CHK') || []).length == 0) return;
+    }
+
+    // 삭제 진행
+    if ((grdFile.getCheckedIndex('CHK') || []).length == 0) {
+        await com.gfnAlert(['msg.alert.choiceRow', '삭제 할 파일이 없습니다. \n삭제 가능한 파일을']);
+        return false;
+    }else {
+        //자동삭제여부가 false인경우 데이터콜렉션 'D' 상태로 변경
+        if(scwin.options.delAutoFlag === false) {
+            grdFile.getCheckedIndex('CHK').forEach(idx => {
+                if(comUtil.gfnIsEmpty(dlUntyAtchFileL.getCellData(idx, "befRowStatus"))) {
+                    dlUntyAtchFileL.setCellData(idx, "befRowStatus", dlUntyAtchFileL.getRowStatus(idx));
+                }
+                dlUntyAtchFileL.deleteRow(idx);
+            })
+        }else {
+            let dt;
+            if (await com.gfnConfirmPopup("confirm.common.delete")) {
+                //삭제할 파일 선택
+                grdFile.getCheckedIndex('CHK').forEach(idx => { RAONKUPLOAD.SetSelectFile(idx, 1, scwin.kUploadId);});
+                if(RAONKUPLOAD.GetSelectedFileCount() > 0) {
+                    // 업로드 컨트롤에서 체크된 row를 제거 => deleteFileBeoe 속성 호출
+                    RAONKUPLOAD.DeleteSelectedFile(scwin.kUploadId);
+                    // kUpload 이벤트 핸들러 호출 후 파일삭제가 완료되었다면...
+                    if (scwin.continuedDeleteFile === true) {
+                        grdFile.getCheckedIndex('CHK').forEach(idx => {dlUntyAtchFileL.deleteRow(idx);})
+                        // 삭제된 첨부문서를 DB Delete
+                        await scwin.saveDel();
+                    }else {
+                        //default : 첨부파일 삭제가 불가능 합니다.
+                        let _msgInfo = scwin.continuedDeleteMsgInfo?.msgInfo || "msg.comm.fileDelNotAble";
+                        let _option  = scwin.continuedDeleteMsgInfo?.option || {};
+                        await com.gfnAlert(_msgInfo, _option);
+                    }
+                }
+            }
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 선택삭제취소 버튼 연결
+ ********************************************************************************/
+scwin.btnChceDelRtrcn_onclick = async function(e) {
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evPreBtnChceDelRtrcn === "function") {
+        await scwin.options.evPreBtnChceDelRtrcn(scwin.fileScope);
+    }
+
+    if ((grdFile.getCheckedIndex('CHK') || []).length == 0) {
+        await com.gfnAlert(['msg.alert.choiceRow', '삭제취소 할 파일이 없습니다. \n삭제 취소 파일을']);
+        return false;
+    }else {
+        //삭제취소 함수 호출
+        await scwin.fnChceDelRtrcn();
+    }
+};
+
+/********************************************************************************
+ * 설명 : 체크된 첨부파일에 대한 삭제취소 처리 flag값 원복
+ ********************************************************************************/
+scwin.fnChceDelRtrcn = async function(idx) {
+    let rtrcnIndex = [];
+    if(comUtil.gfnIsNotEmpty(idx)
+    && dlUntyAtchFileL.getRowStatus(idx) === 'D') {
+        rtrcnIndex.push(idx);
+    }else {
+        rtrcnIndex = grdFile.getCheckedIndex('CHK').filter(idx => {
+            return dlUntyAtchFileL.getRowStatus(idx) === 'D' ? true : false;
+        }) || [];
+    }
+    if(rtrcnIndex.length == 0) {
+        await com.gfnAlert(['msg.alert.choiceRow', '삭제취소 가능한 파일이 없습니다. \n취소 가능한 파일을']);
+        return false;
+    }
+    rtrcnIndex.forEach(idx => {
+        dlUntyAtchFileL.modifyRowStatus(idx, (dlUntyAtchFileL.getCellData(idx, "befRowStatus")) || 'R');
+        dlUntyAtchFileL.setCellData(idx, "befRowStatus", "");
+    });
+}
+
+
+/********************************************************************************
+ * 설명 : 그리드 row 클릭시 파일 미리보기 한다.
+ ********************************************************************************/
+scwin.grdFile_oncellclick = async function(row,col,colId) {
+    if (colId === "nIndex" && scwin.options.useExcuteFileOpen) {
+        dlDownAtflGrpDetlM.set("untyAtchFileNo", dlUntyAtchFileM.get("untyAtchFileNo"));
+        dlDownAtflGrpDetlM.set("atchFileSqno", dlUntyAtchFileL.getCellData(row, "atchFileSqno"));
+
+        // 미리보기를 위한 서브미션
+        const sbmOption = {
+            id: "smbDownAtflGrpDetlM",
+            action: "/fs/fsc/fsca/atchFileDocViewer.do",
+            inData: "dlDownAtflGrpDetlM",
+            outData: "dlDownAtflGrpDetlResultM=result",
+            msgYn: { succ: false, err: true },
+        };
+
+        const result = await com.gfnExecute(sbmOption);
+
+        if (result.responseStatusCode === 200) {
+            const previewWindow = window.open("about:blank");
+            previewWindow.location.href = dlDownAtflGrpDetlResultM.get("viewUrlPath");
+        }
+
+        $p.emit("beforeOpenFile", scwin.kUploadId, RAONKUPLOAD.GetListInfo(scwin.kUploadId).mergeFile[row], dlUntyAtchFileM.get("untyAtchFileNo"), dlUntyAtchFileL.getAllJSON());
+    }
+    else if (colId === "orgnlAtchFileNm") {
+        RAONKUPLOAD.SetSelectFile(row, 0, scwin.kUploadId); // 파일 선택 row  체크
+
+        if (scwin.options.preview && scwin.options.useExcuteDownload) {
+            RAONKUPLOAD.DownloadFile(scwin.kUploadId); // 파일 다운로드
+        } else if (scwin.options.useExcuteFileOpen) {
+            RAONKUPLOAD.OpenSelectedFile(scwin.kUploadId); // 파일 미리보기
+        }
+    }
+    else if (colId === "CHK") {
+        if(dlUntyAtchFileL.getCellData(row, "CHK") == "0") {
+            if(dlUntyAtchFileL.getRowStatus(row) == "D"
+            && scwin.options.delAutoFlag === false) {
+                await scwin.fnChceDelRtrcn(row);
+            }
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 그리드 row 더블 클릭시 파일 다운로드, 이미지 미리보기 한다.
+ ********************************************************************************/
+scwin.grdFile_oncelldblclick = function (row, col, colId) {
+    if (colId != 'CHK' && colId != 'atchFileDscr' && colId !== "orgnlAtchFileNm") {
+        RAONKUPLOAD.SetSelectFile(row, 0, scwin.kUploadId); // 파일 선택 row  체크
+
+        if (scwin.options.preview && scwin.options.useExcuteDownload) {
+            RAONKUPLOAD.DownloadFile(scwin.kUploadId); // 파일 다운로드
+        } else if (scwin.options.useExcuteFileOpen) {
+            RAONKUPLOAD.OpenSelectedFile(scwin.kUploadId); // 파일 미리보기
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 그리드 header 클릭시 이벤트
+ ********************************************************************************/
+scwin.grdFile_onheaderclick = async function(headerId) {
+    if(headerId === "CHK") {
+        for(let idx=0; idx<dlUntyAtchFileL.getTotalRow(); idx++) {
+            //선택삭제취소 처리
+            if(dlUntyAtchFileL.getRowStatus(idx) === 'D') {
+                await scwin.grdFile_oncellclick(idx,'',"CHK");
+            }
+        }
+    }
+};
+
+
+/********************************************************************************
+ * 설명 : 조회 API 호출
+ ********************************************************************************/
+scwin.grdFile_onviewchange = function(info) {
+    $p.emit("grdFile_onviewchange", info);
+};
+
+/**
+ * @method
+ * @name setDscrTitl
+ * @description 그리드의 설명 타이틀 텍스트 변경
+ * @param {string} dscrTitl 지정할 설명 제목
+ * @returns {boolean} result 성공여부
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setDscrTitl = function (dscrTitl) {
+    scwin.fileLog('그리드의 설명 타이틀 텍스트 변경', dscrTitl);
+    let result = false;
+    try {
+        if (!comUtil.gfnIsEmpty(dscrTitl)) {
+            grdFile.setHeaderValue('colDscrTitle', dscrTitl, false);
+            result = true;
+        }
+    } catch (e) {
+        console.error('scwin.setDscrTitl', e);
+    }
+    return result;
+}
+
+/**
+ * @method
+ * @name setUntyAtchFileNo
+ * @description 파일 그룹 지정
+ * @param {string} untyAtchFileNo 파일 그룹 아이디
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setUntyAtchFileNo = function (untyAtchFileNo) {
+    scwin.fileLog('file > API > setUntyAtchFileNo');
+    let isSetkUpload = false;
+    if(comUtil.gfnIsEmpty(dlUntyAtchFileM.get("untyAtchFileNo"))) {
+        isSetkUpload = true;
+    }
+    dlUntyAtchFileM.set('untyAtchFileNo', untyAtchFileNo);
+    if(isSetkUpload) {
+        //서버 kUploadId - untyAtchFileNo 갱신
+        const sbmOption = {
+            id: "setkUploadId",
+            action: "/fs/fsc/fscb/UntyAtchFile/setkUploadId.do",
+            inData: "dlUntyAtchFileM=dlUntyAtchFileM",
+            msgYn: { succ: false, err: false }
+        };
+        com.gfnExecute(sbmOption);
+    }
+}
+
+/**
+ * @method
+ * @name getUntyAtchFileNo
+ * @description 파일 그룹 가져오기
+ * @param
+ * @returns {string} untyAtchFileNo 파일 그룹 아이디
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getUntyAtchFileNo = function () {
+    scwin.fileLog('file > API > getUntyAtchFileNo');
+    return dlUntyAtchFileM.get('untyAtchFileNo');
+}
+
+/**
+ * @method
+ * @name setBsnePath
+ * @description 업무 구분 지정
+ * @param {string} bsnePath 업무 구분
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setBsnePath = function (bsnePath) {
+    scwin.fileLog('file > API > setBsnePath');
+    dlUntyAtchFileM.set('bsnePath', bsnePath);
+}
+
+/**
+ * @method
+ * @name getBsnePath
+ * @description 업무 구분 가져오기
+ * @param
+ * @returns {string} bsnePath 업무 구분
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getBsnePath = function () {
+    scwin.fileLog('file > API > getBsnePath');
+    return dlUntyAtchFileM.get('bsnePath');
+}
+
+/**
+ * @method
+ * @name setViewMode
+ * @description mode 지정 edit, view (기본 edit)
+ * @param {string} mode mode 지정 edit, view (기본 edit)
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setViewMode = function (mode) {
+    scwin.fileLog('file > API > setViewMode');
+    if (!comUtil.gfnIsEmpty(mode) && mode.toUpperCase() === 'VIEW') {
+        RAONKUPLOAD.SetUploadMode('view', scwin.kUploadId); // 파일컨트롤의 모드를 바꾼다.
+        grdFile.setColumnReadOnly('atchFileDscr', true); // 그리드의 설명부분 수정 여부를 변경한다.
+        grdFile.setColumnReadOnly('atchFileKndCd', true); // 그리드의 설명부분 수정 여부를 변경한다.
+        btnFileAddn.hide(); // 버튼을 숨긴다.
+        btnChceDel.hide();
+        btnChceDel.setDisabled(true);
+        if(scwin.options.delAutoFlag === false) {
+            btnChceDelRtrcn.hide();
+            btnChceDelRtrcn.setDisabled(true);
+        }
+        if (scwin.options.useExcuteDownload) {
+            btnFileDown.removeClass("btn-hide");
+        }
+    } else {
+        RAONKUPLOAD.SetUploadMode('edit', scwin.kUploadId);
+        grdFile.setColumnReadOnly('atchFileDscr', false);
+        grdFile.setColumnReadOnly('atchFileKndCd', false);
+        btnFileAddn.show('inline');
+        btnChceDel.show('inline');
+        btnChceDel.setDisabled(false);
+        if(scwin.options.delAutoFlag === false) {
+            btnChceDelRtrcn.show('inline');
+            btnChceDelRtrcn.setDisabled(false);
+        }
+        if (scwin.options.useRowMove) {
+            btnRowDown.removeClass("btn-hide");
+            btnRowUp.removeClass("btn-hide");
+        }
+
+        if (scwin.options.useExcuteDownload) {
+            (scwin.options.untyAtchFileNo !== '' || dlUntyAtchFileM.get("untyAtchFileNo") !== '') && (btnFileDown.removeClass("btn-hide"));
+        }
+    }
+}
+
+/**
+ * @method
+ * @name setUseMergePdfFile
+ * @description 첨부파일인쇄 버튼 사용유무
+  * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setUseMergePdfFile = function () {
+    scwin.fileLog('file > API > setMergePdfFile');
+    if (scwin.options.useMergePdfFile) {
+        btnMergePdfFile.removeClass("btn-hide");
+    } else {
+        btnMergePdfFile.addClass("btn-hide");
+    }
+}
+
+scwin.setUseDeleteButton = function () {
+    scwin.fileLog('file > API > setUseDeleteButton');
+    if (!scwin.options.useDeleteButton) {
+        btnChceDel.hide();
+        btnChceDel.setDisabled(true);
+    }
+}
+
+/**
+ * @method
+ * @name setUseDeleteButton
+ * @description 선택삭제 버튼 사용유무
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setUseAddFileButton = function () {
+    scwin.fileLog('file > API > setUseAddFileButton');
+    if (!scwin.options.useAddFileButton) {
+        btnFileAddn.hide();
+    }
+}
+/**
+ * @method
+ * @name getHash
+ * @description 파일 해쉬값을 구한다.
+ * @param {file}} file 객체
+ * @returns {string} 파일 해쉬 값
+ * @exception
+ * @example
+ */
+scwin.getHash = async function (file) {
+    if (comUtil.gfnIsEmpty(file)) {
+        return null;
+    }
+    try{
+        const buffer = await file.arrayBuffer();
+        const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+        const hashArrary = Array.from(new Uint8Array(hashBuffer));
+        return hashArrary.map(byte => byte.toString(16).padStart(2,'0')).join('');
+    }catch(e){
+        console.log(e);
+    }
+
+}
+/**
+ * @method
+ * @name send
+ * @description 전송 후 파일그룹을 리턴
+ * 전송완료 후 처리는 파일ID.saveUpldCplt() 이벤트에서 처리해야 함.
+ * @param
+ * @returns {string} untyAtchFileNo 파일그룹
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.send = async function () {
+    scwin.fileLog('file > API > send');
+    // 설명을 파일 컨트롤에 적용한다.
+    const dataList = dlUntyAtchFileL.getAllJSON();
+    const dataArray = RAONKUPLOAD.GetListInfo("array", scwin.kUploadId);
+
+    let extensionChangedFileInfo = null;
+    let extensionCheckErrorInfo = null;
+
+    for (let idx in dataList) {
+        const dt = dataList[idx];
+        const originSize = dataArray.mergeFile[idx]?.size || -1;
+        const orgFileHashVal = await scwin.getHash(dataArray.mergeFile[idx].fileObject);
+        // json uri encoding
+        const customV = JSON.stringify({
+            atchFileDscr: dt.atchFileDscr,
+            atchFileKndCd: dt.atchFileKndCd,
+            atchFileOriginSize: originSize,
+            atchFileOriginHash: orgFileHashVal,
+        });
+
+        RAONKUPLOAD.SetFileCustomValue(dt.nIndex, customV, scwin.kUploadId);
+        /* 2025.09.12 오탐률이 높아 긴급 원복
+        let checkFileObject = dataArray.mergeFile[idx].fileObject;
+        if(checkFileObject){
+            try{
+                console.log('검사시작-> index: ' + idx + ', 파일명: ' + checkFileObject.name);
+                let extensionChanged = await scwin.checkFileExtentionChanged(checkFileObject);
+                console.log('검사완료-> index: ' + idx + ', result: ' + extensionChanged[0]);
+                if(extensionChanged[0] === 0){
+                    // 변조 0, 정상 1, 오류 -1
+                    extensionChangedFileInfo = {
+                        fileName : checkFileObject.name,
+                        extension : dataArray.mergeFile[idx].extension
+                    };
+
+                    break;
+                }
+
+            }catch(e){
+
+                extensionCheckErrorInfo = {
+                    fileName : checkFileObject.name,
+                    extension : dataArray.mergeFile[idx].extension,
+                    message: e.message
+                };
+
+                break;
+            }
+        }
+        */
+
+    }
+
+    if(extensionCheckErrorInfo){
+
+        if(comUtil.gfnSetLowercase(extensionCheckErrorInfo.extension) == 'pdf'){
+            com.gfnAlert(["confirm.kn.com.fileVerify", extensionCheckErrorInfo.fileName, "2) PDF 프로그램에서 정상적으로 열리는지 확인"]);
+        }else{
+            com.gfnAlert(["confirm.kn.com.fileVerify", extensionCheckErrorInfo.fileName, "2) 파일이 정상적으로 열람이 되는지 확인"]);
+        }
+
+        throw new Error("첨부파일 검증 throw 발생.");
+    }
+
+    if(extensionChangedFileInfo){
+
+        if(comUtil.gfnSetLowercase(extensionChangedFileInfo.extension) == 'pdf'){
+            com.gfnAlert(["confirm.kn.com.fileVerify", extensionChangedFileInfo.fileName, "2) PDF 프로그램에서 정상적으로 열리는지 확인"]);
+        }else{
+            com.gfnAlert(["confirm.kn.com.fileVerify", extensionChangedFileInfo.fileName, "2) 파일이 정상적으로 열람이 되는지 확인"]);
+        }
+
+        throw new Error("첨부파일 검증 throw 발생.");
+    }
+
+
+    // 파일 그룹 없는 경우 서브미션을 통해 생성후 파일 전송을 한다.
+    if (comUtil.gfnIsEmpty(dlUntyAtchFileM.get('untyAtchFileNo'))) {
+        if (dataList.length > 0) { // scwin.isModified() 파일이 추가되어야 번호를 딴다.
+            const sbmOption = {
+                id: "sbmInsertAtflGrp",
+                action: "/fs/fsc/fscb/UntyAtchFile/selectUntyAtchFileKey.do",
+                inData: "dlUntyAtchFileM=dlUntyAtchFileM",
+                outData: "dlUntyAtchFileM=dlUntyAtchFileM",
+                msgYn: { succ: false, err: true }
+            };
+
+            await com.gfnExecute(sbmOption);
+            // 파일 전송
+            RAONKUPLOAD.AddFormData('untyAtchFileNo', dlUntyAtchFileM.get('untyAtchFileNo'), scwin.kUploadId); // 파일 그룹(키)를 담는다.
+            RAONKUPLOAD.AddFormData('bsnePath', dlUntyAtchFileM.get('bsnePath'), scwin.kUploadId);
+            RAONKUPLOAD.AddFormData('bsneClsfCd', dlUntyAtchFileM.get('bsneClsfCd'), scwin.kUploadId);
+            RAONKUPLOAD.AddFormData('tblNm', dlUntyAtchFileM.get('tblNm'), scwin.kUploadId);
+            RAONKUPLOAD.AddFormData('colNm', dlUntyAtchFileM.get('colNm'), scwin.kUploadId);
+            RAONKUPLOAD.AddFormData('webPathUse', dlUntyAtchFileM.get('webPathUse'), scwin.kUploadId);
+            RAONKUPLOAD.AddFormData('isScanEnabled', dlUntyAtchFileM.get('isScanEnabled'), scwin.kUploadId);
+            RAONKUPLOAD.AddFormData('webFilter', JSON.stringify(scwin.options.webFilter), scwin.kUploadId);
+            RAONKUPLOAD.Transfer(scwin.kUploadId); // 전송시작
+        } else {
+            $p.emit("saveUpldCplt", scwin.kUploadId, dlUntyAtchFileM.get('untyAtchFileNo'), []); // 업로드 할 파일이 없더라도 saveUpldCplt 이벤트 발생시킨다.
+        }
+    } else {
+        // 파일 전송
+        RAONKUPLOAD.AddFormData('untyAtchFileNo', dlUntyAtchFileM.get('untyAtchFileNo'), scwin.kUploadId);
+        RAONKUPLOAD.AddFormData('bsnePath', dlUntyAtchFileM.get('bsnePath'), scwin.kUploadId);
+        RAONKUPLOAD.AddFormData('bsneClsfCd', dlUntyAtchFileM.get('bsneClsfCd'), scwin.kUploadId);
+        RAONKUPLOAD.AddFormData('tblNm', dlUntyAtchFileM.get('tblNm'), scwin.kUploadId);
+        RAONKUPLOAD.AddFormData('colNm', dlUntyAtchFileM.get('colNm'), scwin.kUploadId);
+        RAONKUPLOAD.AddFormData('webPathUse', dlUntyAtchFileM.get('webPathUse'), scwin.kUploadId);
+        RAONKUPLOAD.AddFormData('isScanEnabled', dlUntyAtchFileM.get('isScanEnabled'), scwin.kUploadId);
+        RAONKUPLOAD.AddFormData('webFilter', JSON.stringify(scwin.options.webFilter), scwin.kUploadId);
+        RAONKUPLOAD.Transfer(scwin.kUploadId);
+    }
+
+    return dlUntyAtchFileM.get('untyAtchFileNo');
+};
+
+scwin.checkFileExtentionChanged = function(fileObject){
+    return new Promise(async(resolve, reject)=>{
+        if(fileObject){
+            var files = [fileObject];
+            RAONKUPLOAD.DetectFileExtension(files,{},function(result, error){
+                if(error){
+                    reject(error);
+                    return;
+                }
+
+                resolve(result);
+            }, scwin.kUploadId);
+        }else{
+            resolve(null);
+        }
+    });
+}
+
+/**
+ * @method
+ * @name destroy
+ * @description 사용안함. 업로드를 제거합니다.
+ * unload시 auto destroy 설정으로 사용안함 처리
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.destroy = function () {
+    scwin.fileLog('file > API > destroy');
+    const deleteId = scwin.kUploadId || "kupload";
+    try {
+        if (!comUtil.gfnIsEmpty(deleteId) && !comUtil.gfnIsEmpty(RAONKUPLOAD.GetUploadByName(deleteId))) {
+            scwin.fileLog('destroy id : ' + deleteId);
+            RAONKUPLOAD.Destroy(deleteId);
+        }
+    } catch (e) {
+        scwin.fileLog('destroy error')
+    }
+};
+
+/**
+ * @method
+ * @name getNewFileCount
+ * @description 업로드 되지 않은 local 파일 갯수를 리턴한다
+ * @param
+ * @returns {number} newfileCount 로컬 파일 갯수
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getNewFileCount = function () {
+    scwin.fileLog('file > API > getNewFileCount');
+    let newFileCount = 0;
+    const fileInfo = RAONKUPLOAD.GetListInfo('array', scwin.kUploadId);
+    if (!comUtil.gfnIsEmpty(fileInfo.newFile)) {
+        newFileCount = fileInfo.newFile.length;
+    }
+    return newFileCount;
+};
+
+/**
+ * @method
+ * @name deleteWhol
+ * @description 삭제됨.전체 삭제하고 성공여부를 리턴 한다.
+ * @param {object} options 확인 창을 사용 할지 여부YN
+ * @returns {boolean} result 성공여부
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.deleteWhol = function (options) {
+    scwin.fileLog('file > API > deleteWhol : 사용안함');
+};
+
+/*
+ 변경 사항 저장
+ 설명이 변경된 파일든은 이곳에서 처리 된다.
+ 최초등록 파일은 scwin.send에서 처리
+*/
+scwin.saveEdit = async function () {
+    scwin.fileLog('file > API > saveEdit');
+    if (dlUntyAtchFileL.getModifiedIndex().length > 0) {
+        // 수정된 데이터가 있는 경우
+        editList.setJSON(dlUntyAtchFileL.getModifiedJSON().filter(row => (row.rowStatus !== "E" && row.rowStatus !== "D")), false); // 수정 된 값만 edtList에 복사한다.
+        editList.modifyAllStatus('U'); // 복사 한 데이터기 때문에 최초 상태 값이 R이다. U로 변경해서 보낸다.
+
+        const sbmOption = {
+            id: "sbmInsertAtflGrp",
+            action: "/fs/fsc/fscb/UntyAtchFile/multiUntyAtchFileComp.do",
+            inData: "dlUntyAtchFileL=editList dlUntyAtchFileM",
+            msgYn: { succ: false, err: true }
+        };
+        await com.gfnExecute(sbmOption);
+        return;
+    } else {
+        // 수정된 데이터가 없는 경우
+        return;
+    }
+};
+/*
+ 삭제 저장
+ NAS 삭제 이후 첨부문서 삭제는 이곳에서 처리 된다.
+*/
+scwin.saveDel = async function () {
+    scwin.fileLog('file > API > saveDel');
+    let deleteArray = [];
+    dlUntyAtchFileL.getRowIndexByStatus('D').forEach((idx) => { deleteArray.push(dlUntyAtchFileL.getRowJSON(idx));});
+    if (deleteArray.length > 0) {
+        deleteList.setJSON(deleteArray, false); // 삭제 데이터만 삭제 전용 dataList 에 담는다.
+        deleteList.modifyAllStatus('D'); // 데이터를 옮겼기 때문에 처음 상태는 R 이다. 삭제 상태인 D로 변경
+        const sbmOption = {
+            id: "sbmInsertAtflGrp",
+            action: "/fs/fsc/fscb/UntyAtchFile/multiUntyAtchFileComp.do",
+            inData: "dlUntyAtchFileL=deleteList dlUntyAtchFileM",
+            msgYn: { succ: false, err: true }
+        };
+        const resultGet = await com.gfnExecute(sbmOption);
+        if (resultGet.responseJSON.ErrorCode == '0') {
+            dlUntyAtchFileL.removeRows(dlUntyAtchFileL.getRowIndexByStatus('D'));
+            scwin.resetFileIndex(false);
+        }
+        // 파일 삭제 후 scwin.options.gridVisibleRowNum 설정 값보다 작은 경우 visibleRowNum 재설정
+        if (scwin.options.gridVisibleRowNum !== "all") {
+            const gridVisibleRowNum = Number.parseInt(scwin.options.gridVisibleRowNum);
+            grdFile.setVisibleRowNum((dlUntyAtchFileL.getRowCount() < gridVisibleRowNum) ? ((dlUntyAtchFileL.getRowCount() > 1) ? dlUntyAtchFileL.getRowCount() : 1) : gridVisibleRowNum);
+        }
+    } else {
+        // 삭제 데이터가 없는 경우
+        return;
+    }
+}
+
+/**
+ * @method
+ * @name load
+ * @description 데이터 로드
+ *  untyAtchFileNo이 이미 세팅 되어있어야 한다. init시 자동실행
+ * @param
+ * @returns {string} untyAtchFileNo 파일그룹
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.load = async function () {
+    scwin.fileLog('file > API > load');
+
+    if (!comUtil.gfnIsEmpty(dlUntyAtchFileM.get('untyAtchFileNo')) && !comUtil.gfnIsEmpty(dlUntyAtchFileM.get('bsnePath'))) {
+        // 키가 있는 경우 조회
+        const sbmOption = {
+            id: "sbmInsertAtflGrp",
+            action: "/fs/fsc/fscb/UntyAtchFile/selectUntyAtchFileList.do",
+            inData: "dlUntyAtchFileM=dlUntyAtchFileM",
+            outData: "dlUntyAtchFileL",
+            isProcessMsg: ((scwin.options.loadingUse == 'Y') ? true : false),
+            msgYn: { succ: false, err: true }
+        };
+        await com.gfnExecute(sbmOption);
+        if(dlUntyAtchFileL.getTotalRow() > 0) {
+            if(dlUntyAtchFileM.get("untyAtchFileNo") != dlUntyAtchFileL.getCellData(0, "untyAtchFileNo")) {
+                com.gfnInitDataList("dlUntyAtchFileL");
+                console.error("첨부파일번호가 변조되어 첨부파일목록 초기화.");
+            }
+        }
+
+        // gridVisibleRowNum이 지정되지 않았다면 기본 3행만 노출, 지정되었다면 지정된 row수 만큼 노출
+        if (scwin.options.gridVisibleRowNum === "all") {
+            grdFile.options.visibleRowNum = "all";
+        } else {
+            const gridVisibleRowNum = Number.parseInt(scwin.options.gridVisibleRowNum);
+            grdFile.setVisibleRowNum((dlUntyAtchFileL.getRowCount() < gridVisibleRowNum) ? ((dlUntyAtchFileL.getRowCount() > 1) ? dlUntyAtchFileL.getRowCount() : 1) : gridVisibleRowNum);
+        }
+
+        RAONKUPLOAD.ResetUpload(scwin.kUploadId); // 업로드 리스트 초기화
+        const dataList = dlUntyAtchFileL.getAllJSON();
+        for (let idx in dataList) {
+            // 업로드 컴포넌트에 등록된 파일 추가
+            const obj = dataList[idx];
+            RAONKUPLOAD.AddUploadedFile(idx, comUtil.gfnEscapeToChar(obj.orgnlAtchFileNm), '', obj.fileSz, obj.untyAtchFileNo + ',' + obj.atchFileSqno, scwin.kUploadId);
+        }
+
+        return dlUntyAtchFileM.get('untyAtchFileNo');
+    } else {
+        return dlUntyAtchFileM.get('untyAtchFileNo');
+    }
+};
+
+/**
+ * @method
+ * @name getFileListInfo
+ * @description 로컬파일, 웹파일의 정보를 가져온다.
+ 로컬파일 : 업로드 안된 파일
+ 웹파일 : 업로드된 파일
+ * @param
+ * @returns {object} fileInfo { allFile : [전체파일 배열], localFile : [로컬파일 배열], webFile : [웹파일 배열] }
+ * @hidden N
+ * @exception
+ * @example // 1.
+ console.log(file3.getFileListInfo());
+ // 2.
+ let fileInfo = file3.getFileListInfo();
+ if(fileInfo.localFile.length > 0) { console.log('업로드 안된 파일이 있습니다.'); }
+ if(fileInfo.webFile.length > 0) { console.log('업로드 된 파일이 있습니다.'); }
+ */
+scwin.getFileListInfo = function () {
+    const files = dlUntyAtchFileL.getAllJSON();
+
+    return {
+        allFile: files,
+        localFile: files.filter(ele => { return comUtil.gfnIsEmpty(ele.untyAtchFileNo); }),
+        webFile: files.filter(ele => { return !comUtil.gfnIsEmpty(ele.untyAtchFileNo); }),
+    };
+};
+
+/**
+ * @method
+ * @name isModified
+ * @description 파일리스트의 수정이 일어났는지 확인
+ * @param {boolean} saveRemovedData row의 상태값이 E인 데이터 (removeRow API로 삭제 한 데이터)를 관리 할지의 여부
+ * @returns {boolean} result 수정여부
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.isModified = function (saveRemovedData) {
+    return com.gfnIsModified(dlUntyAtchFileL, saveRemovedData);
+};
+
+/**
+ * @method
+ * @name validateDataCollect
+ * @description dlUntyAtchFileL가 0건 이상 있을 때 체크하여 리턴
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.validateDataCollect = async function () {
+    let rtn = false;
+    if (dlUntyAtchFileL.getDataLength() > 0) {
+        // requiredList를 처리
+
+        function remove(array, item) {
+            const index = array.indexOf(item);
+            if (index !== -1) array.splice(index, 1);
+            return array;
+        }
+
+        const validateData = scwin.options.addColumn.validateData;
+        if (!comUtil.gfnIsEmpty(validateData)) {
+            // requiredList:01|02 확인
+            const condition = validateData.atchFileKndCd; // required:true,requiredList:01|02
+            if (condition.indexOf('requiredList') != -1) {
+                let requiredList = condition.split(',').find((o) => o.startsWith('requiredList'));
+                let strSplit2 = requiredList.split(':')[1];
+                let valSplit = strSplit2.split('|');
+                let chk = [...valSplit];
+
+                for (let obj of dlUntyAtchFileL.getAllJSON()) {
+                    if (obj.atchFileKndCd !== '') {
+                        chk = remove(chk, obj.atchFileKndCd)
+                    }
+                }
+
+                if (chk.length > 0) {
+                    let alertObject = _gcm.Global.getCommonCodeList(`${scwin.options.addColumn.atchFileKndCd.selectCode.commClsfCd}_${scwin.options.addColumn.atchFileKndCd.selectCode.bsneClsfNo}`).filter((obj) => chk.includes(obj.commCd));
+                    let alertName = [];
+                    alertObject.forEach((obj) => { alertName.push(obj.cdNm); });
+                    messageText = ["msg.alert.grd.mandatory", alertName.join(',')];
+                    com.gfnMessagePopup({ msgInfo: messageText });
+                    return false;
+                }
+            }
+            // 종료 requiredList:01|02 확인
+
+            // 공통함수 com.gfnValidateDataCollect를 수행
+            let overwrite = false;
+            (dlUntyAtchFileL_valid.getTotalRow() > 0) && (overwrite = true); // 아래에서 한개의 행만 입력 하기 위해,
+            dlUntyAtchFileL_valid.setRowJSON(0, validateData, overwrite); // overwrite가 false인 경우에 행을 생성한다.
+            return await com.gfnValidateDataCollect("grdFile");
+        }
+    } else {
+        rtn = true;
+    }
+
+    return rtn;
+};
+
+/**
+ * @event
+ * @name beforeUpld
+ * @description 파일 전송 시작 전 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {string} untyAtchFileNo 통합첨부파일 번호 정보가 담긴 문자열입니다.
+ * @param {object} untyAtchFileList 파일 리스트 정보가 담긴 json object 입니다.
+ * @example
+ */
+scwin.emit_beforeUpld = function(uploadID, untyAtchFileNo, untyAtchFileList) {
+    scwin.fileLog('beforeUpld 파일 전송 시작 전 발생합니다.', uploadID, untyAtchFileNo, dlUntyAtchFileL.getAllJSON());
+    $p.emit("beforeUpld", uploadID, untyAtchFileNo, dlUntyAtchFileL.getAllJSON());
+};
+
+/**
+ * @event
+ * @name beforeOpenFile
+ * @description 파일 열기 전 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {object} paramObj 열기 실행될 파일에 대한 정보가 있는 object 입니다.
+ * @param {string} untyAtchFileNo 통합첨부파일 번호 정보가 담긴 문자열입니다.
+ * @param {object} untyAtchFileList 파일 리스트 정보가 담긴 json object 입니다.
+ * @example
+ */
+scwin.emit_beforeOpenFile = function(uploadID,paramObj,untyAtchFileNo,untyAtchFileList) {
+    scwin.fileLog('beforeOpenFile 파일 열기 전 발생합니다.', uploadID, paramObj, untyAtchFileNo, completeFileListHash);
+    $p.emit("beforeOpenFile", uploadID, paramObj, untyAtchFileNo, completeFileListHash);
+};
+
+/**
+ * @event
+ * @name saveUpldCplt
+ * @description 업로드 성공시 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {string} untyAtchFileNo 통합첨부파일 번호 정보가 담긴 문자열입니다.
+ * @param {object} untyAtchFileList 파일 리스트 정보가 담긴 json object 입니다.
+ * @example
+ */
+scwin.emit_saveUpldCplt = function (uploadID,untyAtchFileNo,untyAtchFileList) {
+    scwin.fileLog('saveUpldCplt 파일 전송이 완료되었을 때 발생합니다.', uploadID, untyAtchFileNo, completeFileListHash);
+    $p.emit("saveUpldCplt", uploadID, untyAtchFileNo, completeFileListHash);
+};
+
+/**
+ * @event
+ * @name downloadCpltFile
+ * @description 파일 다운로드 후 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {object} paramObj 다운로드 파일에 대한 정보가 있는 object 입니다.
+ * @param {string} untyAtchFileNo 통합첨부파일 번호 정보가 담긴 문자열입니다.
+ * @param {object} untyAtchFileList 파일 리스트 정보가 담긴 json object 입니다.
+ * @example
+ */
+scwin.emit_downloadCpltFile = function(uploadID,paramObj,untyAtchFileNo,untyAtchFileList) {
+    scwin.fileLog('downloadCpltFile 파일 다운로드 후 발생합니다..', uploadID, paramObj, untyAtchFileNo, completeFileListHash);
+    $p.emit("downloadCpltFile", uploadID, paramObj, untyAtchFileNo, completeFileListHash);
+};
+
+/**
+ * @event
+ * @name downloadCpltAllFile
+ * @description 모든 파일 다운로드 후 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {object} paramObj 다운로드 완료된 파일에 대한 개수가 있는 object 입니다.
+ * @param {string} untyAtchFileNo 통합첨부파일 번호 정보가 담긴 문자열입니다.
+ * @param {object} untyAtchFileList 파일 리스트 정보가 담긴 json object 입니다.
+ * @example
+ */
+scwin.emit_downloadCpltAllFile = function(uploadID,paramObj,untyAtchFileNo,untyAtchFileList) {
+    scwin.fileLog('downloadCpltAllFile 모든 파일 다운로드 후 발생합니다..', uploadID, paramObj, untyAtchFileNo, completeFileListHash);
+    $p.emit("downloadCpltAllFile", uploadID, paramObj, untyAtchFileNo, completeFileListHash);
+};
+
+/**
+ * @event
+ * @name processErr
+ * @description 에러가 발생할 경우 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {object} paramObj 에러에 대한 정보가 있는 object 입니다.
+ * @example
+ */
+scwin.emit_processErr = function (uploadID, paramObj) {
+    scwin.fileLog('processErr 에러가 발생할 경우 발생합니다.', uploadID, paramObj);
+    $p.emit("processErr", uploadID, paramObj);
+};
+
+/**
+ * @event
+ * @name deleteFileAftr
+ * @description 파일 삭제 후 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {object} paramObj 삭제될 파일에 대한 정보가 있는 object 입니다.
+ * @example
+ */
+scwin.emit_deleteFileAftr = function (uploadID, paramObj) {
+    scwin.fileLog('deleteFileAftr 파일 삭제 후 발생합니다.', uploadID, paramObj);
+    $p.emit("deleteFileAftr", uploadID, paramObj);
+};
+
+/**
+ * @event
+ * @name deleteFileBeoe
+ * @description 파일 삭제 전 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {object} paramObj 삭제될 파일에 대한 정보가 있는 object 입니다.
+ * @param {object} fileScope 해당 소스에 대한 UDC 스코프 정보. (scwin 등 각 개체 접근 가능)
+ * @example
+ */
+scwin.emit_deleteFileBeoe = function (uploadID, paramObj, fileScope) {
+    scwin.fileLog('deleteFileBeoe 파일 삭제 전 발생합니다..', uploadID, paramObj, fileScope);
+    $p.emit("deleteFileBeoe", uploadID, paramObj, fileScope);
+};
+
+/**
+ * @event
+ * @name insertFileAftr
+ * @description 파일 추가 완료 후 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {object} paramObj 추가 완료된 파일에 대한 정보가 있는 object 입니다.
+ * @example
+ */
+scwin.emit_insertFileAftr = function (uploadID, paramObj) {
+    scwin.fileLog('insertFileAftr 파일 추가 완료 후 발생합니다..', uploadID, paramObj);
+    $p.emit("insertFileAftr", uploadID, paramObj);
+};
+
+/**
+ * @event
+ * @name CreationCplt
+ * @description    KUpload 객체의 생성이 완료되었을 때 발생합니다.
+ * @param {string} uploadID 업로드의 id를 의미합니다.
+ * @param {string} untyAtchFileNo 파일 그룹 아이디
+ * @param {object} paramObj 추가 완료된 파일에 대한 정보가 있는 object 입니다.
+ * @example
+ */
+scwin.emit_CreationCplt = function (uploadID, untyAtchFileNo, paramObj) {
+    scwin.fileLog('CreationCplt 객체의 생성이 완료되었을 때 발생합니다.', uploadID, untyAtchFileNo, paramObj);
+    $p.emit("CreationCplt", uploadID, untyAtchFileNo, paramObj);
+};
+
+/********************************************************************************
+ * 설명 : 다운로드 버튼 클릭
+ ********************************************************************************/
+scwin.btnFileDown_onclick = async function (e) {
+
+    if (!scwin.options.useExcuteDownload) {
+        return;
+    }
+
+    const listIndex = grdFile.getCheckedIndex('CHK'); // CHK 컬럼의 체크된 인덱스를 배열로 가져온다.
+    if (listIndex.length === 0) {
+        com.gfnAlert(['msg.alert.choiceRow', '다운로드 할 파일이 없습니다. \n다운로드 가능한 파일을']);
+        return;
+    }
+
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evPreBtnFileDown === "function") {
+        let isContinue = await scwin.options.evPreBtnFileDown(scwin.fileScope);
+        if(isContinue === false) {
+            return;
+        }
+    }
+
+    let cnt = 0;
+    RAONKUPLOAD.SetSelectFile(-1, 0, scwin.kUploadId); // 전체 선택 해제
+
+    for (let idx in listIndex) {
+        const rowNumber = listIndex[idx];
+        dt = grdFile.getRowJSON(rowNumber); // 한줄 데이터를 JSON으로 받아온다.
+        if (dt.dwnldPrmsYn == 'N'){
+            continue;
+        }
+        if (!comUtil.gfnIsEmpty(dt.untyAtchFileNo)) {
+            // web 파일
+            cnt++;
+            RAONKUPLOAD.SetSelectFile(rowNumber, 1, scwin.kUploadId); // 체크상태 유지하며 index 선택
+        }
+    }
+
+    if (cnt > 0) {
+        RAONKUPLOAD.DownloadFile(scwin.kUploadId);
+    } else {
+        com.gfnAlert(['msg.alert.choiceRow', '첨부가 되지 않은 파일입니다. \n다운로드 가능한 파일을']);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 타입 체크 2
+ ********************************************************************************/
+scwin.getType = function (target) {
+    return Object.prototype.toString.call(target).slice(8, -1);
+};
+
+/********************************************************************************
+ * 설명 : tooltip click 이벤트
+ ********************************************************************************/
+scwin.btnToolTip_onclick = function (e) {
+    grpToolTip.toggleClass("on");
+
+    scwin.setSenseReader();
+};
+
+/**
+ * @event
+ * @name btnToolTip_onclick
+ * @description    툴팁 버튼의 click 이벤트
+ * @param {object} event 이벤트 객체
+ * @example
+ */
+scwin.emit_btnToolTip_onclick = function(event) {
+    $p.emit("btnToolTip_onclick", event);
+};
+
+/**
+ * @event
+ * @name btnClose_onclick
+ * @description    닫기 버튼의 click 이벤트
+ * @param {object} event 이벤트 객체
+ * @example
+ */
+scwin.emit_btnClose_onclick = function(event) {
+    $p.emit("btnClose_onclick", event);
+}
+
+/**
+ * @event
+ * @name grdFile_onviewchange
+ * @description    gridView의 값이 변경된 경우 발생합니다.
+ * @param {object} info 변경된 정보의 객체가 리턴됩니다.
+ * @example
+ */
+scwin.emit_grdFile_onviewchange = function(info) {
+    $p.emit("grdFile_onviewchange", info);
+}
+
+/**
+ * @method
+ * @name setSenseReader
+ * @description init 웹접근성 관련 속성 초기화
+ * @param
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setSenseReader = function () {
+    const hasClass = (grpToolTip.hasClass("on")) ? true : false;
+
+    const objBtnToolTip = document.querySelector("#" + btnToolTip.getID());
+    const objGrpToolTip = document.querySelector("#" + grpToolTip.getID());
+    const objBtnClose = document.querySelector("#" + btnClose.getID());
+    // 테이블 th에 있는 툴팁 스타일 적용
+    const closestParent = objBtnToolTip.closest('.w2tb_th');
+    (!comUtil.gfnIsEmpty(closestParent)) && (closestParent.style.paddingRight = "3.0rem");
+
+    objBtnToolTip.setAttribute("aria-expanded", hasClass); // 도움말 버튼 활성화
+    objBtnToolTip.setAttribute("aria-pressed", hasClass); // 도움말 버튼 활성화
+
+    objGrpToolTip.setAttribute("aria-hidden", !hasClass);
+
+    objBtnClose.setAttribute("aria-expanded", hasClass); // 닫기 버튼 활성화
+    objBtnClose.setAttribute("aria-pressed", hasClass); // 닫기 버튼 활성화
+
+    // 툴팁 최상위그룹 class="w2wframe udc_help_tooltip" 에 클래스 추가해서 z-index 우선순위 적용
+    if (objGrpToolTip.classList.contains("on")) {
+        objGrpToolTip.parentElement.parentElement.classList.add("on");
+    } else {
+        objGrpToolTip.parentElement.parentElement.classList.remove("on");
+    }
+
+    // 툴팁 우측에 위치할 때(화면 영역 벗어 났을 시) 스타일 추가하여 화면 영역 내에 위치하도록 변경 이벤트
+    const boundRight = objBtnToolTip.getBoundingClientRect().right + objGrpToolTip.offsetWidth;
+    if (boundRight < (window.innerWidth || document.documentElement.clientWidth)) {
+        objGrpToolTip.style.right = "";
+        objGrpToolTip.classList.remove("right-side");
+    } else {
+        objGrpToolTip.style.right = "0px";
+        objGrpToolTip.classList.add("right-side");
+    }
+};
+
+/**
+ * @method
+ * @name setTblNm
+ * @description 테이블네임 변경
+ * @param {string} tblNm 테이블네임
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setTblNm = function (tblNm) {
+    scwin.options.tblNm = tblNm;
+    if (!comUtil.gfnIsEmpty(scwin.options.tblNm)) {
+        dlUntyAtchFileM.set('tblNm', scwin.options.tblNm);
+    }
+}
+
+/**
+ * @method
+ * @name setColNm
+ * @description 컬럼네임 변경
+ * @param {string} colNm 컬럼네임
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setColNm = function (colNm) {
+    scwin.options.colNm = colNm;
+    if (!comUtil.gfnIsEmpty(scwin.options.colNm)) {
+        dlUntyAtchFileM.set('colNm', scwin.options.colNm);
+    }
+}
+
+/**
+ * @method
+ * @name modifyRowStatus
+ * @description rowIndex에 해당하는 행의 상태를 변경한다.
+ * @param {number} rowIndex 상태를 변경할 행의 index
+ * @param {string} status 변경할 상태값. status값 변경으로 데이터를 조작할 수 없는 것이 원칙이므로 "E"는 인자값으로 사용할 수 없음.
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.modifyRowStatus = function(rowIndex, status) {
+    dlUntyAtchFileL.modifyRowStatus(rowIndex, status);
+}
+
+/**
+ * @method
+ * @name setContinuedAddFile
+ * @description 파일 전송 시작 여부 설정
+ * @param {boolean} continued 파일 전송 시작 여부 설정(true:전송, false:미전송)
+ * @param {object} msgInfo 파일 전송 시작 여부가 false일경우 사용자한테 안내를 진행할 메시지Object
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setContinuedAddFile = function(continued,msgInfo) {
+    scwin.continuedAddFile = continued;
+    //msgInfo.msgInfo   => 메시지정보 (String, Array)
+    //msgInfo.option    => 메시지OPTION (Object)
+    if(comUtil.gfnIsEmpty(msgInfo)) {
+        scwin.continuedAddMsgInfo = {};
+    }else {
+        scwin.continuedAddMsgInfo = msgInfo;
+    }
+}
+
+/**
+ * @method
+ * @name setContinuedDeleteFile
+ * @description 파일 삭제 시작 여부 설정
+ * @param {boolean} continued 파일 삭제 시작 여부 설정(true:삭제, false:미삭제)
+ * @param {object} msgInfo 파일 삭제 시작 여부가 false일경우 사용자한테 안내를 진행할 메시지Object
+ *                 => msgInfo.msgInfo = 메시지정보, msgInfo.option = 메시지옵션
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setContinuedDeleteFile = function(continued,msgInfo) {
+    scwin.continuedDeleteFile = continued;
+    //msgInfo.msgInfo   => 메시지정보 (String, Array)
+    //msgInfo.option    => 메시지OPTION (Object)
+    if(comUtil.gfnIsEmpty(msgInfo)) {
+        scwin.continuedDeleteMsgInfo = {};
+    }else {
+        scwin.continuedDeleteMsgInfo = msgInfo;
+    }
+}
+
+/**
+ * @method
+ * @name getTotalFileCount
+ * @description 업로드 영역에 추가된 전체 파일 개수를 가져옵니다.
+ * @param
+ * @returns {number} totalFileCount 업로드 영역에 추가된 전체 파일 개수를 가져옵니다.
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getTotalFileCount = function() {
+    return RAONKUPLOAD.GetTotalFileCount(scwin.kUploadId);
+}
+
+/**
+ * @method
+ * @name downloadAllFile
+ * @description 전송 완료 후 새롭게 업로드 된 파일, 웹 파일, 삭제된 파일 리스트 정보를 리턴해 주는 함수 입니다.
+ * @param
+ * @returns {object} fileInfo 전송 완료 후 새롭게 업로드 된 파일, 웹 파일, 삭제된 파일 리스트 정보를 리턴해 주는 함수 입니다.
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getListInfo = function() {
+    return RAONKUPLOAD.GetListInfo("json", scwin.kUploadId);
+}
+
+/**
+ * @method
+ * @name checkDelete
+ * @description 선택된 파일을 삭제하고 성공여부를 리턴한다.
+ * @param
+ * @returns {boolean} result 성공여부
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.checkDelete = async function() {
+    return await scwin.btnChceDel_onclick();
+}
+
+/********************************************************************************
+ * 설명 : tooltip 닫기 이벤트
+ ********************************************************************************/
+scwin.btnClose_onclick = function (e) {
+    grpToolTip.toggleClass("on");
+
+    scwin.setSenseReader();
+};
+
+/********************************************************************************
+ * 설명 : MagicLineJSAPI
+ ********************************************************************************/
+scwin.security = async function () {
+    // magicjs 추가 2022-05-16
+    if (scwin.options.security.use == 'Y') {
+        // 인증서 키값 확인
+        if (scwin.options.security.kmCert === "") {
+            await com.gfnAlert("error.comm.notexistkmCert");
+        } else {
+            MagicLineJSAPI.setEncServerCertificate('FILE', scwin.options.security.kmCert);
+        }
+
+        const magicJsPlugin = RAONKUPLOAD.GetPlugin('magicjs', scwin.kUploadId);
+
+        if (magicJsPlugin) {
+            // MagicLineJSAPI 모듈 할당해 줌
+            magicJsPlugin.options.MagicLineJSAPI = scwin.options.security.magicLineObj;
+            // 암호화 전송을 하겠다는 설정
+            magicJsPlugin.options.encrypt.use = scwin.options.security.encryptUse === 'Y' ? '1' : '0'; // 화면개발자 설정 Y, N : 실제 1사용 0안함
+            // 암호화 전송 시 서버에서 암호화 된채로 저장할지, 복호화 하여 저장할 지 설정
+            magicJsPlugin.options.encrypt.decryptInServer = scwin.options.security.decryptInServer === 'Y' ? '1' : '0'; // 화면개발자 설정 Y, N : 실제 1사용 0안함
+            // 해시값 추출 할 지에 대한 설정
+            magicJsPlugin.options.hash.use = scwin.options.security.hashUse === 'Y' ? '1' : '0'; // 화면개발자 설정 Y, N : 실제 1사용 0안함
+            // 전자서명 사용할지에 대한 설정
+            magicJsPlugin.options.signature.use = scwin.options.security.signatureUse === 'Y' ? '1' : '0'; // 화면개발자 설정 Y, N : 실제 1사용 0안함
+            // 전자서명 사용 시 sessionId 값 할당
+            magicJsPlugin.options.signature.sessionId = scwin.options.security.sessionId;
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 파일 로그를 찍는다
+ ********************************************************************************/
+scwin.color = 'darkgoldenrod,darkgray,darkgreen,darkkhaki,darkmagenta,darksalmon,darkseagreen,darkslateblue,darkslategray,darkturquoise,darkviolet,deeppink,deepskyblue,dimgray,dodgerblue,firebrick,forestgreen,fuchsia,gainsboro,gold,goldenrod'.split(',');
+scwin.color.index = 0;
+scwin.fileLog = function () {
+    const title = 'kupload grid : ';
+    try {
+        if (!comUtil.gfnIsEmpty(scwin.options.consoleLogUse)) {
+            if (scwin.options.consoleLogUse.toUpperCase() === 'Y') {
+                let obj;
+                for (let i = 0; i < arguments.length; i++) {
+                    obj = arguments[i];
+                    console.log('%c ' + title, 'color:' + scwin.color[scwin.color.index] + ';', obj);
+                    scwin.color.index++;
+                    if (scwin.color.index >= scwin.color.length) {
+                        scwin.color.index = 0;
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        console.warn('scwin.fileLog', e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 미리보기 formatter
+ ********************************************************************************/
+scwin.previewFormatter = function(data, formattedData, rowIndex, colIndex) {
+    return (comUtil.gfnIsEmpty(dlUntyAtchFileL.getCellData(rowIndex, "atchFileSqno"))) ? "" : `<button type="button" style="width: 100%;" tabindex="-1">미리보기</button>`;
+};
+
+/********************************************************************************
+ * 설명 : 조회 API 호출
+ ********************************************************************************/
+scwin.dlUntyAtchFileL_ondataload = function() {
+    //2023.11.22 totalCount 추가
+    tbxTotCnt.setValue(dlUntyAtchFileL.getRowCount());
+
+    dlUntyAtchFileL.getAllJSON().forEach((row, index) => {
+        if (!comUtil.gfnIsEmpty(row.untyAtchFileNo)) {
+            grdFile.setCellClass(index, "orgnlAtchFileNm", "selected_cell");
+        }
+    });
+};
+
+/**
+ * @method
+ * @name focus
+ * @description 첨부 or 다운로드 or 삭제 버튼에 focus를 준다
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.focus = function() {
+    if (btnFileAddn.getStyleValue("display") !== "none") {
+        btnFileAddn?.render?.focus();
+    } else if (btnFileDown.getStyleValue("display") !== "none") {
+        btnFileDown?.render?.focus();
+    } else {
+        btnChceDel.render.focus();
+    }
+}
+
+/**
+ * @method
+ * @name setGroupTitleRequired
+ * @description 타이틀에 필수항목 설정 여부 true, false(Default)
+ * @param {boolean} required 타이틀에 필수항목 설정 여부 true, false(Default)
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setGroupTitleRequired = function(required) {
+    if (required) {
+        groupTitle.addClass("req_box");
+    } else {
+        groupTitle.removeClass("req_box");
+    }
+}
+
+/**
+ * @method
+ * @name downloadAllFile
+ * @description 전체 파일에 대하여 다운로드 합니다.
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.downloadAllFile = function() {
+    RAONKUPLOAD.DownloadAllFile(scwin.kUploadId);
+}
+
+/**
+ * @method
+ * @name getPreviewImgFilePath
+ * @description 업로드 전 파일 미리보기를 위한 경로를 리턴한다.
+ * @param {number} index 파일 Index
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getPreviewImgFilePath = function(index) {
+    return (RAONKUPLOAD.GetFileObjectByIndex(index)) ? URL.createObjectURL(RAONKUPLOAD.GetFileObjectByIndex(index)) : "";
+}
+
+/**
+ * @method
+ * @name getFileDataList
+ * @description dlUntyAtchFileL 객체를 리턴한다.
+ * @param
+ * @returns {object} dlUntyAtchFileL dlUntyAtchFileL 객체를 리턴한다.
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getFileDataList = function() {
+    return dlUntyAtchFileL;
+}
+
+/**
+ * @method
+ * @name setOriginalFileName
+ * @description 파일명을 변경한다.
+ * @param {number} rowIndex 파일리스트 row Index 값
+ * @param {string} fileName 변경할 파일 명
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setOriginalFileName = function(rowIndex, fileName) {
+    RAONKUPLOAD.SetOriginalFileName(rowIndex, fileName, scwin.kUploadId);
+}
+
+/**
+ * @method
+ * @name resizeColumn
+ * @description 설정된 컬럼의 크기로 resize한다.
+ * @param
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.resizeColumn = function() {
+    // 컬럼을 보이게 하고, 타이틀, 셀렉트박스 코드 설정, 밸리데이션 체크 해제를 한다.
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.atchFileDscr)) {
+        if (scwin.options.addColumn.atchFileDscr.use == 'Y') { // 사용여부
+            (scwin.options.addColumn.atchFileDscr.width !== undefined) && (grdFile.setColumnWidth("atchFileDscr", scwin.options.addColumn.atchFileDscr.width)); // width
+        }
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.atchFileKndCd)) {
+        if (scwin.options.addColumn.atchFileKndCd.use == 'Y') { // 사용여부
+            (scwin.options.addColumn.atchFileKndCd.width !== undefined) && (grdFile.setColumnWidth("atchFileKndCd", scwin.options.addColumn.atchFileKndCd.width)); // width
+        }
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.kbrdrNm)) {
+        if (scwin.options.addColumn.kbrdrNm.use == 'Y') { // 사용여부
+            (scwin.options.addColumn.kbrdrNm.width !== undefined) && (grdFile.setColumnWidth("kbrdrNm", scwin.options.addColumn.kbrdrNm.width)); // width
+        }
+    }
+
+    if (!comUtil.gfnIsEmpty(scwin.options.addColumn.inptDt)) {
+        if (scwin.options.addColumn.inptDt.use == 'Y') { // 사용여부
+            (scwin.options.addColumn.inptDt.width !== undefined) && (grdFile.setColumnWidth("inptDt", scwin.options.addColumn.inptDt.width)); // width
+        }
+    }
+
+    grdFile.setColumnWidth("CHK", 60);
+};
+
+/**
+ * @method
+ * @name setDownloadFileName
+ * @description 다운로드할 파일 명을 변경한다.
+ * @param {array} fileNames 변경할 파일명 배열
+ * @returns
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.setDownloadFileName = function(fileNames) {
+    scwin.options.downloadFileName = fileNames;
+};
+
+/**
+ * @method
+ * @name getTotalFileSize
+ * @description 파일의 전체 용량을 리턴한다.
+ * @param
+ * @returns {number} totalFileSize 파일의 전체 용량
+ * @hidden N
+ * @exception
+ * @example
+ */
+scwin.getTotalFileSize = function() {
+    return RAONKUPLOAD.GetTotalFileSize(scwin.kUploadId);
+};
+
+/********************************************************************************
+ * 설명 : Page onbeforepageunload 이벤트
+ ********************************************************************************/
+scwin.onbeforepageunload = function() {
+    scwin.fileLog('onbeforepageunload 페이지가 unload 될 때 발생 .');
+    (scwin.objFile) && (URL.revokeObjectURL(scwin.objFile));
+};
+
+/********************************************************************************
+ * 설명 :첨부파일인쇄 버튼 클릭 이벤트
+ ********************************************************************************/
+scwin.btnMergePdfFile_onclick = async function(e) {
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evPreBtnMergePdfFile === "function") {
+        let isContinue = await scwin.options.evPreBtnMergePdfFile(scwin.fileScope);
+        if(isContinue === false) {
+            return;
+        }
+    }
+
+    const sbmOption = {
+        id : "sbmMergePdfFile",
+        action : "/fs/fsc/fsca/mergePdfFileAndDocViewer.do",
+        inData : "dlUntyAtchFileM",
+        outData : "dlDownAtflGrpDetlResultM=result",
+        msgYn : {succ : false, err : true},
+    };
+
+    // 선택된 첨부파일 순번 설정
+    const arrAtchFileSqnos = dlUntyAtchFileL.getAllJSON().filter(row => row.CHK === '1').reduce((acc, cur) => {
+        acc.push(cur.atchFileSqno);
+        return acc;
+    }, []);
+
+    if (arrAtchFileSqnos.length === 0) {
+        await com.gfnAlert("msg.pb.pbp.chekValidSlprAthmDocuSbmsn2");
+        return;
+    }
+
+    dlUntyAtchFileM.set("atchFileSqnos", arrAtchFileSqnos.join(","));
+
+    const result = await com.gfnExecute(sbmOption);
+
+    if (result.responseStatusCode === 200) {
+        const previewWindow = window.open("about:blank");
+        previewWindow.location.href = dlDownAtflGrpDetlResultM.get("viewUrlPath");
+    }
+};
+
+/********************************************************************************
+ * 설명 : Up 버튼 클릭 이벤트
+ ********************************************************************************/
+scwin.btnRowUp_onclick = async function (e) {
+    //전체선택 null 처리
+    if(dlUntyAtchFileL.getRowPosition() === null) return;
+
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evPreBtnRowUp === "function") {
+        let isContinue = await scwin.options.evPreBtnRowUp(scwin.fileScope);
+        if(isContinue === false) {
+            return;
+        }
+    }
+
+    // 첨부파일번호가 없는 경우에만 데이터를 이동한다.
+    if (!comUtil.gfnIsEmpty(dlUntyAtchFileL.getCellData(dlUntyAtchFileL.getRowPosition(), "atchFileSqno"))) {
+        com.gfnAlert(["msg.alert.notMoveAttachFile"]);
+    } else if (comUtil.gfnIsEmpty(dlUntyAtchFileL.getCellData(dlUntyAtchFileL.getRowPosition() - 1, "atchFileSqno"))) {
+        RAONKUPLOAD.SetSelectFile(dlUntyAtchFileL.getRowPosition(), 0, scwin.kUploadId);
+        RAONKUPLOAD.MoveForwardFile(scwin.kUploadId);
+        scwin.fnDataListRowMove(dlUntyAtchFileL, dlUntyAtchFileL.getRowPosition(), -1);
+        scwin.resetFileIndex();
+    } else {
+        com.gfnAlert(["msg.alert.notMoveAttachFileRow"]);
+    }
+};
+
+/********************************************************************************
+ * 설명 : Down 버튼 클릭 이벤트
+ ********************************************************************************/
+scwin.btnRowDown_onclick = async function (e) {
+    //전체선택 null 처리
+    if(dlUntyAtchFileL.getRowPosition() === null) return;
+
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evPreBtnRowDown === "function") {
+        let isContinue = await scwin.options.evPreBtnRowDown(scwin.fileScope);
+        if(isContinue === false) {
+            return;
+        }
+    }
+
+    // 첨부파일번호가 없는 경우에만 데이터를 이동한다.
+    if (!comUtil.gfnIsEmpty(dlUntyAtchFileL.getCellData(dlUntyAtchFileL.getRowPosition(), "atchFileSqno"))) {
+        com.gfnAlert(["msg.alert.notMoveAttachFile"]);
+    } else if (comUtil.gfnIsEmpty(dlUntyAtchFileL.getCellData(dlUntyAtchFileL.getRowPosition() + 1, "atchFileSqno"))) {
+        RAONKUPLOAD.SetSelectFile(dlUntyAtchFileL.getRowPosition(), 0, scwin.kUploadId);
+        RAONKUPLOAD.MoveBackwardFile(scwin.kUploadId);
+        scwin.fnDataListRowMove(dlUntyAtchFileL, dlUntyAtchFileL.getRowPosition(), 1);
+        scwin.resetFileIndex();
+    } else {
+        com.gfnAlert(["msg.alert.notMoveAttachFileRow"]);
+    }
+};
+
+/********************************************************************************
+ * 설명 : DataList Up/Down
+ ********************************************************************************/
+scwin.fnDataListRowMove = function(dataList, rowPosition, rowMoveCount) {
+    const rowCount = Math.abs(rowMoveCount);
+    for (i = 0; i < rowCount; i++) {
+        if (rowMoveCount > 0) {
+            dataList.rowMoveDown(rowPosition + i);
+        } else if (rowMoveCount < 0) {
+            dataList.rowMoveUp(rowPosition - i);
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : DataList dlUntyAtchFileL nIndex 값 재설정
+ ********************************************************************************/
+scwin.resetFileIndex = function(rowStatusChg = true) {
+    dlUntyAtchFileL.getAllJSON().forEach((row, index) => {
+        const orgStatus = dlUntyAtchFileL.getRowStatus(index);
+        dlUntyAtchFileL.setCellData(index, "nIndex", index);
+        if(rowStatusChg !== true) {
+            dlUntyAtchFileL.modifyRowStatus(index, orgStatus);
+        }
+    });
+    tbxTotCnt.setValue(dlUntyAtchFileL.getRowCount());
+}
+
+scwin.dlUntyAtchFileL_oninsertrow = function(info) {
+    console.log("dlUntyAtchFileL_oninsertrow === ", info);
+};
+
+/********************************************************************************
+ * 설명 : 첨부파일목록 셀 변경 이벤트 (여러개의 셀이 한번에 바뀔 가능성이 있어 )
+ ********************************************************************************/
+scwin.dlUntyAtchFileL_oncelldatachange = async function(info) {
+    // 부모가 지정한 함수 동기처리
+    if(typeof scwin.options.evCellDataChange === "function") {
+        let colID    = info.colID;
+        let rowIndex = info.rowIndex;
+        let newValue = info.newValue;
+        let oldValue = info.oldValue;
+        //그리드에 매핑되어 있는 컬럼인지 검증
+        if(grdFile.getColumnIndex(colID) < 0) return;
+        //그리드에 해당 컬럼이 표출되고 있는지 검증
+        if(grdFile.getColumnVisible(colID) === false) return;
+        //그리드에 사용자가 변경 가능한 셀인지 검증
+        if(grdFile.getCellReadOnly(rowIndex, colID) === true) return;
+        
+        let isContinue = await scwin.options.evCellDataChange(scwin.fileScope, info);
+        if(isContinue === false) {
+            // 리턴값이 false인경우 이전값으로 재설정 (이벤트 pause)
+            dlUntyAtchFileL.unbind('oncelldatachange');
+            dlUntyAtchFileL.setCellData(rowIndex, colID, oldValue);
+            dlUntyAtchFileL.bind('oncelldatachange', scwin.dlUntyAtchFileL_oncelldatachange)
+        }
+    }
+};
+
+}}}]},{T:1,N:'w2:require',A:{as:'udc_module_toggle_button',type:'page',variableClone:'true',src:'/kn/com/udc/module_toggle_button.xml'}}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload',useExternalClass:'true','ev:onbeforepageunload':'scwin.onbeforepageunload'},E:[{T:1,N:'xf:group',A:{style:'position:relative;'},E:[{T:1,N:'xf:group',A:{id:'grpGroupTitle',class:'dfbox'},E:[{T:1,N:'xf:group',A:{class:'fl'},E:[{T:1,N:'xf:group',A:{class:'req-hidden-txt',id:'spnReq',tagName:'span'},E:[{T:3,text:'필수항목'}]},{T:1,N:'w2:textbox',A:{id:'groupTitle',class:'df_tit fl',label:'파일첨부'}},{T:1,N:'xf:group',A:{class:'total_area',id:'grpTotalArea'},E:[{T:1,N:'w2:textbox',A:{class:'',id:'',label:'전체',style:'',tagname:'span'}},{T:1,N:'w2:textbox',A:{class:'total_num ',id:'tbxTotCnt',label:'0',style:'',tagname:'span'}},{T:1,N:'w2:textbox',A:{class:'',id:'',label:'건',style:'',tagname:'span'}}]},{T:1,N:'xf:group',A:{class:'help-pop-wrap',id:''},E:[{T:1,N:'xf:trigger',A:{class:'btn_q hide',id:'btnToolTip',style:'margin-top:-0.8rem;',type:'button','ev:onclick':'scwin.btnToolTip_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'도움말'}]}]},{T:1,N:'xf:group',A:{class:'popup-box',id:'grpToolTip',style:''},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]}]},{T:1,N:'xf:group',A:{class:'title',id:'grpTooltipTitle',style:'',tagname:'p',text:''}},{T:1,N:'xf:group',A:{class:'content',id:'grpTooltipContent',style:'',tagname:'p',text:''}},{T:1,N:'xf:trigger',A:{class:'btn close',id:'btnClose',style:'',type:'button','ev:onclick':'scwin.btnClose_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'닫기'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'fr crud',id:'grpGrdBtnR'},E:[{T:1,N:'xf:trigger',A:{id:'btnMergePdfFile',type:'button',class:'btn_cm print btn-hide','ev:onclick':'scwin.btnMergePdfFile_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'첨부파일인쇄'}]}]},{T:1,N:'xf:trigger',A:{id:'btnRowUp',class:'btn_cm row_up btn-hide',style:'background-position: 0.2rem center;',type:'button','ev:onclick':'scwin.btnRowUp_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'위로'}]}]},{T:1,N:'xf:trigger',A:{id:'btnRowDown',class:'btn_cm row_down btn-hide',style:'background-position: 0.2rem center;',type:'button','ev:onclick':'scwin.btnRowDown_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'아래로'}]}]},{T:1,N:'xf:trigger',A:{id:'btnChceDel',type:'button',class:'btn_cm row_del','ev:onclick':'scwin.btnChceDel_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'선택삭제'}]}]},{T:1,N:'xf:trigger',A:{class:'btn_cm hide',id:'btnChceDelRtrcn',type:'button',style:'','ev:onclick':'scwin.btnChceDelRtrcn_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'선택삭제취소'}]}]},{T:1,N:'xf:trigger',A:{id:'btnFileAddn',type:'button',class:'btn_cm row_add','ev:onclick':'scwin.btnFileAddn_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'파일추가'}]}]},{T:1,N:'xf:trigger',A:{id:'btnFileDown',type:'button',class:'btn_cm grid_file_down btn-hide','ev:onclick':'scwin.btnFileDown_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'다운로드'}]}]},{T:1,N:'w2:udc_module_toggle_button',A:{class:'udc_module_toggle'}}]},{T:1,N:'xf:group',A:{id:'grpDynButtons',class:'fr hide'}}]},{T:1,N:'xf:group',A:{id:'dropzone',class:'raonkdropzone'},E:[{T:1,N:'w2:gridView',A:{id:'grdFile',dataList:'data:dlUntyAtchFileL',rowStatusVisible:'true',focusMode:'row',checkAllType:'false',autoFit:'allColumn',captionAuto:'true',class:'wq_gvw sm print_w100p',autoFitMinWidth:'480','ev:oncelldblclick':'scwin.grdFile_oncelldblclick','ev:oncellclick':'scwin.grdFile_oncellclick','ev:onviewchange':'scwin.grdFile_onviewchange',wheelRows:'1',style:'width:100%;',visibleRowNum:'3',tooltipDisplay:'true',tooltipHeader:'true',visibleRowNumFix:'false',rowStatusWidth:'0',rowStatusHeaderValue:'상태',rowNumStatusResize:'true','ev:onheaderclick':'scwin.grdFile_onheaderclick'},E:[{T:1,N:'w2:caption',A:{id:'caption4',value:'this is a grid caption.'}},{T:1,N:'w2:header',A:{id:'header4'},E:[{T:1,N:'w2:row',A:{id:'row7'},E:[{T:1,N:'w2:column',A:{width:'60',inputType:'checkbox',id:'CHK',allOption:'true',value:'chk',sortable:'false',useFilter:'false',fixColumnWidth:'true',title:'전체선택',checkboxLabel:'전체선택'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'titleAtchFileDscr',value:'설명',sortable:'false',useFilter:'false',hidden:'true',hiddenClass:'hiddenPrint'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'titleAtchFileKndCd',value:'추가1',sortable:'false',useFilter:'false',hidden:'true',hiddenClass:'hiddenPrint'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'fileName',value:'파일명',sortable:'false',useFilter:'false'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'fileSize',value:'파일크기',sortable:'false',useFilter:'false'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'titleKbrdrNm',value:'등록자명',sortable:'false',useFilter:'false',hidden:'true',hiddenClass:'hiddenPrint'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'titleInptDt',value:'등록일시',sortable:'false',useFilter:'false',hidden:'true',hiddenClass:'hiddenPrint'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'previewColumn',value:'미리보기',sortable:'false',useFilter:'false',hidden:'true',hiddenClass:'hiddenPrint'}}]}]},{T:1,N:'w2:gBody',A:{id:'gBody4'},E:[{T:1,N:'w2:row',A:{id:'row8'},E:[{T:1,N:'w2:column',A:{width:'60',inputType:'checkbox',id:'CHK',checkboxLabel:'선택',sortable:'false',useFilter:'false'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'atchFileDscr',hidden:'true',sortable:'false',useFilter:'false',maxLength:'1000',class:'hiddenPrint'}},{T:1,N:'w2:column',A:{width:'70',inputType:'select',id:'atchFileKndCd',hidden:'true',sortable:'false',useFilter:'false',class:'hiddenPrint'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'orgnlAtchFileNm',readOnly:'true',sortable:'false',useFilter:'false',textAlign:'left'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'fileSz',readOnly:'true',sortable:'false',useFilter:'false',displayFormatter:'comUtil.gfnKuploadFileSize'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'kbrdrNm',readOnly:'true',sortable:'false',useFilter:'false',hidden:'true',class:'hiddenPrint'}},{T:1,N:'w2:column',A:{width:'70',inputType:'text',id:'inptDt',readOnly:'true',sortable:'false',useFilter:'false',class:'hiddenPrint',hidden:'true'}},{T:1,N:'w2:column',A:{width:'70',inputType:'custom',id:'nIndex',hidden:'true',readOnly:'true',sortable:'false',useFilter:'false',customFormatter:'scwin.previewFormatter',class:'btn_grid_def hiddenPrint'}}]}]}]}]},{T:1,N:'xf:group',A:{class:'',id:'',style:'width: 100%; min-height: 2.6rem;'},E:[{T:1,N:'xf:group',A:{class:'span_txt ml0 fr',id:'spnFileSize',style:''},E:[{T:1,N:'w2:span',A:{id:'',label:'현재 용량',style:'',class:'mr0'}},{T:1,N:'w2:span',A:{class:'red ml2 mr2',id:'spnTotalFileSize',label:'0',style:''}},{T:1,N:'w2:span',A:{id:'spnFileSizeSplit',label:'/',style:'',class:'ml0 mr0'}},{T:1,N:'w2:span',A:{clsss:'',id:'spnMaxTotalFileSize',label:'50,000',class:'ml2 mr2'}},{T:1,N:'w2:span',A:{id:'spnFileSizeType',label:'KB',class:'ml0'}}]}]},{T:1,N:'xf:group',A:{id:'kupload_holder'}},{T:1,N:'xf:group',A:{id:'kuploadLoadingArea',class:'loading-area',style:'position:absolute;background-color:rgb(0 0 0 / 10%);padding-top:20px;z-index:50;left:5px;top:79px;'},E:[{T:1,N:'xf:group',A:{class:'loading-wrap',style:'color:rgb(72 118 239);text-align:center;background:url(/kn/com/images/portal/main/logo_symbol.svg) no-repeat center 4.3rem;background-size:2.2rem;'},E:[{T:1,N:'xf:group',A:{class:'loading',style:'width:5.8rem;height:10.8rem;background:url(/kn/com/images/portal/main/loading.svg) no-repeat center;background-size:5.8rem;animation:rotate 2.0s linear infinite;'}},{T:1,N:'w2:textbox',A:{label:'Loading',style:'margin-top:-2.2rem !important;',tagname:'p',class:'txt mt8'}}]}]}]}]}]}]})

@@ -1,0 +1,501 @@
+/*amd /com/udc/inputCalendarYearMonth.xml 17933 0c9a3d661152ecf26114ba23a695922b8fe529adb2ec214a6483990fc9ac9fdd */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',A:{palette:'support'},E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:aliasDataMap',A:{scope:'',id:'aliasMap'}},{T:1,N:'w2:aliasDataList',A:{scope:'',id:'aliasList'}}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:'scwin.getValue,scwin.setValue,scwin.getPluginName,scwin.getDisplayValue,scwin.focus,scwin.getAccessibiltyId,scwin.setMaxYear,scwin.setMinYear,scwin.setInputReadOnly'}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){
+/**
+ * @component
+ * @company 
+ * @developer jinyulchoi
+ * @variableClone true
+ * @notSupportBrowser 
+ * @version 
+ * @htmlRender 
+ * @icon 
+ * @disableIcon 
+ * @width 
+ * @height 
+ * @description 
+ */ 
+
+/**
+ * @component
+ * @company 
+ * @developer jinyulchoi
+ * @variableClone true
+ * @notSupportBrowser 
+ * @version 
+ * @htmlRender 
+ * @icon 
+ * @disableIcon 
+ * @width 
+ * @height 
+ * @description 
+ */ 
+/**
+ * @property
+ * @name style
+ * @category 01.Basic & ETC
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description HTML의 style 속성과 동일한 기능을 제공
+ */
+
+/**
+ * @property
+ * @name class
+ * @category 01.Basic & ETC
+ * @type string
+ * @option 
+ * @default udc_iptcal
+ * @necessary N
+ * @bindparent 
+ * @description HTML의 class 속성과 동일한 기능을 제공
+ */
+
+/**
+ * @property
+ * @name id
+ * @category 01.Basic & ETC
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description ID값
+ */
+
+/**
+ * @property
+ * @name ref
+ * @category 01.Basic & ETC
+ * @type bindColumn
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description DataCollection의 value 경로
+ */
+
+/**
+ * @property
+ * @name minYear
+ * @category 03.Data
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description calendar에 표시되는 최소연도로 config.xml의 calendar하위의 minYear의 value 속성값이 기본값으로 설정된다.
+ */ 
+
+/**
+ * @property
+ * @name maxYear
+ * @category 03.Data
+ * @type string
+ * @option 
+ * @default 
+ * @necessary N
+ * @bindparent 
+ * @description calendar에 표시되는 최대연도로 config.xml의 calendar하위의 maxYear의 value 속성값이 기본값으로 설정된다.
+ */ 
+
+/**
+ * @property
+ * @name inputReadOnly
+ * @category 03.Data
+ * @type combobox
+ * @option [true,false]
+ * @default false
+ * @necessary N
+ * @bindparent 
+ * @description [default:false, true]readonly의 여부로 입력받는부분 HTML의 readonly속성과 동일한 기능을 제공한다.
+ */ 
+
+scwin.maxYear = "";
+scwin.minYear = "";
+scwin.inputReadOnly = false;
+/********************************************************************************
+ * 설명 : Page onpageload 이벤트
+ ********************************************************************************/
+scwin.onpageload = function() {
+    let options = $p.getOptions();
+
+    if (!comUtil.gfnIsEmpty(options.ref)) {
+        const bindObject = comUtil.gfnDataGetBindInfo(options.ref);
+        const dataMapId = $p.parent().$p.getComponentById(bindObject.collectionId).getID();
+        inputCalendar.setRef("data:" + dataMapId + "." + bindObject.refColumn);        
+    }
+
+    if (!comUtil.gfnIsEmpty(options.maxYear)) {
+        scwin.maxYear = options.maxYear;
+    }
+
+    if (!comUtil.gfnIsEmpty(options.minYear)) {
+        scwin.minYear = options.minYear;
+    }    
+
+    if (!comUtil.gfnIsEmpty(options.inputReadOnly)) {
+        scwin.inputReadOnly = (options.inputReadOnly === "true") ? true : false;
+    }
+    inputCalendar.setReadOnly(scwin.inputReadOnly);
+
+    scwin.initCalendar();
+};
+
+/********************************************************************************
+ * 설명 : 달력 초기값을 설정 해 준다.
+ ********************************************************************************/
+scwin.initCalendar = function(){
+    let initValue = inputCalendar.getValue();
+    if (comUtil.gfnIsEmpty(initValue) == true) {
+        outYear.setValue(WebSquare.date.getCurrentServerDate('yyyy'));
+    } else {
+        if (initValue.replace(/[^0-9]/gi,'').length >= 4) {
+            outYear.setValue(initValue.replace(/[^0-9]/gi,'').substring(0, 4));
+        }
+    }
+
+    
+}
+
+/**
+ * @method
+ * @name getValue
+ * @description 연 월을 가져온다
+ * @param 
+ * @returns {string} yearMonth 연 월 (202004) 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.getValue = function() {
+    return inputCalendar.getValue();
+}
+ 
+
+/**
+ * @method
+ * @name setValue
+ * @description 연 월을 설정한다
+ * @param {string} yearMonth 연 월(202004) 
+ * @returns {boolean} result 처리 결과 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.setValue = function(yearMonth) {
+    let rtn = false;
+    try {
+        inputCalendar.setValue(yearMonth);
+        scwin.initCalendar();
+        rtn = true;
+    } catch(e) {
+        console.error('scwin.setYear', e);
+    } finally {
+        return rtn;
+    }
+}
+
+/**
+ * @method
+ * @name getPluginName
+ * @description UDC Plugin Name
+ * @param 
+ * @returns {string} pluginName UDC Plugin Name 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.getPluginName = function() {
+    return "inputCalendarYearMonth";
+}
+
+/**
+ * @method
+ * @name getDisplayValue
+ * @description Display Value 리턴
+ * @param 
+ * @returns {string} displayValue Display Value 리턴 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.getDisplayValue = function() {
+    return inputCalendar.getDisplayValue();
+}
+
+/**
+ * @method
+ * @name focus
+ * @description focus 지정
+ * @param 
+ * @returns 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.focus = function() {
+    inputCalendar.render?.focus();
+}
+
+/**
+ * @method
+ * @name setMaxYear
+ * @description calendar에 표시되는 최대연도로 config.xml의 calendar하위의 maxYear의 value 속성값이 기본값으로 설정된다.
+ * @param {string} year 연도 
+ * @returns 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.setMaxYear = function(year) {
+    scwin.maxYear = year;
+};
+
+/**
+ * @method
+ * @name setMinYear
+ * @description calendar에 표시되는 최소연도로 config.xml의 calendar하위의 minYear의 value 속성값이 기본값으로 설정된다.
+ * @param {string} year 연도 
+ * @returns 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.setMinYear = function(year) {
+    scwin.minYear = year;
+};
+
+/**
+ * @method
+ * @name getAccessibiltyId
+ * @description UDC에 접근가능한 id 리턴
+ * @param 
+ * @returns 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.getAccessibiltyId = function() {
+    return inputCalendar.getID();
+} 
+
+/**
+ * @method
+ * @name setInputReadOnly
+ * @description [default:false, true]readonly의 여부로 HTML의 readonly속성과 동일한 기능을 제공한다.
+ * @param {boolean} type readOnly 속성 설정 
+ * @returns 
+ * @hidden N
+ * @exception 
+ * @example 
+ */ 
+scwin.setInputReadOnly = function(type = false) {
+    inputCalendar.setReadOnly(type);
+}
+
+/**
+ * @event
+ * @name onYearMonthChng
+ * @description 연 월이 변경됨
+ * @param {string} yearMonth 변경된 년월 데이터 
+ * @example 
+ */ 
+scwin.emit_onYearMonthChng = function() {
+	$p.emit("onYearMonthChng");
+}
+
+/********************************************************************************
+ * 설명 : 달력 버튼 클릭
+ ********************************************************************************/
+scwin.btnCalendar_onclick = function(e) {
+    const frameHeight = (document.querySelector("#fs_content")) ? Number.parseInt(document.querySelector("#fs_content").getBoundingClientRect().height || 0) : Number.parseInt(grpCalRoot.scope_obj.getParentFrame().render?.getBoundingClientRect().height || 0);
+    const parentRectHeight = Number.parseInt(grpCalRoot.scope_obj.getParentFrame().render?.getBoundingClientRect().top || 0) + frameHeight;
+
+    scwin.initCalendar();
+
+    const disp = boxYearMonth.getStyle('display');
+    if (disp === 'none') {
+        const calRectHeight = Number.parseInt(boxYearMonth.render?.getBoundingClientRect().top || 0) + Number.parseInt(boxYearMonth.render?.getBoundingClientRect().height || 0);
+
+        if (calRectHeight > parentRectHeight) {
+            boxYearMonth.addClass("cal-inner-wrap-year-month-top");
+        } else {
+            boxYearMonth.removeClass("cal-inner-wrap-year-month-top");
+        }
+
+        const myElement = boxYearMonth.render;
+        const boundingRight = inputCalendar.render.getBoundingClientRect().left
+                            + boxYearMonth.render.getBoundingClientRect().width;   
+        let parentWidth = 0;
+        if (com.gfnIsPopup(true)) {
+            parentWidth = $p.parent().$p.getFrame().render.getBoundingClientRect().right;
+
+            document.body.appendChild(boxYearMonth.render);
+            boxYearMonth.render.style.top = grpCalRoot.render?.getBoundingClientRect().top + 33 + "px";
+            boxYearMonth.render.style.left = grpCalRoot.render?.getBoundingClientRect().left + "px";
+            boxYearMonth.render.style["z-index"] = "6011";
+        } else {
+            parentWidth = (window.innerWidth || document.documentElement.clientWidth);
+        }
+        
+        if (boundingRight < parentWidth ) {
+            myElement.style.right = "";
+            myElement.classList.remove("right-side");
+        } else {
+            myElement.style.right = "0px";
+            myElement.classList.add("right-side");
+        }
+
+        // 화면 외부 클릭시 닫히게 처리.
+        document.addEventListener('mouseup', scwin.closeCal);
+
+        if ($p.isWFramePopup(true)) {
+            boxYearMonth.render.style.position = "fixed";
+        }
+
+        boxYearMonth.show();
+    } else {
+        if ($p.isWFramePopup(true)) {
+            boxYearMonth.render.style.position = "absolute";
+        }
+
+        boxYearMonth.hide();
+    }    
+
+};
+
+/********************************************************************************
+ * 설명 : 화면 외부 클릭시 닫히게 처리.
+ ********************************************************************************/
+scwin.closeCal = function(e){
+    let closeDiv = true;
+	
+    if (e.target == document.querySelector(`#${boxYearMonth.getID()}.cal-inner-wrap-year-month`)) {
+        closeDiv = false;
+    }
+
+    if (document.querySelector(`#${boxYearMonth.getID()}.cal-inner-wrap-year-month`).contains(e.target)) {
+        closeDiv = false;
+        // 월 버튼을 선택했으면 닫을 것.
+        document.querySelectorAll(`#${boxYearMonth.getID()} input.btn.year-month`).forEach(function(o, i) {
+            if (o == e.target) {
+                closeDiv = true;
+            }
+        });
+    }
+    
+    if (closeDiv) {
+        boxYearMonth.hide();
+        document.removeEventListener('mouseup', scwin.closeCal);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 화살표 위로
+ ********************************************************************************/
+scwin.arrowUp_onclick = function(e) {
+    if (!comUtil.gfnIsEmpty(scwin.minYear) && (comUtil.gfnParseInt(scwin.minYear) > (comUtil.gfnParseInt(outYear.getValue()) - 1))) return;
+    outYear.setValue(comUtil.gfnParseInt(outYear.getValue()) - 1);
+};
+
+/********************************************************************************
+ * 설명 : input 포커스 아웃
+ ********************************************************************************/
+scwin.arrowDown_onclick = function(e) {
+    if (!comUtil.gfnIsEmpty(scwin.maxYear) && (comUtil.gfnParseInt(scwin.maxYear) < (comUtil.gfnParseInt(outYear.getValue()) + 1))) return;
+    outYear.setValue(comUtil.gfnParseInt(outYear.getValue()) + 1);
+};
+
+/********************************************************************************
+ * 설명 : 선택한 월을 적용
+ ********************************************************************************/
+scwin.selectMonth = function(month) {
+   inputCalendar.setValue(outYear.getValue() + comUtil.gfnLpad(month, 2, "0"));
+   boxYearMonth.hide();
+   inputCalendar.focus();
+   $p.emit("onYearMonthChng", outYear.getValue() + comUtil.gfnLpad(month, 2, "0"));
+}
+
+scwin.yearMonth0_onclick = function(e) {
+    scwin.selectMonth(1);
+};
+
+scwin.yearMonth1_onclick = function(e) {
+    scwin.selectMonth(2);
+};
+
+scwin.yearMonth2_onclick = function(e) {
+    scwin.selectMonth(3);
+};
+
+scwin.yearMonth3_onclick = function(e) {
+    scwin.selectMonth(4);
+};
+
+scwin.yearMonth4_onclick = function(e) {
+    scwin.selectMonth(5);
+};
+
+scwin.yearMonth5_onclick = function(e) {
+    scwin.selectMonth(6);
+};
+
+scwin.yearMonth6_onclick = function(e) {
+    scwin.selectMonth(7);
+};
+
+scwin.yearMonth7_onclick = function(e) {
+    scwin.selectMonth(8);
+};
+
+scwin.yearMonth8_onclick = function(e) {
+    scwin.selectMonth(9);
+};
+
+scwin.yearMonth9_onclick = function(e) {
+    scwin.selectMonth(10);
+};
+
+scwin.yearMonth10_onclick = function(e) {
+    scwin.selectMonth(11);
+};
+
+scwin.yearMonth11_onclick = function(e) {
+    scwin.selectMonth(12);
+};
+
+/********************************************************************************
+ * 설명 : input 포커스 아웃
+ ********************************************************************************/
+scwin.inputCalendar_onblur = async function(e) {
+    if (inputCalendar.getValue().length > 0) {
+        const test = comUtil.gfnValidatYearMonth(inputCalendar.getValue());
+        if (!test) {
+            inputCalendar.setValue('');
+            await com.gfnAlert(['msg.alert.grd.formatDate','yyyy/MM']);
+            inputCalendar.focus();
+            return;
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : Page onbeforepageunload 이벤트
+ ********************************************************************************/
+scwin.onbeforepageunload = function() {
+    if (com.gfnIsPopup(true)) {
+        boxYearMonth.render.remove();
+    }
+};
+
+/********************************************************************************
+ * 설명 : inputCalendar onviewchange 이벤트
+ ********************************************************************************/
+scwin.inputCalendar_onviewchange = function(info) {
+    $p.emit("onYearMonthChng", info.newValue);
+};
+
+}}}]}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload',useExternalClass:'true','ev:onbeforepageunload':'scwin.onbeforepageunload'},E:[{T:1,N:'xf:group',A:{id:'grpCalRoot',class:'inputcal-fromto-wrap',style:''},E:[{T:1,N:'xf:input',A:{adjustMaxLength:'false',class:'calendar-year-month',id:'inputCalendar',style:'',title:'연월을 선택하세요.',ioFormat:'yyyyMM',displayFormat:'yyyy/MM',allowChar:'0-9',maxlength:'6',dataType:'date','ev:onblur':'scwin.inputCalendar_onblur','ev:onviewchange':'scwin.inputCalendar_onviewchange'}},{T:1,N:'xf:trigger',A:{class:'btn_sm calendar',id:'btnCalendar',style:'',type:'button','ev:onclick':'scwin.btnCalendar_onclick'},E:[{T:1,N:'xf:label'}]},{T:1,N:'xf:group',A:{class:'cal-inner-wrap-year-month',id:'boxYearMonth',style:'display:none;'},E:[{T:1,N:'xf:group',A:{class:'inner-tit',id:''},E:[{T:1,N:'xf:input',A:{adjustMaxLength:'false',class:'fl',id:'outYear',readOnly:'true',title:'선택연도',style:''}},{T:1,N:'xf:trigger',A:{class:'btn arr-down fr',id:'arrowDown',style:'',type:'button','ev:onclick':'scwin.arrowDown_onclick'},E:[{T:1,N:'xf:label'}]},{T:1,N:'xf:trigger',A:{class:'btn arr-up fr',id:'arrowUp',style:'',type:'button','ev:onclick':'scwin.arrowUp_onclick'},E:[{T:1,N:'xf:label'}]}]},{T:1,N:'xf:group',A:{class:'inner-content',id:'boxRange',style:''},E:[{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth0',style:'',type:'button','ev:onclick':'scwin.yearMonth0_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'1'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth1',style:'',type:'button','ev:onclick':'scwin.yearMonth1_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'2'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth2',style:'',type:'button','ev:onclick':'scwin.yearMonth2_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'3'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth3',style:'',type:'button','ev:onclick':'scwin.yearMonth3_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'4'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth4',style:'',type:'button','ev:onclick':'scwin.yearMonth4_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'5'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth5',style:'',type:'button','ev:onclick':'scwin.yearMonth5_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'6'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth6',style:'',type:'button','ev:onclick':'scwin.yearMonth6_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'7'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth7',style:'',type:'button','ev:onclick':'scwin.yearMonth7_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'8'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth8',style:'',type:'button','ev:onclick':'scwin.yearMonth8_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'9'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth9',style:'',type:'button','ev:onclick':'scwin.yearMonth9_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'10'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth10',style:'',type:'button','ev:onclick':'scwin.yearMonth10_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'11'}]}]},{T:1,N:'xf:trigger',A:{class:'btn year-month',id:'yearMonth11',style:'',type:'button','ev:onclick':'scwin.yearMonth11_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'12'}]}]}]}]}]}]}]}]})

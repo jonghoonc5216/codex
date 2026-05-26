@@ -1,0 +1,652 @@
+@charset "utf-8";
+/* 웹접근성 관련 본문처리 */
+.skip-nav {position: relative;z-index: 1000;display: block;overflow: hidden;height: 0;background: #000000;text-align: center;}
+.skip-nav:focus {height: auto;padding:1rem;color:#ffffff;}
+.portal {height: 100%; display: flex; flex-direction: column}
+.portal > .section.gnb {flex: none;}
+.portal > .section.navigation {flex: none;}
+.portal > .container-layout {flex: 1 1 auto;}
+.portal > .section.rnb {flex: none;}
+.portal > .section.footer {flex: none;}
+
+.scrollable .portal:before {content: ""; z-index: 100; position: fixed; bottom: 3.0rem; left: 50%; width: 3.0rem; height: 3.6rem; transform: translateX(-50%);
+  animation: moveMouseBottom 2s infinite; background: url('/kn/com/images/portal/main/ic_mouse_footer.svg') no-repeat 0 center;}
+
+.portal.has-scroll:before {content: ""; z-index: 100; position: fixed; bottom: 3.0rem; left: 50%; width: 3.0rem; height: 3.6rem; transform: translateX(-50%);
+  animation: moveMouseBottom 2s infinite; background: url('/kn/com/images/portal/main/ic_mouse_footer.svg') no-repeat 0 center;}
+
+.portal {padding-top: 15.8rem;}
+
+.section.gnb {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    z-index: 100;
+    transition: transform 0.2s ease-in-out;
+}
+.portal.gnb-fixed {}
+.portal.gnb-fixed .section.gnb {transform: translateY(-11.4rem);}
+.portal.scrolled-to-top .section.gnb,
+.portal.gnb-fixed.sitemapAct .section.gnb {transform: translateY(0);}
+
+.gnb-area {
+    /* position: fixed;
+    top: 0;
+    width: 100%; */
+    position: relative;
+}
+
+.gnb-area .gnb-top-wrapper {background-color: #f4f6f7;}
+
+.mobile-top-wrap {display: none;}
+.mobile-ctrl-wrap {display: none;}
+
+.gnb-top-wrap {
+  display: flex;
+    align-items: center;
+    max-width: 160rem;
+    min-height: 5.0rem;
+    margin: 0 auto;
+    background-color: transparent;
+}
+
+.gnb-top-wrap .btn {height: 3.8rem; border: 0;}
+
+.gnb-top-wrap .btn.menu-open {position: absolute; top: 0rem;}
+.btn.menu-open.active:after {width: 0;}
+.btn.menu-open.active span:before {width: 2.4rem; top: 0.7rem; transform: rotate(-45deg);}
+.btn.menu-open.active span:after {width: 2.4rem; bottom: 0.7rem; transform: rotate(45deg);}
+
+.btn.menu-open {
+    display: none;
+    position: relative;
+    width: 3.8rem;
+    height: 5.0rem;
+    font-size: 0;
+    color: transparent;
+    padding: 1.8rem 0.8rem;
+    transition: all 0.4s;
+}
+.btn.menu-open:after {
+    content: "";
+    position: absolute;
+    top: 2.5rem;
+    left: 0.8rem;
+    width: 2.2rem;
+    height: 0.2rem;
+    margin: auto 0;
+    background-color: #272626;
+    transition: all 0.4s;
+}
+.btn.menu-open span {
+    position: absolute;
+    width: 2.2rem;
+    height: 1.6rem;
+    color: transparent;
+    font-size: 0;
+}
+.btn.menu-open span:before,
+.btn.menu-open span:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 2.2rem;
+    height: 0.2rem;
+    background-color: #272626;
+    transition: all 0.4s;
+}
+.btn.menu-open span:before {top: 0;}
+.btn.menu-open span:after {bottom: 0;}
+
+.btn.menu-open.service-menu {width: auto; height: auto; font-size: 1.4rem; color: #333333; padding: 0rem 1.2rem;}
+.btn.menu-open.service-menu:after {content: none;}
+.btn.menu-open.service-menu span {position: static; width: auto; height: auto; color: inherit; font-size: inherit;}
+.btn.menu-open.service-menu span:before, .btn.menu-open.service-menu span:after {content: none;}
+
+.gnb-top-wrap .inner.service-site {display: inline-block; background-color: transparent; white-space: nowrap;}
+.gnb-top-wrap .inner.service-site > li {display: inline-block;}
+
+.gnb-top-wrap .inner.service-site .btn {display: inline-flex; position: relative; align-items: center;
+    color: #333333; height: 5.0rem; font-size: 1.4rem; font-weight: 500;
+    padding: 0 1.2rem; vertical-align: middle; line-height: 2.6;}
+
+.gnb-top-wrap .inner.service-site .btn:before {
+    content: "";
+    position: absolute;
+    top: auto;
+    left: 50%;
+    bottom: -0.1rem;
+    bottom: 0rem;
+    width: 0;
+    background-color: transparent;
+    opacity: 1;
+    border-bottom: 0.2rem solid transparent; transform: translateX(-50%);
+    transition: all 0.4s ease-in-out;
+}
+
+.gnb-top-wrap .inner.service-site .btn:hover:before {
+    content: "";
+    position: absolute;
+    top: auto;
+    left: 50%;
+    bottom: -0.1rem;
+    bottom: 0rem;
+    width: 0;
+    background-color: transparent;
+    opacity: 1;
+    border-bottom: 0.2rem solid transparent; transform: translateX(-50%);
+    transition: all 0.4s ease-in-out;
+    width: calc(100% - 3.2rem); border-bottom: 0.2rem solid #1f67c0;
+}
+
+.gnb-top-wrap .inner.service-site .btn.on {background-color: transparent;}
+
+.gnb-top-wrap .inner.service-site .btn.on:before, .gnb-top-wrap .inner.service-site .btn.on:hover:before {transform: none;}
+
+.gnb-top-wrap .inner.service-site .btn.on:before {left: 0; right: 0; width: 100%; border-bottom: 0.2rem solid #1755a1;}
+
+/* 우측 서비스 버튼 영역 */
+.gnb-top-wrap .inner.right {display: inline-flex; align-items: center; float: right; background-color: transparent; white-space: nowrap;}
+.gnb-top-wrap .inner.right .btn {position: relative; color: transparent; width: 3.4rem; height: 3.4rem; font-size: 0; font-weight: 400;
+    margin: 0; padding: 0; background-color: transparent; background-size: 1.8rem; background-repeat: no-repeat; background-position: center; border-radius: 50%;}
+.gnb-top-wrap .inner.right .btn:before {content: ""; position: absolute;}
+/* 우측 서비스 사용자 정보 영역 */
+.user-info-wrap {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.6rem;
+    padding: 0 0.2rem;
+}
+.user-info-wrap .name {color: #4876ef; font-size: 1.8rem; font-weight: 500; margin-right: 0.4rem;}
+.user-info-wrap .time {font-size: 1.4rem; margin-left: 2.0rem; min-width: 4.5rem;}
+
+
+/* 로그인, 로그아웃, 인증센터, 나라장터서비스 툴팁 스타일 */
+.login-wrap, .logout-wrap, .second-security-wrap, .security-center-wrap, .my-user-wrap, .ctrl-font-wrap {
+    position: relative; /* margin: 0 0 0 1.4rem;  */z-index: 3;
+}
+
+.login-wrap .tooltip, .logout-wrap .tooltip, .second-security-wrap .tooltip, .security-center-wrap .tooltip,
+.my-user-wrap .tooltip, .ctrl-font-wrap .tooltip {
+    display: inline-block;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+   /*  top: 4.4rem; */
+    top: 4.1rem;
+    left: 55%;
+    color: #000000;
+    font-size: 1.4rem;
+    padding: 0.9rem 1.8rem;
+    transform: translateX(-50%);
+    transition: all 0.2s ease-in-out;
+    background-color: #ffffff;
+    border: 1px solid #4876ef;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 10%);
+    transform: translateX(-50%);
+}
+
+.login-wrap .tooltip:before,
+.logout-wrap .tooltip:before,
+.second-security-wrap .tooltip:before,
+.security-center-wrap .tooltip:before,
+.my-user-wrap .tooltip:before,
+.ctrl-font-wrap .tooltip:before {
+    content: "";
+    position: absolute;
+    top: -0.7rem;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.7rem solid #4876ef;
+    transform: translateX(-50%);
+}
+
+.login-wrap .tooltip:after,
+.logout-wrap .tooltip:after,
+.second-security-wrap .tooltip:after,
+.security-center-wrap .tooltip:after,
+.my-user-wrap .tooltip:after,
+.ctrl-font-wrap .tooltip:after {
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.7rem solid #ffffff;
+    transform: translateX(-50%);
+}
+
+.login-wrap .btn:hover ~ .tooltip,
+.logout-wrap .btn:hover ~ .tooltip,
+.second-security-wrap .btn:hover ~ .tooltip,
+.security-center-wrap .btn:hover ~ .tooltip,
+.my-user-wrap .btn:hover ~ .tooltip,
+.ctrl-font-wrap .btn:hover ~ .tooltip {
+    visibility: visible; opacity: 1; z-index: 3;
+}
+
+/* 로그인 로그아웃 */
+/* 나라장터 외에 로그인 */
+.inner.right .btn.login:before {width: 3.4rem; height: 3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_login.svg'); background-size: 1.5rem 1.8rem;
+    background-position: 0.8rem center; background-color: #5a8bef; border-radius: 50%;}
+.inner.right .btn.logout:before {width: 3.4rem; height: 3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_logout.svg'); background-size: 1.5rem 1.8rem;
+    background-position: 0.8rem center; background-color: #5a8bef; border-radius: 50%;}
+.inner.right .btn.login span,
+.inner.right .btn.logout span{display:none}
+
+/* 나라장터에서 로그인시 ui  변경관련 수정 240905 */
+.inner.right.nara .btn.login,
+.inner.right.nara .btn.logout{display:flex;align-items: center; margin-left:0 !important}
+.inner.right.nara .btn.login span,
+.inner.right.nara .btn.logout span{display:block; font-size: 1.4rem;color:#fff;padding-left:3rem}
+.inner.right.nara .btn.login,
+.inner.right.nara .btn.login:before{width:8.3rem}
+.inner.right.nara .btn.login:before{height: 3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_login.svg'); background-size: 1.5rem 1.8rem;
+    background-position: 0.8rem center; background-color: #5a8bef; border-radius: 2rem; z-index:-1}
+/* 로그인 ui  변경관련 수정 240905 */
+/* 로그아웃 ui  변경관련 수정 240909 */
+.inner.right.nara .btn.logout,
+.inner.right.nara .btn.logout:before{width:9.3rem}
+.inner.right.nara .btn.logout:before {height:3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_logout.svg'); background-size: 1.5rem 1.8rem;
+    background-position: 0.8rem center; background-color: #5a8bef; border-radius: 50%;  border-radius: 2rem; z-index:-1}
+/* 로그인 ui  변경관련 수정 240909 */
+
+
+.inner.right.nara .coin-spin:hover:before, .inner.right.nara .coin-spin:active:before{transform:none}
+.inner.right.nara .coin-spin:before {transition: none;}
+
+/* 로그인 후 콤보박스 */
+.link-list-wrap.top-r .link-toggle{border-radius:10rem; height:3rem; line-height:2.8rem;}
+
+.link-list-wrap.top-r .link-toggle.minW{min-width:14.63rem;}
+.link-list-wrap.top-r .link-inner-wrap{border-top:0; border-radius:.6rem; border-color:#e1e1e2}
+.link-list-wrap.top-r .link-toggle.active ~ .link-inner-wrap{top:3rem;width:14.63rem; height:6.2rem; z-index:3}
+.link-list-wrap.top-r .link-toggle,
+.link-list-wrap.top-r .link-toggle.active{padding:0 3.2rem 0 1.3rem;}
+/* .link-list-wrap.top-r .link-toggle,
+.link-list-wrap.top-r .link-toggle.active{background-color:#f4f6f7} */
+
+
+
+/* 인증센터  텍스트 없는 기존 ver*/
+/* .inner.right .btn.security-center:before {width: 3.4rem; height: 3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_security.svg'); background-color: #1da4e1;
+    border-radius: 50%; background-size: 1.8rem; background-repeat: no-repeat; background-position: center;} */
+
+/* 인증센터 텍스트 추가 24.1205 */
+.inner.right .security-center-wrap .btn.security-center{display: flex;align-items: center;padding-left: 3.5rem; width:10rem; border-radius:2rem; background-color: #1da4e1;font-size: 1.4rem;color: #fff;z-index: 3; }
+.inner.right .security-center-wrap .btn.security-center:before {
+    width: 10rem;
+    height: 3.4rem;
+    background-image: url('/kn/com/images/portal/gnb/ic_security.svg');
+    /* background-color: #1da4e1; */
+    /* border-radius: 50%; */
+    background-size: 1.8rem;
+    background-repeat: no-repeat;
+    background-position: 0 center;
+    left: 1rem;
+    z-index: 0;
+    }
+
+/* 인증센터 텍스트 추가 24.1205 */
+
+/* 2차인증센터 */
+.inner.right .second-security-wrap .btn.second-security-wrap{display: flex;align-items: center;padding-left: 3.2rem; width:9.4rem; border-radius:2rem; background-color: #1da4e1;font-size: 1.4rem; color: #fff;z-index: 3;}
+.inner.right .second-security-wrap .btn.second-security-wrap:before {width: 10rem; height: 3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_second-security.svg'); background-size:1.5rem 1.8rem; background-repeat: no-repeat; background-position: 0 center; left: 1rem; z-index: 3;}
+
+/*나라장터서비스 텍스트 없는 기존 ver
+.inner.right .btn.my-user:not(.shortcut):before {width: 3.4rem; height: 3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_service.svg'); background-size: 1.8rem; background-color: #8071e8;
+    border-radius: 50%; background-position: center;} */
+
+
+/* 나라장터 서비스 텍스트 추가 24.1205 */
+.inner.right .btn.my-user{display: flex; align-items: center; font-size: 1.4rem; color: #fff; width: 14rem;text-align: center; background-color: #8071e8;  border-radius: 2rem; padding-left: 3.5rem; z-index: 0; }
+
+
+.inner.right .btn.my-user:not(.shortcut):before {
+    width: 13rem;
+    height: 3.4rem;
+    background-image: url('/kn/com/images/portal/gnb/ic_service.svg');
+    background-size: 1.8rem;
+    background-position: 0 center;
+    z-index: -1;
+    padding: 0;
+    left: 1.2rem;
+    }
+
+
+
+/* 나라장터 서비스 텍스트 추가 24.1205 */
+
+
+
+.inner.right .btn.ctrl-font:before {width: 3.4rem; height: 3.4rem; background-image: url('/kn/com/images/portal/gnb/ic_setting.svg'); background-size: 1.8rem; background-color: #6d7eee;
+    border-radius: 50%; background-position: center;}
+
+/* 나의 나라장터 토글 레이어팝업 begin */
+.appear {animation: fade-in 0.3s; animation-fill-mode: forwards;}
+.disappear {animation: fade-out 0.3s; animation-fill-mode: forwards;}
+
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fade-out {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+
+/* 나라장터 서비스 */
+.my-user-wrap .popup-content.my-user {
+    display: none;
+    position: absolute;
+    top: 4.2rem;
+    /* right: -5.4rem; */
+    right:0;/*텍스트 추가로인한 위치 변경  */
+    width: 50rem;
+    font-size: 1.6rem;
+    text-align: left;
+    background-color: #ffffff;
+    border: 0.1rem solid #4876ef;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 10%);
+}
+.my-user-wrap .popup-content.my-user.appear {display: block;}
+
+.my-user-wrap .popup-content.my-user:before {
+    content: "";
+    position: absolute;
+    top: -0.9rem;
+    left: auto;
+    right: 6.35rem;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.7rem solid transparent;
+    border-right: 0.7rem solid transparent;
+    border-bottom: 0.9rem solid #4876ef;
+}
+.my-user-wrap .popup-content.my-user:after {
+    content: "";
+    position: absolute;
+    top: -0.9rem;
+    left: auto;
+    right: 6.4rem;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.6rem solid transparent;
+    border-right: 0.6rem solid transparent;
+    border-bottom: 0.8rem solid #ebf1fa;
+}
+
+.my-user-wrap .popup-content.my-user .header-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #4876ef;
+    font-weight: 500;
+    padding: 0.9rem 1.4rem 0.9rem 1.4rem;
+    border-bottom: 0.1rem solid #dededf;
+    background-color: #f3f4f5;
+    border-top-left-radius: 0.4rem;
+    border-top-right-radius: 0.4rem;
+    /* background: #ebf1fa url('/kn/com/images/portal/gnb/ic_basket.svg') no-repeat 1.2rem center;
+    background-size: 2.0rem; */
+}
+.my-user-wrap .popup-content.my-user .header-wrap .title {float: left;}
+.my-user-wrap .popup-content.my-user .btn.close {position: absolute;top: 1rem;right: 1rem;width: 2.0rem;height: 2.0rem;
+    background: url(/kn/com/images/portal/gnb/ic_close.svg) no-repeat center;background-size: 1.6rem;}
+
+.my-user-wrap .popup-content.my-user .content-wrap {
+    font-size: 1.4rem;
+    padding: 0rem;
+    border-bottom-left-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+    overflow: hidden;
+}
+.my-user-wrap .popup-content.my-user .content-wrap ul li {border-bottom: 0.1rem solid #dededf;}
+.my-user-wrap .popup-content.my-user .content-wrap .title {
+    color: #191919;
+    font-weight: 500;
+    width: 9.8rem;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0.8rem 1.4rem;
+    background-color: #f3f4f5;
+    border-right: 0.1rem solid #dededf;
+}
+.my-user-wrap .popup-content.my-user .content-wrap a {color: #000000; letter-spacing: -0.1rem; padding: 0.8rem 1.0rem;}
+.my-user-wrap .popup-content.my-user .content-wrap a ~ a {margin-left: 0rem;}
+
+.my-user-wrap .popup-content.my-user .content-wrap a.new-window {
+    padding: 0.8rem 2.8rem 1.0rem 1.0rem;
+    background: url('/kn/com/images/portal/gnb/ic_shortcut.svg') no-repeat right 1.0rem center;
+    background-size: 1.2rem;
+}
+
+/* 나의 나라장터 토글 레이어팝업 end */
+
+/* 글자크기 조정 토글 레이어팝업 begin */
+/* .inner.right .ctrl-font-wrap .font-ctrl-menu */
+.ctrl-font-wrap .font-ctrl-menu {
+    /* display: flex;    */
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 3.8rem;
+    left: auto;
+    right: -2.4rem;
+    width: auto;
+    min-width: 32.0rem;
+    border: 0;
+    transition: all 0.2s ease-in-out;
+    background-color: transparent;
+    margin: 0rem;
+    padding: 0.6rem 0.8rem 0 0.8rem;
+    z-index: 1;
+}
+
+.ctrl-font-wrap:hover, .ctrl-font-wrap.active {z-index: 4;}
+.ctrl-font-wrap:hover .font-ctrl-menu, .ctrl-font-wrap.active .font-ctrl-menu {visibility: visible; opacity: 1;}
+
+.ctrl-font-wrap .font-ctrl-menu:before {
+    content: "";
+    position: absolute;
+    top: 0rem;
+    left: auto;
+    right: 3.6rem;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.6rem solid #4876ef;
+}
+
+.ctrl-font-wrap .font-ctrl-menu:after {
+    content: "";
+    position: absolute;
+    top: 0.1rem;
+    left: auto;
+    right: 3.6rem;
+    bottom: auto;
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.7rem solid #f3f4f5;
+}
+
+.ctrl-font-wrap .font-ctrl-menu .setting-wrap {
+    color: #191919;
+    font-size: 1.6rem;
+    font-weight: 500;
+    background-color: #ffffff;
+    border: 1px solid #4876ef;
+    border-radius: 0.4rem;
+    overflow: hidden;
+}
+
+.font-ctrl-menu .setting-wrap .inner-wrap.top {
+    height: 4.2rem;
+    background-color: #f3f4f5;
+    padding: 0 1.2rem;
+    border-bottom: 0.1rem solid #dededf;
+}
+
+.font-ctrl-menu .setting-wrap .inner-wrap.top .title {color: #4876ef; font-weight: 500; line-height: 4.0rem;}
+
+.font-ctrl-menu .setting-wrap .inner-wrap.content {padding: 1.6rem 2.4rem;}
+
+.font-ctrl-menu .setting-wrap .inner-wrap.content .title {margin-bottom: 1.2rem;}
+.font-ctrl-menu .setting-wrap .inner-wrap.content .inner.theme:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.font-ctrl-menu .setting-wrap .inner.theme .title {margin-bottom: 0.4rem;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn {
+    position: relative;
+    width: calc(50% - 0.8rem);
+    color: #191919;
+    font-size: 1.3rem;
+    font-weight: 400;
+    background-color: #ecebeb;
+    border-radius: 10.0rem;
+    float: left;
+    margin: 0.8rem 0;
+    padding: 0 0 0 0.8rem;
+    text-align: center;
+    line-height: 3.2rem;
+}
+.font-ctrl-menu .setting-wrap .inner.theme .btn:after {
+    content: "";
+    position: absolute;
+    top: 1.1rem;
+    left: 1.2rem;
+    width: 1.0rem;
+    height: 1.0rem;
+    border-radius: 50%;
+    background-color: #4876ef;
+}
+
+.font-ctrl-menu .setting-wrap .inner.theme .btn.green:after {background-color: #4b9b69;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.blue-green:after {background-color: #1b979f;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.pink:after {background-color: #d8517a;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.purple:after {background-color: #6768ab;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.brown:after {background-color: #b0583a;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.dark-brown:after {background-color: #715c56;}
+
+.font-ctrl-menu .setting-wrap .inner-wrap.content .inner.theme .btn:nth-of-type(odd) {margin: 0.8rem 0.8rem 0.8rem 0rem;}
+.font-ctrl-menu .setting-wrap .inner-wrap.content .inner.theme .btn:nth-of-type(even) {margin: 0.8rem 0rem 0.8rem 0.8rem;}
+
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active {background-color: #ffffff;}
+
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active:before {content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;border: 0.1rem solid #4876ef;border-radius: 10.0rem;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.green {color:#4b9b69;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.green:before {border: 0.1rem solid #4b9b69;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.blue-green {color:#1b979f;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.blue-green:before {border: 0.1rem solid #1b979f;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.pink {color:#d8517a;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.pink:before {border: 0.1rem solid #d8517a;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.purple {color:#6768ab;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.purple:before {border: 0.1rem solid #6768ab;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.brown {color:#b0583a;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.brown:before {border: 0.1rem solid #b0583a;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.dark-brown {color:#715c56;}
+.font-ctrl-menu .setting-wrap .inner.theme .btn.active.dark-brown:before {border: 0.1rem solid #715c56;}
+
+
+
+
+.font-ctrl-menu .setting-wrap .inner-wrap.content .inner.font {
+    margin-top: 1.2rem;
+    padding-top: 1.6rem;
+    border-top: 0.1rem solid #ecebeb;
+}
+
+.font-ctrl-menu .setting-wrap .percent {
+    display: inline-block;
+    line-height: 3.0rem;
+    vertical-align: middle;
+    margin-right: 1.6rem;
+}
+
+.ctrl-font-wrap .font-ctrl-menu .setting-wrap .btn {width: 3.2rem; height: 3.2rem; margin: 0;}
+
+.ctrl-font-wrap .font-ctrl-menu .setting-wrap .btn ~ .btn {margin-left: 1.6rem;}
+
+.ctrl-font-wrap .font-ctrl-menu .btn.plus {
+    background: #9a9a9a url('/kn/com/images/portal/gnb/ic_plus_circle.svg') no-repeat center;
+    background-size: 1.8rem;
+}
+.ctrl-font-wrap .font-ctrl-menu .btn.minus {
+    background: #9a9a9a url('/kn/com/images/portal/gnb/ic_minus_circle.svg') no-repeat center;
+    background-size: 1.8rem;
+}
+
+.ctrl-font-wrap .font-ctrl-menu .btn.reset {
+    color: #4876ef;
+    font-size: 1.6rem;
+    width: auto;
+    border: 0.1rem solid #4876ef;
+    border-radius: 5.0rem;
+    background-color: #ffffff;
+    padding: 0 2.4rem;
+
+}
+
+/* .inner.right .ctrl-font-wrap .font-ctrl-menu .line-separate {
+    position: relative; top: 1.4rem;
+    color: transparent; font-size: 0;
+    width: 0; height: 1.2rem; border-left: 0.1rem solid #ffffff;
+} */
+/* 글자크기 조정 토글 레이어팝업 end */
+
+/* coin rotation 아이콘 돌리기 */
+.coin-spin:hover:before, .coin-spin:active:before {transform: rotateY(180deg); /* transform: rotateY(360deg); */}
+.coin-spin:before {transition: transform .4s ease-in-out;}
+/* .coin-spin:before, .coin-spin:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 50%;
+    overflow: hidden;
+} */
+
+@media(hover: hover) and (pointer: fine) {
+    .coin-spin:hover:before {transform: rotateY(180deg);}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

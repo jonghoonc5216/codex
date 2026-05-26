@@ -1,0 +1,1207 @@
+export default {
+  "WebSquare": {
+    "convertPageXML": {
+      "@value": "true"
+    },
+    "wpack": {
+      "@use": "true",
+      "contextRoot": {
+        "@value": "/"
+      },
+      "srcExtension": {
+        "@value": "xml"
+      },
+      "destExtension": {
+        "@value": "js"
+      },
+      "destRoot": {
+        "@value": "_wpack_"
+      }
+    },
+    "allValue": {
+      "@value": "all"
+    },
+    "docType": {
+      "@value": "standard"
+    },
+    "debug": {
+      "@errorConsole": "true",
+      "@remoteConsole": "false",
+      "@value": "true"
+    },
+    "debugKey": {
+      "@value": ""
+    },
+    "language": {
+      "@value": "ko"
+    },
+    "useItemLocale": {
+      "@value": "false"
+    },
+    "date": {
+      "minYear": {
+        "@value": "1950"
+      },
+      "maxYear": {
+        "@value": "2050"
+      }
+    },
+    "exceptionHandler": {
+      "@value": "websquare"
+    },
+    "debugMenu": {
+      "@value": "use"
+    },
+    "welcome-file": {},
+    "postDrawMode": {
+      "@value": "synchronous"
+    },
+    "forcedValueSetting": {
+      "@value": "true"
+    },
+    "processMsgHeight": {
+      "@value": "152"
+    },
+    "processMsgWidth": {
+      "@value": "120"
+    },
+    "processBarMsgHeight": {
+      "@value": "92"
+    },
+    "processBarMsgWidth": {
+      "@value": "240"
+    },
+    "processMsgBackground": {
+      "@backgroundColor": "#112233",
+      "@value": "true"
+    },
+    "byteCheckEncoding": {
+      "@value": "utf-8"
+    },
+    "disableDuplicateIdAlert": {
+      "@value": "true"
+    },
+    "initScript": {
+      "#cdata": function() {
+            _gcm.initScript($p);
+        
+        },
+      "@value": "true"
+    },
+    "postScript": {
+      "#cdata": function() {
+            _gcm.postScript($p);
+        
+        },
+      "@value": "true"
+    },
+    "wframe": {
+      "mode": {
+        "@value": "sync"
+      },
+      "scope": {
+        "@value": "true"
+      },
+      "initScript": {
+        "#cdata": function() {
+            _gcm.wFrameInitScript($p);
+        
+        },
+        "@value": "true"
+      },
+      "postScript": {
+        "#cdata": function() {
+            _gcm.wFramePostScript($p);
+        
+        },
+        "@value": "true"
+      }
+    },
+    "clearMemory": {
+      "@value": "false"
+    },
+    "stylesheet": {
+      "@earlyImportList": "/kn/com/css/import.css",
+      "@enable": "true",
+      "@import": "link",
+      "@value": "stylesheet_ext.css"
+    },
+    "style": {
+      "removeDefaultClass": {
+        "@value": "true"
+      }
+    },
+    "engine": {
+      "module": [
+        {
+          "@src": "/kn/com/js/commonPrototype.js"
+        },
+        {
+          "@src": "/kn/com/js/commonGlobal.js"
+        },
+        {
+          "@src": "/kn/com/js/commonScope.js"
+        },
+        {
+          "@src": "/kn/com/js/commonUtils.js"
+        },
+        {
+          "@src": "/kn/com/js/websquare_hotfix.js"
+        },
+        {
+          "@src": "/kn/com/js/devUtils.js"
+        },
+        {
+          "@src": "/kn/com/js/external/html2canvas.js"
+        },
+        {
+          "@src": "/kn/com/js/external/jspdf.min.js"
+        },
+        {
+          "@src": "/kn/com/js/external/UserScriptConf.js"
+        },
+        {
+          "@src": "/kn/com/js/external/js-xss/xss.js"
+        },
+        {
+          "@src": "/kn/com/js/bsneComm.js"
+        },
+        {
+          "@src": "/websquare/_websquare_/externalJS/big/big.min.js"
+        },
+        {
+          "@src": "/kn/com/js/fido/jquery-qrcode.min.js"
+        },
+        {
+          "@src": "/kn/com/js/chatbot/chatbot.js"
+        },
+        {
+          "@src": "/CrossEditor/js/namo_scripteditor.js"
+        }
+      ]
+    },
+    "ModelUtil": {
+      "copyChildrenNodes": {
+        "@refresh": "false"
+      }
+    },
+    "preProcessor": {
+      "systemPreProcessor": {
+        "@value": ""
+      },
+      "businessPreProcessor": {
+        "@value": ""
+      }
+    },
+    "workflow": {
+      "processMsg": {
+        "@value": ""
+      },
+      "makeGlobalObject": {
+        "@value": "true"
+      }
+    },
+    "submission": {
+      "processMsg": {
+        "@value": ""
+      },
+      "showSubmissionTime": {
+        "@value": "true"
+      },
+      "preSubmitFunction": {
+        "@value": "_gcm.preSubmitFunction"
+      },
+      "callbackSubmitFunction": {
+        "@value": "_gcm.callbackSubmitFunction"
+      },
+      "requestID": {
+        "@value": ""
+      },
+      "makeGlobalObject": {
+        "@value": "true"
+      },
+      "submitErrorHandler": {
+        "@value": "_gcm.submitErrorHandler"
+      },
+      "requestHeaderFunction": {
+        "@value": "_gcm.requestHeaderFunction"
+      },
+      "responseJSONHandler": {
+        "@value": "_gcm.gfnDataHandler"
+      }
+    },
+    "visibleHelper": {
+      "targetHandler": {
+        "@value": ""
+      }
+    },
+    "spa": {
+      "onpageunload": {
+        "@value": ""
+      },
+      "variable": {
+        "@clone": "com",
+        "@value": "scwin"
+      },
+      "scriptCache": {
+        "@value": "true"
+      },
+      "autoReload": {
+        "@count": "50",
+        "@value": "true"
+      }
+    },
+    "scriptLoading": {
+      "@merge": "true"
+    },
+    "scriptPrecedence": {
+      "@value": "true"
+    },
+    "strictMode": {
+      "@id": "mf",
+      "@value": "true"
+    },
+    "engineCache": {
+      "@compression": "true",
+      "@enable": "true",
+      "@postfix": "month"
+    },
+    "userAgentPattern": {
+      "@XPathParser": "Edge"
+    },
+    "preserveWhiteSpace": {
+      "@value": "false"
+    },
+    "environment": {
+      "@cache": "cache",
+      "@mode": "production",
+      "@postfix": "day"
+    },
+    "script": {
+      "@postfix": "environment"
+    },
+    "emptyTag": {
+      "@value": "area,base,basefont,br,col,frame,hr,img,input,link,meta,param"
+    },
+    "engineLoadingMode": {
+      "@android": "0",
+      "@chrome": "0",
+      "@ie": "0",
+      "@iphone": "0",
+      "@moz": "0",
+      "@opera": "0",
+      "@safari": "0"
+    },
+    "engineChunkNum": {
+      "@value": "1"
+    },
+    "dataList": {
+      "removeDummyRowStatus": {
+        "@value": "true"
+      },
+      "removedDataMatch": {
+        "@value": "true"
+      },
+      "saveRemovedDataDeletedInsertedRow": {
+        "@value": "false"
+      }
+    },
+    "dataMap": {
+      "firstSet": {
+        "@value": "true"
+      }
+    },
+    "grid": {
+      "rowNumStatusUniqueId": {
+        "@value": "true"
+      },
+      "drilldownRealRowIndexAll": {
+        "@value": "true"
+      },
+      "collectGarbage": {
+        "@value": "none"
+      },
+      "fastScroll": {
+        "@value": "true"
+      },
+      "dataType": {
+        "date": {
+          "@displayFormat": "yyyy/MM/dd"
+        }
+      },
+      "editType": {
+        "@value": "focus"
+      },
+      "rowNumBackgroundColor": {
+        "@value": "#ffffff"
+      },
+      "selectedRowColor": {
+        "@value": "#f6faff"
+      },
+      "oddEvenColorDisplay": {
+        "@value": "false"
+      },
+      "evenRowBackgroundColor": {
+        "@value": "#ffffff"
+      },
+      "oddRowBackgroundColor": {
+        "@value": "#ffffff"
+      },
+      "rowMouseOver": {
+        "@value": "true"
+      },
+      "rowMouseOverColor": {
+        "@value": "#f6faff"
+      },
+      "tooltipStyle": {
+        "@value": "padding:1px 3px 0;line-height:14px;font-size:12px;border:0;background-color:#5c85d4;color:#fff"
+      },
+      "noResultMessageVisibleAlways": {
+        "@value": "true"
+      },
+      "noResultMessageVisible": {
+        "@value": "true"
+      },
+      "noResultMessage": {
+        "@value": "데이터가 없음"
+      },
+      "noResultMessageStyle": {
+        "@value": "position:absolute; left:40%; width:auto; min-width: 20%; max-width: 60%; top:calc(50% + 5px); border:1px solid #b3b3b3; color:#383d41; font-size:12px; padding:5px; text-align:center; background:#fafafa"
+      },
+      "pasteMessage": {
+        "@value": "데이터 붙이는 중"
+      },
+      "getColumnVisible": {
+        "@useRealColIndex": "true"
+      },
+      "colIdToColIndex": {
+        "@value": "true"
+      },
+      "column": [
+        {
+          "@inputType": "text",
+          "editType": {
+            "@value": "select"
+          }
+        },
+        {
+          "@inputType": "select",
+          "chooseOptionLabel": {
+            "@value": "-선택-"
+          }
+        },
+        {
+          "@inputType": "calendar",
+          "dataType": {
+            "@value": "date"
+          },
+          "displayFormat": [
+            {
+              "@value": "yyyy",
+              "@valueType": "year"
+            },
+            {
+              "@value": "yyyy/MM",
+              "@valueType": "yearMonth"
+            },
+            {
+              "@value": "yyyy/MM/dd",
+              "@valueType": "yearMonthDate"
+            },
+            {
+              "@value": "yyyy/MM/dd HH:mm",
+              "@valueType": "yearMonthDateTime"
+            },
+            {
+              "@value": "yyyy/MM/dd HH:mm:SS",
+              "@valueType": "yearMonthDateTimeSec"
+            }
+          ],
+          "validator": {
+            "@value": "comUtil._gfnInputCalendarValidator"
+          }
+        }
+      ],
+      "checkReadOnlyOnPaste": {
+        "@value": "true"
+      },
+      "checkDisabledOnPaste": {
+        "@value": "true"
+      }
+    },
+    "gridView": {
+      "autofitColumn": {
+        "@value": "true"
+      },
+      "drilldownFooterExpressionAllData": {
+        "@value": "true"
+      },
+      "rowNumStatusUniqueId": {
+        "@value": "true"
+      },
+      "preventMultipleClick": {
+        "@value": "true"
+      },
+      "drilldownRealRowIndexAll": {
+        "@value": "true"
+      },
+      "collectGarbage": {
+        "@value": "none"
+      },
+      "fastScroll": {
+        "@value": "true"
+      },
+      "dataType": {
+        "date": {
+          "@displayFormat": "yyyy/MM/dd"
+        }
+      },
+      "editType": {
+        "@value": "focus"
+      },
+      "loadCount": {
+        "@value": "1"
+      },
+      "defaultCellHeight": {
+        "@value": "40"
+      },
+      "rowNumBackgroundColor": {
+        "@value": "#ffffff"
+      },
+      "selectedRowColor": {
+        "@value": "#f6faff"
+      },
+      "oddEvenColorDisplay": {
+        "@value": "true"
+      },
+      "evenRowBackgroundColor": {
+        "@value": "#ffffff"
+      },
+      "oddRowBackgroundColor": {
+        "@value": "#ffffff"
+      },
+      "rowMouseOver": {
+        "@value": "true"
+      },
+      "rowMouseOverColor": {
+        "@value": "#f6faff"
+      },
+      "selectedCellColor": {
+        "@value": "#f6faff"
+      },
+      "tooltipStyle": {
+        "@value": "padding:1px 3px 0;line-height:14px;font-size:12px;border:0;background-color:#5c85d4;color:#fff"
+      },
+      "tooltipPositionX": {
+        "@value": "cellWidth/2"
+      },
+      "tooltipPositionY": {
+        "@value": "cellHeight-1"
+      },
+      "tooltipHeader": {
+        "@value": "true"
+      },
+      "noResultMessageVisibleAlways": {
+        "@value": "true"
+      },
+      "noResultMessageVisible": {
+        "@value": "true"
+      },
+      "noResultMessage": {
+        "@value": "데이터가 없음"
+      },
+      "noResultMessageStyle": {
+        "@value": "position:absolute; left:40%; width:auto; min-width: 20%; max-width: 60%; top:calc(50% + 5px); border:1px solid #b3b3b3; color:#383d41; font-size:12px; padding:5px; text-align:center; background:#fafafa"
+      },
+      "pasteMessage": {
+        "@value": "데이터 붙이는 중"
+      },
+      "getColumnVisible": {
+        "@useRealColIndex": "true"
+      },
+      "colIdToColIndex": {
+        "@value": "true"
+      },
+      "autoFitMinWidth": {
+        "@value": "1023"
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "focusMode": {
+        "@value": "row"
+      },
+      "column": [
+        {
+          "@inputType": "text",
+          "editType": {
+            "@value": "select"
+          },
+          "dataType": {
+            "@valueType": "euro",
+            "customModelFormatter": {},
+            "customModelUnformatter": {}
+          },
+          "escape": {
+            "@value": "false"
+          },
+          "textAlign": {},
+          "applyFormat": {
+            "@value": "all"
+          },
+          "minWidth": {
+            "@value": "80"
+          },
+          "escapeFormatter": {
+            "@value": "comUtil.textboxDisplayFormatter"
+          }
+        },
+        {
+          "@inputType": "select",
+          "chooseOptionLabel": {
+            "@value": "-선택-"
+          },
+          "eventPriority": {
+            "@value": "oneditend"
+          },
+          "minWidth": {
+            "@value": "50"
+          }
+        },
+        {
+          "@inputType": "calendar",
+          "dataType": {
+            "@value": "date"
+          },
+          "displayFormat": [
+            {
+              "@value": "yyyy",
+              "@valueType": "year"
+            },
+            {
+              "@value": "yyyy/MM",
+              "@valueType": "yearMonth"
+            },
+            {
+              "@value": "yyyy/MM/dd",
+              "@valueType": "yearMonthDate"
+            },
+            {
+              "@value": "yyyy/MM/dd HH:mm",
+              "@valueType": "yearMonthDateTime"
+            },
+            {
+              "@value": "yyyy/MM/dd HH:mm:SS",
+              "@valueType": "yearMonthDateTimeSec"
+            }
+          ],
+          "validator": {
+            "@value": "comUtil._gfnInputCalendarValidator"
+          },
+          "minWidth": {
+            "@value": "50"
+          }
+        },
+        {
+          "@inputType": "expression",
+          "NaNFormat": {},
+          "minWidth": {
+            "@value": "50"
+          }
+        },
+        {
+          "@inputType": "textarea",
+          "keepCellClass": {},
+          "minWidth": {
+            "@value": "50"
+          },
+          "escapeFormatter": {
+            "@value": "comUtil.textboxDisplayFormatter"
+          }
+        },
+        {
+          "@inputType": "select",
+          "renderType": {
+            "@value": "native"
+          },
+          "minWidth": {
+            "@value": "50"
+          }
+        },
+        {
+          "@inputType": "checkComboBox",
+          "renderType": {
+            "@value": "native"
+          },
+          "minWidth": {
+            "@value": "50"
+          }
+        },
+        {
+          "@inputType": "autoComplete",
+          "renderType": {
+            "@value": "native"
+          },
+          "minWidth": {
+            "@value": "50"
+          }
+        },
+        {
+          "@inputType": "link",
+          "escapeFormatter": {
+            "@value": "comUtil.textboxDisplayFormatter"
+          }
+        }
+      ],
+      "senseReader": {
+        "@value": "true"
+      },
+      "focusMove": {
+        "@value": "false"
+      },
+      "tooltipShowAlways": {
+        "@value": ""
+      },
+      "showSortableImage": {
+        "@value": "true"
+      },
+      "sortEvent": {
+        "@value": "ondblclick"
+      },
+      "sortHeaderDiv": {
+        "@value": "true"
+      },
+      "sortable": {
+        "@value": "true"
+      },
+      "useFilterList": {
+        "@value": "true"
+      },
+      "useFilterSearch": {
+        "@value": "true"
+      },
+      "showSortableUseFilter": {
+        "@value": "true"
+      },
+      "visibleRowNumFix": {
+        "@value": "true"
+      },
+      "header": {
+        "column": {
+          "@inputType": "text",
+          "useFilter": {
+            "@value": "true"
+          }
+        }
+      },
+      "tooltipFormatterHeader": {
+        "@value": "comUtil.tooltipFormatterHeader"
+      },
+      "advancedExcelMultiUploadPopupURL": {
+        "@value": "/websquare/_websquare_/uiplugin/grid/upload/advancedMultifileUpload.xml"
+      },
+      "checkReadOnlyOnPaste": {
+        "@value": "true"
+      },
+      "checkDisabledOnPaste": {
+        "@value": "true"
+      }
+    },
+    "tableLayout": {
+      "captionAuto": {
+        "@value": "true"
+      },
+      "summaryOnlyAuto": {
+        "@value": "false"
+      }
+    },
+    "inputCalendar": {
+      "minYear": {
+        "@value": "1950"
+      },
+      "maxYear": {
+        "@value": "2050"
+      },
+      "validCheck": {
+        "@value": "false"
+      },
+      "dataType": {
+        "@value": "date"
+      },
+      "delimiter": {
+        "@value": "-"
+      },
+      "displayFormat": {
+        "@value": "yyyy/MM/dd"
+      },
+      "delimiterLocaleKey": {
+        "@value": "IC_Delimiter"
+      },
+      "maskLocaleKey": {
+        "@value": "IC_Mask"
+      },
+      "calendarImage": {
+        "@value": ""
+      },
+      "calendarImageOver": {
+        "@value": ""
+      },
+      "renderType": {
+        "@value": "native"
+      },
+      "renderDiv": {
+        "@value": "true"
+      },
+      "footerDiv": {
+        "@value": "true"
+      },
+      "keepFocusSelect": {
+        "@value": "true"
+      },
+      "focusOnOuterDiv": {
+        "@value": "true"
+      },
+      "cancelButtonShow": {
+        "@value": "false"
+      },
+      "useButton": {
+        "@value": "true"
+      },
+      "useUnlimitedYear": {
+        "@value": "false"
+      },
+      "validator": {
+        "@value": "comUtil._gfnInputCalendarValidator"
+      }
+    },
+    "input": {
+      "focusStyle": {
+        "@value": ""
+      },
+      "dateMask": {
+        "@value": "yyyy/MM/dd"
+      },
+      "timeMask": {
+        "@value": "HH:mm"
+      },
+      "focusCalcSize": {
+        "@value": "false"
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "applyFormat": {
+        "@value": "all"
+      },
+      "autocomplete": {
+        "@value": "off"
+      }
+    },
+    "searchbox": {},
+    "calendar": {
+      "minYear": {
+        "@value": "1950"
+      },
+      "maxYear": {
+        "@value": "2050"
+      },
+      "renderType": {
+        "@value": "native"
+      },
+      "renderDiv": {
+        "@value": "true"
+      },
+      "footerDiv": {
+        "@value": "true"
+      },
+      "keepFocusSelect": {
+        "@value": "true"
+      },
+      "focusOnOuterDiv": {
+        "@value": "true"
+      },
+      "cancelButtonShow": {
+        "@value": "false"
+      },
+      "useButton": {
+        "@value": "true"
+      },
+      "useUnlimitedYear": {
+        "@value": "false"
+      }
+    },
+    "selectbox": {
+      "renderType": {
+        "@value": "native"
+      },
+      "customFormatter": {
+        "@value": "comUtil.selectBoxCustomFormatter"
+      }
+    },
+    "checkcombobox": {
+      "separator": {
+        "@value": ","
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "renderType": {
+        "@value": "native"
+      },
+      "escapeFormatter": {
+        "@value": "comUtil.textboxDisplayFormatter"
+      }
+    },
+    "tabControl": {
+      "useTabKeyOnly": {
+        "@value": "true"
+      },
+      "useAccessibilityMenu": {
+        "@value": "true"
+      },
+      "tableRender": {
+        "@value": "ul"
+      },
+      "content": {
+        "frameMode": {
+          "@value": "wframePreload"
+        }
+      }
+    },
+    "treeview": {
+      "accessibility": {
+        "@value": "true"
+      },
+      "tooltipGroupClass": {
+        "@value": "false"
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "customFormatter": {
+        "@value": "comUtil.treeviewCustomFormatter"
+      }
+    },
+    "trigger": {
+      "preventMultipleClick": {
+        "@value": "true"
+      }
+    },
+    "anchor": {
+      "preventMultipleClick": {
+        "@value": "true"
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "escapeFormatter": {
+        "@value": "comUtil.textboxDisplayFormatter"
+      }
+    },
+    "pageInherit": {
+      "mode": {
+        "@value": "sync"
+      }
+    },
+    "windowContainer": {
+      "tooltipGroupClass": {
+        "@value": "false"
+      },
+      "getWindow": {
+        "@searchTarget": "windowId"
+      },
+      "displayOnlyTopWindow": {
+        "@value": "true"
+      }
+    },
+    "pageList": {
+      "renderType": {
+        "@value": "list"
+      },
+      "buttonShowType": {
+        "@value": "3"
+      }
+    },
+    "radio": {
+      "nameScope": {
+        "@value": "true"
+      },
+      "renderType": {
+        "@value": "radiogroup"
+      },
+      "tagname": {
+        "@value": "ul"
+      },
+      "itemTagname": {
+        "@value": "li"
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "escapeFormatter": {
+        "@value": "comUtil.textboxDisplayFormatter"
+      }
+    },
+    "checkbox": {
+      "renderType": {
+        "@value": "checkboxgroup"
+      },
+      "tagname": {
+        "@value": "ul"
+      },
+      "itemTagname": {
+        "@value": "li"
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "escapeFormatter": {
+        "@value": "comUtil.textboxDisplayFormatter"
+      }
+    },
+    "upload": {
+      "type": {
+        "@value": "button"
+      }
+    },
+    "group": {
+      "captionAuto": {
+        "@value": "true"
+      },
+      "applyScopeHeaders": {
+        "@value": "true"
+      },
+      "summaryOnlyAuto": {
+        "@value": "false"
+      }
+    },
+    "body": {
+      "toolTipSec": {
+        "@value": "1"
+      }
+    },
+    "editor": {
+      "version": {
+        "@value": "4.19.1"
+      }
+    },
+    "fusionchart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "languagePack": {
+      "@useLanguagePack": "true",
+      "url": [
+        {
+          "@lang": "ko",
+          "@value": "/kn/com/langpack/ko.js"
+        },
+        {
+          "@lang": "en",
+          "@value": "/kn/com/langpack/en.js"
+        }
+      ]
+    },
+    "license": {
+      "@value": "true"
+    },
+    "autoComplete": {
+      "overrideKey": {},
+      "escape": {
+        "@value": "false"
+      },
+      "renderType": {
+        "@value": "native"
+      },
+      "displayFormatter": {
+        "@value": "comUtil.textboxDisplayFormatter"
+      }
+    },
+    "textbox": {
+      "useLocale": {
+        "@value": "true"
+      },
+      "useDefaultLabel": {
+        "@value": "true"
+      },
+      "escape": {
+        "@value": "false"
+      },
+      "escapeFormatter": {
+        "@value": "comUtil.textboxDisplayFormatter"
+      }
+    },
+    "span": {
+      "escape": {
+        "@value": "false"
+      },
+      "escapeFormatter": {
+        "@value": "comUtil.textboxDisplayFormatter"
+      }
+    },
+    "fwBulletChart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "fwFunnelChart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "fwGanttChart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "fwGaugeChart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "fwPyramidChart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "fwRealtimeChart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "fwSparkChart": {
+      "version": {
+        "@value": "3.19"
+      }
+    },
+    "select": {
+      "renderType": {
+        "@value": "native"
+      }
+    },
+    "attributes": {
+      "whiteList": {
+        "td": {
+          "@value": "colspan,rowspan"
+        },
+        "th": {
+          "@value": "colspan,rowspan"
+        }
+      }
+    },
+    "udc": {
+      "requires": {
+        "require": [
+          {
+            "@as": "udc_captcha",
+            "@src": "/kn/com/udc/captcha.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_crossEditor",
+            "@src": "/kn/com/udc/crossEditor.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_fromToCal",
+            "@src": "/kn/com/udc/fromToCal.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_help_toggle_button",
+            "@src": "/kn/com/udc/help_toggle_button.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_helpBox",
+            "@src": "/kn/com/udc/helpBox.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_inputCalendarYear",
+            "@src": "/kn/com/udc/inputCalendarYear.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_inputCalendarYearMonth",
+            "@src": "/kn/com/udc/inputCalendarYearMonth.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_kUpload",
+            "@src": "/kn/com/udc/kUpload.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_kUpload2",
+            "@src": "/kn/com/udc/kUpload2.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_kUploadSimpleList",
+            "@src": "/kn/com/udc/kUploadSimpleList.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_linkbox_toggle_button",
+            "@src": "/kn/com/udc/linkbox_toggle_button.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_module_toggle_button",
+            "@src": "/kn/com/udc/module_toggle_button.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_search_toggle_button",
+            "@src": "/kn/com/udc/search_toggle_button.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_splitter",
+            "@src": "/kn/com/udc/splitter.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_star",
+            "@src": "/kn/com/udc/star.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_textLengthValidate",
+            "@src": "/kn/com/udc/textLengthValidate.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          },
+          {
+            "@as": "udc_tooltip",
+            "@src": "/kn/com/udc/tooltip.xml",
+            "@type": "page",
+            "@variableClone": "true"
+          }
+        ]
+      }
+    },
+    "scheduleCalendar": {
+      "version": {
+        "@value": "3.6"
+      }
+    }
+  }
+}

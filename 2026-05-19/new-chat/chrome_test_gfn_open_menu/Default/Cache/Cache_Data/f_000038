@@ -1,0 +1,1010 @@
+/*amd /layout/nara/GnbTop.xml 57915 a3b8079720bbe5e04d8f121a4ebfd272daa96ce8943fba6bf2110556fe37b001 */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlLogoutM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'succFailAt',name:'로그아웃성공여부(Y,N)',dataType:'text'}}]}]},{T:1,N:'w2:aliasDataList',A:{id:'adlPrtlFtreL',scope:'/dlPrtlFtreL',style:''}}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{type:'text/javascript',src:'/bsnejs/fu/fuCommonLib.js'}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){/**
+ * 업무구분 : Header > Gnb Top Menu
+ * 화면명   : Gnb Top Menu
+ * 화면설명 : Gnb Top Menu 화면
+ * 작성자   : jcpark
+ * 작성일자 : 2022.03.23
+ *
+ * 개정이력
+ *
+ * 수정일        수정자        수정내용
+ * ----------    --------      ---------------------------
+ * 2022.03.23    jcpark            최초 생성
+ *
+ * Copyright (C) by Koneps All right reserved.
+ */
+
+/********************************************************************************
+* 설명 : 화면 초기화에 필요한 로직을 수행한다.
+********************************************************************************/
+scwin.onpageload = function () {
+    scwin.FuCommonFn = new FuCommonFn($p);  // 이용자관리 공통 JS 생성
+
+    // 현재 사이트의 버튼에 underLine 생성
+    scwin.setSiteUnderLine();
+
+    // 평가의원일 경우 인증센터 버튼 안보이게
+    if (com.gfnGetContxtSeCd() !== "콘010012") {
+        btnSecurity.removeClass("hide");
+    }
+
+    // 퍼블리싱 작업 - 메뉴 버튼 클릭 시 스크롤 있을 시 html에 클래스 적용 이벤트
+    if (document.documentElement.scrollHeight > window.innerHeight) {
+        document.documentElement.classList.add('scrollable');
+    } else {
+        document.documentElement.classList.remove('scrollable');
+    }
+
+    // scroll 아래에서 위로 올릴 시 gnb 메뉴 클래스 제어 이벤트
+    let lastScrollTop = 113;
+    // element should be replaced with the actual target element on which you have applied scroll, use window in case of no target element.
+    window.addEventListener("scroll", function() {
+        let st = window.pageYOffset || document.documentElement.scrollTop;
+        if (st > lastScrollTop){
+            // downscroll code
+            // alert('down');
+            portalWrap.classList.remove("scrolled-to-top");
+        } else {
+            // upscroll code
+            // alert('up');
+            portalWrap.classList.add("scrolled-to-top");
+        }
+        lastScrollTop = st;
+        }, false);
+
+    // scroll 시 gnb 메뉴 고정 이벤트
+    let portalWrap = document.querySelector(".portal");
+    let rnb = document.querySelector(".section.rnb");
+
+    window.onscroll = function () {
+        let windowTop = window.scrollY;
+        if (windowTop > 113) {
+            portalWrap.classList.add("gnb-fixed");
+            rnb.classList.add("fixed");
+        } else {
+            portalWrap.classList.remove("gnb-fixed");
+            rnb.classList.remove("fixed");
+        }
+
+        if (windowTop <= 0) {
+            portalWrap.classList.remove("has-scroll");
+        } else {
+            portalWrap.classList.add("has-scroll");
+        }
+
+        // 스크롤 아래까지 갔을 때 포털 최상위 그룹 portal에 클래스 추가 삭제 이벤트
+        // let target = document.querySelector(".footer .link-list-wrap");
+        let target = document.querySelector(".section.footer");
+        let portalElement = document.querySelector(".portal");
+
+        function callback(entries, observer) {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                // Show button
+                portalElement.classList.add("scrolledto-bottom");
+                } else {
+                // Hide button
+                portalElement.classList.remove("scrolledto-bottom");
+                }
+            });
+        }
+        let observer = new IntersectionObserver(callback);
+        // Finally start observing the target element
+        observer.observe(target);
+    };
+
+    // GNB 버튼 클릭 시 최상위 그룹 portal에 있는 stepbar 클래스 삭제 이벤트
+    const btnRemoveSteppBar = document.querySelectorAll('.gnb-top-wrap .btn');
+    const portalBody = document.querySelector('.portal');
+    for (let i = 0; i < btnRemoveSteppBar.length; i++) {
+        btnRemoveSteppBar[i].addEventListener('click', function (e) {
+            portalBody.classList.remove('stepbar');
+        });
+    }
+
+ // scroll 시 gnb 메뉴 고정 이벤트 : 사이트맵 예외 조건  0206 추가
+    let sitemapOpen = document.querySelector('.sitemap-wrap .btn.sitemap');
+    let sitemapClose = document.querySelector('.sitemap-wrap .btn.close');
+    sitemapOpen.addEventListener('click', function (e) {
+        portalBody.classList.add('sitemapAct');
+    });
+    sitemapClose.addEventListener('click', function (e) {
+        portalBody.classList.remove('sitemapAct');
+    });
+
+    // // GNB 1depth 버튼 클릭 이벤트 (테블릿 세로모드 1023px 이하)
+    // const dptFirstBtn = document.querySelectorAll('.gnb-menu-wrap.total .menu-generator .depth1-wrap');
+    // if (window.innerWidth < 1024) {
+        // for (let i = 0; i < dptFirstBtn.length; i++) {
+            // dptFirstBtn[i].addEventListener('click', function (e) {
+                // // e.preventDefault();
+                // for (let j = 0; j < dptFirstBtn.length; j++) {
+                    // dptFirstBtn[j].classList.remove('on');
+                // }
+                // this.classList.add('on');
+            // });
+        // }
+    // }
+
+    // 최상위 서비스 버튼 클릭 이벤트
+    const btnList = document.querySelectorAll('.inner.service-site .btn');
+    const siteBtnBox = document.querySelector('.gnb-top-wrap .inner.service-site');
+    const siteBtn = document.querySelector('.gnb-top-wrap .btn.menu-open');
+    for (let i = 0; i < btnList.length; i++) {
+        btnList[i].addEventListener('click', function (e) {
+            //e.preventDefault();
+            for (let j = 0; j < btnList.length; j++) {
+                btnList[j].classList.remove('on');
+            }
+            this.classList.add('on');
+            // 최대해상도 1023px(저해상도 모니터, 테블릿, 모바일)에서 버튼 클릭시 서비스메뉴 숨기기 이벤트
+            siteBtnBox.classList.remove('show');
+            // 최대해상도 1023px(저해상도 모니터, 테블릿, 모바일)에서 햄버거 버튼 클릭시 해당 버튼 클래스 삭제 이벤트
+            siteBtn.classList.remove('active');
+        });
+    }
+
+    // 퍼블리싱 작업 - 화면설정 테마색상 설정 버튼 클릭 이벤트
+    const themeBtnList = document.querySelectorAll('.font-ctrl-menu .setting-wrap .btn.theme');
+    for (let a = 0; a < themeBtnList.length; a++) {
+        themeBtnList[a].addEventListener('click', function (e) {
+            e.preventDefault();
+            for (let b = 0; b < themeBtnList.length; b++) {
+                themeBtnList[b].classList.remove('active');
+            }
+            this.classList.add('active');
+
+            let classes = ['green', 'blue-green', 'purple', 'pink', 'brown', 'dark-brown'];
+            classes.forEach(c => {
+                if (portalBody.classList.contains(c)) {
+                    portalBody.classList.remove(c);
+                }
+            })
+        });
+
+        let themeBtnGreen = document.querySelector('.font-ctrl-menu .setting-wrap .btn.theme.green');
+        themeBtnGreen.addEventListener('click', function (e) {
+            portalBody.classList.add('green');
+        });
+
+        let themeBtnLgtGreen = document.querySelector('.font-ctrl-menu .setting-wrap .btn.theme.blue-green');
+        themeBtnLgtGreen.addEventListener('click', function (e) {
+            portalBody.classList.add('blue-green');
+        });
+
+        let themeBtnPurple = document.querySelector('.font-ctrl-menu .setting-wrap .btn.theme.purple');
+        themeBtnPurple.addEventListener('click', function (e) {
+            portalBody.classList.add('purple');
+        });
+
+        let themeBtnPink = document.querySelector('.font-ctrl-menu .setting-wrap .btn.theme.pink');
+        themeBtnPink.addEventListener('click', function (e) {
+            portalBody.classList.add('pink');
+        });
+
+        let themeBtnBrown = document.querySelector('.font-ctrl-menu .setting-wrap .btn.theme.brown');
+        themeBtnBrown.addEventListener('click', function (e) {
+            portalBody.classList.add('brown');
+        });
+
+        let themeBtnDarkBrown = document.querySelector('.font-ctrl-menu .setting-wrap .btn.theme.dark-brown');
+        themeBtnDarkBrown.addEventListener('click', function (e) {
+            portalBody.classList.add('dark-brown');
+        });
+    }
+
+    _gcm.setHtmlAttribute(btnLogin, "aria-describedby", spaLoginTip.getID());
+    _gcm.setHtmlAttribute(btnLogout, "aria-describedby", spaLogoutTip.getID());
+    _gcm.setHtmlAttribute(btnSecurity, "aria-describedby", spaSecurityTip.getID());
+    //_gcm.setHtmlAttribute(btnMyUser, "aria-describedby", spaMyUserTip.getID());
+
+    //2차인증여부 체크
+    scwin.fnSecAuthYn();
+};
+
+/********************************************************************************
+* 설명 : 2차인증여부 체크
+********************************************************************************/
+scwin.fnSecAuthYn = async function() {
+    //2차인증여부 체크
+    if(!await scwin.FuCommonFn.fnSecAuthYn()) {
+        group1.setStyle("display", "");
+    }
+};
+
+/********************************************************************************
+* 설명 : 현재 사이트의 버튼에 underLine 생성
+********************************************************************************/
+scwin.setSiteUnderLine = function() {
+    const contxtSeCd = com.gfnGetContxtSeCd();
+
+    btnReserve.removeClass("on");
+    btnAccounting.removeClass("on");
+    btnLegalScreening.removeClass("on");
+
+    btnCtrlScreen.hide();
+
+    switch (contxtSeCd) {
+        case "콘010006" : // 나라장터
+            btnNara.addClass("on");
+            break;
+        case "콘010001" : // 비축
+            btnReserve.addClass("on");
+            btnReserve.setHref("javascript:void(0);");
+            btnReserve.render.target = "";
+            break;
+        case "콘010002" : // 회계
+            btnAccounting.addClass("on");
+            btnAccounting.setHref("javascript:void(0);");
+            btnAccounting.render.target = "";
+            break;
+        case "콘010003" : // 법무심사
+            btnLegalScreening.addClass("on");
+            btnLegalScreening.setHref("javascript:void(0);");
+            btnLegalScreening.render.target = "";
+            break;
+        case "콘010011" : // 조달청 기관운영
+            btnPpsOperation.addClass("on");
+            btnPpsOperation.setHref("javascript:void(0);");
+            btnPpsOperation.render.target = "";
+            break;
+        case "콘010004" : // 운영자 : 변경 필요!!
+        case "콘010010" : // 고객센터 MOS730014 임시 변환
+        case "콘010009" : // 조달데이터 허브
+        default:
+            btnNara.addClass("on");
+            break;
+    }
+
+    // 로그인 버튼 제어
+    if (com.gfnIsLogin()) {
+        let usrInfo = com.gfnGetUsrInfo();
+        if (!comUtil.gfnIsEmpty(usrInfo)) {
+            grpUserInfo.removeClass("hide");
+            trgLoginExtension.setTitle(usrInfo.authrtNm || "");
+
+            if (usrInfo.chcNcsrYn === "Y") {
+                btnChangeUsrTyCd.setValue((usrInfo.usrTyCd === "이030001") ? "조달청" : "조달청(수요기관)");
+                sbxChangeUsrTyCd.removeClass("hide");
+                spnGroupName.addClass("hide");
+            } else {
+                btnChangeUsrTyCd.setValue("선택하세요.");
+                sbxChangeUsrTyCd.addClass("hide");
+                spnGroupName.setValue(usrInfo.grpNm || "");
+                spnGroupName.removeClass("hide");
+            }
+
+            spnUserName.setValue(usrInfo.usrNm || "");
+            spnUsrIp.setValue(`[${WebSquareExternal.usrIp}]`);
+
+            grpUserInfoM.removeClass("hide");
+
+            if (usrInfo.chcNcsrYn === "Y") {
+                btnChangeUsrTyCd.setValue((usrInfo.usrTyCd === "이030001") ? "조달청" : "조달청(수요기관)");
+                sbxChangeUsrTyCd.removeClass("hide");
+                spnGroupNameM.addClass("hide");
+            } else {
+                btnChangeUsrTyCd.setValue("선택하세요.");
+                sbxChangeUsrTyCd.addClass("hide");
+                spnGroupNameM.setValue(usrInfo.grpNm || "");
+                spnGroupNameM.removeClass("hide");
+            }
+
+            spnUserNameM.setValue(usrInfo.usrNm || "");
+            spnUsrIpM.setValue(`[${WebSquareExternal.usrIp}]`);
+        }
+
+        grpLogin.addClass("hide");
+        grpLogout.removeClass("hide");
+
+        grpLoginMobile.addClass("hide");
+        grpLogoutMobile.removeClass("hide");
+
+        // 로그인 시 조달업체, 민간수요기관일 경우 누리장터 메뉴 노출
+        if (usrInfo?.grpSeCd === "단030004" || usrInfo?.grpSeCd === "단030006") {
+            btnNuri.removeClass("hide");
+        } else {
+            btnNuri.addClass("hide");
+        }
+
+        // 조달청 직원일 경우 회계, 법무심사 버튼 노출
+        if (usrInfo.ppsEmpYn === "Y") {
+            btnAccounting.removeClass("hide");
+            btnLegalScreening.removeClass("hide");
+        }
+
+        // 조달청 기관운영 버튼 노출
+        // const contxtSeCd = com.gfnGetContxtSeCd();
+        // if (contxtSeCd === "콘010011") {
+        //  btnPpsOperation.removeClass("hide");
+        // }
+
+        // 조달청기관운영, ITSM, 서비스데스크 버튼 노출
+        if (WebSquareExternal.isInternalIp && com.gfnGetUsrInfo("ppsEmpYn") === "Y") {
+            // btnITSM.removeClass("hide");
+            btnServicedesk.removeClass("hide");
+            btnPpsOperation.removeClass("hide");
+        }
+
+    } else {
+        grpUserInfoM.addClass("hide");
+        grpUserInfo.addClass("hide");
+
+        sbxChangeUsrTyCd.addClass("hide");
+
+        spnGroupName.setValue("");
+        spnUserName.setValue("");
+        spnUsrIp.setValue("");
+
+        spnGroupNameM.setValue("");
+        spnUserNameM.setValue("");
+        spnUsrIpM.setValue("");
+
+        grpLogin.removeClass("hide");
+        grpLogout.addClass("hide");
+
+        grpLoginMobile.removeClass("hide");
+        grpLogoutMobile.addClass("hide");
+
+        // 비로그인 시 누리장터 메뉴 노출
+        btnNuri.removeClass("hide");
+
+        btnAccounting.addClass("hide");
+        btnLegalScreening.addClass("hide");
+        btnPpsOperation.addClass("hide");
+
+        // 회계 버튼 노출
+        if (contxtSeCd === "콘010002") {
+            btnAccounting.removeClass("hide");
+        }
+
+        // 법무심사 버튼 노출
+        if (contxtSeCd === "콘010003") {
+            btnLegalScreening.removeClass("hide");
+        }
+
+        // 조달청 기관운영 버튼 노출
+        if (contxtSeCd === "콘010011") {
+            btnPpsOperation.removeClass("hide");
+        }
+
+        // 조달청기관운영, ITSM, 서비스데스크 버튼 비노출
+        // btnITSM.addClass("hide");
+        btnServicedesk.addClass("hide");
+
+    }
+};
+
+/********************************************************************************
+* 설명 : 서비스데스크 클릭 이벤트
+********************************************************************************/
+scwin.btnServicedesk_onclick = function() {
+
+    com.gfnOpenPopup({
+        menuCangVal : "FACB003_01",
+        popupId     : "FACB003_01",
+        popupName   : "서비스데스크",
+        width       : 1100,
+        height      : 900,
+        modal       : false,
+        type        : "browserPopup"
+    });
+};
+
+/********************************************************************************
+* 설명 : 인증센터 키보드 컨트롤 (Tab + Shift 키로 인증센터 버튼이 포커스 됬을 시) 포커스 이벤트
+********************************************************************************/
+scwin.btnSecurity_onfocus = function(e) {
+    document.querySelector('.popup-content.my-user').classList.remove('appear');
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 서비스 키보드 컨트롤 (탭 키 이동 시) 포커스 이벤트
+********************************************************************************/
+scwin.btnMyUser_onfocus = function(e) {
+    document.querySelector('.popup-content.my-user').classList.add('appear');
+    document.querySelector('.popup-content.my-user').classList.remove('disappear');
+    document.querySelector('.ctrl-font-wrap').classList.remove('active');
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 서비스 클릭 이벤트
+********************************************************************************/
+scwin.myUser_onclick = function () {
+    //$('.popup-content.my-user').removeClass('hide');
+    // if ($('.popup-content.my-user').hasClass('appear')) {
+    //     $('.popup-content.my-user').removeClass('appear');
+    //     $('.popup-content.my-user').addClass('disappear');
+    // } else {
+    //     $('.popup-content.my-user').removeClass('disappear');
+    //     $('.popup-content.my-user').addClass('appear');
+    // }
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 컨텐츠 안에 있는 a 태그 버튼 클릭 이벤트
+********************************************************************************/
+scwin.serviceItem_onclick = function () {
+    document.querySelector('.popup-content.my-user').classList.remove('appear');
+    document.querySelector('.popup-content.my-user').classList.add('disappear');
+};
+
+/********************************************************************************
+* 설명 : 나의나라장터 서비스 클릭 이벤트
+********************************************************************************/
+scwin.myUserClose_onclick = function(e) {
+    document.querySelector('.popup-content.my-user').classList.remove('appear');
+    document.querySelector('.popup-content.my-user').classList.add('disappear');
+};
+
+/********************************************************************************
+* 설명 : 화면설정 버튼 키보드 컨트롤 (탭 키 이동 시) 포커스 시 이벤트
+********************************************************************************/
+scwin.btnCtrlScreen_onfocus = function(e) {
+    document.querySelector('.popup-content.my-user').classList.remove('appear');
+    document.querySelector('.ctrl-font-wrap').classList.add('active');
+};
+
+/********************************************************************************
+* 설명 : 화면설정 버튼 클릭 이벤트
+********************************************************************************/
+scwin.btnCtrlScreen_onclick = function(e) {
+    document.querySelector('.ctrl-font-wrap').classList.toggle('active');
+};
+
+/********************************************************************************
+* 설명 : 화면설정 버튼 Leave 이벤트
+********************************************************************************/
+scwin.btnCtrlScreen_onmouseleave = function(e) {
+    document.querySelector('.ctrl-font-wrap').classList.remove('active');
+};
+
+/********************************************************************************
+* 설명 : 화면확대 키보드 컨트롤 (Tab + Shift 키로 화면확대 버튼이 포커스 됬을 시) 포커스 이벤트
+********************************************************************************/
+scwin.btnIncrease_onfocus = function(e) {
+     document.querySelector('.ctrl-font-wrap').classList.add('active');
+};
+
+/********************************************************************************
+* 설명 : 화면설정 초기화 버튼(탭 키 이동 시 마지막 순서에 있는 버튼) 키보드 컨트롤 포커스 아웃 시 이벤트
+********************************************************************************/
+scwin.btnResetSize_onblur = function(e) {
+    document.querySelector('.ctrl-font-wrap').classList.remove('active');
+};
+
+/********************************************************************************
+* 설명 : 글자 확대 클릭 이벤트
+********************************************************************************/
+scwin.btnIncrease_onclick = function (multiplier) {
+    if (document.documentElement.style.fontSize === "") {
+        // document.documentElement.style.fontSize = "1.0rem";
+        document.documentElement.style.fontSize = "0.625rem";
+    }
+    document.documentElement.style.fontSize = parseFloat(document.documentElement.style.fontSize) + (multiplier * 0.0625) + "rem";
+
+    scwin.setResizeFontText(multiplier);
+};
+
+/********************************************************************************
+* 설명 : 글자 축소 클릭 이벤트
+********************************************************************************/
+scwin.btnDecrease_onclick = function (multiplier) {
+    if (document.documentElement.style.fontSize === "") {
+        document.documentElement.style.fontSize = "0.625rem";
+    }
+    document.documentElement.style.fontSize = parseFloat(document.documentElement.style.fontSize) + (multiplier * 0.0625) + "rem";
+
+    scwin.setResizeFontText(multiplier);
+};
+
+/********************************************************************************
+* 설명 : 글자 리셋 클릭 이벤트
+********************************************************************************/
+scwin.btnResetSize_onclick = function () {
+    document.documentElement.style.fontSize = "";
+
+    scwin.setResizeFontText(100);
+};
+
+/********************************************************************************
+* 설명 : 클자 크기 텍스트 설정
+********************************************************************************/
+scwin.setResizeFontText = function(multiplier) {
+    let fontSize = spnFontSize.getValue();
+    fontSize = (multiplier === 100) ? 100 : Number(fontSize) + Number(multiplier * 10);
+
+    spnFontSize.setValue(fontSize);
+};
+
+/********************************************************************************
+* 설명 : 최대 해상도 1023px 일때 서비스 사이트 메뉴 버튼 클릭 이벤트
+********************************************************************************/
+scwin.btnServiceSite_onclick = function (e) {
+    let siteBtn = window.document.querySelector('.gnb-top-wrap .btn.menu-open');
+    let sitemenu = window.document.querySelector('.gnb-top-wrap .inner.service-site');
+    sitemenu.classList.toggle('show');
+    siteBtn.classList.toggle('active');
+};
+
+/********************************************************************************
+* 설명 : 로그인 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnLogin_onmouseleave = function (e) {
+    _gcm.setHtmlAttribute(spaLoginTip, "aria-hidden", "true");
+};
+
+/********************************************************************************
+* 설명 : 로그인 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnLogin_onmouseenter = function (e) {
+    _gcm.setHtmlAttribute(spaLoginTip, "aria-hidden", "false");
+};
+
+/********************************************************************************
+* 설명 : 로그인 페이지로 이동
+********************************************************************************/
+scwin.btnLogin_onclick = function(e) {
+    com.gfnSSOLogin();
+};
+
+/********************************************************************************
+* 설명 : 로그아웃 실행 후 메인 페이지로 이동
+********************************************************************************/
+scwin.grpLogout_onclick = function(e) {
+    com.gfnLogout();
+    group1.setStyle("display", "none");
+};
+
+/********************************************************************************
+* 설명 : 로그인 페이지로 이동
+********************************************************************************/
+scwin.btnLoginMobile_onclick = function(e) {
+    scwin.siteMenuClose();
+    com.gfnSSOLogin();
+};
+
+/********************************************************************************
+* 설명 : 로그아웃 실행 후 메인 페이지로 이동
+********************************************************************************/
+scwin.btnLogoutOut_onclick = function(e) {
+    scwin.siteMenuClose();
+    com.gfnLogout();
+    scwin.setSiteUnderLine();
+};
+
+/********************************************************************************
+* 설명 : 로그아웃만 실행
+********************************************************************************/
+scwin.onlyLogout = function() {
+    com.gfnLogout(false);
+};
+
+/********************************************************************************
+* 설명 : 사이트맵 닫기
+********************************************************************************/
+scwin.siteMenuClose = function() {
+    let sitemenu = window.document.querySelector('.section.gnb');
+    sitemenu.classList.remove('mobile-gnb-show');
+    document.querySelector('body').style.overflow = '';
+};
+
+/********************************************************************************
+* 설명 : 로그아웃 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnLogout_onmouseleave = function (e) {
+    _gcm.setHtmlAttribute(spaLogoutTip, "aria-hidden", "true");
+};
+
+/********************************************************************************
+* 설명 : 로그아웃 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnLogout_onmouseenter = function (e) {
+    _gcm.setHtmlAttribute(spaLogoutTip, "aria-hidden", "false");
+};
+
+/********************************************************************************
+* 설명 : 인증센터 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnSecurity_onmouseleave = function (e) {
+    _gcm.setHtmlAttribute(spaSecurityTip, "aria-hidden", "true");
+};
+
+/********************************************************************************
+* 설명 : 인증센터 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnSecurity_onmouseenter = function (e) {
+    _gcm.setHtmlAttribute(spaSecurityTip, "aria-hidden", "false");
+};
+
+/********************************************************************************
+* 설명 : 나라장터서비스 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnMyUser_onmouseleave = function (e) {
+    //_gcm.setHtmlAttribute(spaMyUserTip, "aria-hidden", "true");
+
+    setTimeout(function(){
+        scwin.fnRemoveActive(e)
+    }, 100);
+};
+
+/********************************************************************************
+* 설명 : 나라장터서비스 툴팁 속성 aria-hidden 이벤트
+********************************************************************************/
+scwin.btnMyUser_onmouseenter = function (e) {
+    //_gcm.setHtmlAttribute(spaMyUserTip, "aria-hidden", "false");
+    scwin.btnMyUser_onfocus(e);
+};
+
+/********************************************************************************
+* 설명 : 최상위 우측 UNB utility 영역 테마 theme 버튼 클릭 이벤트
+********************************************************************************/
+scwin.btnTheme_onclick = function(e) {
+    // let body = document.querySelector("body");
+    // let targetElement = document.querySelector(".portal");
+    // let btnTheme = document.querySelector(".inner.theme .btn.theme");
+    // let btnGreen = document.querySelector(".inner.theme .btn.theme.green");
+    // let btnLgtGreen = document.querySelector(".inner.theme .btn.theme.light-green");
+    // let btnOrange = document.querySelector(".inner.theme .btn.theme.orange");
+    // targetElement.classList.remove("green", "light-green", "orange");
+    // btnTheme.classList.add("active");
+    // btnGreen.classList.remove("active");
+    // btnLgtGreen.classList.remove("active");
+    // btnOrange.classList.remove("active");
+};
+
+/********************************************************************************
+* 설명 : 최상위 우측 UNB utility 영역 테마 theme 버튼 클릭 이벤트
+********************************************************************************/
+// scwin.btnThemeGreen_onclick = function(e) {
+//     // let targetElement = document.querySelector(".portal");
+//     // let btnTheme = document.querySelector(".inner.theme .btn.theme");
+//     // let btnGreen = document.querySelector(".inner.theme .btn.theme.green");
+//     // let btnLgtGreen = document.querySelector(".inner.theme .btn.theme.light-green");
+//     // let btnOrange = document.querySelector(".inner.theme .btn.theme.orange");
+//     // targetElement.classList.remove("light-green", "orange");
+//     // targetElement.classList.add("green");
+//     // btnGreen.classList.add("active");
+//     // btnTheme.classList.remove("active");
+//     // btnLgtGreen.classList.remove("active");
+//     // btnOrange.classList.remove("active");
+// };
+
+/********************************************************************************
+* 설명 : 최상위 우측 UNB utility 영역 테마 theme 버튼 클릭 이벤트
+********************************************************************************/
+// scwin.btnThemeLgtGreen_onclick = function(e) {
+//     // let targetElement = document.querySelector(".portal");
+//     // let btnTheme = document.querySelector(".inner.theme .btn.theme");
+//     // let btnGreen = document.querySelector(".inner.theme .btn.theme.green");
+//     // let btnLgtGreen = document.querySelector(".inner.theme .btn.theme.light-green");
+//     // let btnOrange = document.querySelector(".inner.theme .btn.theme.orange");
+//     // targetElement.classList.remove("green", "orange");
+//     // targetElement.classList.add("light-green");
+//     // btnLgtGreen.classList.add("active");
+//     // btnTheme.classList.remove("active");
+//     // btnGreen.classList.remove("active");
+//     // btnOrange.classList.remove("active");
+// };
+
+/********************************************************************************
+* 설명 : 최상위 우측 UNB utility 영역 테마 theme 버튼 클릭 이벤트
+********************************************************************************/
+// scwin.btnThemeOrange_onclick = function(e) {
+//     // let targetElement = document.querySelector(".portal");
+//     // let btnTheme = document.querySelector(".inner.theme .btn.theme");
+//     // let btnGreen = document.querySelector(".inner.theme .btn.theme.green");
+//     // let btnLgtGreen = document.querySelector(".inner.theme .btn.theme.light-green");
+//     // let btnOrange = document.querySelector(".inner.theme .btn.theme.orange");
+//     // targetElement.classList.remove("green", "light-green");
+//     // targetElement.classList.add("orange");
+//     // btnOrange.classList.add("active");
+//     // btnTheme.classList.remove("active");
+//     // btnGreen.classList.remove("active");
+//     // btnLgtGreen.classList.remove("active");
+// };
+
+/********************************************************************************
+* 설명 : 로그인 연장 버튼 이벤트
+********************************************************************************/
+scwin.trgLoginExtension_onclick = function(e) {
+    com.gfnLoginExtension();
+};
+
+
+/**
+ * ==============================================================================
+ *  포탈기능
+ *
+ * ==============================================================================
+ */
+/********************************************************************************
+ * 설명 : portal.xml 호출 함수
+ ********************************************************************************/
+scwin.fnCallGnbTop = function(){
+
+    genContent.setUserData("userData1", "00003"); // 포탈기능번호 설정
+    // 나라장터 서비스 생성
+    scwin.fnKonepsSrvcMake();
+    
+    const contxtSeCd = com.gfnGetContxtSeCd();
+    if(contxtSeCd == "콘010012") {
+        let menuCangVal = adlPrtlFtreL.getMatchedJSON("prtlFtreNo", "01104", true)[0]?.lnkUrl;
+        btnNara.setHref(menuCangVal);
+    }
+
+    $p.$('.popup-content.my-user').on("mouseenter", function(e){
+        //scwin.btnMyUser_onmouseenter(e)
+        $p.$('.popup-content.my-user').addClass("flagClass");
+
+        //e.preventDefault();
+        //e.stopPropagation();
+    });
+
+    $p.$('.popup-content.my-user').on("mouseleave", function(e){
+        $p.$('.popup-content.my-user').removeClass("flagClass");
+    });
+
+    /*
+    $p.$('.content-wrap').each(function(i, data){
+        let id = data.id;
+        $p.$("#"+id).on("mouseleave", function(e){ scwin.fnRemoveActive(e) })
+    });
+    */
+}
+
+/********************************************************************************
+ * 설명 : 나라장터 서비스 생성
+ ********************************************************************************/
+scwin.fnKonepsSrvcMake = function(){
+
+    let userData1 = genContent.getUserData("userData1");
+
+    genContent.removeAll(); // 삭제
+
+    let totCnt = adlPrtlFtreL.getTotalRow();
+
+    let lvl = 0;
+    let index = -1;
+
+    let genContentRowIndex = -1;
+    let genBtnIndex = 0;
+    let etcCnt = -1;
+
+    for(let i=0; i<totCnt; i++){
+        let prtlFtreNo = adlPrtlFtreL.getCellData(i, "prtlFtreNo");
+        let prtlFtreNm = adlPrtlFtreL.getCellData(i, "prtlFtreNm");
+        let upPrtlFtreNo = adlPrtlFtreL.getCellData(i, "upPrtlFtreNo");
+        let scrnUrl = adlPrtlFtreL.getCellData(i, "scrnUrl");
+        let indtYn = adlPrtlFtreL.getCellData(i, "indtYn");
+        let isleafYn = adlPrtlFtreL.getCellData(i, "isleafYn");
+        let pathPrtlFtreNo = adlPrtlFtreL.getCellData(i, "pathPrtlFtreNo");
+        let untyAtchFileNo = adlPrtlFtreL.getCellData(i, "untyAtchFileNo");
+        let poupYn = adlPrtlFtreL.getCellData(i, "poupYn"); //팝업여부
+
+
+        if( prtlFtreNo === userData1 ){
+            continue;
+        }
+
+        if( scwin.fnMatchedPathPrtlFtreNo(userData1, pathPrtlFtreNo ) ){
+            //if( comUtil.gfnIsEmpty(scrnUrl) ) continue;
+            //if( isleafYn !== "Y" ) continue;
+
+            if( isleafYn === "N" ){
+
+                if( prtlFtreNo === "00119" )  continue;//기타 New Line
+
+                genContentRowIndex++;
+                genContent.insertChild(genContentRowIndex); // genContentLi 생성
+
+                let spnTit = genContent.getChild(genContentRowIndex , "spnTit"); // Generator 하위 컴포넌트 id
+                spnTit.setValue(prtlFtreNm);
+                continue;
+            }
+
+            else{
+                let genBtnIndex = -1;
+                if( scwin.fnMatchedPathPrtlFtreNo("00119", pathPrtlFtreNo )  ){
+                    etcCnt++;
+                    if(etcCnt === 0){
+                        genContentRowIndex++;
+                        genContent.insertChild(genContentRowIndex); // genContentLi 생성
+
+                        let spnTit = genContent.getChild(genContentRowIndex , "spnTit"); // Generator 하위 컴포넌트 id
+                        spnTit.removeClass("title");
+                    }
+                }
+
+                let genLink = genContent.getChild(genContentRowIndex, "genLink");
+                genBtnIndex = genLink.getLength();
+
+                if( genBtnIndex >= 4){
+                    genContentRowIndex++;
+                    genContent.insertChild(genContentRowIndex); // genContentLi 생성
+                    let spnTit = genContent.getChild(genContentRowIndex , "spnTit"); // Generator 하위 컴포넌트 id
+
+                    spnTit.removeClass("title");
+                    //continue;
+                    //genLink = genContent.getChild(genContentRowIndex, "genLink");
+                    genBtnIndex = genLink.getLength();
+                }
+
+                genLink.insertChild(genBtnIndex);
+                let genAnchor = genLink.getChild(genBtnIndex, "genAnchor");
+
+                genAnchor.setValue(prtlFtreNm);
+
+                genAnchor.setUserData("userData1", prtlFtreNo);
+                genAnchor.bind("onclick", scwin.fnOpenPortal);
+
+                if( poupYn === "N" ){
+                    genAnchor.addClass("new-window");
+                }
+            }
+        }
+
+        if( genContentRowIndex > -1  && scwin.fnMatchedPathPrtlFtreNo(userData1, pathPrtlFtreNo ) === false ) break;
+    }
+
+};
+
+/********************************************************************************
+ * 설명 : 하위로드 찾기
+ ********************************************************************************/
+scwin.fnMatchedPathPrtlFtreNo = function(prtlFtreNo, pathPrtlFtreNo){
+    return WebSquare.util.getMainFrame().scwin.fnMatchedPathPrtlFtreNo(prtlFtreNo, pathPrtlFtreNo);
+};
+
+/********************************************************************************
+ * 설명 : 화면이동 함수
+ ********************************************************************************/
+scwin.fnOpenPortal = function(e){
+    let id = this.id;
+    let org_id = this.org_id;
+
+    if( comUtil.gfnIsEmpty(org_id) ) {
+        return false;
+    }
+    const obj = $p.getComponentById(org_id);
+    if( comUtil.gfnIsEmpty(obj) ) {
+        return false;
+    }
+
+    let prtlFtreNo = obj.getUserData("userData1");
+    if(prtlFtreNo == "00122"){
+        WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo, {width : 1380, height : 770}); // 화면이동 함수 호출
+    }else{
+        WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo); // 화면이동 함수 호출
+    }
+
+};
+
+/********************************************************************************
+ * 설명 : 활성화 닫기
+ ********************************************************************************/
+scwin.fnRemoveActive = function(e){
+    let flagClass = $p.$('.popup-content.my-user').hasClass("flagClass");
+
+    if( !flagClass ){
+        scwin.serviceItem_onclick(e);
+    }
+}
+
+/********************************************************************************
+ * 설명 : 인증센터 바로가기 클릭
+ ********************************************************************************/
+scwin.btnSecurity_onclick = function(e) {
+    let prtlFtreNo = "00002";// 인증센터
+    WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo); // 화면이동 함수 호출
+};
+
+/********************************************************************************
+ * 설명 : 인증센터 바로가기 클릭
+ ********************************************************************************/
+scwin.btnSecurityLink_onclick = function(e) {
+    let prtlFtreNo = "00002";// 인증센터
+    WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo); // 화면이동 함수 호출
+    scwin.btnMmenuClose();
+};
+
+/********************************************************************************
+ * 설명 : e고객센터 바로가기 클릭
+ ********************************************************************************/
+scwin.btnCustomerLink_onclick = function(e) {
+    let prtlFtreNo = "00006";// e고객센터
+    WebSquare.util.getMainFrame().scwin.fnOpenPortal(prtlFtreNo); // 화면이동 함수 호출
+    scwin.btnMmenuClose();
+};
+
+/********************************************************************************
+* 설명 : My-User 클릭 이벤트
+********************************************************************************/
+scwin.btnMyUserLink_onclick = function(e) {
+    let usrTyCd = com.gfnGetUsrInfo("usrTyCd");
+    let menuCangVal = _gcm.Global.getMainMenuCangVal();
+
+    // Main Page 로드 - 추후 메인 페이지로 수정 필요
+    if (!comUtil.gfnIsEmpty(usrTyCd)) {
+        if (usrTyCd === "이030001") {
+            menuCangVal = "FCOA005_01"; // 조달청
+        } else if (usrTyCd === "이030002") {
+            menuCangVal = "FCOA005_01"; // 수요기관
+        } else if (usrTyCd === "이030003") {
+            menuCangVal = "FCOA006_01"; // 조달업체
+        }
+    }
+
+    com.gfnOpenMenu(menuCangVal);
+    scwin.btnMmenuClose();
+};
+
+/********************************************************************************
+* 설명 : 모바일메뉴 닫기
+********************************************************************************/
+scwin.btnMmenuClose = function() {
+    let sitemenu = window.document.querySelector('.section.gnb');
+    sitemenu.classList.remove('mobile-gnb-show');
+    document.querySelector('body').style.overflow = '';
+};
+
+/********************************************************************************
+* 설명 : 조달청, 수요기관 권한 변경 이벤트
+********************************************************************************/
+scwin.changeUsrTyCd = async function() {
+    let sbmOption = {
+        id : "sbmProcessChgUsrTyCd",
+        action : "/co/coa/coab/Lgn/processChgUsrTyCd.do",
+        isProcessMsg : false,
+        msgYn : {succ : false, err : false},
+    };
+
+    try {
+        await com.gfnExecute(sbmOption);
+
+        setTimeout(function() {
+            com.gfnShowProcessMessage();
+            document.location.href = "/";
+        }, 300);
+    } catch(e) {
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+* 설명 : 조달청 권한 변경 이벤트
+********************************************************************************/
+scwin.lnkChangeUsrTyCd1_onclick = function(e) {
+    if (com.gfnGetUsrInfo("usrTyCd") === "이030001") return;
+    scwin.changeUsrTyCd();
+};
+
+/********************************************************************************
+* 설명 : 수요기관 권한 변경 이벤트
+********************************************************************************/
+scwin.lnkChangeUsrTyCd2_onclick = function(e) {
+    if (com.gfnGetUsrInfo("usrTyCd") === "이030002") return;
+    scwin.changeUsrTyCd();
+};
+
+/********************************************************************************
+ * 설명 : 2차 인증 버튼 클릭 이벤트(본인확인서비스 선택 팝업 호출)
+ ********************************************************************************/
+scwin.group1_onclick = async function(e) {
+    const options = {
+        yesText : "나중에 하기",
+        cancelText : "2차 인증 진행",
+        closeShowYn : "N",
+    };
+    if (!await com.gfnConfirmPopup("confirm.fu.fuu.secAuthFlag03", options)) {
+        //본인확인선택 팝업 호출
+        await scwin.FuCommonFn.fnOpenAuthProviderPopup();
+
+        if(await scwin.FuCommonFn.fnSecAuthYn()) {
+            WebSquare.util.getMainFrame()?.wfm_container?.scope.$p.reinitialize();
+        }
+    }
+};
+
+}}}]}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'gnb-top-wrap'},E:[{T:1,N:'xf:group',A:{id:'',class:'inner-site-wrap',tagname:'ul'},E:[{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{tagname:'a','ev:onclick':'scwin.btnServiceSite_onclick',style:'',id:'btnServiceSite',text:'나라장터 관련 사이트',class:'btn menu-open service-menu'},E:[{T:1,N:'w2:span',A:{style:'',label:'',id:''}}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'inner service-site',tagname:'ul'},E:[{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false','ev:onclick':'scwin.anchor1_onclick',style:'',id:'btnNara',title:'나라장터 서비스 새창열림',class:'btn koneps',href:'/'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'나라장터'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnShop',title:'종합쇼핑몰 서비스 새창열림',class:'btn shopping-mall','ev:onclick':'scwin.fnOpenPortal',userData1:'01004',clickEventElement:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'종합쇼핑몰'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnData',title:'조달데이터허브 서비스 새창열림',class:'btn data-hub','ev:onclick':'scwin.fnOpenPortal',userData1:'01005',clickEventElement:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'조달데이터허브'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnNuri',title:'누리장터 서비스 새창열림',class:'btn nuri hide','ev:onclick':'scwin.fnOpenPortal',userData1:'01041',clickEventElement:'anchor'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'누리장터'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnReserve',title:'비축 서비스',class:'btn stock-business',href:'/reserve','ev:onclick':'scwin.btnReserve_onclick',target:'_blank'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'비축'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnAccounting',title:'회계 서비스',class:'btn bookkeeping hide',href:'/accounting',target:'_blank'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'회계'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnLegalScreening',title:'법무심사 서비스',class:'btn law hide',href:'/legalScreening',target:'_blank'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'법무심사'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnPpsOperation',title:'조달청 기관운영',class:'btn law hide',href:'/ppsOperation',target:'_blank'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'조달청 기관운영'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'btnServicedesk',title:'servicedesk',class:'btn law hide','ev:onclick':'scwin.btnServicedesk_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'서비스데스크'}]}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'}}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'spacer'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'inner right nara'},E:[{T:1,N:'xf:group',A:{style:'',id:'sbxChangeUsrTyCd',class:'link-list-wrap top-r mr10 hide',tagname:'ul'},E:[{T:1,N:'xf:group',A:{style:'',id:'',tagname:'li'},E:[{T:1,N:'xf:trigger',A:{type:'button',style:'',id:'btnChangeUsrTyCd',class:'link-toggle'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'선택하세요'}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'ul',class:'link-inner-wrap'},E:[{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{style:'',id:'lnkChangeUsrTyCd1',class:'link',tagname:'a',text:'조달청','ev:onclick':'scwin.lnkChangeUsrTyCd1_onclick'},E:[{T:1,N:'w2:attributes'}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li',style:''},E:[{T:1,N:'xf:group',A:{class:'link',id:'lnkChangeUsrTyCd2',style:'',tagname:'a',text:'조달청(수요기관)','ev:onclick':'scwin.lnkChangeUsrTyCd2_onclick'},E:[{T:1,N:'w2:attributes'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'grpUserInfo',class:'user-info-wrap hide',tagname:'p'},E:[{T:1,N:'w2:span',A:{label:'그룹명',style:'',id:'spnGroupName',class:'name hide',escape:'false'}},{T:1,N:'w2:span',A:{label:'사용자명',style:'',id:'spnUserName',class:'name',escape:'false'}},{T:1,N:'w2:span',A:{label:'님',style:'',id:'',class:'txt'}},{T:1,N:'w2:span',A:{style:'',id:'spnUsrIp',label:'',class:'txt ml5'}},{T:1,N:'w2:span',A:{label:'60:00',style:'',id:'spnLoginTimer',class:'time'}},{T:1,N:'xf:trigger',A:{type:'button',style:'width: 80px;height: 23px;margin-left: 1rem;',id:'trgLoginExtension',class:'btn_cm','ev:onclick':'scwin.trgLoginExtension_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'연장'}]}]}]},{T:1,N:'xf:group',A:{id:'grpLogin',class:'login-wrap'},E:[{T:1,N:'xf:group',A:{style:'',id:'btnLogin',class:'btn login coin-spin',tagname:'a',text:'','ev:onmouseenter':'scwin.btnLogin_onmouseenter','ev:onmouseleave':'scwin.btnLogin_onmouseleave','ev:onclick':'scwin.btnLogin_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'loginTip'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]},{T:1,N:'w2:textbox',A:{id:'',label:'로그인',style:'',tagname:'span'}}]},{T:1,N:'w2:span',A:{label:'로그인',style:'',id:'spaLoginTip',class:'tooltip'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{id:'grpLogout',class:'logout-wrap hide','ev:onclick':'scwin.grpLogout_onclick'},E:[{T:1,N:'xf:group',A:{style:'',id:'btnLogout',class:'btn logout coin-spin',tagname:'a',text:'','ev:onmouseenter':'scwin.btnLogout_onmouseenter','ev:onmouseleave':'scwin.btnLogout_onmouseleave'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'logoutTip'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]},{T:1,N:'w2:textbox',A:{id:'',label:'로그아웃',style:'',tagname:'span'}}]},{T:1,N:'w2:span',A:{label:'로그아웃',style:'',id:'spaLogoutTip',class:'tooltip'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{class:'second-security-wrap',id:'group1',style:'display:none;'},E:[{T:1,N:'xf:group',A:{class:'btn second-security-wrap coin-spin','ev:onclick':'scwin.group1_onclick','ev:onfocus':'scwin.btnSecurity_onfocus','ev:onmouseenter':'scwin.btnSecurity_onmouseenter','ev:onmouseleave':'scwin.btnSecurity_onmouseleave',id:'',style:'test',tagname:'a',text:'2차 인증'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'securityTip'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:span',A:{class:'tooltip',id:'span1',label:'2차 인증',style:''},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{id:'',class:'security-center-wrap'},E:[{T:1,N:'xf:group',A:{style:'test',id:'btnSecurity',class:'btn security-center coin-spin',tagname:'a',text:'인증센터','ev:onmouseenter':'scwin.btnSecurity_onmouseenter','ev:onmouseleave':'scwin.btnSecurity_onmouseleave','ev:onfocus':'scwin.btnSecurity_onfocus','ev:onclick':'scwin.btnSecurity_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'securityTip'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:span',A:{label:'인증센터',style:'',id:'spaSecurityTip',class:'tooltip'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]},{T:1,N:'w2:role',E:[{T:3,text:'tooltip'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'my-user-wrap','ev:onmouseleave':'scwin.btnMyUser_onmouseleave'},E:[{T:1,N:'xf:group',A:{style:'',id:'btnMyUser',class:'btn my-user coin-spin',tagname:'a',text:'나라장터서비스','ev:onmouseenter':'scwin.btnMyUser_onmouseenter','ev:onfocus':'scwin.btnMyUser_onfocus'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-describedby',E:[{T:3,text:'myUserTip'}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'popup-content my-user',tagname:'ul'},E:[{T:1,N:'xf:group',A:{style:'',id:'',tagname:'li',class:'header-wrap'},E:[{T:1,N:'w2:textbox',A:{id:'',label:'나라장터 서비스',style:'',class:'title'}},{T:1,N:'xf:trigger',A:{type:'button',style:'',id:'myUserClose',class:'btn close','ev:onclick':'scwin.myUserClose_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'나라장터서비스 레이어팝업영역 닫기'}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',tagname:'li',class:'content-wrap'},E:[{T:1,N:'w2:generator',A:{id:'genContent',class:'',tagname:'ul',userData1:''},E:[{T:1,N:'xf:group',A:{class:'',id:'genRowContent',style:'',tagname:'li'},E:[{T:1,N:'w2:span',A:{class:'title',id:'spnTit',label:'',style:''}},{T:1,N:'w2:generator',A:{id:'genLink',class:'',style:'display:inline-block',tagname:'dt'},E:[{T:1,N:'w2:anchor',A:{id:'genAnchor',outerDiv:'false',style:'',class:'shortcut'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'GUIDE-시방서'}]}]}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'ctrl-font-wrap','ev:onmouseleave':'scwin.btnCtrlScreen_onmouseleave'},E:[{T:1,N:'xf:group',A:{style:'',id:'btnCtrlScreen',tagname:'a',class:'btn ctrl-font coin-spin',text:'화면설정','ev:onclick':'scwin.btnCtrlScreen_onclick','ev:onfocus':'scwin.btnCtrlScreen_onfocus'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'font-ctrl-menu'},E:[{T:1,N:'xf:group',A:{id:'',class:'setting-wrap'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner-wrap top'},E:[{T:1,N:'w2:textbox',A:{style:'',id:'',label:'화면설정',class:'title'}}]},{T:1,N:'xf:group',A:{id:'',class:'inner-wrap content'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner theme'},E:[{T:1,N:'w2:textbox',A:{style:'',id:'',label:'테마색상 설정',class:'title'}},{T:1,N:'w2:textbox',A:{id:'btnTheme',label:'기본색상',style:'',class:'btn theme active',tagname:'a','ev:onclick':'scwin.btnTheme_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:textbox',A:{id:'',label:'초록색 테마',style:'',class:'btn theme green',tagname:'a','ev:onclick':'scwin.btnThemeGreen_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:textbox',A:{id:'',label:'청록색 테마',style:'',class:'btn theme blue-green',tagname:'a','ev:onclick':'scwin.btnThemeLgtGreen_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:textbox',A:{class:'btn theme purple',id:'',label:'보라색 테마',style:'',tagname:'a'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:textbox',A:{class:'btn theme pink',id:'',label:'분홍색 테마',style:'',tagname:'a'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:textbox',A:{class:'btn theme brown',id:'',label:'갈색 테마',style:'',tagname:'a'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'w2:textbox',A:{class:'btn theme dark-brown',id:'',label:'고동색 테마',style:'',tagname:'a'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]}]},{T:1,N:'xf:group',A:{id:'',class:'inner font'},E:[{T:1,N:'w2:textbox',A:{style:'',id:'',label:'글자크기',class:'title'}},{T:1,N:'xf:group',A:{tagname:'span',style:'',id:'',text:'%',class:'percent'},E:[{T:1,N:'w2:span',A:{style:'',label:'100',id:'spnFontSize',class:'num'}}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.btnDecrease_onclick(-1)',style:'',id:'btnDecrease',type:'button',class:'btn minus'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'화면축소'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.btnIncrease_onclick(1)',style:'',id:'btnIncrease',type:'button',class:'btn plus','ev:onfocus':'scwin.btnIncrease_onfocus'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'화면확대'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.btnResetSize_onclick()',style:'',id:'btnResetSize',type:'button',class:'btn reset',title:'화면크기세팅 초기화 버튼','ev:onblur':'scwin.btnResetSize_onblur'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'초기화'}]}]}]}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'mobile-top-wrap'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'inner-wrap top'},E:[{T:1,N:'xf:group',A:{id:'grpLoginMobile',class:'login-box before hide'},E:[{T:1,N:'xf:group',A:{tagname:'a',style:'',id:'',class:'btn login coin-spin','ev:onclick':'scwin.btnLoginMobile_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'로그인 화면으로 이동'}]}]}]},{T:1,N:'w2:span',A:{style:'',label:'처음오셨나요?',id:'',class:'chip'}}]},{T:1,N:'xf:group',A:{id:'grpLogoutMobile',class:'login-box after hide'},E:[{T:1,N:'xf:group',A:{tagname:'p',style:'',id:'grpUserInfoM',class:'user-info-wrap'},E:[{T:1,N:'w2:span',A:{style:'',label:'그룹명',id:'spnGroupNameM',class:'name'}},{T:1,N:'w2:span',A:{style:'',label:'사용자명',id:'spnUserNameM',class:'name'}},{T:1,N:'w2:span',A:{style:'',id:'',label:'님',class:'txt'}},{T:1,N:'w2:span',A:{style:'',id:'spnUsrIpM',label:'',class:'txt ml5'}}]},{T:1,N:'xf:group',A:{tagname:'a',style:'',id:'',class:'btn logout coin-spin','ev:onclick':'scwin.btnLogoutOut_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:title',E:[{T:3,text:'로그아웃 화면으로 이동'}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'inner-wrap btm',id:'',style:''},E:[{T:1,N:'xf:group',A:{style:'',id:'btnMyUserLink',class:'btn link my-menu',tagname:'a',text:'나의나라장터','ev:onclick':'scwin.btnMyUserLink_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'xf:group',A:{class:'btn link security-center',id:'btnSecurityLink',style:'',tagname:'a',text:'인증센터','ev:onclick':'scwin.btnSecurityLink_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]},{T:1,N:'xf:group',A:{class:'btn link e-customer',id:'btnCustomerLink',style:'',tagname:'a',text:'e고객센터','ev:onclick':'scwin.btnCustomerLink_onclick'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0);'}]}]}]}]}]}]}]}]})

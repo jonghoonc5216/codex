@@ -1,0 +1,337 @@
+// =============================================================================
+/**
+ * 응용업무공통에서 사용.
+ *
+ * @date 2023.01.30
+ * @author choisk
+ * @namespace pcom
+ * @description
+ *
+ * 공통팝업 호출관련 정보.
+ *
+ * val:menuCangVal, id:popupId, name:popupName
+ *
+ */
+// =============================================================================
+
+var pcom = {};
+//try{
+//    document.domain="g2b.go.kr";
+//}catch(e){
+//
+//}
+/** 대용량파일첨부
+ *  param: { unityAtchFileNo:통합첨부파일번호 } */
+// pcom.P036_BulkFileAtchPM = { val:'FACA036_01', id:'BulkFileAtchPM', name:'대용량파일첨부', param:{ unityAtchFileNo: '' } };
+/********************************************************************************
+ * 설명 : 대용량파일첨부 팝업 호출 함수
+ * TO-DO : 대용량 파일 업로드 후 unityAtchFileNo 리턴값 처리
+ ********************************************************************************/
+pcom.openBulkFileAtchPopup = function(unityAtchFileNo, width, height, callbackFunc) {
+
+    let paramWidth = (width == "" || width == null) ? 810 : width;
+    let paramHeight = (height == "" || height == null) ? 510 : height;
+
+    comUtil.gfnCrossDomainPopup({
+        popupName  : "대용량파일첨부",
+        popupUrl   : "https://masstran.g2b.go.kr:8081/chaSSO.jsp",
+        popupParam : {
+            unityAtchFileNo : unityAtchFileNo, /* 통합첨부파일번호 (필수 항목) */
+            jobSeCode       : ""             , /* 업무구분코드     (선택)     */
+            fileRegistSj    : ""             , /* 파일등록제목     (선택)     */
+            onslfBid        : ""               /* 자체공고여부     (선택)     */
+        },
+        popupSize  : {
+            width  : paramWidth,
+            height : paramHeight
+        },
+        popupCallBackFn : callbackFunc   /* 완료시 처리할 함수 */
+    });
+
+};
+
+/********************************************************************************
+ * 설명 : 대용량파일첨부 팝업 호출 함수(파라미터적용)
+ * TO-DO : 대용량 파일 업로드 후 unityAtchFileNo 리턴값 처리
+ ********************************************************************************/
+pcom.openBulkFileAtchParamPopup = function(unityAtchFileNo, jobSeCode, fileRegistSj, onslfBid, width, height, callbackFunc) {
+
+    let paramWidth = (width == "" || width == null) ? 810 : width;
+    let paramHeight = (height == "" || height == null) ? 510 : height;
+
+    comUtil.gfnCrossDomainPopup({
+        popupName  : "대용량파일첨부",
+        popupUrl   : "https://masstran.g2b.go.kr:8081/chaSSO.jsp",
+        popupParam : {
+            unityAtchFileNo : unityAtchFileNo, /* 통합첨부파일번호 (필수 항목) */
+            jobSeCode       : jobSeCode      , /* 업무구분코드     (선택)      */
+            fileRegistSj    : fileRegistSj   , /* 파일등록제목     (선택)      */
+            onslfBid        : onslfBid         /* 자체공고여부     (선택)      */
+        },
+        popupSize  : {
+            width  : paramWidth,
+            height : paramHeight
+        },
+        popupCallBackFn : callbackFunc   /* 완료시 처리할 함수 */
+    });
+
+};
+
+/** 대용량파일첨부조회
+ *  param: { unityAtchFileNo:통합첨부파일번호 } */
+/********************************************************************************
+ * 설명 : 대용량파일 정보 팝업 호출 함수
+ ********************************************************************************/
+pcom.openBulkFileDtlPopup = function(unityAtchFileNo) {
+
+    comUtil.gfnCrossDomainPopup({
+        popupName  : "대용량파일정보",
+        popupUrl   : "https://masstran.g2b.go.kr:8081/chaSSO_selectMassTranFileDtl.jsp",
+        popupParam : {
+            unityAtchFileNo : unityAtchFileNo, /* 통합첨부파일번호 (필수 항목) */
+        },
+        popupSize  : {
+            width  : 830,
+            height : 490
+        }
+    });
+
+};
+
+/** 국민연금가입자증명/건강보험자격득실확인서조회
+ *  param: {  } */
+// pcom.P245_SbscCeftHlthInsrncQlfcIdntyPL = { val:'FACA245_01', id:'SbscCeftHlthInsrncQlfcIdntyPL', name:'국민연금가입자증명/건강보험자격득실확인서조회', param:{ } };
+/********************************************************************************
+ * 설명 : 행정정보공동업무포탈 팝업
+ ********************************************************************************/
+pcom.openShare = function(width, height) {
+    let url     = "https://next.share.go.kr/";
+    let pOption = "width=" + width
+                + ", height=" + height
+                + ", left=" + (screen.width - width) / 2
+                + ", top=" + (screen.height - height) / 2;
+
+    window.open(url, "e하나로민원", pOption);
+};
+
+/** 학교코드검색
+  * 설명 : 식품의약품안전처 식품안전나라 홈페이지로 이동 */
+pcom.openFoodSafety = function(width, height) {
+    let url     = "https://ews.foodsafetykorea.go.kr/";
+    let pOption = "width="    + width
+                + ", height=" + height
+                + ", left="   + (screen.width - width) / 2
+                + ", top="    + (screen.height - height) / 2;
+
+    window.open(url, "학교코드검색", pOption);
+};
+
+/** 통계청표준산업분류검색
+  * 설명 : 통계청통계분류포탈 홈페이지로이동 */
+pcom.openKostat = function(width, height) {
+    let url     = "https://kssc.kostat.go.kr:8443/";
+    let pOption = "width="    + width
+                + ", height=" + height
+                + ", left="   + (screen.width - width) / 2
+                + ", top="    + (screen.height - height) / 2;
+
+    window.open(url, "통계청표준산업분류검색", pOption);
+};
+
+/** 직접생산확인증명조회
+ * param : { bzmnRegNo:사업자등록번호 }
+ * 설명 : 중소벤처기업부 홈페이지로이동 */
+pcom.openDrpdldnty = function(bzmnRegNo, width, height) {
+    let url     = "http://www.smpp.go.kr/web/popup/ProdChkRptPopup.jsp?p_biz_no=" + bzmnRegNo;
+    let pOption = "width="    + width
+                + ", height=" + height
+                + ", left="   + (screen.width - width) / 2
+                + ", top="    + (screen.height - height) / 2;
+
+    window.open(url, "직접생산확인증명조회", pOption);
+};
+
+/** 중소기업요약정보
+ * param : { bzmnRegNo:사업자등록번호 }
+ * 설명 : 중소벤처기업부 중소기업정보 조회 홈페이지로이동 */
+pcom.openSmcoSumm = function(bzmnRegNo, width, height) {
+    let url     = "http://www.smpp.go.kr/web/popup/ProdChkRptPopup.jsp?p_biz_no=" + bzmnRegNo;
+    let pOption = "width="    + width
+                + ", height=" + height
+                + ", left="   + (screen.width - width) / 2
+                + ", top="    + (screen.height - height) / 2;
+
+    window.open(url, "중소기업요약정보", pOption);
+};
+
+/** 중소기업벤처기업부 기업정보 조회
+ * 설명 : 중소벤처기업부 중소기업정보 조회 홈페이지로이동 */
+pcom.openSmcoVnco = function(width, height) {
+    let url     = "http://smpp.go.kr/";
+    let pOption = "width="    + width
+                + ", height=" + height
+                + ", left="   + (screen.width - width) / 2
+                + ", top="    + (screen.height - height) / 2;
+
+    window.open(url, "중소기업벤처기업부 기업정보 조회", pOption);
+};
+
+/** 중기간경쟁제품
+ * 설명 : 중소벤처기업부 중소기업정보 조회 홈페이지로이동 */
+pcom.openSmcoCmpt = function(width, height) {
+    let url     = "http://smpp.go.kr/prd/prdinfo/smlpzbtwncmptprd/SelectSmlpzBtwnCmptprdListVw.do";
+    let pOption = "width="    + width
+                + ", height=" + height
+                + ", left="   + (screen.width - width) / 2
+                + ", top="    + (screen.height - height) / 2;
+
+    window.open(url, "중기간경쟁제품", pOption);
+};
+
+/** 공공조달분류코드조회
+ *  param: { pblcPrcmDvcd:공공조달구분코드, pblcPrcmCfnm:공공조달분류명, pblcPrcmSeCdL:공공조달구분코드_대 } */
+pcom.P013_PblcPrcmClsfCdPL = { val:'FACA013_01', id:'PblcPrcmClsfCdPL', name:'공공조달분류코드조회', param:{ pblcPrcmDvcd:'', pblcPrcmCfnm:'', pblcPrcmSeCdL:'' } };
+
+/** 공종코드목록
+ *  param: { commCd:공종코드, cdNm:공종명, bsneClsfNo:업무구분 } */
+pcom.P016_CtknCdPL = { val:'FACA016_01', id:'CtknCdPL', name:'공종코드목록', param:{ commCd:'', cdNm:'', bsneClsfNo:'' } };
+
+/** 국가검색
+ *  param: { ntnCd:국가코드, ntnNm:국가명, engNtnNm:국가보조명, wholNtnExclYn:전세계제외여부 } */
+pcom.P021_NtnPL = { val:'FACA021_01', id:'NtnPL', name:'국가검색', param:{ ntnCd: '', ntnNm: '', engNtnNm: '', wholNtnExclYn: '' } };
+
+/** 규격종류조회
+ *  param: { commCd:규격종류코드, cdNm:규격종류명, cdSplmNm:규격종류코드보조명, bsneClsfNo:업무구분 } */
+pcom.P024_SpecKndPL = { val:'FACA024_01', id:'SpecKndPL', name:'규격종류조회', param:{ commCd:'', cdNm:'', cdSplmNm:'', bsneClsfNo:''} };
+
+/** 낙찰방법목록
+ *  param: { commCd:낙찰방법코드, cdNm:낙찰방법명, bsneClsfNo:업무구분 } */
+pcom.P032_ScsbdMthdPL = { val:'FACA032_01', id:'ScsbdMthdPL', name:'낙찰방법목록', param:{ commCd:'', cdNm:'', bsneClsfNo:'' } };
+
+/** 항구검색
+ *  param: { aphrCd:항구코드, aphrNm:항구명, engAphrNm:항구영문명, ntnCd:국가코드, shpgPrtInqYn:선적항조회여부 } */
+pcom.P134_PotPL = { val:'FACA134_01', id:'PotPL', name:'항구검색', param:{ aphrCd:'', aphrNm:'', engAphrNm:'', ntnCd:'', shpgPrtInqYn:'' } };
+
+/** 물품분류번호검색
+ *  param: { itemClsfNo:물품분류번호, itemClsfNm:물품분류명, delYn:삭제포함여부, srchCndtDisableYn:검색조건비활성화여부 } */
+pcom.P046_GoodsCfnoPL = { val:'FACA046_01', id:'GoodsCfnoPL', name:'물품분류번호검색', param:{ itemClsfNo:'', itemClsfNm:'', delYn:'', srchCndtDisableYn:'' } };
+
+/** 물품식별번호검색
+ *  param: { itemClsfNo:세부품명번호, itemIdnfNo:물품식별번호, itemCfnm:세부품명, ndcsIncsInqYn:비공개포함조회여부, delIncsInqYn:삭제포함조회여부, itemClsfDisableYn:세부품명조건비활성화여부, bidPbancItmltInqYn:입찰공고용품목조회여부, itemSrchPopupYn:물품검색팝업여부, itemClsfNoPopupYn:물품분류번호팝업여부, prnmColIndtYn:품명컬럼표시여부 } */
+pcom.P225_GoodsIdnfNoPL = { val:'FACA225_01', id:'GoodsIdnfNoPL', name:'물품식별번호검색', param:{ itemClsfNo:'', itemIdnfNo:'', itemCfnm:'', ndcsIncsInqYn:'', delIncsInqYn:'', itemClsfDisableYn:'', bidPbancItmltInqYn:'', itemSrchPopupYn:'', itemClsfNoPopupYn:'', prnmColIndtYn:'' } };
+
+/** 실수요기관조회 (사용x)
+ *  param: { dmstCd:수요기관코드, dmstNm:수요기관명 } */
+pcom.P077_AcdmInstPL = { val:'FACA077_01', id:'AcdmInstPL', name:'실수요기관조회', param:{ dmstCd:'', dmstNm:'' } };
+
+/** 통화단위조회
+ *  param: { crnyCd:통화코드, crnyNm:통화명 } */
+pcom.P129_CrnyUnitPL = { val:'FACA129_01', id:'CrnyUnitPL', name:'통화단위조회', param:{ crnyCd:'', crnyNm:'' } };
+
+/** 인도조건검색
+ *  param: { commCd:인도조건코드, cdNm:인도조건명, bsneClsfNo:업무구분 } */
+pcom.P094_DevyCndtPL = { val:'FACA094_01', id:'DevyCndtPL', name:'인도조건검색', param:{ commCd:'', cdNm:'', bsneClsfNo:'' } };
+
+/** 주소검색
+ *  param: { } */
+pcom.P116_AddrPL = { val:'FACA116_01', id:'AddrPL', name:'주소검색', param:{ } };
+
+/** 관세분류번호조회
+ *  param: { hskCd:HSK코드, kornHskNm:한글HSK명 } */
+pcom.P018_TrffCfnoPL = { val:'FACA018_01', id:'TrffCfnoPL', name:'관세분류번호조회', param:{ hskCd:'', kornHskNm:'' } };
+
+/** 세부시장권역조회
+ *  param: { commCd:권역코드, cdNm:시장권역명, bsneClsfNo:업무구분 } */
+pcom.P238_DtlMrkeRgspPV = { val:'FACA238_01', id:'DtlMrkeRgspPV', name:'세부시장권역조회', param:{ } };
+
+/** 시행령조항호검색
+ *  param : {lawFlag:'국가계약법' or '지방계약법', ctrtMthdCd:계약방법, atcsCd:조항호코드, lwrdAtcsNm:법령조항호명 } */
+pcom.P070_EfodAtcsPL = { val:'FACA070_01', id:'EfodAtcsPL', name:'시행령조항호검색', param:{ lawFlag:'', ctrtMthdCd:'', atcsCd:'', lwrdAtcsNm:'' } };
+
+/** 지목코드목록
+ *  param: {  extlPbfnUntyDtlCd:지목상세코드, untyDtlCdNm:지목상세코드명 } */
+pcom.P119_LdcgCdPL = { val:'FACA119_01', id:'LdcgCdPL', name:'지목코드목록', param:{ extlPbfnUntyDtlCd:'', untyDtlCdNm:'' } };
+
+/** 은행코드목록조회
+ *  param: { fnncInstCd:은행/우체국코드, fnncInstNm:은행/우체국명 } */
+pcom.P091_BankCdLstPL = { val:'FACA091_01', id:'BankCdLstPL', name:'은행코드목록조회', param:{ fnncInstCd:'', fnncInstNm:'' } };
+
+/** 조달업무구분조회
+ *  param: { prcmBsneSeCd:조달업무구분코드, prcmBsneSeNm:조달업무구분명 } */
+pcom.P246_PrcmBsneSeSrchPL = { val:'FACA246_01', id:'PrcmBsneSeSrchPL', name:'조달업무구분조회', param:{ prcmBsneSeCd:'', prcmBsneSeNm:'' } };
+
+/** 계약특성별 지체상금기준조회
+ *  param: { } */
+pcom.P010_CtrtChrsLqdmCrtrPL = { val:'FACA010_01', id:'CtrtChrsLqdmCrtrPL', name:'계약특성별지체상금기준조회', param:{ } };
+
+/** 급식담당자 정보 확인
+ *  param: { schoolCode:학교코드 } */
+pcom.P236_SchmealPicInfoIdntyPM = { val:'FACA236_01', id:'SchmealPicInfoIdntyPM', name:'급식담당자정보확인', param:{ schoolCode:''} };
+
+/** 근거법령조회
+ *  param: { lwrdSeCd:법령구분, lwrdNm:법령명 } */
+pcom.P025_BassLardPV = { val:'FACA025_01', id:'BassLardPV', name:'근거법령조회', param:{ lwrdSeCd:'', lwrdNm:'' } };
+
+/** 지역코드목록
+ *  param: { lgdngCd:지역코드, lgdngNm:지역코드명, sngeChcYn:단일건선택여부 } */
+pcom.P121_RgnCdPL = { val:'FACA121_01', id:'RgnCdPL', name:'지역코드목록', param:{ lgdngCd:'', lgdngNm:'', sngeChcYn:'' } };
+
+/** 공장연계정보조회
+ *  param: { bzmnRegNo:사업자등록번호 } */
+pcom.P189_FctyLinkInfoV = { val:'FACA189_01', id:'FctyLinkInfoV', name:'공장연계정보조회', param:{ bzmnRegNo:'' } };
+
+/** 세부품명조회
+ *  param: { dtlsPrnm:세부품명, dtlsPrnmNo:세부품명번호, itemClsfNo:물품분류번호 } */
+pcom.P247_DtlsPrnmSrchPL = { val:'FACA247_01', id:'DtlsPrnmSrchPL', name:'세부품명조회', param:{ dtlsPrnm:'', dtlsPrnmNo:'', itemClsfNo:'' } };
+
+/** 조회담당자실명인증
+ *  param: { usrNm:성명, idnoFront:주민등록번호앞6자리, idnoEnd:주민번호뒤7자리, idno:주민번호, encData:주민번호(암호화), encFlag:암복호화플레그, nmChkYn:실명체크여부 } */
+pcom.P115_InqPicRlnmCertPL = { val:'FACA115_01', id:'InqPicRlnmCertPL', name:'조회담당자실명인증', param:{ usrNm:'', idnoFront:'', idnoEnd:'', idno:'', encData:'', encFlag:'', nmChkYn:''} };
+
+/** 은행목록조회
+ *  param: { bankCd:은행코드, bankNm:은행명, useYn:사용여부 } */
+pcom.P248_BankLstPL = { val:'FACA248_01', id:'BankLstPL', name:'은행목록조회', param:{ bankCd:'', bankNm:'', useYn: '' } };
+
+/** 공급지역검색
+ *  param: { } */
+pcom.P014_SpplRgnPL = { val:'FACA014_01', id:'SpplRgnPL', name:'공급지역검색', param:{ } };
+
+/** 조세포탈업체정보조회
+ *  param: { bzmnRegNo:사업자등록번호, tstInptYn:테스트입력여부 } */
+pcom.P111_TaxPrtlEtpsInfoPL = { val:'FACA111_01', id:'TaxPrtlEtpsInfoPL', name:'조세포탈업체정보조회', param:{ bzmnRegNo:'', tstInptYn:'' } };
+
+/** 조세포탈여부응답조회
+ *  param: { bzmnRegNo:사업자등록번호, prsnNo:개인번호, tstInptYn:테스트입력여부 } */
+pcom.P112_TaxPrtlYnRspnsPV = { val:'FACA112_01', id:'TaxPrtlYnRspnsPV', name:'조세포탈여부응답조회', param:{ bzmnRegNo:'', prsnNo:'', tstInptYn:'' } };
+
+/** 시도시군구검색
+ *  param: { ctpvSgnguGbn:조회구분, sngeChcYn:단일건선택여부, frctWhabIndtYn:국외소재표시여부 } */
+pcom.P249_CtpvSgnguPL = { val:'FACA249_01', id:'CtpvSgnguPL', name:'시도시군구검색', param:{ ctpvSgnguGbn:'', sngeChcYn:'', frctWhabIndtYn:''  } };
+
+/** 입찰보증금고지미납조회
+ *  param: { } */
+pcom.P039_BidDepoInfrmNtPdPL = { val:'FACA039_01', id:'BidDepoInfrmNtPdPL', name:'입찰보증금 고지미납정보목록 조회', param:{ } };
+
+/** 수취계좌조회
+ *  param: { bzmnRegNo: 사업자등록번호, dpstrNm:예금주명, bsneClsfCd:업무분류코드, acntRlnmCertTyCd:계좌실명인증유형코드, directCallGbn:화면구분, idntyIdntUntyNo:주민등록번호, acntRlnmCertTrgtBankCd:계좌실명인증대상은행코드, actnoVal:계좌번호값 } */
+pcom.P250_ReceAcntSrchPV = { val:'FACA250_01', id:'ReceAcntSrchPV', name:'수취계좌조회', param:{ bzmnRegNo:'', dpstrNm:'', bsneClsfCd:'', acntRlnmCertTyCd:'', directCallGbn:'', idntyIdntUntyNo:'', acntRlnmCertTrgtBankCd:'', actnoVal:''} };
+
+/** 권역코드조회
+ *  param: { dtrctCd:권역코드, dtrctNm:권역명 } */
+pcom.P251_DtrctCdPL = { val:'FACA251_01', id:'DtrctCdPL', name:'권역코드목록', param:{ dtrctCd:'', dtrctNm:'' } };
+
+/** 조달청부서목록조회
+ *  param: { upOrgnNm:소관(상위부서명), orgnNm:부서명 } */
+pcom.P254_PpsDeptLstInqPL = { val:'FACA254_01', id:'PpsDeptLstInqPL', name:'조달청부서목록', param:{ upOrgnNm:'', orgnNm:'' } };
+
+/** 조달업체조회
+ *  param: { bzmnRegNo:사업자등록번호, grpNm:조달업체명, kfsmJoinYn:중소기업협동조합가입여부, srchSe:검색구분, etpsSttsSrchYn:업체상태조회여부 } */
+pcom.P109_EtpsPL = { val:'FACA109_01', id:'EtpsPL', name:'조달업체조회', param:{ bzmnRegNo:'', grpNm:'', kfsmJoinYn:'', srchSe:'', etpsSttsSrchYn:'' } };
+
+/** 해외공급업체찾기
+ *  param: { etcEtpsNo: 업체번호, etpsNm: 업체명 } */
+pcom.P048_OvrsSpplEtpsLstPL = { val:'FACA048_01', id:'OvrsSpplEtpsLstPL', name:'해외공급업체찾기', param:{ etcEtpsNo:'', etpsNm:'' } };
+
+/** 조달청 물품분류 매핑 정보조회
+ *  param: { iritemClsfNm: 이용전환기관 물품분류번명, iritemClsfCdVal: 이용전환기관 물품분류번호, srchItemClsfNm: G2B 물품분류명, srchItemClsfNo: G2B 물품분류번호 } */
+pcom.P003_G2bItemClsfMappingInfoP = { val:'FARH003_01', id:'G2bItemClsfMappingInfoP', name:'조달청 물품분류 매핑 정보조회', param:{ iritemClsfNm:'', iritemClsfCdVal:'', srchItemClsfNm:'', srchItemClsfNo:'' } };

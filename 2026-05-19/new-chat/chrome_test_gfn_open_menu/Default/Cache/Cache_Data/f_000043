@@ -1,0 +1,832 @@
+/*amd /fi/fiu/fiua/UntyDtlMainSrchL.xml 118236 0189401e0cd92c824051516b98a6b00c733e07cd27a273284435d2c746526b2d */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:7,N:'xml-stylesheet',instruction:'href="/kn/com/css/swiper/swiper.min.css" type="text/css"'},{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',A:{},E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlBidPbancSrchM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'currentPage',name:'[페이징] 현재페이지',dataType:'text'}},{T:1,N:'w2:key',A:{id:'recordCountPerPage',name:'[페이징] 페이지당 결과 개수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'srchSeCd',name:'[즐겨찾기] 검색구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'saveTime',name:'[즐겨찾기] 저장일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'untySrchSeCd',name:'[통합검색조건] 단계구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNm',name:'[통합검색조건] 사업명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNo',name:'[통합검색조건] 사업번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindCd',name:'[통합검색조건] 업종코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindNm',name:'[통합검색조건] 업종명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmMaagSeCd',name:'[통합검색조건] 조달유형코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmdDiv',name:'[통합검색조건]검색일자구분',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmd',name:'[통합검색조건] 업무일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startBizYmd',name:'[통합검색조건] 업무시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endBizYmd',name:'[통합검색조건] 업무종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNo',name:'[통합검색조건] 공고/계약기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNm',name:'[통합검색조건] 공고/계약기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNo',name:'[통합검색조건] 수요기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNm',name:'[통합검색조건] 수요기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmBsneAreaCd',name:'[통합검색조건] 업무구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'frcpYn',name:'[통합검색조건] 업무여부(외자)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'laseYn',name:'[통합검색조건] 업무여부(리스)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'rsrvYn',name:'[통합검색조건] 업무여부(비축)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'ctrtTyCd',name:'[통합검색조건] 계약구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startInptDt',name:'[통합검색조건] 시작게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endInptDt',name:'[통합검색조건] 종료게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancPstgDt',name:'[통합검색조건] 시작공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancPstgDt',name:'[통합검색조건] 종료공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bidCtrtMthdCd',name:'[통합검색조건] 계약방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNo',name:'[물품검색조건] 세부품명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNm',name:'[물품검색조건] 세부품명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'oderSrchItm01',name:'[발주검색조건] 발주년월',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm01',name:'[요청검색조건] 물품분류번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm02',name:'[요청검색조건] 금차예산금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm03',name:'[요청검색조건] 예정금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm04',name:'[요청검색조건] 자금명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm05',name:'[요청검색조건] 자금명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm01',name:'[공고검색조건] 국제여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm02',name:'[공고검색조건] 개찰일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancSrchItm03',name:'[공고검색조건] 시작추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancSrchItm03',name:'[공고검색조건] 종료추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm04',name:'[공고검색조건] 참가제한지역',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm05',name:'[공고검색조건] 입찰방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm06',name:'[공고검색조건] 입찰방법명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm07',name:'[공고검색조건] 입찰시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm08',name:'[공고검색조건] 입찰종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm09',name:'[공고검색조건] 공동도급여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm10',name:'[공고검색조건] 공고진행상태코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm11',name:'[공고검색조건] 공고진행상태명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm01',name:'[계약검색조건] 계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm02',name:'[계약검색조건] 변경계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm03',name:'[계약검색조건] 공고번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm04',name:'[계약검색조건] 계약시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm05',name:'[계약검색조건] 계약종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm06',name:'[계약검색조건] 공급업체코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm07',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm08',name:'[계약검색조건] 납품요구번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm09',name:'[계약검색조건] 납품요구변경차수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm10',name:'[계약검색조건] SW대상산업',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm11',name:'[계약검색조건] 우수제품',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm12',name:'[계약검색조건] MAS여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm13',name:'[계약검색조건] 공급업체',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm14',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm15',name:'[계약검색조건] 소관구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startDt',name:'[메인검색조건] 시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endDt',name:'[메인검색조건] 종료일자',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlBidPbancSrchM_valid'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'bizNm',name:'검색어',dataType:'text'}}]},{T:1,N:'w2:data',A:{use:'true'},E:[{T:1,N:'bizNm',E:[{T:4,cdata:'title:검색어,required:true'}]}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlDmndsttusSrchM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'currentPage',name:'[페이징] 현재페이지',dataType:'text'}},{T:1,N:'w2:key',A:{id:'recordCountPerPage',name:'[페이징] 페이지당 결과 개수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'srchSeCd',name:'[즐겨찾기] 검색구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'saveTime',name:'[즐겨찾기] 저장일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'untySrchSeCd',name:'[통합검색조건] 단계구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNm',name:'[통합검색조건] 사업명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNo',name:'[통합검색조건] 사업번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindCd',name:'[통합검색조건] 업종코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindNm',name:'[통합검색조건] 업종명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmMaagSeCd',name:'[통합검색조건] 조달유형코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmdDiv',name:'[통합검색조건]검색일자구분',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmd',name:'[통합검색조건] 업무일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startBizYmd',name:'[통합검색조건] 업무시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endBizYmd',name:'[통합검색조건] 업무종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNo',name:'[통합검색조건] 공고/계약기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNm',name:'[통합검색조건] 공고/계약기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNo',name:'[통합검색조건] 수요기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNm',name:'[통합검색조건] 수요기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmBsneAreaCd',name:'[통합검색조건] 업무구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'frcpYn',name:'[통합검색조건] 업무여부(외자)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'laseYn',name:'[통합검색조건] 업무여부(리스)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'rsrvYn',name:'[통합검색조건] 업무여부(비축)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'ctrtTyCd',name:'[통합검색조건] 계약구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startInptDt',name:'[통합검색조건] 시작게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endInptDt',name:'[통합검색조건] 종료게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancPstgDt',name:'[통합검색조건] 시작공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancPstgDt',name:'[통합검색조건] 종료공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bidCtrtMthdCd',name:'[통합검색조건] 계약방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNo',name:'[물품검색조건] 세부품명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNm',name:'[물품검색조건] 세부품명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'oderSrchItm01',name:'[발주검색조건] 발주년월',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm01',name:'[요청검색조건] 물품분류번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm02',name:'[요청검색조건] 금차예산금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm03',name:'[요청검색조건] 예정금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm04',name:'[요청검색조건] 자금명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm05',name:'[요청검색조건] 자금명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm01',name:'[공고검색조건] 국제여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm02',name:'[공고검색조건] 개찰일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancSrchItm03',name:'[공고검색조건] 시작추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancSrchItm03',name:'[공고검색조건] 종료추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm04',name:'[공고검색조건] 참가제한지역',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm05',name:'[공고검색조건] 입찰방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm06',name:'[공고검색조건] 입찰방법명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm07',name:'[공고검색조건] 입찰시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm08',name:'[공고검색조건] 입찰종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm09',name:'[공고검색조건] 공동도급여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm10',name:'[공고검색조건] 공고진행상태코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm11',name:'[공고검색조건] 공고진행상태명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm01',name:'[계약검색조건] 계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm02',name:'[계약검색조건] 변경계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm03',name:'[계약검색조건] 공고번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm04',name:'[계약검색조건] 계약시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm05',name:'[계약검색조건] 계약종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm06',name:'[계약검색조건] 공급업체코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm07',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm08',name:'[계약검색조건] 납품요구번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm09',name:'[계약검색조건] 납품요구변경차수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm10',name:'[계약검색조건] SW대상산업',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm11',name:'[계약검색조건] 우수제품',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm12',name:'[계약검색조건] MAS여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm13',name:'[계약검색조건] 공급업체',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm14',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm15',name:'[계약검색조건] 소관구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startDt',name:'[메인검색조건] 시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endDt',name:'[메인검색조건] 종료일자',dataType:'text'}}]},{T:1,N:'w2:data'}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlDmndsttusSrchM_valid'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'bizNm',name:'검색어',dataType:'text'}}]},{T:1,N:'w2:data',A:{use:'true'},E:[{T:1,N:'bizNm',E:[{T:4,cdata:'title:검색어,required:true'}]}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlCtrtsttusSrchM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'currentPage',name:'[페이징] 현재페이지',dataType:'text'}},{T:1,N:'w2:key',A:{id:'recordCountPerPage',name:'[페이징] 페이지당 결과 개수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'srchSeCd',name:'[즐겨찾기] 검색구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'saveTime',name:'[즐겨찾기] 저장일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'untySrchSeCd',name:'[통합검색조건] 단계구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNm',name:'[통합검색조건] 사업명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNo',name:'[통합검색조건] 사업번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindCd',name:'[통합검색조건] 업종코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindNm',name:'[통합검색조건] 업종명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmMaagSeCd',name:'[통합검색조건] 조달유형코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmdDiv',name:'[통합검색조건]검색일자구분',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmd',name:'[통합검색조건] 업무일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startBizYmd',name:'[통합검색조건] 업무시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endBizYmd',name:'[통합검색조건] 업무종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNo',name:'[통합검색조건] 공고/계약기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNm',name:'[통합검색조건] 공고/계약기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNo',name:'[통합검색조건] 수요기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNm',name:'[통합검색조건] 수요기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmBsneAreaCd',name:'[통합검색조건] 업무구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'frcpYn',name:'[통합검색조건] 업무여부(외자)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'laseYn',name:'[통합검색조건] 업무여부(리스)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'rsrvYn',name:'[통합검색조건] 업무여부(비축)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'ctrtTyCd',name:'[통합검색조건] 계약구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startInptDt',name:'[통합검색조건] 시작게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endInptDt',name:'[통합검색조건] 종료게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancPstgDt',name:'[통합검색조건] 시작공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancPstgDt',name:'[통합검색조건] 종료공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bidCtrtMthdCd',name:'[통합검색조건] 계약방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNo',name:'[물품검색조건] 세부품명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNm',name:'[물품검색조건] 세부품명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'oderSrchItm01',name:'[발주검색조건] 발주년월',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm01',name:'[요청검색조건] 물품분류번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm02',name:'[요청검색조건] 금차예산금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm03',name:'[요청검색조건] 예정금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm04',name:'[요청검색조건] 자금명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm05',name:'[요청검색조건] 자금명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm01',name:'[공고검색조건] 국제여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm02',name:'[공고검색조건] 개찰일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancSrchItm03',name:'[공고검색조건] 시작추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancSrchItm03',name:'[공고검색조건] 종료추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm04',name:'[공고검색조건] 참가제한지역',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm05',name:'[공고검색조건] 입찰방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm06',name:'[공고검색조건] 입찰방법명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm07',name:'[공고검색조건] 입찰시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm08',name:'[공고검색조건] 입찰종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm09',name:'[공고검색조건] 공동도급여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm10',name:'[공고검색조건] 공고진행상태코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm11',name:'[공고검색조건] 공고진행상태명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm01',name:'[계약검색조건] 계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm02',name:'[계약검색조건] 변경계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm03',name:'[계약검색조건] 공고번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm04',name:'[계약검색조건] 계약시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm05',name:'[계약검색조건] 계약종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm06',name:'[계약검색조건] 공급업체코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm07',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm08',name:'[계약검색조건] 납품요구번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm09',name:'[계약검색조건] 납품요구변경차수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm10',name:'[계약검색조건] SW대상산업',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm11',name:'[계약검색조건] 우수제품',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm12',name:'[계약검색조건] MAS여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm13',name:'[계약검색조건] 공급업체',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm14',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm15',name:'[계약검색조건] 소관구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startDt',name:'[메인검색조건] 시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endDt',name:'[메인검색조건] 종료일자',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlCtrtsttusSrchM_valid'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'bizNm',name:'계약건명',dataType:'text'}}]},{T:1,N:'w2:data',A:{use:'true'},E:[{T:1,N:'bizNm',E:[{T:4,cdata:'title:검색어,required:true'}]}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlTotalSrchM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'currentPage',name:'[페이징] 현재페이지',dataType:'text'}},{T:1,N:'w2:key',A:{id:'recordCountPerPage',name:'[페이징] 페이지당 결과 개수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'srchSeCd',name:'[즐겨찾기] 검색구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'saveTime',name:'[즐겨찾기] 저장일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'untySrchSeCd',name:'[통합검색조건] 단계구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNm',name:'[통합검색조건] 사업명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizNo',name:'[통합검색조건] 사업번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindCd',name:'[통합검색조건] 업종코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'mindNm',name:'[통합검색조건] 업종명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmMaagSeCd',name:'[통합검색조건] 조달유형코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmdDiv',name:'[통합검색조건]검색일자구분',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bizYmd',name:'[통합검색조건] 업무일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startBizYmd',name:'[통합검색조건] 업무시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endBizYmd',name:'[통합검색조건] 업무종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNo',name:'[통합검색조건] 공고/계약기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancInstUntyGrpNm',name:'[통합검색조건] 공고/계약기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNo',name:'[통합검색조건] 수요기관코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNm',name:'[통합검색조건] 수요기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'prcmBsneAreaCd',name:'[통합검색조건] 업무구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'frcpYn',name:'[통합검색조건] 세부업무(외자)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'laseYn',name:'[통합검색조건] 세부업무(리스)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'rsrvYn',name:'[통합검색조건] 세부업무(비축)',dataType:'text',defaultValue:'N'}},{T:1,N:'w2:key',A:{id:'ctrtTyCd',name:'[통합검색조건] 계약구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startInptDt',name:'[통합검색조건] 시작게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endInptDt',name:'[통합검색조건] 종료게시일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancPstgDt',name:'[통합검색조건] 시작공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancPstgDt',name:'[통합검색조건] 종료공고일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'bidCtrtMthdCd',name:'[통합검색조건] 계약방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNo',name:'[물품검색조건] 세부품명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dtlsItemNm',name:'[물품검색조건] 세부품명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'oderSrchItm01',name:'[발주검색조건] 발주년월',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm01',name:'[요청검색조건] 물품분류번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm02',name:'[요청검색조건] 금차예산금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm03',name:'[요청검색조건] 예정금액',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm04',name:'[요청검색조건] 자금명코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmndSrchItm05',name:'[요청검색조건] 자금명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm01',name:'[공고검색조건] 국제여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm02',name:'[공고검색조건] 개찰일시',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startPbancSrchItm03',name:'[공고검색조건] 시작추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endPbancSrchItm03',name:'[공고검색조건] 종료추정가격',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm04',name:'[공고검색조건] 참가제한지역',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm05',name:'[공고검색조건] 입찰방법코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm06',name:'[공고검색조건] 입찰방법명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm07',name:'[공고검색조건] 입찰시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm08',name:'[공고검색조건] 입찰종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm09',name:'[공고검색조건] 공동도급여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm10',name:'[공고검색조건] 공고진행상태코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'pbancSrchItm11',name:'[공고검색조건] 공고진행상태명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm01',name:'[계약검색조건] 계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm02',name:'[계약검색조건] 변경계약일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm03',name:'[계약검색조건] 공고번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm04',name:'[계약검색조건] 계약시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm05',name:'[계약검색조건] 계약종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm06',name:'[계약검색조건] 공급업체코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm07',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm08',name:'[계약검색조건] 납품요구번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm09',name:'[계약검색조건] 납품요구변경차수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm10',name:'[계약검색조건] SW대상산업',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm11',name:'[계약검색조건] 우수제품',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm12',name:'[계약검색조건] MAS여부',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm13',name:'[계약검색조건] 공급업체',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm14',name:'[계약검색조건] 공급업체명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'ctrtSrchItm15',name:'[계약검색조건] 소관구분코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startDt',name:'[메인검색조건] 시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endDt',name:'[메인검색조건] 종료일자',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlTotalSrchM_valid'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'bizNm',name:'공고명',dataType:'text'}}]},{T:1,N:'w2:data',A:{use:'true'},E:[{T:1,N:'bizNm',E:[{T:4,cdata:'title:검색어,required:true'}]}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlUntySrchPrdStngM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'kwdSrchPrdNbyr',name:'키워드검색기간연수',dataType:'text'}},{T:1,N:'w2:key',A:{id:'userSrchPrdNbyr',name:'사용자검색기간연수',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlDesignAprnRvwM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'tpcoBsneSeCd',name:'업무구분',dataType:'text'}},{T:1,N:'w2:key',A:{id:'tpcoDesignRvwTrgtSeCd',name:'요청구분',dataType:'text'}},{T:1,N:'w2:key',A:{id:'startDmndDt',name:'요청시작일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'endDmndDt',name:'요청종료일자',dataType:'text'}},{T:1,N:'w2:key',A:{id:'tpcoRvwPgstCd',name:'진행상태',dataType:'text'}},{T:1,N:'w2:key',A:{id:'tpcoRvwNo',name:'총사업비관리번호',dataType:'text'}},{T:1,N:'w2:key',A:{id:'rvwDmndCstrnNm',name:'공사명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNo',name:'수요기관',dataType:'text'}},{T:1,N:'w2:key',A:{id:'dmstUntyGrpNm',name:'수요기관명',dataType:'text'}},{T:1,N:'w2:key',A:{id:'aprnRvwDesignStepCd',name:'설계단계',dataType:'text'}}]}]}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{type:'text/javascript',src:'/kn/com/js/swiper.min.js'}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){/**
+ * 업무구분 : 통합검색
+ * 화면명   : 통합검색 메인
+ * 화면설명 : 통합검색 메인페이지(검색 ON)
+ * 작성자   : JSOH
+ * 작성일자 : 2023.02.23
+ *
+ * 개정이력
+ *
+ * 수정일        수정자         수정내용
+ * ----------    --------      ---------------------------
+ * 2023.02.23    JSOH          최초 생성
+ *
+ * Copyright (C) by Koneps All right reserved.
+ */
+
+let srchCd = "검030002";
+let srchMap = dlBidPbancSrchM;
+scwin.onpageload = async function () {
+    // 공통코드 세팅
+    await scwin.fnInitCode();
+    // com.gfnSetEnterKeyEvent(grpMain, btnUntyDtlSrch);
+    // swiper 자동 autoplay 멈추기, 재생 이벤트
+    let thisSlideType1,
+        autoPlayBtnType1,
+        autoPlayStateType1;
+    new Swiper('.swiper-container.autoplay.main', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        observer: true,
+        observeParents: true,
+        autoplay: {
+            delay: 3000,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next.autoplay-main',
+            prevEl: '.swiper-button-prev.autoplay-main',
+        },
+        pagination: {
+            el: '.swiper-pagination.autoplay-main',
+            clickable: true,
+        },
+        nested: true,
+        a11y: {
+            prevSlideMessage: '이전 슬라이드',
+            nextSlideMessage: '다음 슬라이드',
+            slideLabelMessage: '총 {{slidesLength}}장의 슬라이드 중 {{index}}번 슬라이드 입니다.',
+        },
+        on: {
+            init: function () {
+                thisSlideType1 = this;
+                autoPlayBtnType1 = document.querySelector('.autoplay-control-wrap.type1 > .btn.stop');
+                autoPlayBtnType1.addEventListener('click', (e) => {
+                    autoPlayStateType1 = autoPlayBtnType1.getAttribute('aria-pressed');
+                    if (autoPlayStateType1 === 'false') {
+                        autoPlayBtnType1.setAttribute('aria-pressed', 'true');
+                        autoPlayBtnType1.classList.add('active');
+                        thisSlideType1.autoplay.stop();
+                    } else if (autoPlayStateType1 === 'true') {
+                        autoPlayBtnType1.setAttribute('aria-pressed', 'false');
+                        autoPlayBtnType1.classList.remove('active');
+                        thisSlideType1.autoplay.start();
+                    };
+                });
+            },
+        },
+    });
+
+    // 검색ON 검색옵션 (radio 컴퍼넌트) 클릭 시 show hide 이벤트 (키보트 컨트롤 시 적용 가능하게 이벤트 수정)
+    const mainRdioIptItems = document.querySelectorAll('.w2radio.main-boardbox .w2radio_item input[type=radio]');
+    const mainRdioItems = document.querySelectorAll('.w2radio.main-boardbox .w2radio_item input[type=radio]+label');
+    const mainOptItems = document.querySelectorAll('.main-srchbox .srchbox-inner');
+    for (let i = 0; i < mainRdioIptItems.length; i++) {
+        mainRdioIptItems[i].addEventListener('click', function (e) {
+            for (let j = 0; j < mainOptItems.length; j++) {
+                mainOptItems[j].classList.remove('show');
+            }
+        });
+        let mainRdioIpt1 = document.querySelector('.w2radio.main-boardbox .w2radio_item:first-of-type input[type=radio]');
+        mainRdioIpt1.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item2').classList.add('show');
+            com.gfnSetEnterKeyEvent(grpSrchBox2, btnBidPbancDtlSrch);
+            srchCd = "검030002";
+            srchMap = dlBidPbancSrchM;
+            ibxStrGrp.removeClass("hide");
+        });
+        let mainRdioIpt2 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(2) input[type=radio]');
+        mainRdioIpt2.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item3').classList.add('show');
+            com.gfnSetEnterKeyEvent(grpSrchBox3, btnCnrqDtlSrch);
+            srchCd = "검030003";
+            srchMap = dlDmndsttusSrchM;
+            ibxStrGrp.removeClass("hide");
+        });
+        let mainRdioIpt3 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(3) input[type=radio]');
+        mainRdioIpt3.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item4').classList.add('show');
+            com.gfnSetEnterKeyEvent(grpSrchBox4, btnCtrtCrstDtlSrch);
+            srchCd = "검030004";
+            srchMap = dlCtrtsttusSrchM;
+            ibxStrGrp.removeClass("hide");
+        });
+        let mainRdioIpt4 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(4) input[type=radio]');
+        mainRdioIpt4.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item1').classList.add('show');
+            com.gfnSetEnterKeyEvent(grpSrchBox1, btnUntyDtlSrch);
+            srchCd = "검030001";
+            srchMap = dlTotalSrchM;
+            ibxStrGrp.removeClass("hide");
+        });
+        let mainRdioIpt5 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(5) input[type=radio]');
+        mainRdioIpt5.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item5').classList.add('show');
+            com.gfnSetEnterKeyEvent(grpSrchBox5, btnDesignAprnSrch);
+            //srchCd = "검030001";
+            srchMap = dlDesignAprnRvwM;
+            sbxTpcoBsneSeCd.setSelectedIndex(0);
+            ibxStrGrp.addClass("hide");
+        });
+    }
+    for (let a = 0; a < mainRdioItems.length; a++) {
+        mainRdioItems[a].addEventListener('click', function (e) {
+            for (let b = 0; b < mainOptItems.length; b++) {
+                mainOptItems[b].classList.remove('show');
+            }
+        });
+        let mainRdioItems1 = document.querySelector('.w2radio.main-boardbox .w2radio_item:first-of-type input[type=radio]+label');
+        mainRdioItems1.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item2').classList.add('show');
+        });
+        let mainRdioItems2 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(2) input[type=radio]+label');
+        mainRdioItems2.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item3').classList.add('show');
+        });
+        let mainRdioItems3 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(3) input[type=radio]+label');
+        mainRdioItems3.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item4').classList.add('show');
+        });
+        let mainRdioItems4 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(4) input[type=radio]+label');
+        mainRdioItems4.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item1').classList.add('show');
+        });
+        let mainRdioItems5 = document.querySelector('.w2radio.main-boardbox .w2radio_item:nth-of-type(5) input[type=radio]+label');
+        mainRdioItems5.addEventListener('click', function (e) {
+            document.querySelector('.main-srchbox .option-item5').classList.add('show');
+        });
+    }
+    let toDay = comUtil.gfnGetServerDateTime("yyyyMMdd");
+    // 1개월로 세팅
+    dlTotalSrchM.set("startDt", comUtil.gfnAddMonthCal(toDay, -1));
+    dlTotalSrchM.set("endDt", toDay);
+
+    dlBidPbancSrchM.set("startDt", comUtil.gfnAddMonthCal(toDay, -1));
+    dlBidPbancSrchM.set("endDt", toDay);
+
+    dlDmndsttusSrchM.set("startBizYmd", comUtil.gfnAddMonthCal(toDay, -1));
+    dlDmndsttusSrchM.set("endBizYmd", toDay);
+
+    dlCtrtsttusSrchM.set("startBizYmd", comUtil.gfnAddMonthCal(toDay, -1));
+    dlCtrtsttusSrchM.set("endBizYmd", toDay);
+
+    dlDesignAprnRvwM.set("startDmndDt", comUtil.gfnAddMonthCal(toDay, -1));
+    dlDesignAprnRvwM.set("endDmndDt", toDay);
+
+    let tmpSrchArr = ["unty","bidPbanc","cnrqDtl","ctrtCrst"];
+    for (let i=0; i < tmpSrchArr.length; i++) scwin.getComponect("sbxBsneSe", tmpSrchArr[i]).checkAll(true);
+    await scwin.selectUntyLimit(); //검색 제한년수 조회
+};
+
+/********************************************************************************
+ * 설명 : 코드 init
+ ********************************************************************************/
+scwin.fnInitCode = async function () {
+    //공통코드 세팅
+    const codeOptions = [
+        // 통합상세
+        { commClsfCd : "조04", bsneClsfNo : "FA000", compID : "sbxPrcmMtho", firstRow : ["", "전체"] }, //조달유형
+        { commClsfCd : "계03", bsneClsfNo : "EB000", compID : "sbxCtrtMthd", firstRow : ["", "전체"] }, //계약방법
+        { commClsfCd : "계12", bsneClsfNo : "PC000", compID : "sbxCtrt", firstRow : ["", "전체"] }, //계약구분,계약유형
+
+        // 입찰공고
+        { commClsfCd : "업34", bsneClsfNo : "FA000", compID : "sbxBizPrcsSttsPbanc", firstRow: ["", "전체"], filter: ["commCd==업340002,업340003"]}, // 사업처리상태
+        { commClsfCd: "조04", bsneClsfNo: "FA000", compID: "sbxPrcmMthoPbanc", firstRow: ["", "전체"] }, //조달유형
+        { commClsfCd: "계03", bsneClsfNo: "EB000", compID: "sbxCtrtMthdPbanc", firstRow: ["", "전체"] }, //계약방법
+        { commClsfCd: "계12", bsneClsfNo: "PC000", compID: "sbxCtrtPbanc", firstRow: ["", "전체"] }, //계약구분,계약유형
+
+        // 계약요청
+        { commClsfCd : "업34", bsneClsfNo : "FA000", compID : "sbxBizPrcsSttsDmnd", firstRow: ["", "전체"], filter: ["commCd==업340002,업340003"]}, // 사업처리상태
+        { commClsfCd: "조04", bsneClsfNo: "FA000", compID: "sbxPrcmMthoDmnd", firstRow: ["", "전체"] }, //조달유형
+        { commClsfCd: "계03", bsneClsfNo: "EB000", compID: "sbxCtrtMthdDmnd", firstRow: ["", "전체"] }, //계약방법
+        { commClsfCd: "계12", bsneClsfNo: "PC000", compID: "sbxCtrtDmnd", firstRow: ["", "전체"] }, //계약구분, 계약유형
+
+        // 계약현황
+        { commClsfCd : "업34", bsneClsfNo : "FA000", compID : "sbxBizPrcsSttsCtrtSttus", firstRow: ["", "전체"], filter: ["commCd==업340002,업340003"]}, // 사업처리상태
+        { commClsfCd: "조04", bsneClsfNo: "FA000", compID: "sbxPrcmMthoCtrtSttus", firstRow: ["", "전체"] }, //조달유형
+        { commClsfCd: "계03", bsneClsfNo: "EB000", compID: "sbxCtrtMthdCtrtSttus", firstRow: ["", "전체"] }, //계약방법
+        { commClsfCd: "계12", bsneClsfNo: "PC000", compID: "sbxCtrtCtrtSttus", firstRow: ["", "전체"] }, //계약구분,계약유형
+
+        // 설계적정성검토
+        { commClsfCd : "총02", bsneClsfNo : "SF000", compID : "sbxTpcoBsneSeCd", firstRow: false, filter: ["commCd==총020001"]}, // 업무구분
+        { commClsfCd : "총05", bsneClsfNo : "SF000", compID : "sbxTpcoDesignRvwTrgtSeCd", firstRow:['', '전체'], filter: ["commCd!=총050003"]}, // 요청구분
+        //{ commClsfCd : "진01", bsneClsfNo : "SF007", compID : "sbxTpcoRvwPgstCd", firstRow:['', '전체']}, // 진행상태
+        { commClsfCd : "설09", bsneClsfNo : "SF016", compID : "sbxTest", firstRow:['', '전체']}, // 설계단계
+        
+    ];
+
+    await com.gfnSetCommonCode(codeOptions);
+};
+
+/********************************************************************************
+ * 설명 : 통합상세 상세검색 화면으로 이동
+ ********************************************************************************/
+scwin.btnUntyDtlSrch_onclick = async function () {
+    let diffDate = comUtil.gfnDiffDate(dlTotalSrchM.get("startDt"),dlTotalSrchM.get("endDt"));
+    let setLimit = dlUntySrchPrdStngM.get("userSrchPrdNbyr");
+    let limitSrchDate = setLimit * 365;
+
+    if(diffDate > limitSrchDate) {
+        com.gfnAlert(['warn.sb.sbs.sbsa01', '통합상세의', setLimit +'년']);
+        return;
+    }
+
+    if (!await scwin.checkValidate("unty")) {
+        return;
+    } else {
+        // 화면 이동처리
+        let option = {
+            isHistory: true,
+            param: dlTotalSrchM.getJSON(), // 화면에 전달할 JSON 데이터 객체
+        }
+        // #A : 상세페이지 이동, 목록 클릭 시 현재 페이지의 조회 조건을 유지 시킨다.
+        const searchInfo = {
+            // mapId: 'dlCntrGodsM', // 검색 Map id
+            // mapData: dlCntrGodsM.getJSON(), // 검색 Map data
+            // callbackFn: 'scwin.prceInfoCtrtGoodsList', // 리스트로 돌아와서 자동 검색을 실행 할 경우 사용할 함수 명
+        };
+
+        com.gfnOpenMenu("FIUA006_01", option, searchInfo); //FIUA022_01
+    }
+};
+
+/********************************************************************************
+ * 설명 : 입찰공고 상세검색 화면으로 이동
+ ********************************************************************************/
+scwin.btnBidPbancDtlSrch_onclick = async function () {
+    let diffDate = comUtil.gfnDiffDate(dlBidPbancSrchM.get("startDt"),dlBidPbancSrchM.get("endDt"));
+    let setLimit = dlUntySrchPrdStngM.get("userSrchPrdNbyr");
+    let limitSrchDate = setLimit * 365;
+
+    if(diffDate > limitSrchDate) {
+        com.gfnAlert(['warn.sb.sbs.sbsa01', '입찰공고의', setLimit +'년']);
+        return;
+    }
+
+    if (!await scwin.checkValidate("bidPbanc")) {
+        return;
+    } else {
+        // 화면 이동처리
+        let option = {
+            isHistory: true,
+            param: dlBidPbancSrchM.getJSON(), // 화면에 전달할 JSON 데이터 객체
+        }
+        // #A : 상세페이지 이동, 목록 클릭 시 현재 페이지의 조회 조건을 유지 시킨다.
+        const searchInfo = {
+            // mapId: 'dlCntrGodsM', // 검색 Map id
+            // mapData: dlCntrGodsM.getJSON(), // 검색 Map data
+            // callbackFn: 'scwin.prceInfoCtrtGoodsList', // 리스트로 돌아와서 자동 검색을 실행 할 경우 사용할 함수 명
+        };
+
+        com.gfnOpenMenu("FIUA002_01", option, searchInfo);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 계약요청 상세검색 화면으로 이동
+ ********************************************************************************/
+scwin.btnCnrqDtlSrch_onclick = async function () {
+    let diffDate = comUtil.gfnDiffDate(dlDmndsttusSrchM.get("startBizYmd"),dlDmndsttusSrchM.get("endBizYmd"));
+    let setLimit = dlUntySrchPrdStngM.get("userSrchPrdNbyr");
+    let limitSrchDate = setLimit * 365;
+
+    if(diffDate > limitSrchDate) {
+        com.gfnAlert(['warn.sb.sbs.sbsa01', '계약요청의', setLimit +'년']);
+        return;
+    }
+
+    if (!await scwin.checkValidate("cnrqDtl")) {
+        return;
+    } else {
+        // 화면 이동처리
+        let option = {
+            isHistory: true,
+            param: dlDmndsttusSrchM.getJSON(), // 화면에 전달할 JSON 데이터 객체
+        }
+        // #A : 상세페이지 이동, 목록 클릭 시 현재 페이지의 조회 조건을 유지 시킨다.
+        const searchInfo = {
+            // mapId: 'dlCntrGodsM', // 검색 Map id
+            // mapData: dlCntrGodsM.getJSON(), // 검색 Map data
+            // callbackFn: 'scwin.prceInfoCtrtGoodsList', // 리스트로 돌아와서 자동 검색을 실행 할 경우 사용할 함수 명
+        };
+
+        com.gfnOpenMenu("FIUA003_01", option, searchInfo);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 계약현황 상세검색 화면으로 이동
+ ********************************************************************************/
+scwin.btnCtrtCrstDtlSrch_onclick = async function () {
+    let diffDate = comUtil.gfnDiffDate(dlCtrtsttusSrchM.get("startBizYmd"),dlCtrtsttusSrchM.get("endBizYmd"));
+    let setLimit = dlUntySrchPrdStngM.get("userSrchPrdNbyr");
+    let limitSrchDate = setLimit * 365;
+
+    if(diffDate > limitSrchDate) {
+        com.gfnAlert(['warn.sb.sbs.sbsa01', '계약현황의', setLimit +'년']);
+        return;
+    }
+
+    if (!await scwin.checkValidate("ctrtCrst")) {
+        return;
+    } else {
+        // 화면 이동처리
+        let option = {
+            isHistory: true,
+            param: dlCtrtsttusSrchM.getJSON(), // 화면에 전달할 JSON 데이터 객체
+        }
+        // #A : 상세페이지 이동, 목록 클릭 시 현재 페이지의 조회 조건을 유지 시킨다.
+        const searchInfo = {
+            // mapId: 'dlCntrGodsM', // 검색 Map id
+            // mapData: dlCntrGodsM.getJSON(), // 검색 Map data
+            // callbackFn: 'scwin.prceInfoCtrtGoodsList', // 리스트로 돌아와서 자동 검색을 실행 할 경우 사용할 함수 명
+        };
+
+        com.gfnOpenMenu("FIUA004_01", option, searchInfo);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 공고기관 조회 팝업 호출
+ ********************************************************************************/
+scwin.pbancInstSrch_onclick = function (e) {
+    let data = {
+        mapData: { "grpSeCd": "0004" , "title" : "inst" }, // 보내는 Map
+    };
+
+    com.gfnOpenPopup({
+        menuCangVal: "FUUB008_01",
+        popupId: "FUUB008_01",
+        popupName: "기관검색",
+        param: data,
+        width: 1200,
+        height: 730,
+        callbackFn: "scwin.fnPbancInst"
+    });
+};
+
+/********************************************************************************
+ * 설명 : 공고기관 조회 팝업 Callback
+ ********************************************************************************/
+scwin.fnPbancInst = function (result) {
+    if (comUtil.gfnIsEmpty(result) == false) {
+        if (srchCd == "검030002") {srchMap.set("pbancInstUntyGrpNo", result.untyGrpNo+((result.instCd !="")?" "+result.instCd:"")); srchMap.set("pbancInstUntyGrpNm", result.grpNm);}
+        else if (srchCd == "검030003") {srchMap.set("pbancInstUntyGrpNo", result.untyGrpNo+((result.instCd !="")?" "+result.instCd:"")); srchMap.set("pbancInstUntyGrpNm", result.grpNm);}
+        else if (srchCd == "검030004") {srchMap.set("pbancInstUntyGrpNo", result.untyGrpNo+((result.instCd !="")?" "+result.instCd:"")); srchMap.set("pbancInstUntyGrpNm", result.grpNm);}
+        else {
+            srchMap.set("pbancInstUntyGrpNm", result.grpNm);//grpNm
+            srchMap.set("pbancInstUntyGrpNo", result.untyGrpNo+((result.instCd !="")?" "+result.instCd:""));//instCd
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 공고기관 검색조건 삭제
+ ********************************************************************************/
+scwin.pbancInstDel_onclick = function(e) {
+    if (srchCd == "검030002") {srchMap.set("pbancInstUntyGrpNo", ""); srchMap.set("pbancInstUntyGrpNm", "");}
+    else if (srchCd == "검030003") {srchMap.set("pbancInstUntyGrpNo", ""); srchMap.set("pbancInstUntyGrpNm", "");}
+    else if (srchCd == "검030004") {srchMap.set("pbancInstUntyGrpNo", ""); srchMap.set("pbancInstUntyGrpNm", "");}
+    else {
+        srchMap.set("pbancInstUntyGrpNm", "");//grpNm
+        srchMap.set("pbancInstUntyGrpNo", "");//instCd
+    }
+};
+
+/********************************************************************************
+ * 설명 : 수요기관 조회 팝업 호출
+ ********************************************************************************/
+scwin.pbancDemaInstSrch_onclick = function (e) {
+    let data = {
+        mapData: { "grpSeCd": "0004",
+                   "cvlnDemaYn": "Y",
+                   "title" : "inst" }, // 보내는 Map
+    };
+
+    com.gfnOpenPopup({
+        menuCangVal: "FUUB008_01",
+        popupId: "FUUB008_01",
+        popupName: "기관검색",
+        param: data,
+        width: 1200,
+        height: 730,
+        callbackFn: "scwin.fnPbancDemaInst"
+    });
+};
+
+/********************************************************************************
+ * 설명 : 수요기관 조회 팝업 Callback
+ ********************************************************************************/
+scwin.fnPbancDemaInst = function (result) {
+
+    if (!comUtil.gfnIsEmpty(result)) {
+        if (srchCd == "검030002" || srchCd == "검030003") {srchMap.set("dmstUntyGrpNo", result.untyGrpNo+((result.instCd !="")?" "+result.instCd:"")); srchMap.set("dmstUntyGrpNm", result.grpNm);}
+        else if (srchCd == "검030004") {srchMap.set("dmstUntyGrpNo", result.untyGrpNo+((result.instCd !="")?" "+result.instCd:"")); srchMap.set("dmstUntyGrpNm", result.grpNm);}
+        else {
+            srchMap.set("dmstUntyGrpNo", result.untyGrpNo+((result.instCd !="")?" "+result.instCd:""));//grpNm
+            srchMap.set("dmstUntyGrpNm", result.grpNm);//instCd
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 수요기관 검색조건 삭제
+ ********************************************************************************/
+scwin.demaInstDel_onclick = function (e) {
+    if (srchCd == "검030002" || srchCd == "검030003") {srchMap.set("dmstUntyGrpNo", ""); srchMap.set("dmstUntyGrpNm", "");}
+    else if (srchCd == "검030004") {srchMap.set("dmstUntyGrpNo", ""); srchMap.set("dmstUntyGrpNm", "");}
+    else {
+        srchMap.set("dmstUntyGrpNo", "");//grpNm
+        srchMap.set("dmstUntyGrpNm", "");//instCd
+    }
+};
+
+/********************************************************************************
+ * 설명 : 업종 조회 팝업 호출
+ ********************************************************************************/
+scwin.intpInfoSrchSrch_onclick = function (e) {
+    let param = {
+    };
+
+    com.gfnOpenPopup({
+        menuCangVal: "FIIB004_01"
+        , popupId: "FIIB004_01"
+        , popupName: "업종정보"
+        , param: param
+        , width: 1100
+        , height: 900
+        , callbackFn: "scwin.fnIntpInfo"
+    });
+};
+
+/********************************************************************************
+ * 설명 : 업종 조회 팝업 Callback
+ ********************************************************************************/
+scwin.fnIntpInfo = function (result) {
+    if (!comUtil.gfnIsEmpty(result)) {
+        if (srchCd == "검030002") {srchMap.set("mindCd", result.intpCd); srchMap.set("mindNm", result.intpNm);}
+        else if (srchCd == "검030003") {srchMap.set("mindCd", result.intpCd); srchMap.set("mindNm", result.intpNm);}
+        else if (srchCd == "검030004") {srchMap.set("mindCd", result.intpCd); srchMap.set("mindNm", result.intpNm);}
+        else {
+            srchMap.set("mindCd", result.intpCd);
+            srchMap.set("mindNm", result.intpNm);
+        }
+    }
+};
+
+/********************************************************************************
+ * 설명 : 업종 검색조건 삭제
+ ********************************************************************************/
+scwin.intpInfoDel_onclick = function (e) {
+
+    if (srchCd == "검030002") {srchMap.set("mindCd", ""); srchMap.set("mindNm", "");}
+    else if (srchCd == "검030003") {srchMap.set("mindCd", ""); srchMap.set("mindNm", "");}
+    else if (srchCd == "검030004") {srchMap.set("mindCd", result.mindCd); srchMap.set("mindNm", result.mindNm);}
+    else {
+        srchMap.set("mindCd", "");
+        srchMap.set("mindNm", "");
+    }
+};
+
+/********************************************************************************
+ * 설명 : 체크박스 Y/N
+ ********************************************************************************/
+scwin.chkeBox_oncheckboxclick = function (index, checked, value) {
+    let chked = "N";
+
+    if (checked == true) { //value
+        chked = "Y";
+    }
+    srchMap.set(value, chked);
+};
+
+/********************************************************************************
+ * 설명 : 통합검색 검색 기간 조회
+ ********************************************************************************/
+scwin.selectUntyLimit = async function () {
+    // submission options
+    let sbmOption = {
+        id: "selectUntySrchPrdStng",
+        action: "/fi/fiu/fiua/UntySrchPrdStng/selectUntySrchPrdStng.do",
+        outData: "dlUntySrchPrdStngM",
+        msgYn: { succ: false, err: true },
+    };
+    try {
+        const result = await com.gfnExecute(sbmOption);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+/********************************************************************************
+ * 설명 : 엔터키 입력 시
+ ********************************************************************************/
+scwin.searchKeyword_oneditkeyup = function(info,e) {
+    // console.log(srchCd);
+    if(e.key == "Enter") {
+        if(srchCd == "검030001") {
+            scwin.btnUntyDtlSrch_onclick();
+        } else if(srchCd == "검030002") {
+            scwin.btnBidPbancDtlSrch_onclick();
+        } else if(srchCd == "검030003") {
+            scwin.btnCnrqDtlSrch_onclick();
+        } else if(srchCd == "검030004") {
+            scwin.btnCtrtCrstDtlSrch_onclick();
+        }
+    }
+};
+
+scwin.sbxPrcmMtho_onviewchange = function(info) {
+    let frcpYn = scwin.getComponect("frcpYn"), laseYn = scwin.getComponect("laseYn"), rsrvYn = scwin.getComponect("rsrvYn");
+
+    if (info.value == "조040002") {
+        frcpYn.setDisabled(true); frcpYn.checkAll(false);
+        laseYn.setDisabled(true); laseYn.checkAll(false);
+        rsrvYn.setDisabled(true); rsrvYn.checkAll(false);
+    } else {
+        
+        const checkBsneSe = srchMap.get("prcmMaagSeCd");
+        let infoOpt = new Object();
+        if (checkBsneSe.indexOf("전체") > -1) infoOpt["index"] = "0";
+        else if (checkBsneSe.indexOf("조070001") > -1) infoOpt["index"] = "1";
+        else if (checkBsneSe.indexOf("조070002") > -1) infoOpt["index"] = "2";
+        else infoOpt["index"] = "3";
+
+        infoOpt["checked"] = true;
+        scwin.sbxBsneSe_onviewchange(infoOpt);
+    }
+};
+
+scwin.sbxBsneSe_onviewchange = function(info) {
+    let sbxBsneSe = scwin.getComponect("sbxBsneSe");
+    let frcpYn = scwin.getComponect("frcpYn"), laseYn = scwin.getComponect("laseYn"), rsrvYn = scwin.getComponect("rsrvYn");
+
+    let prcmMaagSeCd = srchMap.get("prcmMaagSeCd"); //조달유형
+    let index = info.index, checked = info.checked;
+
+    if (prcmMaagSeCd == "조040001" || prcmMaagSeCd == "") {
+        if (index == "0") {
+            if (checked) {
+                sbxBsneSe.checkAll(true);
+                frcpYn.setDisabled(false); frcpYn.checkAll(false);
+                laseYn.setDisabled(false); laseYn.checkAll(false);
+                rsrvYn.setDisabled(false); rsrvYn.checkAll(false);
+            } else {
+                sbxBsneSe.checkAll(false);
+                frcpYn.setDisabled(true); frcpYn.checkAll(false);
+                laseYn.setDisabled(true); laseYn.checkAll(false);
+                rsrvYn.setDisabled(true); rsrvYn.checkAll(false);
+            }
+        } else {
+            const strChkIdx = sbxBsneSe.getSelectedIndex(",");
+            const arrChkIdx = strChkIdx.split(",");
+            // 전체체크 관련 처리
+            if (strChkIdx.indexOf("전체") > -1 || (strChkIdx.indexOf("전체") == -1 && arrChkIdx.length == 5)) sbxBsneSe.setSelectedIndex(0);
+            // 그외 업무구분에 따른 처리
+            if (strChkIdx.indexOf("1") > -1 || strChkIdx.indexOf("2") > -1) {
+                let prcmBsneSeCd = srchMap.get("prcmBsneSeCd"); //업무구분
+                frcpYn.setDisabled(false);
+                laseYn.setDisabled(false);
+                rsrvYn.setDisabled(false);
+                if (strChkIdx.indexOf("1") < 0 && strChkIdx.indexOf("2") > -1) {rsrvYn.setDisabled(true);  rsrvYn.checkAll(false);}
+
+                if (srchMap.get("frcpYn") == "Y") scwin.changeFrcpYn({"checked":true});
+                else if (srchMap.get("laseYn") == "Y") scwin.changeLaseYn({"checked":true});
+            } else {
+                frcpYn.setDisabled(true); frcpYn.checkAll(false);
+                laseYn.setDisabled(true); laseYn.checkAll(false);
+                rsrvYn.setDisabled(true); rsrvYn.checkAll(false);
+            }
+        }
+    } else {
+        frcpYn.setDisabled(true); frcpYn.checkAll(false);
+        laseYn.setDisabled(true); laseYn.checkAll(false);
+        rsrvYn.setDisabled(true); rsrvYn.checkAll(false);
+    }
+};
+
+scwin.changeFrcpYn = function (info) {
+    let frcpYn = scwin.getComponect("frcpYn"), laseYn = scwin.getComponect("laseYn"), rsrvYn = scwin.getComponect("rsrvYn");
+
+    let prcmMaagSeCd = srchMap.get("prcmMaagSeCd"); //조달유형
+    let prcmBsneSeCd = srchMap.get("prcmBsneAreaCd"); //업무구분
+
+    if (prcmMaagSeCd == "조040001" || prcmMaagSeCd == "") {
+        //조달유형 - 전체, 공공
+        if (prcmBsneSeCd.indexOf("조070001") > -1) { // 물품
+            if (srchMap.get("laseYn") == "Y") { // 리스
+                if (info.checked) {rsrvYn.setDisabled(true); rsrvYn.checkAll(false);}
+            } else if (srchMap.get("rsrvYn") == "Y") { //비축
+                if (info.checked) {laseYn.setDisabled(true); laseYn.checkAll(false);}
+            } else {
+                rsrvYn.setDisabled(false);
+                laseYn.setDisabled(false);
+            }
+        } else {
+            if (prcmBsneSeCd.indexOf("조070002") > -1) {
+                if (info.checked) {
+                    rsrvYn.setDisabled(true); rsrvYn.checkAll(false);
+                    laseYn.setDisabled(true); laseYn.checkAll(false);
+                } else {
+                    rsrvYn.setDisabled(true);
+                    laseYn.setDisabled(false);
+                }
+            }
+        }
+    }
+};
+
+scwin.changeLaseYn = function(info) {
+    let frcpYn = scwin.getComponect("frcpYn"), laseYn = scwin.getComponect("laseYn"), rsrvYn = scwin.getComponect("rsrvYn");
+    let prcmMaagSeCd = srchMap.get("prcmMaagSeCd"); //조달유형
+    let prcmBsneSeCd = srchMap.get("prcmBsneAreaCd"); //업무구분
+
+    if (prcmMaagSeCd == "조040001" || prcmMaagSeCd == "") {
+        //조달유형 - 전체, 공공
+        if (prcmBsneSeCd.indexOf("조070001") > -1) {
+            if (info.checked) {rsrvYn.setDisabled(true); rsrvYn.checkAll(false);} else rsrvYn.setDisabled(false);
+        } else {
+            if (prcmBsneSeCd.indexOf("조070002") > -1) {
+                if (info.checked) {
+                    frcpYn.setDisabled(true); frcpYn.checkAll(false);
+                    rsrvYn.setDisabled(true); rsrvYn.checkAll(false);
+                } else {
+                    frcpYn.setDisabled(false);
+                    rsrvYn.setDisabled(true);
+                }
+            }
+        }
+    }
+};
+
+scwin.changeRsrvYn = function(info) {
+    let frcpYn = scwin.getComponect("frcpYn"), laseYn = scwin.getComponect("laseYn"), rsrvYn = scwin.getComponect("rsrvYn");
+    let prcmMaagSeCd = srchMap.get("prcmMaagSeCd"); //조달유형
+    let prcmBsneSeCd = srchMap.get("prcmBsneAreaCd"); //업무구분
+
+    if (prcmMaagSeCd == "조040001" || prcmMaagSeCd == "") {
+        //조달유형 - 전체, 공공
+        if (prcmBsneSeCd.indexOf("조070001") > -1) {
+            if (info.checked) {laseYn.setDisabled(true); laseYn.checkAll(false);} else laseYn.setDisabled(false);
+        } else {
+            frcpYn.setDisabled(false);
+            rsrvYn.setDisabled(false);
+        }
+    }
+};
+
+scwin.getComponect = function(comp, type) {
+    let srchType = type;
+    if (type == undefined) srchType = rbxSrchType.getValue();
+
+    if (comp == "frcpYn")  return ((srchType=="unty")?untyFrcpYn:(srchType=="bidPbanc")?pbancFrcpYn:(srchType=="cnrqDtl")?recpFrcpYn:ctrtFrcpYn);
+    if (comp == "laseYn")  return ((srchType=="unty")?untyLaseYn:(srchType=="bidPbanc")?pbancLaseYn:(srchType=="cnrqDtl")?recpLaseYn:ctrtLaseYn);
+    if (comp == "rsrvYn")  return ((srchType=="unty")?untyRsrvYn:(srchType=="bidPbanc")?pbancRsrvYn:(srchType=="cnrqDtl")?recpFrcpYn:ctrtRsrvYn);
+    if (comp == "sbxBsneSe")  return ((srchType=="unty")?sbxUntyBsneSe:(srchType=="bidPbanc")?sbxPbancBsneSe:(srchType=="cnrqDtl")?sbxRecpBsneSe:sbxCtrtBsneSe);
+}
+
+scwin.checkValidate = async function(bizType) {
+    if (bizType == "unty") {
+        let dtType = dlTotalSrchM.get("bizYmdDiv");
+
+        if (comUtil.gfnIsEmpty(dlTotalSrchM.get("bizNm")) && comUtil.gfnIsEmpty(dlTotalSrchM.get("bizNo"))
+            && comUtil.gfnIsEmpty(dlTotalSrchM.get("mindCd")) && comUtil.gfnIsEmpty(dlTotalSrchM.get("dmstUntyGrpNo")) && comUtil.gfnIsEmpty(dlTotalSrchM.get("pbancInstUntyGrpNo"))) {
+            const monDiff = scwin.getMonthDiff(new Date(comUtil.gfnFormatDate(dlTotalSrchM.get("startDt"),"date")),new Date(comUtil.gfnFormatDate(dlTotalSrchM.get("endDt"),"date")));
+
+            if(monDiff > 1) {
+                await com.gfnAlert(["msg.alert.grd.mandatory", "1개월 이상 검색 시 검색어, 사업번호, 업종, 공고기관, 수요기관 중 하나의 검색조건은"]);
+                return;
+            }
+        }
+
+        if (comUtil.gfnIsEmpty(dlTotalSrchM.get("startDt"))) {
+            await com.gfnAlert(["msg.ge.valCheck", (dtType=="pstgDt")?"게시시작일자":"공고시작일자"]);
+            untyDt.setStartDateFocus();
+            return;
+        } else if (comUtil.gfnIsEmpty(dlTotalSrchM.get("endDt"))) {
+            await com.gfnAlert(["msg.ge.valCheck", (dtType=="pstgDt")?"게시종료일자":"공고종료일자"]);
+            untyDt.setEndDateFocus();
+            return;
+        }
+        return true;
+    } else if (bizType == "bidPbanc") {
+        let dtType = dlBidPbancSrchM.get("bizYmdDiv");
+
+        if (comUtil.gfnIsEmpty(dlBidPbancSrchM.get("bizNm")) && comUtil.gfnIsEmpty(dlBidPbancSrchM.get("bizNo"))
+            && comUtil.gfnIsEmpty(dlBidPbancSrchM.get("mindCd")) && comUtil.gfnIsEmpty(dlBidPbancSrchM.get("dmstUntyGrpNo")) && comUtil.gfnIsEmpty(dlBidPbancSrchM.get("pbancInstUntyGrpNo"))) {
+            const monDiff = scwin.getMonthDiff(new Date(comUtil.gfnFormatDate(dlBidPbancSrchM.get("startDt"),"date")),new Date(comUtil.gfnFormatDate(dlBidPbancSrchM.get("endDt"),"date")));
+
+            if(monDiff > 1) {
+                await com.gfnAlert(["msg.alert.grd.mandatory", "1개월 이상 검색 시 공고명, 입찰공고번호, 업종, 공고기관, 수요기관 중 하나의 검색조건은"]);
+                return;
+            }
+        }
+
+        if (comUtil.gfnIsEmpty(dlBidPbancSrchM.get("startDt"))) {
+            await com.gfnAlert(["msg.ge.valCheck", (dtType=="pbancDt")?"공고시작일자":"개찰시작일자"]);
+            pbancDt.setStartDateFocus();
+            return;
+        } else if (comUtil.gfnIsEmpty(dlBidPbancSrchM.get("endDt"))) {
+            await com.gfnAlert(["msg.ge.valCheck", (dtType=="pbancDt")?"공고종료일자":"개찰종료일자"]);
+            pbancDt.setEndDateFocus();
+            return;
+        }
+        return true;
+    } else if (bizType == "cnrqDtl") {
+        if (comUtil.gfnIsEmpty(dlDmndsttusSrchM.get("bizNm")) && comUtil.gfnIsEmpty(dlDmndsttusSrchM.get("bizNo"))
+            && comUtil.gfnIsEmpty(dlDmndsttusSrchM.get("mindCd")) && comUtil.gfnIsEmpty(dlDmndsttusSrchM.get("dmstUntyGrpNo")) && comUtil.gfnIsEmpty(dlDmndsttusSrchM.get("pbancInstUntyGrpNo"))) {
+            const monDiff = scwin.getMonthDiff(new Date(comUtil.gfnFormatDate(dlDmndsttusSrchM.get("startBizYmd"),"date")),new Date(comUtil.gfnFormatDate(dlDmndsttusSrchM.get("endBizYmd"),"date")));
+
+            if(monDiff > 1) {
+                await com.gfnAlert(["msg.alert.grd.mandatory", "1개월 이상 검색 시 요청명, 요청접수번호, 업종, 공고기관, 수요기관 중 하나의 검색조건은"]);
+                return;
+            }
+        }
+
+        if (comUtil.gfnIsEmpty(dlDmndsttusSrchM.get("startBizYmd"))) {
+            await com.gfnAlert(["msg.ge.valCheck", "접수시작일자"]);
+            recpDt.setStartDateFocus();
+            return;
+        } else if (comUtil.gfnIsEmpty(dlDmndsttusSrchM.get("endBizYmd"))) {
+            await com.gfnAlert(["msg.ge.valCheck", "접수종료일자"]);
+            recpDt.setEndDateFocus();
+            return;
+        }
+        return true;
+    } else if (bizType == "ctrtCrst") {
+        if (comUtil.gfnIsEmpty(dlCtrtsttusSrchM.get("bizNm")) && comUtil.gfnIsEmpty(dlCtrtsttusSrchM.get("bizNo"))
+            && comUtil.gfnIsEmpty(dlCtrtsttusSrchM.get("mindCd")) && comUtil.gfnIsEmpty(dlCtrtsttusSrchM.get("dmstUntyGrpNo")) && comUtil.gfnIsEmpty(dlCtrtsttusSrchM.get("pbancInstUntyGrpNo"))) {
+            const monDiff = scwin.getMonthDiff(new Date(comUtil.gfnFormatDate(dlCtrtsttusSrchM.get("startBizYmd"),"date")),new Date(comUtil.gfnFormatDate(dlCtrtsttusSrchM.get("endBizYmd"),"date")));
+
+            if(monDiff > 1) {
+                await com.gfnAlert(["msg.alert.grd.mandatory", "1개월 이상 검색 시 계약건명, 계약번호, 업종, 공고기관, 수요기관 중 하나의 검색조건은"]);
+                return;
+            }
+        }
+
+        if (comUtil.gfnIsEmpty(dlCtrtsttusSrchM.get("startBizYmd"))) {
+            await com.gfnAlert(["msg.ge.valCheck", "계약시작일자"]);
+            ctrtDt.setStartDateFocus();
+            return;
+        } else if (comUtil.gfnIsEmpty(dlCtrtsttusSrchM.get("endBizYmd"))) {
+            await com.gfnAlert(["msg.ge.valCheck", "계약종료일자"]);
+            ctrtDt.setEndDateFocus();
+            return;
+        }
+        return true;
+    }
+};
+
+//사업번호 onChange
+scwin.bizNoChange = function(info) {
+    scwin.bizNmOnChange(info);
+};
+//사업번호 onBlur
+scwin.bizNo_onblur = function(e) {
+    totBizNo.trigger("onviewchange", {oldValue : '', newValue : srchMap.get("bizNo")});
+};
+
+scwin.bizNmOnChange = function(info){
+    let componentCal;
+    let componentSlctDt;
+    if(srchCd == "검030001") { // 통합상세
+        componentCal = untyDt;
+        componentSlctDt = slctDt;
+    } else if(srchCd == "검030002") { // 입찰공고
+        componentCal = pbancDt;
+        componentSlctDt = pbancSlctDt;
+    } else if(srchCd == "검030003") { // 계약요청
+        componentCal = recpDt;
+        componentSlctDt = null;
+    } else if(srchCd == "검030004") { // 계약현황
+        componentCal = ctrtDt;
+        componentSlctDt = null;
+    }
+
+    if(info.newValue){
+        componentCal.setDisabled(true);
+        if(!comUtil.gfnIsEmpty(componentSlctDt)) {
+            componentSlctDt.setDisabled(true);
+        }
+    } else {
+        componentCal.setDisabled(false);
+        if(!comUtil.gfnIsEmpty(componentSlctDt)) {
+            componentSlctDt.setDisabled(false);
+        }
+    }
+};
+
+scwin.getMonthDiff = function(startDate, endDate) {
+    const yearDiff = endDate.getFullYear() - startDate.getFullYear();
+
+    const monthDiff = endDate.getMonth() - startDate.getMonth();
+
+    return yearDiff * 12 + monthDiff;
+};
+
+/********************************************************************************
+ * 설명 : 설계적정성검토 검색결과 화면으로 이동
+ * TODO : 필수값 정의, 이동할 화면호출값
+ ********************************************************************************/
+scwin.btnDesignAprnSrch_onclick = async function () {
+    // 화면 이동처리
+    let option = {
+        isHistory: true,
+        param: dlDesignAprnRvwM.getJSON(), // 화면에 전달할 JSON 데이터 객체
+    }
+    // #A : 상세페이지 이동, 목록 클릭 시 현재 페이지의 조회 조건을 유지 시킨다.
+    const searchInfo = {};
+
+    com.gfnOpenMenu("SFTB022_01", option, searchInfo);
+};
+}}}]},{T:1,N:'w2:require',A:{as:'udc_fromToCal',type:'page',variableClone:'true',src:'/kn/com/udc/fromToCal.xml'}},{T:1,N:'w2:require',A:{as:'udc_tooltip',type:'page',variableClone:'true',src:'/kn/com/udc/tooltip.xml'}}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'main-cnt-wrap'},E:[{T:1,N:'xf:group',A:{class:'hide-title',id:'',style:'',tagname:'h3',text:'입찰정보 내용시작'}},{T:1,N:'xf:group',A:{class:'lybox',id:'',style:''},E:[{T:1,N:'xf:group',A:{adaptiveThreshold:'',class:'ly_column main-banner',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'swiper-container autoplay main',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'swiper-wrapper',id:'',style:'',tagname:'ul'},E:[{T:1,N:'xf:group',A:{class:'swiper-slide',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'img-wrap',id:'',style:''},E:[{T:1,N:'xf:image',A:{id:'',src:'/kn/com/images/portal/main/banner07.png',style:'',alt:'나라장터 아이콘을 소개합니다.'}}]}]},{T:1,N:'xf:group',A:{class:'swiper-slide',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'img-wrap',id:'',style:''},E:[{T:1,N:'xf:image',A:{id:'',src:'/kn/com/images/portal/main/banner01.png',style:'',alt:'나라장터 주제별 입찰정보를 찾고 계신가요?'}}]}]},{T:1,N:'xf:group',A:{class:'swiper-slide',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'img-wrap',id:'',style:''},E:[{T:1,N:'xf:image',A:{id:'',src:'/kn/com/images/portal/main/banner04.png',style:'',alt:'나라장터 꼭 맞는 입찰정보 쉽고 빠르게 찾아보세요.'}}]}]},{T:1,N:'xf:group',A:{class:'swiper-slide',id:'',style:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'img-wrap',id:'',style:''},E:[{T:1,N:'xf:image',A:{id:'',src:'/kn/com/images/portal/main/banner05.png',style:'',alt:'나라장터 원하는 입찰정보를 검색하기 위한 서비스입니다.'}}]}]}]},{T:1,N:'xf:group',A:{class:'ctrl-box',id:''},E:[{T:1,N:'xf:group',A:{class:'swiper-pagination autoplay-main',id:'',style:''}},{T:1,N:'xf:group',A:{class:'swiper-button-prev autoplay-main',id:'',style:''}},{T:1,N:'xf:group',A:{class:'swiper-button-next autoplay-main',id:'',style:''}},{T:1,N:'xf:group',A:{class:'autoplay-control-wrap type1',id:'',style:''},E:[{T:1,N:'xf:group',A:{class:'btn stop',id:'',style:'',text:'자동 재생 일시정지',tagname:'a'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-pressed',E:[{T:3,text:'false'}]},{T:1,N:'w2:aria-label',E:[{T:3,text:'자동 재생 일시정지'}]},{T:1,N:'w2:tabindex',E:[{T:3,text:'0'}]},{T:1,N:'w2:href',E:[{T:3,text:'javascript:void(0)'}]}]}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'ly_column main-cnts',id:'',style:''},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'tit-main-guide type1',tagname:'p'},E:[{T:1,N:'w2:span',A:{label:'꼭! 맞는',style:'',id:'',class:'line-br'}},{T:1,N:'w2:span',A:{id:'',label:'사업정보',style:'',class:'emp'}},{T:1,N:'w2:span',A:{id:'',label:'를 쉽고 빠르게 찾아보세요',style:''}}]},{T:1,N:'xf:select1',A:{appearance:'full',cols:'',disabled:'',id:'rbxSrchType',ref:'',renderType:'radiogroup',rows:'',selectedIndex:'0',style:'',class:'main-boardbox li_5',escape:'false'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'입찰공고'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'bidPbanc'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'계약요청'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'cnrqDtl'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'계약현황'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'ctrtCrst'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'통합상세'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'unty'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'설계적정성검토'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'new'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'ibxStr',tagname:'div',class:'mb10'},E:[{T:1,N:'xf:group',A:{class:'bul_dot',id:'ibxStrGrp',style:'',tagname:'ul'},E:[{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'p',text:''},E:[{T:1,N:'xf:group',A:{class:'red',id:'',style:'',tagname:'span',text:'검색 조건 없이 검색 시 1개월 검색 결과를 확인 할 수 있습니다. '}},{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'span',text:' (검색어, 업종, 공고기관, 수요기관 조건 선택 시 1년 검색 가능)'}}]}]},{T:1,N:'xf:group',A:{id:'',tagname:'li'},E:[{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'p',text:''},E:[{T:1,N:'xf:group',A:{class:'red',id:'',style:'',tagname:'span',text:'사업번호(입찰공고번호, 계약번호 등)로 검색 시 기간 제한 없이 검색 결과를 확인 할 수 있습니다. '}},{T:1,N:'xf:group',A:{class:'',id:'',style:'',tagname:'span',text:' ((구)나라장터 번호(입찰공고번호, 계약번호 등)로 검색 시 차수를 제외하고 검색해 주세요.)'}}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'grpMain',class:'main-srchbox type2'},E:[{T:1,N:'xf:group',A:{id:'grpSrchBox1',class:'srchbox-inner option-item1'},E:[{T:1,N:'xf:group',A:{id:'',class:'ser_h'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'검색어',class:''}},{T:1,N:'xf:input',A:{ref:'data:dlTotalSrchM.bizNm','ev:onkeyup':'scwin.searchKeyword_onkeyup',style:'',id:'searchKeyword',placeholder:'통합상세',title:'검색어 입력',class:'df_input srch_ipt','ev:oneditkeyup':'scwin.searchKeyword_oneditkeyup'}}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'사업번호',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'ico_helpArea'},E:[{T:1,N:'w2:udc_tooltip',A:{class:'udc_help_tooltip',style:'',tooltipContent:'- 발주계획 : 발주계획번호<br> - 계약요청 : 요청접수번호<br> - 사전규격 : 사전규격번호<br> - 입찰공고 : 입찰공고번호<br> - 개찰결과 : 입찰공고번호<br> - 계약 : 계약번호<br> - 검사검수 : 통합검사검수번호<br> - 대금지급 : 통합대금지급번호',tooltipTitle:'사업번호',visibleCloseButton:'true',tooltipContentUseHtml:'true'}}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlTotalSrchM.bizNo',style:'',id:'totBizNo',placeholder:'',title:'검색어를 입력하세요.',class:'df_input','ev:onviewchange':'scwin.bizNoChange','ev:onblur':'scwin.bizNo_onblur'}}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업종',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlTotalSrchM.mindNm',disabled:'true',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.intpInfoSrchSrch_onclick',style:'',id:'ttIntpInfoSrch',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.intpInfoDel_onclick',style:'',id:'ttIntpInfoDel',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'조달유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlTotalSrchM.prcmMaagSeCd',appearance:'full',disabled:'',style:'',id:'sbxPrcmMtho',renderType:'radiogroup',rows:'',cols:'',selectedIndex:'1','ev:onviewchange':'scwin.sbxPrcmMtho_onviewchange'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'공고기관',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlTotalSrchM.pbancInstUntyGrpNm',disabled:'true',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancInstSrch_onclick',style:'',id:'ttPbancInstSrch',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancInstDel_onclick',style:'',id:'ttPbancInstDel',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'수요기관',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlTotalSrchM.dmstUntyGrpNm',disabled:'true',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancDemaInstSrch_onclick',style:'',id:'ttDemaInstSrch',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.demaInstDel_onclick',style:'',id:'ttDemaInstDel',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2'},E:[{T:1,N:'xf:group',A:{id:'',class:'half'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업무구분'}},{T:1,N:'xf:select',A:{ref:'data:dlTotalSrchM.prcmBsneAreaCd',appearance:'full','ev:onviewchange':'scwin.sbxBsneSe_onviewchange',disabled:'',style:'',id:'sbxUntyBsneSe',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'업무구분을 선택하세요.',class:'bgcheck mr5',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'전체'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'물품'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070001'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'일반용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070002'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기술용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070003'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'공사'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070004'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기타'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070005'}]}]}]}]}]},{T:1,N:'xf:group',A:{id:'grpFlr',class:'hide'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'세부구분'}},{T:1,N:'xf:select1',A:{submenuSize:'auto',chooseOption:'',allOption:'',title:'선택하세요.',ref:'',appearance:'minimal',disabledClass:'w2selectbox_disabled',disabled:'false',style:';margin-left:5px;',id:'',renderType:'select',class:'noti_bid_select w150x hide',direction:'auto'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'세부업무'}},{T:1,N:'xf:group',A:{style:'',id:''},E:[{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlTotalSrchM.frcpYn',appearance:'full',disabled:'',style:'',id:'untyFrcpYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeFrcpYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'외자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlTotalSrchM.laseYn',appearance:'full',disabled:'',style:'',id:'untyLaseYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeLaseYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'리스'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlTotalSrchM.rsrvYn',appearance:'full',disabled:'',style:'',id:'untyRsrvYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeRsrvYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'비축'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2_1'},E:[{T:1,N:'xf:group',A:{id:'',class:'half',style:'margin-right: 200px;'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlTotalSrchM.ctrtTyCd',appearance:'full',disabled:'',style:'',id:'sbxCtrt',renderType:'radiogroup',rows:'',class:'mr10',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'hide'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약상세'}},{T:1,N:'xf:group',A:{style:'',id:''},E:[{T:1,N:'xf:select',A:{ref:'',appearance:'full',disabled:'true',style:'',id:'',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'우수제품'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{ref:'',appearance:'full',disabled:'true',style:'',id:'',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'MAS'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlTotalSrchM.ctlgYn',appearance:'full',disabled:'',style:'',id:'ctlgYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5 hide',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'카탈로그'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{ref:'',appearance:'full',disabled:'true',style:'',id:'',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'SW대상사업'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{id:'',class:'aitem_center'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'일자',class:'req'}},{T:1,N:'xf:group',A:{id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'span',id:'',class:''},E:[{T:1,N:'xf:select1',A:{allOption:'',appearance:'minimal',chooseOption:'',class:'',direction:'auto',id:'slctDt',ref:'data:dlTotalSrchM.bizYmdDiv',renderType:'select',style:'width: 100px',title:'선택하세요.'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'게시일자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'pstgDt'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'공고일자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'pbancDt'}]}]}]}]}]},{T:1,N:'xf:group',A:{tagname:'span',id:''},E:[{T:1,N:'w2:udc_fromToCal',A:{style:'',class:'inline_block',id:'untyDt',refStartKey:'data:dlTotalSrchM.startDt',refEndKey:'data:dlTotalSrchM.endDt'}}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'w50p price hide'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'가격'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'inline-flex just-s-between'},E:[{T:1,N:'xf:group',A:{id:'',class:'mr10'},E:[{T:1,N:'xf:input',A:{ref:'data:dlTotalSrchM.startAmt',dataType:'number',displayFormat:'###,###,###,###',style:'',id:'',placeholder:'',title:'입력하세요.',class:'tar'}},{T:1,N:'w2:textbox',A:{tagname:'span',style:'',id:'',label:'원 이상',class:'pl4'}}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:input',A:{ref:'data:dlTotalSrchM.endAmt',dataType:'number',displayFormat:'###,###,###,###',style:'',id:'',placeholder:'',title:'입력하세요.',class:'tar'}},{T:1,N:'w2:textbox',A:{tagname:'span',style:'',id:'',label:'원 이하',class:'pl4'}}]}]}]}]}]},{T:1,N:'xf:group',A:{id:'',class:'col w_col2_1'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약방법'}},{T:1,N:'xf:select1',A:{ref:'data:dlTotalSrchM.bidCtrtMthdCd',appearance:'full',disabled:'',style:'',id:'sbxCtrtMthd',renderType:'radiogroup',rows:'',cols:'',class:'mr5',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'hide'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'상세방법'}},{T:1,N:'xf:select1',A:{ref:'',appearance:'full',disabled:'',style:'',id:'',renderType:'radiogroup',rows:'',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value'}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'일반경쟁'}]},{T:1,N:'xf:value'}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'제한경쟁'}]},{T:1,N:'xf:value'}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'지명경쟁'}]},{T:1,N:'xf:value'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'btn-wrap'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false','ev:onclick':'scwin.btnUntyDtlSrch_onclick',style:'',id:'btnUntyDtlSrch',title:'화면이동',class:'btn main-srch'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색하기'}]}]}]}]},{T:1,N:'xf:group',A:{class:'srchbox-inner option-item2 show',id:'grpSrchBox2',style:''},E:[{T:1,N:'xf:group',A:{id:'',class:'ser_h'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'공고명',class:''}},{T:1,N:'xf:input',A:{ref:'data:dlBidPbancSrchM.bizNm',style:'',id:'',placeholder:'입찰공고',title:'검색어 입력',class:'df_input srch_ipt','ev:oneditkeyup':'scwin.searchKeyword_oneditkeyup'}}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'공고번호',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlBidPbancSrchM.bizNo',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'df_input','ev:onblur':'scwin.bizNo_onblur'}}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업종',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlBidPbancSrchM.mindNm',disabled:'true',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.intpInfoSrchSrch_onclick',style:'',id:'trigger1',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.intpInfoDel_onclick',style:'',id:'trigger2',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'조달유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlBidPbancSrchM.prcmMaagSeCd',appearance:'full',disabled:'',style:'',id:'sbxPrcmMthoPbanc',renderType:'radiogroup',rows:'',cols:'',selectedIndex:'1','ev:onviewchange':'scwin.sbxPrcmMtho_onviewchange'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'공고기관'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlBidPbancSrchM.pbancInstUntyGrpNm',disabled:'true',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancInstSrch_onclick',style:'',id:'trigger3',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancInstDel_onclick',style:'',id:'trigger4',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'수요기관'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlBidPbancSrchM.dmstUntyGrpNm',disabled:'true',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancDemaInstSrch_onclick',style:'',id:'trigger5',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.demaInstDel_onclick',style:'',id:'trigger6',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2'},E:[{T:1,N:'xf:group',A:{id:'',class:'half'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업무구분'}},{T:1,N:'xf:select',A:{ref:'data:dlBidPbancSrchM.prcmBsneAreaCd',appearance:'full','ev:onviewchange':'scwin.sbxBsneSe_onviewchange',disabled:'',style:'',id:'sbxPbancBsneSe',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'업무구분을 선택하세요.',class:'bgcheck mr5',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'전체'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'물품'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070001'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'일반용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070002'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기술용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070003'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'공사'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070004'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기타'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070005'}]}]}]}]},{T:1,N:'xf:select1',A:{submenuSize:'auto',chooseOption:'',allOption:'',title:'선택하세요.',ref:'',appearance:'minimal',disabledClass:'w2selectbox_disabled',disabled:'false',style:'',id:'',renderType:'select',class:'noti_bid_select w150x hide',direction:'auto'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'세부업무'}},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlBidPbancSrchM.frcpYn',appearance:'full',disabled:'',style:'',id:'pbancFrcpYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeFrcpYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'외자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlBidPbancSrchM.laseYn',appearance:'full',disabled:'',style:'',id:'pbancLaseYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeLaseYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'리스'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlBidPbancSrchM.rsrvYn',appearance:'full',disabled:'',style:'',id:'pbancRsrvYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeRsrvYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'비축'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2_1'},E:[{T:1,N:'xf:group',A:{id:'',class:'half',style:'margin-right: 200px;'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlBidPbancSrchM.ctrtTyCd',appearance:'full',disabled:'',style:'',id:'sbxCtrtPbanc',renderType:'radiogroup',rows:'',class:'mr10',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlBidPbancSrchM.ctlgYn',appearance:'full',disabled:'',style:'',id:'ctlgYnPb',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5 hide',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'카탈로그'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'aitem_center'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'일자',class:'req'}},{T:1,N:'xf:group',A:{id:''},E:[{T:1,N:'xf:group',A:{tagname:'span',style:'',id:'',class:''},E:[{T:1,N:'xf:select1',A:{ref:'data:dlBidPbancSrchM.bizYmdDiv',appearance:'minimal',chooseOption:'',style:'',allOption:'',id:'pbancSlctDt',renderType:'select',title:'일자구분',class:'w100x',direction:'auto'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'공고일자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'pbancDt'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'개찰일자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'slprRcptDt'}]}]}]}]}]},{T:1,N:'xf:group',A:{tagname:'span',id:''},E:[{T:1,N:'w2:udc_fromToCal',A:{class:'inline_block',style:'',refEndKey:'data:dlBidPbancSrchM.endDt',refStartKey:'data:dlBidPbancSrchM.startDt',id:'pbancDt'}}]}]}]}]},{T:1,N:'xf:group',A:{id:'',class:'col w_col2_1'},E:[{T:1,N:'xf:group',A:{style:'margin-right: 200px;',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약방법'}},{T:1,N:'xf:select1',A:{ref:'data:dlBidPbancSrchM.bidCtrtMthdCd',appearance:'full',disabled:'',style:'',id:'sbxCtrtMthdPbanc',renderType:'radiogroup',rows:'',class:'mr5',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'추정가격'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'inline-flex'},E:[{T:1,N:'xf:group',A:{id:'',class:'mr10'},E:[{T:1,N:'xf:input',A:{ref:'data:dlBidPbancSrchM.startPbancSrchItm03',dataType:'number',displayFormat:'###,###,###,###',style:'',id:'',placeholder:'',title:'입력하세요.',class:'tar'}},{T:1,N:'w2:textbox',A:{tagname:'span',style:'',id:'',label:'원 이상',class:'pl4'}}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:input',A:{ref:'data:dlBidPbancSrchM.endPbancSrchItm03',dataType:'number',displayFormat:'###,###,###,###',style:'',id:'',placeholder:'',title:'입력하세요.',class:'tar'}},{T:1,N:'w2:textbox',A:{tagname:'span',style:'',id:'',label:'원 이하',class:'pl4'}}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col hide'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'w30p'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'물품분류번호'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{style:'',id:'',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{style:'',id:'',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{class:'btn-wrap',id:'',style:''},E:[{T:1,N:'w2:anchor',A:{class:'btn main-srch',id:'btnBidPbancDtlSrch',outerDiv:'false',style:'',title:'화면이동','ev:onclick':'scwin.btnBidPbancDtlSrch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색하기'}]}]}]}]},{T:1,N:'xf:group',A:{class:'srchbox-inner option-item3',id:'grpSrchBox3',style:''},E:[{T:1,N:'xf:group',A:{id:'',class:'ser_h'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'요청명',class:''}},{T:1,N:'xf:input',A:{ref:'data:dlDmndsttusSrchM.bizNm',style:'',id:'',placeholder:'계약요청',title:'검색어 입력',class:'df_input srch_ipt','ev:oneditkeyup':'scwin.searchKeyword_oneditkeyup'}}]},{T:1,N:'xf:group',A:{class:'',id:'',style:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'접수번호',class:''}},{T:1,N:'xf:group',A:{class:'search_wrap',id:'',style:''},E:[{T:1,N:'xf:input',A:{class:'df_input',id:'',placeholder:'',ref:'data:dlDmndsttusSrchM.bizNo',style:'',title:'검색어를 입력하세요.','ev:onblur':'scwin.bizNo_onblur','ev:onviewchange':'scwin.bizNmOnChange'}}]}]},{T:1,N:'xf:group',A:{class:'',id:'',style:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업종',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{class:'searchbox',disabled:'true',id:'',placeholder:'',ref:'data:dlDmndsttusSrchM.mindNm',style:'',title:'검색어를 입력하세요.'}},{T:1,N:'xf:trigger',A:{class:'srch_sm','ev:onclick':'scwin.intpInfoSrchSrch_onclick',id:'trigger11',style:'',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{class:'delete_sm','ev:onclick':'scwin.intpInfoDel_onclick',id:'trigger12',style:'',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'조달유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlDmndsttusSrchM.prcmMaagSeCd',appearance:'full',disabled:'true',style:'',id:'sbxPrcmMthoDmnd',renderType:'radiogroup',rows:'',cols:'',selectedIndex:'1','ev:onviewchange':'scwin.sbxPrcmMtho_onviewchange'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{class:'',id:'',style:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'공고기관'}},{T:1,N:'xf:group',A:{class:'search_wrap',id:'',style:''},E:[{T:1,N:'xf:input',A:{class:'searchbox',disabled:'true',id:'',placeholder:'',ref:'data:dlDmndsttusSrchM.pbancInstUntyGrpNm',style:'',title:'검색어를 입력하세요.'}},{T:1,N:'xf:trigger',A:{class:'srch_sm','ev:onclick':'scwin.pbancInstSrch_onclick',id:'trigger7',style:'',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{class:'delete_sm','ev:onclick':'scwin.pbancInstDel_onclick',id:'trigger8',style:'',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]},{T:1,N:'xf:group',A:{class:'',id:'',style:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'수요기관'}},{T:1,N:'xf:group',A:{class:'search_wrap',id:'',style:''},E:[{T:1,N:'xf:input',A:{class:'searchbox',disabled:'true',id:'',placeholder:'',ref:'data:dlDmndsttusSrchM.dmstUntyGrpNm',style:'',title:'검색어를 입력하세요.'}},{T:1,N:'xf:trigger',A:{class:'srch_sm','ev:onclick':'scwin.pbancDemaInstSrch_onclick',id:'trigger9',style:'',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{class:'delete_sm','ev:onclick':'scwin.demaInstDel_onclick',id:'trigger10',style:'',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2'},E:[{T:1,N:'xf:group',A:{id:'',class:'half'},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'업무구분'}},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck mr5',cols:'',disabled:'','ev:onviewchange':'scwin.sbxBsneSe_onviewchange',id:'sbxRecpBsneSe',ref:'data:dlDmndsttusSrchM.prcmBsneAreaCd',renderType:'checkboxgroup',rows:'',selectedindex:'',style:'',title:'업무구분을 선택하세요.'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'전체'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'물품'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070001'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'일반용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070002'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기술용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070003'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'공사'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070004'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기타'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070005'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'세부업무'}},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck mr5',cols:'',disabled:'',id:'recpFrcpYn',ref:'data:dlDmndsttusSrchM.frcpYn',renderType:'checkboxgroup',rows:'',selectedindex:'',style:'',title:'선택하세요.',falseValue:'N','ev:onviewchange':'scwin.changeFrcpYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'외자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck mr5',cols:'',disabled:'',id:'recpLaseYn',ref:'data:dlDmndsttusSrchM.laseYn',renderType:'checkboxgroup',rows:'',selectedindex:'',style:'',title:'선택하세요.',falseValue:'N','ev:onviewchange':'scwin.changeLaseYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'리스'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck mr5',cols:'',disabled:'',id:'recpRsrvYn',ref:'data:dlDmndsttusSrchM.rsrvYn',renderType:'checkboxgroup',rows:'',selectedindex:'',style:'',title:'선택하세요.',falseValue:'N','ev:onviewchange':'scwin.changeRsrvYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'비축'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select1',A:{allOption:'',appearance:'minimal',chooseOption:'',class:'noti_bid_select w150x hide',direction:'auto',disabled:'false',disabledClass:'w2selectbox_disabled',id:'',ref:'',renderType:'select',style:'',submenuSize:'auto',title:'선택하세요.'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2_1'},E:[{T:1,N:'xf:group',A:{id:'',class:'half',style:'margin-right: 300px;'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlDmndsttusSrchM.ctrtTyCd',appearance:'full',disabled:'true',style:'',id:'sbxCtrtDmnd',renderType:'radiogroup',rows:'',class:'mr10',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlDmndsttusSrchM.exltProdYn',appearance:'full',disabled:'',style:'',id:'exltProdYnDmnd',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5 hide',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'우수제품'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlDmndsttusSrchM.masYn',appearance:'full',disabled:'',style:'',id:'masYnDmnd',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5 hide',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'MAS'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlDmndsttusSrchM.ctlgYn',appearance:'full',disabled:'',style:'',id:'ctlgYnDmnd',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5 hide',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'카탈로그'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]}]},{T:1,N:'xf:group',A:{id:'',class:'aitem_center'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'접수일자',class:'req'}},{T:1,N:'w2:udc_fromToCal',A:{refEndKey:'data:dlDmndsttusSrchM.endBizYmd',style:'',id:'recpDt',refStartKey:'data:dlDmndsttusSrchM.startBizYmd',class:'inline_block'}}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2_1'},E:[{T:1,N:'xf:group',A:{class:'',id:'',style:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'계약방법'}},{T:1,N:'xf:select1',A:{appearance:'full',class:'mr5',cols:'',disabled:'',id:'sbxCtrtMthdDmnd',ref:'data:dlDmndsttusSrchM.bidCtrtMthdCd',renderType:'radiogroup',rows:'',selectedIndex:'1',style:''},E:[{T:1,N:'xf:choices'}]}]}]}]},{T:1,N:'xf:group',A:{class:'btn-wrap',id:'',style:''},E:[{T:1,N:'w2:anchor',A:{class:'btn main-srch',id:'btnCnrqDtlSrch',outerDiv:'false',style:'',title:'화면이동','ev:onclick':'scwin.btnCnrqDtlSrch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색하기'}]}]}]}]},{T:1,N:'xf:group',A:{class:'srchbox-inner option-item4',id:'grpSrchBox4',style:''},E:[{T:1,N:'xf:group',A:{id:'',class:'ser_h'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약건명',class:''}},{T:1,N:'xf:input',A:{ref:'data:dlCtrtsttusSrchM.bizNm',style:'',id:'',placeholder:'계약현황',title:'검색어 입력',class:'df_input srch_ipt','ev:oneditkeyup':'scwin.searchKeyword_oneditkeyup'}}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'계약번호',class:''}},{T:1,N:'xf:group',A:{class:'search_wrap',id:'',style:''},E:[{T:1,N:'xf:input',A:{class:'df_input',id:'',placeholder:'',ref:'data:dlCtrtsttusSrchM.bizNo',style:'',title:'검색어를 입력하세요.','ev:onviewchange':'scwin.bizNmOnChange','ev:onblur':'scwin.bizNo_onblur'}}]}]},{T:1,N:'xf:group',A:{id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업종',class:''}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlCtrtsttusSrchM.mindNm',disabled:'true',style:'',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.intpInfoSrchSrch_onclick',style:'',id:'trigger17',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.intpInfoDel_onclick',style:'',id:'trigger18',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'조달유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlCtrtsttusSrchM.prcmMaagSeCd',appearance:'full',disabled:'',style:'',id:'sbxPrcmMthoCtrtSttus',renderType:'radiogroup',rows:'',cols:'',selectedIndex:'1','ev:onviewchange':'scwin.sbxPrcmMtho_onviewchange'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'공고기관'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlCtrtsttusSrchM.pbancInstUntyGrpNm',style:'',disabled:'true',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancInstSrch_onclick',style:'',id:'trigger13',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancInstDel_onclick',style:'',id:'trigger14',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'수요기관'}},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlCtrtsttusSrchM.dmstUntyGrpNm',style:'',disabled:'true',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancDemaInstSrch_onclick',style:'',id:'trigger15',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.demaInstDel_onclick',style:'',id:'trigger16',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2'},E:[{T:1,N:'xf:group',A:{id:'',class:'half'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업무구분'}},{T:1,N:'xf:select',A:{ref:'data:dlCtrtsttusSrchM.prcmBsneAreaCd',appearance:'full','ev:onviewchange':'scwin.sbxBsneSe_onviewchange',disabled:'',style:'',id:'sbxCtrtBsneSe',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'업무구분을 선택하세요.',class:'bgcheck mr5',cols:''},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'전체'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'전체'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'물품'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070001'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'일반용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070002'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기술용역'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070003'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'공사'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070004'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'기타'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'조070005'}]}]}]}]}]},{T:1,N:'xf:group',A:{id:'',class:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'세부업무'}},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlCtrtsttusSrchM.frcpYn',appearance:'full',disabled:'',style:'',id:'ctrtFrcpYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeFrcpYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'외자'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlCtrtsttusSrchM.laseYn',appearance:'full',disabled:'',style:'',id:'ctrtLaseYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeLaseYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'리스'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'laseYn'}]}]}]}]},{T:1,N:'xf:select',A:{falseValue:'N',ref:'data:dlCtrtsttusSrchM.rsrvYn',appearance:'full',disabled:'',style:'',id:'ctrtRsrvYn',renderType:'checkboxgroup',rows:'',selectedindex:'',title:'선택하세요.',class:'bgcheck mr5',cols:'','ev:onviewchange':'scwin.changeRsrvYn'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'비축'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2'},E:[{T:1,N:'xf:group',A:{id:'',class:'half'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약유형'}},{T:1,N:'xf:select1',A:{ref:'data:dlCtrtsttusSrchM.ctrtTyCd',appearance:'full',disabled:'',style:'',id:'sbxCtrtCtrtSttus',renderType:'radiogroup',rows:'',class:'mr10',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{style:'',id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약상세'}},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck mr5',cols:'',disabled:'',id:'',ref:'data:dlCtrtsttusSrchM.ctrtSrchItm11',renderType:'checkboxgroup',rows:'',selectedindex:'',style:'',title:'우수제품'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'우수제품'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck mr5',cols:'',disabled:'',id:'',ref:'data:dlCtrtsttusSrchM.ctrtSrchItm12',renderType:'checkboxgroup',rows:'',selectedindex:'',style:'',title:'MAS'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'MAS'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]},{T:1,N:'xf:select',A:{appearance:'full',class:'bgcheck',cols:'',disabled:'',id:'',ref:'data:dlCtrtsttusSrchM.ctrtSrchItm10',renderType:'checkboxgroup',rows:'',selectedindex:'',style:'',title:'SW대상사업'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'SW대상사업'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'Y'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col2_1'},E:[{T:1,N:'xf:group',A:{style:'margin-right: 270px;',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약방법'}},{T:1,N:'xf:select1',A:{ref:'data:dlCtrtsttusSrchM.bidCtrtMthdCd',appearance:'full',disabled:'',style:'',id:'sbxCtrtMthdCtrtSttus',renderType:'radiogroup',rows:'',class:'mr5',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'계약일자',class:'req'}},{T:1,N:'w2:udc_fromToCal',A:{refEndKey:'data:dlCtrtsttusSrchM.endBizYmd',style:'',refStartKey:'data:dlCtrtsttusSrchM.startBizYmd',class:'inline_block',id:'ctrtDt'}}]}]}]},{T:1,N:'xf:group',A:{class:'btn-wrap',id:'',style:''},E:[{T:1,N:'w2:anchor',A:{class:'btn main-srch',id:'btnCtrtCrstDtlSrch',outerDiv:'false',style:'',title:'화면이동','ev:onclick':'scwin.btnCtrtCrstDtlSrch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색하기'}]}]}]}]},{T:1,N:'xf:group',A:{class:'srchbox-inner option-item5',id:'grpSrchBox5',style:''},E:[{T:1,N:'xf:group',A:{id:'',class:'ser_h ser_examine'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'공사명',class:'ser_examine_label'}},{T:1,N:'xf:group',A:{id:'',class:'search_wrap'},E:[{T:1,N:'xf:input',A:{ref:'data:dlDesignAprnRvwM.rvwDmndCstrnNm',style:'',id:'',title:'검색어 입력',class:'df_input srch_ipt','ev:oneditkeyup':'scwin.searchKeyword_oneditkeyup'}}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'search_wrap'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'수요기관'}},{T:1,N:'xf:input',A:{ref:'data:dlDesignAprnRvwM.dmstUntyGrpNm',style:'width',disabled:'true',id:'',placeholder:'',title:'검색어를 입력하세요.',class:'searchbox'}},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.pbancDemaInstSrch_onclick',style:'',id:'trigger19',type:'button',class:'srch_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색'}]}]},{T:1,N:'xf:trigger',A:{'ev:onclick':'scwin.demaInstDel_onclick',style:'',id:'trigger20',type:'button',class:'delete_sm'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'삭제'}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{id:'',style:'',tagname:'label',text:'총사업비관리번호',class:'ser_examine_label'}},{T:1,N:'xf:group',A:{class:'search_wrap',id:'',style:''},E:[{T:1,N:'xf:input',A:{class:'df_input',id:'',placeholder:'',ref:'data:dlDesignAprnRvwM.tpcoRvwNo',style:'',title:'검색어를 입력하세요.','ev:onviewchange':'scwin.bizNmOnChange','ev:onblur':'scwin.bizNo_onblur'}}]}]},{T:1,N:'xf:group',A:{id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'설계단계'}},{T:1,N:'xf:select1',A:{allOption:'',appearance:'minimal',chooseOption:'',class:'',direction:'auto',id:'sbxTest',ref:'data:dlDesignAprnRvwM.aprnRvwDesignStepCd',renderType:'select',style:'',title:'선택하세요.'},E:[{T:1,N:'xf:choices'}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'요청구분',class:'ser_examine_label'}},{T:1,N:'xf:select1',A:{allOption:'',appearance:'minimal',chooseOption:'',class:'',direction:'auto',id:'sbxTpcoDesignRvwTrgtSeCd',ref:'data:dlDesignAprnRvwM.tpcoDesignRvwTrgtSeCd',renderType:'select',style:'',title:'선택하세요.'},E:[{T:1,N:'xf:choices'}]}]},{T:1,N:'xf:group',A:{id:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'진행단계'}},{T:1,N:'xf:select1',A:{allOption:'',appearance:'minimal',chooseOption:'true',class:'',direction:'auto',id:'sbxTpcoRvwPgstCd',ref:'data:dlDesignAprnRvwM.tpcoRvwPgstCd',renderType:'select',style:'',title:'선택하세요.',chooseOptionLabel:'전체'},E:[{T:1,N:'xf:choices',E:[{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'요청접수'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'bsnePrgrs1'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'사전검토및토론회'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'bsnePrgrs2'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'수요기관 보완(설계도면, 내역서 등)'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'bsnePrgrs3'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검토결과서 작성'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'bsnePrgrs4'}]}]},{T:1,N:'xf:item',E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검토완료'}]},{T:1,N:'xf:value',E:[{T:4,cdata:'bsnePrgrs5'}]}]}]}]}]}]},{T:1,N:'xf:group',A:{style:'',id:'',class:'col w_col3'},E:[{T:1,N:'xf:group',A:{style:'',id:'',class:''},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'요청일자',class:'ser_examine_label'}},{T:1,N:'w2:udc_fromToCal',A:{refEndKey:'data:dlDesignAprnRvwM.endDmndDt',style:'',refStartKey:'data:dlDesignAprnRvwM.startDmndDt',class:'inline_block',id:'udc_fromToCal1'}}]},{T:1,N:'xf:group',A:{id:'',class:'hide'},E:[{T:1,N:'xf:group',A:{tagname:'label',style:'',id:'',text:'업무구분'}},{T:1,N:'xf:select1',A:{ref:'data:dlDesignAprnRvwM.tpcoBsneSeCd',appearance:'full',disabled:'',style:'',id:'sbxTpcoBsneSeCd',renderType:'radiogroup',rows:'',cols:'',selectedIndex:'1'},E:[{T:1,N:'xf:choices'}]}]}]}]},{T:1,N:'xf:group',A:{class:'btn-wrap',id:'',style:''},E:[{T:1,N:'w2:anchor',A:{class:'btn main-srch',id:'btnDesignAprnSrch',outerDiv:'false',style:'',title:'화면이동','ev:onclick':'scwin.btnDesignAprnSrch_onclick'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'검색하기'}]}]}]}]}]}]}]}]}]}]}]})

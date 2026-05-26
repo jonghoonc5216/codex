@@ -1,0 +1,745 @@
+/*amd /layout/nara/Portal.xml 41694 a278ae09ba76ddbe3d0d5453c6d45b7ad7f1c7dc4411c72d9dfbf01e9ccf6eed */
+define({declaration:{A:{version:'1.0',encoding:'UTF-8'}},E:[{T:1,N:'html',A:{xmlns:'http://www.w3.org/1999/xhtml','xmlns:ev':'http://www.w3.org/2001/xml-events','xmlns:w2':'http://www.inswave.com/websquare','xmlns:xf':'http://www.w3.org/2002/xforms'},E:[{T:1,N:'head',E:[{T:1,N:'w2:type',E:[{T:3,text:'COMPONENT'}]},{T:1,N:'w2:buildDate'},{T:1,N:'w2:MSA'},{T:1,N:'xf:model',E:[{T:1,N:'w2:dataCollection',A:{baseNode:'map'},E:[{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlt_gDlMenuL',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'atetMatrYn',name:'삭제여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bMyAt',name:'B_MY_AT',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bkmkYn',name:'븍마크여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'delYn',name:'삭제여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'funcId',name:'기능ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'funcNm',name:'기능명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'indtOdr',name:'정렬순서',dataType:'text'}},{T:1,N:'w2:column',A:{id:'indtYn',name:'표시여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'infoSysCd',name:'시스템구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneClsfCd',name:'업무구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'locToDown',name:'LOC_TO_DOWN',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuCangSeCd',name:'메뉴구분코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuCangVal',name:'메뉴이동시사용',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuFldrYn',name:'메뉴폴더여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuLvl',name:'MENU_LVL',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuNm',name:'메뉴명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuNo',name:'메뉴ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'naviYn',name:'노출여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'poupYn',name:'팝업여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prmsLgnLvelCnt',name:'허용로그인수준코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'psimIncsYn',name:'개인정보포함여부',dataType:'text'}},{T:1,N:'w2:column',A:{id:'scrnNm',name:'화면명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'scrnNo',name:'화면ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'scrnSrcePathNm',name:'화면소스경로명',dataType:'text'}},{T:1,N:'w2:column',A:{id:'upMenuNo',name:'상위메뉴ID',dataType:'text'}},{T:1,N:'w2:column',A:{id:'bsneClsfCd',name:'업무뷴류코드',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cangParmVal',name:'호출파라미터값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'contxtSeCd',name:'메뉴구분코드값',dataType:'text'}},{T:1,N:'w2:column',A:{id:'navbIndtYn',name:'내비게이션표시여부',dataType:'text'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',repeatNode:'map',id:'dlt_gDlAuthrtMenuL',saveRemovedData:'true'},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{id:'pkgNo',name:'패키지번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'menuNo',name:'메뉴번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'scrnNo',name:'화면번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'btnIdnfVal',name:'버튼번호',dataType:'text'}},{T:1,N:'w2:column',A:{id:'prvcIncsYn',name:'개인정보포함여부',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlMenuM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'infoSysCd',name:'시스템구분코드',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlFpParamM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'osNameVal',name:'OSName',dataType:'text'}},{T:1,N:'w2:key',A:{id:'osFlatformVal',name:'OSFlatform',dataType:'text'}},{T:1,N:'w2:key',A:{id:'cpuNo',name:'cpuNo',dataType:'text'}},{T:1,N:'w2:key',A:{id:'memorySize',name:'memorySize',dataType:'text'}},{T:1,N:'w2:key',A:{id:'browserName',name:'browserName',dataType:'text'}},{T:1,N:'w2:key',A:{id:'browserVersion',name:'browserVersion',dataType:'text'}},{T:1,N:'w2:key',A:{id:'browserFlatform',name:'browserFlatform',dataType:'text'}},{T:1,N:'w2:key',A:{id:'screenWidth',name:'screenWidth',dataType:'text'}},{T:1,N:'w2:key',A:{id:'screenHeight',name:'screenHeight',dataType:'text'}},{T:1,N:'w2:key',A:{id:'screenDepth',name:'screenDepth',dataType:'text'}},{T:1,N:'w2:key',A:{id:'timeZone',name:'timeZone',dataType:'text'}},{T:1,N:'w2:key',A:{id:'canvasFingerPrint',name:'canvasFingerPrint',dataType:'text'}},{T:1,N:'w2:key',A:{id:'webglFingerPrint',name:'webglFingerPrint',dataType:'text'}},{T:1,N:'w2:key',A:{id:'deviceFingerPrint',name:'deviceFingerPrint',dataType:'text'}},{T:1,N:'w2:key',A:{id:'userAgentVal',name:'userAgentVal',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlResultM'},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{id:'resultCd',name:'결과코드',dataType:'text'}},{T:1,N:'w2:key',A:{id:'resultMessage',name:'처리결과',dataType:'text'}}]}]},{T:1,N:'w2:dataMap',A:{baseNode:'map',id:'dlSrchParmM',style:''},E:[{T:1,N:'w2:keyInfo',E:[{T:1,N:'w2:key',A:{dataType:'text',id:'prtlFtreNo',name:'포탈기능번호'}},{T:1,N:'w2:key',A:{dataType:'text',id:'prtlFtreNm',name:'포탈기능명'}},{T:1,N:'w2:key',A:{dataType:'text',id:'upPrtlFtreNo',name:'상위포탈기능번호'}},{T:1,N:'w2:key',A:{dataType:'text',id:'extlDomnYn',name:'외부도메인여부'}},{T:1,N:'w2:key',A:{dataType:'text',id:'popupUseYn',name:'팝업사용여부'}},{T:1,N:'w2:key',A:{dataType:'text',id:'indtYn',name:'표시여부'}},{T:1,N:'w2:key',A:{dataType:'text',id:'banrIndtYn',name:'배너표시여부'}}]}]},{T:1,N:'w2:dataList',A:{baseNode:'list',id:'dlPrtlFtreL',repeatNode:'map',saveRemovedData:'true',style:''},E:[{T:1,N:'w2:columnInfo',E:[{T:1,N:'w2:column',A:{dataType:'text',id:'CHK',ignoreStatus:'true',name:'선택',valueType:'binary'}},{T:1,N:'w2:column',A:{dataType:'text',id:'lvl',name:'레벨'}},{T:1,N:'w2:column',A:{dataType:'text',id:'prtlFtreNo',name:'포탈기능번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'prtlFtreNm',name:'포탈기능명'}},{T:1,N:'w2:column',A:{dataType:'text',id:'upPrtlFtreNo',name:'상위포탈기능번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'lnkUrl',name:'링크URL'}},{T:1,N:'w2:column',A:{dataType:'text',id:'menuCangVal',name:'메뉴호출값'}},{T:1,N:'w2:column',A:{dataType:'text',id:'extlDomnYn',name:'외부도메인여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'popupUseYn',name:'팝업사용여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'indtYn',name:'표시여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'indtOdr',name:'표시순서'}},{T:1,N:'w2:column',A:{dataType:'text',id:'banrIndtYn',name:'배너표시여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'untyAtchFileNo',name:'통합첨부파일번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'banrImgUrl',name:'배너이미지URL'}},{T:1,N:'w2:column',A:{dataType:'text',id:'moblIndtYn',name:'모바일표시여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'moblUntyAtchFileNo',name:'모바일통합첨부파일번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'moblImgUrl',name:'모바일이미지URL'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pathPrtlFtreNo',name:'포탈기능번호'}},{T:1,N:'w2:column',A:{dataType:'text',id:'pathPrtlFtreNm',name:'포탈기능명'}},{T:1,N:'w2:column',A:{dataType:'text',id:'scrnUrl',name:'화면경로'}},{T:1,N:'w2:column',A:{dataType:'text',id:'isleafYn',name:'최하위여부'}},{T:1,N:'w2:column',A:{dataType:'text',id:'excelYn',name:'엑셀업로드여부'}},{T:1,N:'w2:column',A:{id:'prtlFtreCn',name:'포탈기능내용',dataType:'text'}},{T:1,N:'w2:column',A:{id:'cangParmVal',name:'호출파라미터값',dataType:'text'}}]}]}]},{T:1,N:'w2:workflowCollection'}]},{T:1,N:'w2:layoutInfo'},{T:1,N:'w2:publicInfo',A:{method:''}},{T:1,N:'script',A:{lazy:'false',type:'text/javascript'},E:[{T:4,cdata:function(scopeObj){with(scopeObj){/**
+ * 업무구분 : 공통 코드 메인 프레임 페이지
+ * 화면명   : UI-MAIN-LAYOUT
+ * 화면설명 : 공통 코드 메인 프레임
+ * 작성자   : jcpark
+ * 작성일자 : 2022.07.22
+ *
+ * 개정이력
+ *
+ * 수정일        수정자        수정내용
+ * ----------    --------      ---------------------------
+ * 2022.03.10    jcpark            최초 생성
+ *
+ * Copyright (C) by Koneps All right reserved.
+ */
+
+/********************************************************************************
+ * 설명 : Page Load 이벤트
+ ********************************************************************************/
+scwin.onpageload = function() {
+    // Main Contents WFrame에서는 아이디 중복체크를 해제한다.
+    wfm_container.options._idCollisionCheck = false;
+
+    // 메인 페이지일 경우 Navigation + Header 정보를 노출하지 않는다.
+    scwin.setNavitionVisible();
+
+    // 퍼블리싱 작업
+    // 웹접근성(스크린 리더기)-  a태그(class="skip-nav" 본문영역 바로가기)의 href="#fs_content"를 본문영역(class="container-layout")의 아이디에 연결
+    const cntLayout = document.querySelector(".portal > .container-layout");
+    cntLayout.setAttribute("id", "fs_content");
+
+    dlMenuM.set('infoSysCd', com.gfnGetInfoSysCd());
+
+    // 메인 페이지 로드 여부
+    _gcm.Global.setMainLoaded(true);
+
+    // 최초 페이지 호출 시 menuCangVal 값이 있을 경우 해당 페이지로 이동 후 레이아웃을 숨긴다
+    let result = false;
+
+    if (!comUtil.gfnIsEmpty(WebSquareExternal.menuCangVal)) {
+        let option = null;
+
+        if (!comUtil.gfnIsEmpty(WebSquareExternal.param)) {
+            Object.keys(WebSquareExternal.param).forEach(key => {
+                if (comUtil.gfnIsArray(WebSquareExternal.param[key])) {
+                    WebSquareExternal.param[key] = WebSquareExternal.param[key][0];
+                }
+            });
+
+            option = { param : WebSquareExternal.param };
+        }
+
+        result = com.gfnInitMovePage(WebSquareExternal.menuCangVal, WebSquareExternal.target, option);
+        
+        if (!comUtil.gfnIsEmpty(WebSquareExternal.param.externalYn) && WebSquareExternal.param.externalYn !== "Y") {
+            if (document.referrer !== "" && $p.parent() !== WebSquare.util.getMainFrame()) {
+                // 링크로 새창이 열린 경우 window.opener = null 처리한다.
+                window.opener = null;
+            }
+        }
+
+        if (WebSquareExternal.menuCangVal === _gcm.Global.getLoginMenuCangVal()) {
+            history.replaceState({}, "", "/");
+        }
+    } else {
+        if ($p.parent() !== WebSquare.util.getMainFrame()) {
+            // 특정 페이지로 이동하지 않는 경우 window.opener = null 처리한다.
+            window.opener = null;
+        }
+    }
+
+    // 포탈기능 조회호출
+    scwin.fnSrchPrtlFtreMainList().then(rtn => {
+        if (!result) {
+            // 메인 페이지 로드
+            const dev_goto_menuId = WebSquare.localStorage.getItem("dev_goto_menuId");
+            const menuInfo = _gcm.Global.getMenuDataList().getAllJSON().filter(f => f.menuCangVal === dev_goto_menuId);
+            if (( comUtil.gfnIsNotEmpty(com.gfnGetUsrInfo())) &&  ( !comUtil.gfnIsEmpty(dev_goto_menuId) && comUtil.gfnGetThisMenuCangVal() != dev_goto_menuId)
+            && !( menuInfo.length === 0 || comUtil.gfnIsEmpty(menuInfo[0].menuCangVal) || comUtil.gfnIsEmpty(menuInfo[0].scrnSrcePathNm))) {
+                com.gfnOpenMenu(dev_goto_menuId);
+            } else {
+                com.gfnOpenMenu(_gcm.Global.getMainMenuCangVal());
+            }
+        }
+    });
+};
+
+/********************************************************************************
+ * 설명 : 메인 페이지일 경우 Navigation + Header 정보를 노출하지 않는다.
+ ********************************************************************************/
+scwin.setNavitionVisible = function(menuCangVal = com.gfnGetMenuCangVal()) {
+    // 퍼블리싱 작업 - 퍼블리싱 작업 - 메인화면 노출되는 화면에서 최상위 그룹 .portal에 클래스 추가, 삭제하여 배경색상 디자인 변경
+    const portalElement = window.document.querySelector(".portal");
+    const callUrl = window.location.href;
+    if( 
+        (callUrl.indexOf("link") > -1 && callUrl.indexOf("PBPA021_01") > -1 && callUrl.indexOf("single") > -1 && callUrl.indexOf("encryptParam") > -1) // 투찰보기
+        || (callUrl.indexOf("link") > -1 && callUrl.indexOf("FUUA017_01") > -1 && callUrl.indexOf("single") > -1 ) // 인증센터
+        || (callUrl.indexOf("link") > -1 && callUrl.indexOf("PNPE027_01") > -1 && callUrl.indexOf("bidPbancNo") > -1 && callUrl.indexOf("bidPbancOrd") > -1 && callUrl.indexOf("pbancType") > -1 && callUrl.indexOf("single") > -1 ) // 입찰상세 
+        || (
+            callUrl.indexOf("link") > -1 && callUrl.indexOf("FIUA027_01") > -1 && callUrl.indexOf("oderPlanNo") > -1 && callUrl.indexOf("ctrtDmndRcptNo") > -1 && callUrl.indexOf("ctrtDmndRcptOrd") > -1
+           && callUrl.indexOf("bidPbancNo") > -1 && callUrl.indexOf("bfSpecRegNo") > -1 && callUrl.indexOf("bidPbancOrd") > -1 && callUrl.indexOf("scsbdMthdCd") > -1 && callUrl.indexOf("bidPrgrsOrd") > -1
+           && callUrl.indexOf("bidClsfNo") > -1 && callUrl.indexOf("bidPgst") > -1 && callUrl.indexOf("ctrtNo") > -1 && callUrl.indexOf("ctrtChgOrd") > -1 && callUrl.indexOf("untyInspIgiNo") > -1
+           && callUrl.indexOf("untyPyprNo") > -1 && callUrl.indexOf("prcmBsneSeCd") > -1 && callUrl.indexOf("dlvdmRcptDt") > -1 && callUrl.indexOf("dlvdmRcptNo") > -1 && callUrl.indexOf("dlreqDt") > -1
+           && callUrl.indexOf("dlreqNo") > -1 && callUrl.indexOf("dlvdmReqYn") > -1 && callUrl.indexOf("dlreqChgOrd") > -1 && callUrl.indexOf("srchName") > -1 && callUrl.indexOf("single") > -1
+        ) // 모바일통합검색
+    ){
+        portalElement.classList.add("bid-gnb_head");
+    }
+
+    if (!comUtil.gfnIsEmpty(_gcm.Global.getMenuDataList())) {
+        // 메인 페이지일 경우 Navigation + Header 정보를 노출하지 않는다.
+        if (menuCangVal === _gcm.Global.getMainMenuCangVal() && com.gfnGetContxtSeCd() !== "콘010012") {
+            (!wfm_navigation.hasClass("hide")) && wfm_navigation.addClass("hide");
+            (!wfm_cntsHeader.hasClass("hide")) && wfm_cntsHeader.addClass("hide");
+            //portalElement.parentElement.classList.add("has-main");
+            //portalElement.parentElement.classList.remove("has-main");
+        } else {
+            (wfm_navigation.hasClass("hide")) && wfm_navigation.removeClass("hide");
+            (wfm_cntsHeader.hasClass("hide")) && wfm_cntsHeader.removeClass("hide");
+            portalElement.parentElement.classList.remove("has-main");
+        }
+    }
+};
+
+  
+
+/********************************************************************************
+ * 설명 : WFrame Container onwframeload 이벤트 - 내부 영역 렌더링이 완료된 후 발생
+ ********************************************************************************/
+scwin.wfm_container_onwframeload = function() {
+    // Main Page Loaded 여부 변경
+    _gcm.Global.setMainLoaded(true);
+
+    // 조달청 권한일 경우 수요기관권한이 부여되어 있다면 조달청 & 수요기관 버튼을 노출한다.
+    //if ((WebSquareExternal.active === "local" || WebSquareExternal.active === "dev")) {
+        if (com.gfnGetMenuInfo()?.chcNcsrYn === "Y") {
+            WebSquare.util.getMainFrame().wfm_cntsHeader?.scope?.btnUsrType1?.removeClass("hide");
+            WebSquare.util.getMainFrame().wfm_cntsHeader?.scope?.btnUsrType2?.removeClass("hide");
+        } else {
+            WebSquare.util.getMainFrame().wfm_cntsHeader?.scope?.btnUsrType1?.addClass("hide");
+            WebSquare.util.getMainFrame().wfm_cntsHeader?.scope?.btnUsrType2?.addClass("hide");
+        }
+    //}
+};
+
+/********************************************************************************
+ * 설명 : fingerprinting 모듈 호출
+ ********************************************************************************/
+scwin.fnSetFingerPrinting = async function() {
+    //console.log("Call FingerPrinting!!");
+
+    // fingerprinting 관련 코드
+    let fpUtil = scwin.fpUtil();
+    let osInfo = fpUtil.getOSInfo();
+    let brInfo = fpUtil.getBrowserInfo();
+    let screenInfo = fpUtil.getScreenInfo();
+    let strWebglFP = fpUtil.webglFingerPrinting();
+    let strCanFP = fpUtil.canvasFingerPrinting();
+    let strTimezone = fpUtil.getTimeZone();
+    let strDeviceFP = fpUtil.deviceFingerPrinting();
+
+    dlFpParamM.set("osNameVal", osInfo.OSName);
+    dlFpParamM.set("osFlatformVal", osInfo.OSFlatform);
+    dlFpParamM.set("cpuNo", osInfo.cpu);
+    dlFpParamM.set("memorySize", osInfo.memory);
+    dlFpParamM.set("browserName", brInfo.browserName);
+    dlFpParamM.set("browserVersion", brInfo.browserVersion);
+    dlFpParamM.set("browserFlatform", brInfo.browserFlatform);
+    dlFpParamM.set("screenWidth", screenInfo.screenWidth);
+    dlFpParamM.set("screenHeight", screenInfo.screenHeight);
+    dlFpParamM.set("screenDepth", screenInfo.screenDepth);
+    dlFpParamM.set("timeZone", strTimezone);
+    dlFpParamM.set("canvasFingerPrint", strCanFP.hash);
+    dlFpParamM.set("webglFingerPrint", strWebglFP.hash);
+    dlFpParamM.set("deviceFingerPrint", strDeviceFP.hash);
+    dlFpParamM.set("userAgentVal", window.navigator.userAgent);
+
+    try {
+        let sbmOption = {
+            id: "fingerPrint",
+            action: "/ts/tsa/tsae/fingerPrint.do",
+            inData: "dlFpParamM",
+            outData: "dlResultM",
+            msgYn: {
+                succ: false,
+                err: true
+            },
+        };
+
+        com.gfnExecute(sbmOption).then((rtn) => {
+            if (dlResultM.get('resultCd') == '0000') {
+                //alert("정상처리되었습니다.");
+                return true;
+            } else {
+                //alert("저장시 오류가 발생하였습니다. 다시 시도 부탁드립니다.");
+                return false;
+            }
+        });
+
+    } catch (e) {
+        //alert("저장시 오류가 발생하였습니다. 다시 시도 부탁드립니다.");
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : fingerprinting 모듈
+ ********************************************************************************/
+scwin.fpUtil = function (e) {
+    const fpUtil = {
+        getOSInfo: function () {
+            const useragent = window.navigator.userAgent.toLowerCase();
+            let useragentArray = useragent.split("(").join().split(")");
+            let osInfoArray = useragentArray[0].split(",")[1].split(";");
+
+            let strDeviceOS = fpUtil.nameDeviceOS(osInfoArray[0].trim());
+            let strDeviceBits = fpUtil.nameFlatform(osInfoArray[2].trim());
+
+            let cpuCore = window.navigator.hardwareConcurrency;
+            let memoryCore = window.navigator.deviceMemory;
+            return {
+                OSName: strDeviceOS,
+                OSFlatform: strDeviceBits,
+                cpu: cpuCore,
+                memory: memoryCore
+            };
+        },
+        getBrowserInfo: function () {
+            let struseragent = window.navigator.userAgent.toLowerCase();
+            let offsetBrowser;
+            let browserName = "";
+            let browserVersion = "";
+            if ((offsetBrowser = struseragent.indexOf("edge")) != -1) {
+                browserName = "Edge";
+            } else if ((offsetBrowser = struseragent.indexOf("edg/")) != -1) {
+                browserName = "Edge";
+            } else if ((offsetBrowser = struseragent.indexOf("opr")) != -1) {
+                browserName = "Opera";
+            } else if ((offsetBrowser = struseragent.indexOf("chrome")) != -1) {
+                browserName = "Chrome";
+            } else if ((offsetBrowser = struseragent.indexOf("trident")) != -1) {
+                browserName = "MS IE";
+            } else if ((offsetBrowser = struseragent.indexOf("firefox")) != -1) {
+                browserName = "Mozilla Firefox";
+            } else if ((offsetBrowser = struseragent.indexOf("safari")) != -1) {
+                browserName = "Safari";
+            } else {
+                browserName = "Other";
+                browserVersion = "";
+            }
+            if (offsetBrowser != -1) {
+                browserVersion = struseragent.substring(offsetBrowser);
+                browserVersion = browserVersion.split(" ")[0].split("/")[1];
+            }
+
+            const userBroswerplatform = window.navigator.platform.toLowerCase();
+            let strBroswerBits = fpUtil.nameFlatform(userBroswerplatform.trim());
+
+            return {
+                browserName: browserName,
+                browserVersion: browserVersion,
+                browserFlatform: strBroswerBits
+            };
+        },
+        getScreenInfo: function () {
+            const screenHeight = window.screen.height;
+            const screenWidth = window.screen.width;
+            const screenDepth = window.screen.colorDepth
+
+            const browserHeight = window.innerHeight;
+            const browserWidth = window.innerWidth;
+
+            return {
+                screenWidth: screenWidth,
+                screenHeight: screenHeight,
+                screenDepth: screenDepth,
+                browserWidth: browserWidth,
+                browserHeight: browserHeight
+            };
+        },
+        getTimeZone: function () {
+            try {
+                return new Date().getTimezoneOffset();
+            } catch (err) {
+                return "";
+            }
+        },
+        nameDeviceOS: function (osCode) {
+            let osName = "";
+            if (osCode.indexOf("windows") != -1) {
+                if (osCode.indexOf("windows nt 10.0") != -1) {
+                    majorPV = fpUtil.isWindows11();
+                    if (majorPV == true)
+                        osName = "Windows 11";
+                    else
+                        osName = "Windows 10";
+                }
+                // else if(osCode.indexOf("windows nt 10.0") != -1) 	osName="Windows 10";
+                else if (osCode.indexOf("windows nt 6.3") != -1) osName = "Windows 8.1";
+                else if (osCode.indexOf("windows nt 6.2") != -1) osName = "Windows 8";
+                else if (osCode.indexOf("windows nt 6.1") != -1) osName = "Windows 7";
+                else if (osCode.indexOf("windows nt 6.0") != -1) osName = "Windows Vista";
+                else if (osCode.indexOf("windows nt 5.1") != -1) osName = "Windows XP";
+                else if (osCode.indexOf("windows nt 5.0") != -1) osName = "Windows Vista";
+                else osName = "Windows(" + osCode + ")";
+            } else if (osCode.indexOf("mac") !== -1) {
+                if (osCode.indexOf("mac os x beta") !== -1) osName = "Mac OSX Beta (Kodiak)";
+                else if (osCode.indexOf("mac os x 10.0") !== -1) osName = "Mac OSX Cheetah";
+                else if (osCode.indexOf("mac os x 10.1") !== -1) osName = "Mac OSX Puma";
+                else if (osCode.indexOf("mac os x 10.2") !== -1) osName = "Mac OSX Jaguar";
+                else if (osCode.indexOf("mac os x 10.3") !== -1) osName = "Mac OSX Panther";
+                else if (osCode.indexOf("mac os x 10.4") !== -1) osName = "Mac OSX Tiger";
+                else if (osCode.indexOf("mac os x 10.5") !== -1) osName = "Mac OSX Leopard";
+                else if (osCode.indexOf("mac os x 10.6") !== -1) osName = "Mac OSX Snow Leopard";
+                else if (osCode.indexOf("mac os x 10.7") !== -1) osName = "Mac OSX Lion";
+                else if (osCode.indexOf("mac os x 10.8") !== -1) osName = "Mac OSX Mountain Lion";
+                else if (osCode.indexOf("mac os x 10.9") !== -1) osName = "Mac OSX Mavericks";
+                else if (osCode.indexOf("mac os x") !== -1) osName = "Mac OSX (Version Unknown)";
+                else osName = "Mac OS (Unknown)";
+            } else if (osCode.indexOf("ipad") !== -1) {
+                osName = "iPad";
+            } else if (osCode.indexOf("ipod") !== -1) {
+                osName = "iPod";
+            } else if (osCode.indexOf("iphone") !== -1) {
+                osName = "iPhone";
+            } else if (osCode.indexOf("X11") != -1) {
+                osName = "UNIX";
+            } else if (osCode.indexOf("sunos") !== -1) {
+                osName = "Sun OS";
+            } else if (osCode.indexOf("Android") != -1) {
+                osName = fpUtil.getAndroidName();
+            } else if (osCode.indexOf("linux") != -1) {
+                if (osCode.indexOf("ubuntu") !== -1) osName = "Ubuntu";
+                else osName = "Linux";
+            } else {
+                osName = "Unknown";
+            }
+            return osName;
+        },
+        getAndroidName: function () {
+            let useragent = window.navigator.userAgent;
+            let regex = /Android (.*);.*;\s*(.*)\sBuild/;
+            let regResult = regex.exec(useragent);
+
+            let deviceName = "Android";
+            if (regResult) {
+                let devVersion = regResult[1];
+                let devName = regResult[2];
+                deviceName += " " + devVersion + " " + devName;
+            }
+            else {
+                deviceName += "(Unknown)";
+            }
+            return deviceName;
+        },
+        nameFlatform: function (osBitData) {
+            let osbits = "";
+
+            if (osBitData.indexOf("x64") !== -1) {
+                osbits = "64";
+            } else if (osBitData.indexOf("x32") !== -1) {
+                osbits = "32";
+            } else if (osBitData.indexOf("wow64") !== -1) {
+                osbits = "64";
+            } else if (osBitData.indexOf("win64") !== -1) {
+                osbits = "64";
+            } else if (osBitData.indexOf("win32") !== -1) {
+                osbits = "32";
+            } else if (osBitData.indexOf("x86") !== -1) {
+                osbits = "32";
+            } else if (osBitData.indexOf("ppc") !== -1) {
+                osbits = "64";
+            } else if (osBitData.indexOf("alpha") !== -1) {
+                osbits = "64";
+            } else if (osBitData.indexOf("68k") !== -1) {
+                osbits = "64";
+            } else if (osBitData.indexOf("iphone") !== -1) {
+                osbits = "32";
+            } else if (osBitData.indexOf("android") !== -1) {
+                osbits = "32";
+            } else {
+                osbits = "Unknown";
+            }
+
+            return osbits;
+        },
+        deviceFingerPrinting: function () {
+            let osInfo = fpUtil.getOSInfo();
+            let brInfo = fpUtil.getBrowserInfo();
+            let screenInfo = fpUtil.getScreenInfo();
+            let timezoneInfo = fpUtil.getTimeZone();
+            //let dntYn = window.navigator.doNotTrack;
+            let cookiYn = window.navigator.cookieEnabled;
+
+            let deviceInfo = osInfo.OSName + osInfo.OSFlatform + osInfo.cpu + osInfo.memory +
+                brInfo.browserName + brInfo.browserFlatform +
+                screenInfo.screenWidth + screenInfo.screenHeight + screenInfo.screenDepth +
+                timezoneInfo + cookiYn;
+
+
+            return {
+                raw: deviceInfo,
+                hash: sha256(deviceInfo)
+            }
+        },
+        canvasFingerPrinting: function () {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.height = 30;
+            canvas.width = 500;
+
+            //U+1F603 이모지 SMILING FACE : OS별로 그림이 다르게 나옴
+            var txt = "차세대 나라장터 프로젝트 2023 &#128512; &lt;canvas&gt; 1.0 &#128512;";
+            ctx.textBaseline = "top";
+            // The most common type
+            ctx.font = "16px 'Arial'";
+            ctx.textBaseline = "alphabetic";
+            ctx.fillStyle = "#f60";
+            ctx.fillRect(125, 1, 62, 20);
+
+            ctx.fillStyle = "#069";
+            ctx.fillText(txt, 2, 15);
+            ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+            ctx.fillText(txt, 4, 17);
+
+            ctx.globalCompositeOperation = "multiply";
+            ctx.fillStyle = "rgb(240,1,255)";
+            ctx.beginPath();
+            ctx.arc(50, 50, 50, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill();
+
+            var strCanvasFingerPrinting = canvas.toDataURL();
+
+            return {
+                data: strCanvasFingerPrinting,
+                hash: sha256(strCanvasFingerPrinting)
+            };
+        },
+
+        webglFingerPrinting: function () {
+            var canvas, ctx, width = 256, height = 128;
+            canvas = document.createElement("canvas");
+
+            canvas.width = width, canvas.height = height, ctx = canvas
+                .getContext("webgl2")
+                || canvas.getContext("experimental-webgl2")
+                || canvas.getContext("webgl")
+                || canvas.getContext("experimental-webgl")
+                || canvas.getContext("moz-webgl");
+
+            try {
+                let f = "attribute vec2 attrVertex;varying vec2 varyinTexCoordinate;uniform vec2 uniformOffset;void main(){varyinTexCoordinate=attrVertex+uniformOffset;gl_Position=vec4(attrVertex,0,1);}";
+                let g = "precision mediump float;varying vec2 varyinTexCoordinate;void main() {gl_FragColor=vec4(varyinTexCoordinate,0,1);}";
+                let h = ctx.createBuffer();
+
+                ctx.bindBuffer(ctx.ARRAY_BUFFER, h);
+
+                let i = new Float32Array([-.2, -.9, 0, .4, -.26, 0, 0, .7321, 0]);
+
+                ctx.bufferData(ctx.ARRAY_BUFFER, i, ctx.STATIC_DRAW),
+                    h.itemSize = 3, h.numItems = 3;
+
+                let j = ctx.createProgram();
+                let k = ctx.createShader(ctx.VERTEX_SHADER);
+
+                ctx.shaderSource(k, f);
+                ctx.compileShader(k);
+
+                let l = ctx.createShader(ctx.FRAGMENT_SHADER);
+
+                ctx.shaderSource(l, g);
+                ctx.compileShader(l);
+                ctx.attachShader(j, k);
+                ctx.attachShader(j, l);
+                ctx.linkProgram(j);
+                ctx.useProgram(j);
+
+                j.vertexPosAttrib = ctx.getAttribLocation(j, "attrVertex");
+                j.offsetUniform = ctx.getUniformLocation(j, "uniformOffset");
+
+                ctx.enableVertexAttribArray(j.vertexPosArray);
+                ctx.vertexAttribPointer(j.vertexPosAttrib, h.itemSize, ctx.FLOAT,
+                    !1, 0, 0);
+                ctx.uniform2f(j.offsetUniform, 1, 1);
+                ctx.drawArrays(ctx.TRIANGLE_STRIP, 0, h.numItems);
+
+            } catch (e) {
+            }
+            let m = "";
+            let n = new Uint8Array(width * height * 4);
+            ctx.readPixels(0, 0, width, height, ctx.RGBA, ctx.UNSIGNED_BYTE, n);
+            m = JSON.stringify(n).replace(/,?"[0-9]+":/g, "");
+            //		document.body.appendChild(document.createElement('br'));
+            //		document.body.appendChild(document.createTextNode(sha256(m)));
+            return {
+                raw: m,
+                data: ctx.canvas.toDataURL(),
+                hash: sha256(m)
+            }
+        },
+        isWindows11: async function () {
+            try {
+                let majorPV = await window.navigator.userAgentData.getHighEntroopyValues(["platformVersion"]).then(function (uapv) {
+                    let winver = Number(uapv.platformVersion.split('.')[0]);
+                    if (winver > 10)
+                        return true;
+                    else
+                        return false;
+
+                });
+            } catch (e) {
+                return false;
+            }
+        }
+    };
+
+    var sha256 = (function () {
+        let i = 1,
+            j,
+            K = [],
+            H = [];
+        while (++i < 18) {
+            for (j = i * i; j < 312; j += i) {
+                K[j] = 1;
+            }
+        }
+        function x(num, root) {
+            return (Math.pow(num, 1 / root) % 1) * 4294967296 | 0;
+        }
+        for (i = 1, j = 0; i < 313;) {
+            if (!K[++i]) {
+                H[j] = x(i, 2);
+                K[j++] = x(i, 3);
+            }
+        }
+        function S(X, n) { return (X >>> n) | (X << (32 - n)); }
+        function SHA256(b) {
+            let HASH = H.slice(i = 0),
+                s = unescape(encodeURI(b)), /* encode as utf8 */
+                W = [],
+                l = s.length,
+                m = [],
+                a, y, z;
+            for (; i < l;) m[i >> 2] |= (s.charCodeAt(i) & 0xff) << 8 * (3 - i++ % 4);
+            l *= 8;
+            m[l >> 5] |= 0x80 << (24 - l % 32);
+            m[z = (l + 64 >> 5) | 15] = l;
+            for (i = 0; i < z; i += 16) {
+                a = HASH.slice(j = 0, 8);
+                for (; j < 64; a[4] += y) {
+                    if (j < 16) {
+                        W[j] = m[j + i];
+                    } else {
+                        W[j] =
+                            (S(y = W[j - 2], 17) ^ S(y, 19) ^ (y >>> 10)) +
+                            (W[j - 7] | 0) +
+                            (S(y = W[j - 15], 7) ^ S(y, 18) ^ (y >>> 3)) +
+                            (W[j - 16] | 0);
+                    }
+                    a.unshift(
+                        (
+                            y = (
+                                a.pop() +
+                                (S(b = a[4], 6) ^ S(b, 11) ^ S(b, 25)) +
+                                (((b & a[5]) ^ ((~b) & a[6])) + K[j]) | 0
+                            ) +
+                            (W[j++] | 0)
+                        ) +
+                        (S(l = a[0], 2) ^ S(l, 13) ^ S(l, 22)) +
+                        ((l & a[1]) ^ (a[1] & a[2]) ^ (a[2] & l))
+                    );
+                }
+                for (j = 8; j--;) HASH[j] = a[j] + HASH[j];
+            }
+            for (s = ''; j < 63;) s += ((HASH[++j >> 3] >> 4 * (7 - j % 8)) & 15).toString(16);
+            return s;
+        }
+        return SHA256;
+    })();
+
+    return fpUtil;
+};
+
+/**
+ * ==============================================================================
+ *  포탈기능
+ * ==============================================================================
+ */
+/********************************************************************************
+ * 설명 :목록 조회 API 호출
+ ********************************************************************************/
+scwin.fnSrchPrtlFtreMainList = async function () {
+    dlSrchParmM.set("indtYn", "Y"); // 표시여부
+    dlSrchParmM.set("upPrtlFtreNo", ""); // 표시여부
+
+    let sbmOption = {
+        id: "sbmSrchPrtlFtreMainList",
+        action: "/fa/faz/fazf/PrtlFtre/selectPrtlFtreMainList.do",
+        inData : "dlSrchParmM",
+        outData: "dlPrtlFtreL",
+        msgYn: { succ: false, err: true },
+    };
+
+    try {
+        const result = await com.gfnExecute(sbmOption);
+        scwin.fnCallPortal();
+    } catch (e) {
+        console.error(e);
+    }
+};
+/********************************************************************************
+ * 설명 :
+ ********************************************************************************/
+scwin.fnCallPortal = function(e){
+    try {
+        wfm_gnb.getWindow().wfm_gnbTop.getWindow().scwin.fnCallGnbTop(); //GnbTop.xml 호출
+        wfm_gnb.getWindow().wfm_gnbBtm.getWindow().scwin.fnCallGnbBtn(); //GnbBtn.xml 호출
+        wfm_footer.getWindow().scwin.fnCallFooter(); // footer.xml 호출
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+/********************************************************************************
+ * 설명 : 하위로드 찾기
+ ********************************************************************************/
+scwin.fnMatchedPathPrtlFtreNo = function(prtlFtreNo, pathPrtlFtreNo){
+    try {
+        if( comUtil.gfnIsEmpty(prtlFtreNo) || comUtil.gfnIsEmpty(pathPrtlFtreNo) ) {
+            return false;
+        }
+        let pathPrtlFtreNoArr = pathPrtlFtreNo.split("/");
+        for(let i = 0; i<pathPrtlFtreNoArr.length; i++){
+            let tempPrtlFtreNo = pathPrtlFtreNoArr[i].replace(/[^0-9]/g, '');
+            if( prtlFtreNo === tempPrtlFtreNo) return true;
+        }
+        return false;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+/********************************************************************************
+ * 설명 : 포탈기능 화면 Open 함수
+ ********************************************************************************/
+scwin.fnOpenPortal = function(prtlFtreNo, opt){
+    try {
+        let width = opt?.width || 1000;
+        let height = opt?.height || 1000;
+        let callback = opt?.callback || "";
+        if(prtlFtreNo == "01094") {
+            width = opt?.width || 1450;
+            height = opt?.height || 800;
+        }
+        if( comUtil.gfnIsEmpty(prtlFtreNo)) {
+            return false;
+        }
+
+        let json = dlPrtlFtreL.getMatchedJSON("prtlFtreNo", prtlFtreNo, true);
+        if( comUtil.gfnIsEmpty(json) || json.length !== 1 ) {
+            return false;
+        }
+
+        let prtlFtreNm = json[0].prtlFtreNm;
+        let upPrtlFtreNo = json[0].upPrtlFtreNo;
+        let lnkUrl = json[0].scrnUrl; // 링크URL
+        let menuCangVal = json[0].menuCangVal; // 메뉴호출값
+        let scrnUrl = json[0].scrnUrl; // 화면경로
+        let indtYn = json[0].indtYn; // 표시여부
+        let isleafYn = json[0].isleafYn; // 최하위여부
+        let extlDomnYn = json[0].extlDomnYn; // 외부도메인여부
+        let popupUseYn = json[0].popupUseYn; // 팝업사용여부
+        let banrIndtYn = json[0].popupUseYn; // 배너표시여부
+        let untyAtchFileNo = json[0].popupUseYn; // 통합첨부파일번호
+
+        let prtlFtreCn = json[0].prtlFtreCn; // 포탈기능내용
+        let cangParmVal = json[0].cangParmVal; // 호출파라미터값
+
+        if( comUtil.gfnIsEmpty(lnkUrl) && comUtil.gfnIsEmpty(menuCangVal)) {
+            return false;
+        }
+
+        if( extlDomnYn === "Y"){
+
+            const httpsExp = new RegExp(/^https:?/);
+            const httpExp = new RegExp(/^http:?/);
+
+            if( !httpsExp.test(lnkUrl) && !httpExp.test(lnkUrl) ){
+                if( lnkUrl.substring(0,0) === "/" )   {
+                    //return;
+                }
+            }
+
+            if(popupUseYn === "Y" ){
+                let pOption = "width="    + width
+                            + ", height=" + height
+                            + ", left="   + (screen.width - width) / 2
+                            + ", top="    + (screen.height - height) / 2;
+
+                window.open(lnkUrl, prtlFtreNm, pOption);
+            }else{
+                // window 새탭으로 열기
+                comUtil.gfnOpenNewTab(lnkUrl);
+            }
+        }else{
+            let paramObj = {};
+
+            if( !comUtil.gfnIsEmpty(cangParmVal) ){
+                try{
+                    paramObj = JSON.parse(cangParmVal);
+                }catch (e) {
+                    console.error(e);
+                }
+            }
+
+            if(popupUseYn === "Y" ){
+                com.gfnOpenPopup(
+                    {
+                    menuCangVal: menuCangVal, // 팝업창 아이디
+                    popupId: menuCangVal,
+                    popupName: prtlFtreNm,
+                    param: paramObj,
+                    width: width, // 가로 사이즈
+                    height: height, // 세로 사이즈
+                    //callbackFn: "scwin.fnCallbackBsneClsfPoup" // 콜백 함수 실행
+                    callbackFn: callback // 콜백 함수 실행
+                    }
+                );
+            }else{
+                let option =  {
+                    isHistory: true,
+                    param: paramObj,
+                    //targetMain: true,
+                    //targetTab: false,
+                };
+                com.gfnOpenMenu(menuCangVal, option);  // 메뉴호출
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+};
+}}}]}]},{T:1,N:'body',A:{'ev:onpageload':'scwin.onpageload'},E:[{T:1,N:'w2:anchor',A:{outerDiv:'false',style:'',id:'',class:'skip-nav',href:'#fs_content'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'본문영역 바로가기'}]}]},{T:1,N:'xf:group',A:{style:'',id:'grpPortal',class:'portal'},E:[{T:1,N:'w2:wframe',A:{style:'',id:'wfm_gnb',class:'section gnb',src:'/kn/layout/nara/Gnb.xml'}},{T:1,N:'w2:wframe',A:{style:'',id:'wfm_navigation',class:'section navigation hide',src:'/kn/layout/nara/Navigation.xml'}},{T:1,N:'xf:group',A:{id:'fs_content',class:'container-layout'},E:[{T:1,N:'xf:group',A:{id:'',class:'parent-container'},E:[{T:1,N:'w2:wframe',A:{src:'/kn/layout/nara/CntsHeader.xml',style:'',id:'wfm_cntsHeader',class:'section cnts-header hide'}},{T:1,N:'w2:wframe',A:{style:'',id:'wfm_container',class:'section container',src:'','ev:onbeforewframeunload':'scwin.wfm_container_onbeforewframeunload','ev:onwframeload':'scwin.wfm_container_onwframeload'}},{T:1,N:'xf:group',A:{class:'grid-help-pop-wrap',id:'grpTooltipGroup',style:''},E:[{T:1,N:'xf:group',A:{class:'popup-box udc_help_tooltip',id:'grpToolTip'},E:[{T:1,N:'w2:attributes',E:[{T:1,N:'w2:aria-hidden',E:[{T:3,text:'true'}]}]},{T:1,N:'xf:group',A:{class:'title',id:'grpTooltipTitle',style:'',tagname:'p',text:''},E:[{T:3,text:'타이틀'}]},{T:1,N:'xf:group',A:{class:'content',id:'grpTooltipContent',style:'',tagname:'p',text:''},E:[{T:3,text:'내용입니다.'}]},{T:1,N:'xf:trigger',A:{class:'btn close',id:'btnTooltipClose',style:'',type:'button'},E:[{T:1,N:'xf:label',E:[{T:4,cdata:'닫기'}]}]}]}]}]}]},{T:1,N:'w2:wframe',A:{style:'',id:'wfm_rnb',class:'section rnb',src:'/kn/layout/nara/Rnb.xml'}},{T:1,N:'w2:wframe',A:{style:'',id:'wfm_footer',class:'section footer',src:'/kn/layout/nara/Footer.xml'}}]}]}]}]})
