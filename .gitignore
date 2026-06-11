@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.pid
+*.lock
+*_state.json
+sticky_alarm_state.json
+스티커메모_알람상태.json
+스티커메모_알람문구.json
+스티커메모_워드저장로그.txt
+*.tmp

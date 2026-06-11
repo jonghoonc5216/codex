@@ -1,0 +1,5 @@
+@echo off
+setlocal
+set "APP_DIR=%~dp0"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$startup = [Environment]::GetFolderPath('Startup'); $shortcutPath = Join-Path $startup '스티커메모 알람.lnk'; $pythonw = $null; $pythonRoot = Join-Path $env:LOCALAPPDATA 'Programs\Python'; if (Test-Path -LiteralPath $pythonRoot) { $pythonw = Get-ChildItem -LiteralPath $pythonRoot -Recurse -Filter pythonw.exe -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1 -ExpandProperty FullName }; if (-not $pythonw) { $pythonw = (Get-Command pythonw.exe -ErrorAction SilentlyContinue).Source }; if (-not $pythonw) { $pythonw = (Get-Command python.exe).Source }; $script = Join-Path '%APP_DIR%' 'sticky_alarm.py'; $shell = New-Object -ComObject WScript.Shell; $shortcut = $shell.CreateShortcut($shortcutPath); $shortcut.TargetPath = $pythonw; $q = [char]34; $shortcut.Arguments = $q + $script + $q; $shortcut.WorkingDirectory = '%APP_DIR%'; $shortcut.WindowStyle = 7; $shortcut.Description = '스티커 메모 알람 자동실행'; $shortcut.Save(); Write-Output ('created: ' + $shortcutPath)"
+pause
