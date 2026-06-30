@@ -27,19 +27,13 @@
           <button id="editBtn" type="button" aria-pressed="false">간단 편집</button>
           <button id="undoBtn" type="button" disabled>되돌리기</button>
           <button id="exportDxfBtn" type="button">수정 DXF</button>
-          <button id="exportKmzBtn" type="button" title="Google Earth용 KMZ 파일 저장">KMZ 내보내기</button>
+          <button id="blenderBtn" type="button" title="현재 도면을 설치된 Blender에서 열기">Blender로 열기</button>
           <button
             id="googleEarthBtn"
             class="primary-command"
             type="button"
             title="KMZ를 만들고 설치된 Google Earth Pro에서 열기"
           >Google Earth로 열기</button>
-          <button
-            id="captureBtn"
-            type="button"
-            title="Google Earth 창을 선택해 현재 뷰를 캡처"
-          >조감도 캡처</button>
-          <button id="saveBtn" type="button">PNG</button>
           <button id="regenBtn" type="button" title="DXF 곡선 정보를 다시 계산해 화면을 갱신">리젠</button>
           <button id="fitBtn" type="button" title="도면 전체가 보이도록 맞춤">화면 맞춤</button>
           <button id="viewBtn" type="button">3D</button>
@@ -176,35 +170,6 @@
         <span id="cursorText">X -, Y -</span>
       </footer>
 
-      <dialog id="captureDialog" class="capture-dialog">
-        <div class="capture-header">
-          <div>
-            <strong>조감도 캡처</strong>
-            <span id="captureInfo">Google Earth에서 선택한 현재 화면</span>
-          </div>
-          <button id="captureCloseBtn" class="icon-command" type="button" aria-label="닫기">×</button>
-        </div>
-        <div class="capture-stage">
-          <img id="capturePreview" alt="Google Earth 조감도 캡처 미리보기" />
-          <div id="captureEmpty" class="capture-empty">Google Earth 창을 선택하면 이곳에 캡처가 표시됩니다.</div>
-        </div>
-        <div class="capture-actions">
-          <button id="captureAgainBtn" type="button">다시 캡처</button>
-          <button id="captureSaveBtn" type="button" disabled>PNG 저장</button>
-          <button
-            id="captureCgBtn"
-            class="primary-command"
-            type="button"
-            disabled
-            title="OpenAI API 키 연결 후 사용할 수 있습니다."
-          >CG 제작 · API 연결 필요</button>
-        </div>
-        <p class="capture-note">
-          캡처 이미지는 현재 PC의 브라우저 메모리에만 보관됩니다. CG 제작 기능은 OpenAI API 연결 후 활성화됩니다.
-        </p>
-        <canvas id="captureCanvas" hidden></canvas>
-      </dialog>
-
       <section hidden>
         <a id="kmlLink"></a>
         <input id="satelliteToggle" type="checkbox" />
@@ -216,6 +181,6 @@
         <input id="elevationToggle" type="checkbox" />
       </section>
     </main>
-    <script src="/static/app.js?v=slope-kmz-4"></script>
+    <script src="/static/app.js?v=blender-open-1"></script>
   </body>
 </html>

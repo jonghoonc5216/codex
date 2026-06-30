@@ -90,6 +90,7 @@ class Feature:
     closed: bool = False
     paths: list[list[list[float]]] | None = None
     pattern: str | None = None
+    image: dict | None = None
 
 
 @dataclass
@@ -97,6 +98,14 @@ class Block:
     name: str
     base: list[float]
     entities: list[tuple[str, list[tuple[str, str]]]]
+
+
+@dataclass
+class ImageDef:
+    handle: str
+    path: str
+    width: float | None = None
+    height: float | None = None
 
 
 @dataclass(frozen=True)
@@ -187,6 +196,10 @@ def color_from_tags(tags: list[tuple[str, str]]) -> str:
 
 def layer_from_tags(tags: list[tuple[str, str]]) -> str:
     return first_tag(tags, "8", "0") or "0"
+
+
+def handle_from_tags(tags: list[tuple[str, str]]) -> str | None:
+    return first_tag(tags, "5")
 
 
 def get_xyz(tags: list[tuple[str, str]], x_code: str = "10", y_code: str = "20", z_code: str = "30") -> list[float] | None:
@@ -713,12 +726,54 @@ def transformed_feature(feature: Feature, transform: Transform, inherited_layer:
         closed=feature.closed,
         paths=paths,
         pattern=feature.pattern,
+        image=dict(feature.image) if feature.image else None,
     )
 
 
-def parse_entity(entity_type: str, tags: list[tuple[str, str]]) -> Feature | None:
+def parse_image_entity(tags: list[tuple[str, str]], image_defs: dict[str, ImageDef]) -> Feature | None:
+    insertion = get_xyz(tags, "10", "20", "30")
+    u_vector = get_xyz(tags, "11", "21", "31")
+    v_vector = get_xyz(tags, "12", "22", "32")
+    pixel_width = safe_float(first_tag(tags, "13"))
+    pixel_height = safe_float(first_tag(tags, "23"))
+    if not insertion or not u_vector or not v_vector or not pixel_width or not pixel_height:
+        return None
+
+    image_def_handle = first_tag(tags, "340", "") or ""
+    image_def = image_defs.get(image_def_handle)
+    x0, y0, z0 = insertion
+    ux, uy, uz = u_vector
+    vx, vy, vz = v_vector
+    u = [ux * pixel_width, uy * pixel_width, uz * pixel_width]
+    v = [vx * pixel_height, vy * pixel_height, vz * pixel_height]
+    p0 = [x0, y0, z0]
+    p1 = [x0 + u[0], y0 + u[1], z0 + u[2]]
+    p2 = [x0 + u[0] + v[0], y0 + u[1] + v[1], z0 + u[2] + v[2]]
+    p3 = [x0 + v[0], y0 + v[1], z0 + v[2]]
+    raw_path = image_def.path if image_def else ""
+    return Feature(
+        "image",
+        layer_from_tags(tags),
+        [p0, p1, p2, p3, p0[:]],
+        color_from_tags(tags),
+        text=Path(raw_path).name if raw_path else "DXF image",
+        closed=True,
+        image={
+            "handle": handle_from_tags(tags) or "",
+            "definitionHandle": image_def_handle,
+            "path": raw_path,
+            "fileName": Path(raw_path).name if raw_path else "image",
+            "pixelWidth": pixel_width,
+            "pixelHeight": pixel_height,
+        },
+    )
+
+
+def parse_entity(entity_type: str, tags: list[tuple[str, str]], image_defs: dict[str, ImageDef] | None = None) -> Feature | None:
     layer = layer_from_tags(tags)
     color = color_from_tags(tags)
+    if entity_type == "IMAGE":
+        return parse_image_entity(tags, image_defs or {})
     if entity_type == "LINE":
         start = get_xyz(tags, "10", "20", "30")
         end = get_xyz(tags, "11", "21", "31")
@@ -790,6 +845,7 @@ def parse_entity(entity_type: str, tags: list[tuple[str, str]]) -> Feature | Non
 def expand_entities(
     entities: list[tuple[str, list[tuple[str, str]]]],
     blocks: dict[str, Block],
+    image_defs: dict[str, ImageDef] | None = None,
     transform: Transform | None = None,
     inherited_layer: str | None = None,
     depth: int = 0,
@@ -828,6 +884,7 @@ def expand_entities(
                 child_features, child_ignored = expand_entities(
                     block.entities,
                     blocks,
+                    image_defs,
                     child_transform,
                     child_layer,
                     depth + 1,
@@ -839,7 +896,7 @@ def expand_entities(
             add_ignored("INSERT_missing_block" if block is None else "INSERT_depth_limit")
             continue
 
-        feature = parse_entity(entity_type, tags)
+        feature = parse_entity(entity_type, tags, image_defs)
         if feature is None:
             add_ignored(entity_type)
             continue
@@ -848,6 +905,205 @@ def expand_entities(
     if open_polyline and len(open_polyline.points) >= 2:
         features.append(transformed_feature(open_polyline, active_transform, inherited_layer))
     return features, ignored
+
+
+def read_image_defs(path: Path) -> dict[str, ImageDef]:
+    image_defs: dict[str, ImageDef] = {}
+    for entity_type, tags in section_entity_stream(path, "OBJECTS"):
+        if entity_type != "IMAGEDEF":
+            continue
+        handle = handle_from_tags(tags)
+        raw_path = first_tag(tags, "1")
+        if not handle or not raw_path:
+            continue
+        image_defs[handle] = ImageDef(
+            handle=handle,
+            path=raw_path,
+            width=safe_float(first_tag(tags, "10")),
+            height=safe_float(first_tag(tags, "20")),
+        )
+    return image_defs
+
+
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tif", ".tiff"}
+
+
+@lru_cache(maxsize=512)
+def resolve_image_path(dxf_path_string: str, image_ref: str) -> str | None:
+    dxf_path = Path(dxf_path_string)
+    raw = str(image_ref or "").strip().strip('"')
+    if not raw:
+        return None
+    normalized = raw.replace("\\", "/")
+    image_path = Path(raw)
+    candidates: list[Path] = []
+    if image_path.is_absolute():
+        candidates.append(image_path)
+    else:
+        candidates.append(dxf_path.parent / raw)
+        candidates.append(dxf_path.parent / normalized)
+        name = Path(normalized).name
+        search_roots = [
+            dxf_path.parent,
+            Path.cwd(),
+            Path.home() / "Desktop" / "Ai 실습" / "★대형프로젝트 조감도",
+        ]
+        for root in search_roots:
+            if not root.exists():
+                continue
+            candidates.append(root / raw)
+            candidates.append(root / normalized)
+            candidates.append(root / name)
+        for root in search_roots:
+            if not root.exists():
+                continue
+            try:
+                match = next(root.rglob(name), None)
+            except OSError:
+                match = None
+            if match is not None:
+                candidates.append(match)
+
+    for candidate in candidates:
+        try:
+            resolved = candidate.resolve()
+        except OSError:
+            continue
+        if resolved.is_file() and resolved.suffix.lower() in IMAGE_SUFFIXES:
+            return str(resolved)
+    return None
+
+
+HAPBON1_MARKER = "\ud569\ubcf81"
+KNOWN_AERIAL_SAMPLE_ROOT = (
+    Path.home()
+    / "Desktop"
+    / "Ai \uc2e4\uc2b5"
+    / "\u2605\ub300\ud615\ud504\ub85c\uc81d\ud2b8 \uc870\uac10\ub3c4"
+)
+
+
+def upload_original_name(path: Path) -> str:
+    match = re.match(r"^\d+_(.+)$", path.name)
+    return match.group(1) if match else path.name
+
+
+def companion_gbk_candidates(path: Path) -> list[Path]:
+    names = [path.name, upload_original_name(path)]
+    stems: list[str] = []
+    for name in names:
+        stem = Path(name).stem
+        if stem and stem not in stems:
+            stems.append(stem)
+
+    roots: list[Path] = []
+    for root in (path.parent, KNOWN_AERIAL_SAMPLE_ROOT):
+        if root.exists() and root not in roots:
+            roots.append(root)
+
+    candidates: list[Path] = []
+    for root in roots:
+        for stem in stems:
+            candidate = root / f"{stem}.gbk"
+            if candidate.exists() and candidate not in candidates:
+                candidates.append(candidate)
+        try:
+            gbk_files = list(root.glob("*.gbk"))
+        except OSError:
+            gbk_files = []
+        for gbk_file in gbk_files:
+            if gbk_file in candidates:
+                continue
+            if any(gbk_file.stem == stem or gbk_file.stem.endswith(stem) for stem in stems):
+                candidates.append(gbk_file)
+    return candidates
+
+
+def image_resolved_path(path: Path, feature: Feature) -> Path | None:
+    if feature.kind != "image" or not feature.image:
+        return None
+    resolved = resolve_image_path(str(path.resolve()), str(feature.image.get("path", "")))
+    return Path(resolved) if resolved else None
+
+
+def image_name_matches_hapbon1(resolved: Path | None, feature: Feature) -> bool:
+    names = []
+    if resolved is not None:
+        names.append(resolved.name)
+    if feature.image:
+        names.append(str(feature.image.get("fileName", "")))
+        names.append(str(feature.image.get("path", "")))
+    return any(HAPBON1_MARKER in name for name in names)
+
+
+def normalize_image_feature(feature: Feature, resolved: Path) -> Feature:
+    if feature.image is None:
+        return feature
+    feature.image = {
+        **feature.image,
+        "path": str(resolved),
+        "fileName": resolved.name,
+    }
+    feature.text = resolved.name
+    return feature
+
+
+def filter_available_image_features(path: Path, features: list[Feature], ignored: dict[str, int]) -> list[Feature]:
+    filtered: list[Feature] = []
+    missing = 0
+    for feature in features:
+        if feature.kind != "image":
+            filtered.append(feature)
+            continue
+        resolved = image_resolved_path(path, feature)
+        if resolved is None:
+            missing += 1
+            continue
+        filtered.append(normalize_image_feature(feature, resolved))
+    if missing:
+        ignored["image_missing_file"] = ignored.get("image_missing_file", 0) + missing
+    return filtered
+
+
+def supplement_hapbon1_image_from_gbk(path: Path, features: list[Feature], ignored: dict[str, int]) -> list[Feature]:
+    for feature in features:
+        resolved = image_resolved_path(path, feature)
+        if resolved is not None and image_name_matches_hapbon1(resolved, feature):
+            return features
+
+    for companion in companion_gbk_candidates(path):
+        if companion.resolve() == path.resolve():
+            continue
+        try:
+            blocks = read_blocks(companion)
+            image_defs = read_image_defs(companion)
+            companion_features, _companion_ignored = expand_entities(
+                list(entity_stream(companion)),
+                blocks,
+                image_defs,
+            )
+        except Exception:
+            continue
+
+        available: list[tuple[Feature, Path]] = []
+        hapbon1: list[tuple[Feature, Path]] = []
+        for feature in companion_features:
+            resolved = image_resolved_path(companion, feature)
+            if resolved is None:
+                continue
+            available.append((feature, resolved))
+            if image_name_matches_hapbon1(resolved, feature):
+                hapbon1.append((feature, resolved))
+
+        selected = hapbon1 or (available if len(available) == 1 else [])
+        if not selected:
+            continue
+
+        additions = [normalize_image_feature(feature, resolved) for feature, resolved in selected]
+        ignored["image_supplemented_from_gbk"] = ignored.get("image_supplemented_from_gbk", 0) + len(additions)
+        return [*features, *additions]
+
+    return features
 
 
 def parse_dxf(path: Path) -> tuple[dict, list[Feature], dict]:
@@ -868,7 +1124,8 @@ def parse_dxf(path: Path) -> tuple[dict, list[Feature], dict]:
         )
 
     blocks = read_blocks(path)
-    features, ignored = expand_entities(list(entity_stream(path)), blocks)
+    image_defs = read_image_defs(path)
+    features, ignored = expand_entities(list(entity_stream(path)), blocks, image_defs)
     if not header_bounds_valid:
         padded_bounds = dominant_feature_bounds(features)
         ignored["invalid_header_extents"] = 1
@@ -884,6 +1141,8 @@ def parse_dxf(path: Path) -> tuple[dict, list[Feature], dict]:
                     flattened += 1
         if flattened:
             ignored["z_outliers_flattened"] = flattened
+    features = supplement_hapbon1_image_from_gbk(path, features, ignored)
+    features = filter_available_image_features(path, features, ignored)
     filtered: list[Feature] = []
     for feature in features:
         if intersects_bounds(feature.points, padded_bounds):
@@ -1119,6 +1378,14 @@ def build_project(path: Path, epsg: int | None = None) -> dict:
             item["pattern"] = feature.pattern
         if feature.kind == "hatch":
             item["opacity"] = 0.24 if (feature.pattern or "").upper() == "SOLID" else 0.55
+        if feature.kind == "image" and feature.image:
+            resolved_image = resolve_image_path(str(path.resolve()), str(feature.image.get("path", "")))
+            item["image"] = {
+                **feature.image,
+                "available": bool(resolved_image),
+                "extension": Path(resolved_image or feature.image.get("path", "")).suffix.lower(),
+            }
+            item["opacity"] = 1.0
         serialized.append(item)
 
     return {

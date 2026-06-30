@@ -1,0 +1,36 @@
+name: Build 조감도작성 Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "large-project-aerial-viewer/**"
+      - ".github/workflows/build-jogamdo.yml"
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: large-project-aerial-viewer
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install --upgrade pyinstaller
+
+      - name: Build exe
+        run: python -m PyInstaller --clean --noconfirm "조감도작성.spec"
+
+      - name: Upload exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 조감도작성-windows-exe
+          path: large-project-aerial-viewer/dist/조감도작성.exe

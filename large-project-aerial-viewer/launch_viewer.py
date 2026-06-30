@@ -8,10 +8,11 @@ import webbrowser
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent
 HOST = "127.0.0.1"
 PORT = 8765
 URL = f"http://{HOST}:{PORT}"
+SERVER_MODE_ARG = "--aerial-viewer-server"
 
 
 def is_server_running() -> bool:
@@ -33,8 +34,13 @@ def start_server() -> None:
 
     stdout = (ROOT / "server.log").open("ab")
     stderr = (ROOT / "server.err.log").open("ab")
+    if getattr(sys, "frozen", False):
+        command = [sys.executable, SERVER_MODE_ARG]
+    else:
+        command = [sys.executable.replace("pythonw.exe", "python.exe"), "server.py", "--host", HOST, "--port", str(PORT)]
+
     subprocess.Popen(
-        [sys.executable.replace("pythonw.exe", "python.exe"), "server.py", "--host", HOST, "--port", str(PORT)],
+        command,
         cwd=str(ROOT),
         stdin=subprocess.DEVNULL,
         stdout=stdout,
@@ -52,6 +58,13 @@ def wait_for_server() -> None:
 
 
 def main() -> None:
+    if SERVER_MODE_ARG in sys.argv:
+        import server
+
+        sys.argv = [sys.argv[0], "--host", HOST, "--port", str(PORT)]
+        server.main()
+        return
+
     if not is_server_running():
         start_server()
         wait_for_server()

@@ -1,72 +1,113 @@
 # 조감도작성
 
-DXF 도면을 빠르게 확인하고 간단히 수정한 뒤, 수정 DXF 또는 Google Earth용 KMZ로 내보내는 경량 도구입니다.
+DXF 기반 조감도 작성, 경사분석, Google Earth 및 Blender 연동 프로그램입니다.
 
-## 실행
+좌표가 들어간 DXF 도면을 불러와 3D로 확인하고, 간단한 선형/해치 편집을 한 뒤 Google Earth Pro에서 실제 현장 위치에 대입할 수 있습니다. Blender가 설치되어 있으면 현재 도면을 지형 메쉬, CAD 선형, 해치면, 이미지 평면으로 변환해 Blender에서 바로 열 수 있습니다.
 
-바탕화면의 `조감도작성` 바로가기를 실행합니다.
+## 빠른 실행
 
-직접 실행할 때:
+### exe로 실행
+
+GitHub에서 `large-project-aerial-viewer/dist/조감도작성.exe`를 내려받아 실행합니다.
+
+실행하면 로컬 서버가 켜지고 기본 브라우저에서 다음 주소가 열립니다.
+
+```text
+http://127.0.0.1:8765
+```
+
+### Python으로 실행
 
 ```powershell
 cd C:\Users\saman\Documents\Codex\large-project-aerial-viewer
+python launch_viewer.py
+```
+
+또는 서버만 직접 실행할 수 있습니다.
+
+```powershell
 python server.py --host 127.0.0.1 --port 8765
 ```
 
-브라우저 주소는 `http://127.0.0.1:8765`입니다.
+## exe 다시 만들기
 
-## 기본 작업 순서
+노트북에서 최신 코드로 exe를 다시 만들려면 다음 파일을 실행합니다.
 
-1. `DXF 열기`로 도면을 불러옵니다.
-2. 프로그램이 GRS80 원점을 자동 감지한 결과를 상단 좌표계 목록에서 확인합니다.
-3. 마우스로 평면과 고도를 확인합니다.
-4. `간단 편집`에서 선을 선택해 이동, 회전, 크기, 높이를 수정합니다.
-5. `수정 DXF`로 별도 도면을 저장하거나 `Google Earth`로 KMZ를 만들고 Google Earth Pro에서 엽니다.
+```text
+조감도작성_EXE_만들기.bat
+```
 
-## 마우스 조작
+완료되면 다음 파일이 생성됩니다.
 
-- 왼쪽 드래그: 화면 이동
-- 오른쪽 또는 가운데 드래그: 회전과 기울기
-- 마우스 휠: 확대와 축소
-- `간단 편집` 상태에서 선택한 선 다시 드래그: 선 전체 이동
-- 고급 편집을 펼친 상태에서 꼭짓점 드래그: 꼭짓점 이동
+```text
+dist\조감도작성.exe
+```
 
-## 편집 기능
+GitHub Actions에서도 `Build 조감도작성 Windows EXE` 워크플로를 실행하면 `조감도작성-windows-exe` 아티팩트로 exe를 받을 수 있습니다.
 
-- 선 전체 X/Y/Z 이동
-- 기준점 중심 회전과 크기 변경
-- 선 복사와 삭제
-- 꼭짓점 X/Y/Z 직접 입력
-- 선 전체 높이 일괄 변경
-- 작업 되돌리기
-- 작업 상태 저장과 다시 열기
+## 주요 기능
 
-## 내보내기
+- DXF 열기
+- 빈 화면에서 시작
+- GRS80 계열 좌표계 자동 감지
+- DXF 선, 해치, 문자 표시
+- DXF 이미지 표시 및 Google Earth 반영
+- 현재 작업 도면의 `합본1.jpg` 항공사진 보강 표시
+- 마우스 3D 이동, 회전, 기울기, 확대/축소
+- 간단 편집 모드
+- 선, 면, 해치 선택 및 이동
+- 해치 색상 및 투명도 변경
+- 작업 저장 및 불러오기
+- 수정 DXF 내보내기
+- Google Earth Pro로 바로 열기
+- 경사분석
+- Blender로 현재 도면 열기
 
-- `수정 DXF`: 원본과 별개인 새 DXF를 저장합니다.
-- `KMZ 내보내기`: 현재 표시 중인 레이어를 Google Earth용 KMZ 파일로 저장합니다.
-- `Google Earth로 열기`: KMZ를 만들고 설치된 Google Earth Pro에서 바로 엽니다.
-- `조감도 캡처`: 화면 공유 창에서 Google Earth Pro 창을 선택해 현재 뷰컷을 캡처하고 PNG로 저장합니다.
-- `PNG`: 현재 화면을 이미지로 저장합니다.
+## 경사분석
 
-## 조감도 캡처
+DXF 등고선 Z값을 기반으로 경사도를 계산합니다.
 
-1. `Google Earth로 열기`를 누릅니다.
-2. Google Earth에서 원하는 카메라 각도와 범위를 맞춥니다.
-3. 프로그램으로 돌아와 `조감도 캡처`를 누릅니다.
-4. 화면 공유 창의 `창` 목록에서 Google Earth Pro를 선택합니다.
-5. 캡처 미리보기를 확인하고 `PNG 저장`을 누릅니다.
+기본 구간:
 
-`CG 제작`은 OpenAI API 키가 안전하게 연결된 경우에만 활성화됩니다. ChatGPT/Codex 로그인 계정은 로컬 프로그램에서 자동으로 가져올 수 없습니다.
+```text
+0-5, 6-10, 11-16, 17, 18-25, 26-30, 31도 이상
+```
 
-## 알아둘 점
+셀 크기는 기본 2m이고 1m까지 설정할 수 있습니다. 큰 도면은 앱이 멈추지 않도록 자동으로 셀 크기를 키워 계산합니다. 경사분석 결과는 화면에 색상면으로 표시되고, Google Earth로 열 때도 폴리곤으로 포함됩니다.
 
-- 원본 DXF 파일은 수정하거나 덮어쓰지 않습니다.
-- 수정 DXF는 빠른 활용을 위해 선, 점, 문자 중심으로 평탄화한 복사본입니다. 원본의 블록과 해치 구조가 그대로 유지되는 전문 CAD 편집은 아닙니다.
-- 좌표계 기본값은 `자동 감지`입니다. 도면의 EPSG/원점 표기와 좌표 규모를 우선 판독합니다.
-- 원점 표기가 없어 중부·동부를 숫자만으로 구분할 수 없는 도면은 부서 기본값 `EPSG:5187 (GRS80 동부원점)`을 적용합니다.
-- 자동 결과가 실제 현장과 다르면 상단 좌표계 목록에서 원점을 선택하면 즉시 다시 계산됩니다.
-- DXF 헤더 범위가 비어 있거나 잘못된 경우 실제 객체가 가장 많이 모인 주 좌표 군집을 자동으로 찾아 화면에 맞춥니다.
-- 주 도면에서 수십 km 이상 떨어진 소수의 CAD 보조 객체는 화면 배율을 망치지 않도록 자동 제외됩니다.
-- DWG는 직접 열지 않으므로 DXF로 변환한 뒤 사용합니다.
-- Google Earth 내보내기는 화면에서 켜 둔 레이어만 포함합니다.
+## Google Earth 연동
+
+`Google Earth로 열기` 버튼을 누르면 현재 도면 상태를 KMZ로 만들고 설치된 Google Earth Pro에서 바로 엽니다.
+
+Google Earth Pro 기본 탐색 경로:
+
+```text
+C:\Program Files\Google\Google Earth Pro\client\googleearth.exe
+C:\Program Files (x86)\Google\Google Earth Pro\client\googleearth.exe
+```
+
+Google Earth에 기존 KMZ가 이미 열려 있으면 자동 갱신되지 않을 수 있습니다. 기존 항목을 삭제하거나 체크 해제한 뒤 다시 열어 주세요.
+
+## Blender 연동
+
+`Blender로 열기` 버튼을 누르면 현재 도면을 Blender용 3D 장면으로 변환합니다.
+
+현재 기본 탐색 경로:
+
+```text
+D:\Ai 프로그래밍\Blender\blender.exe
+C:\Program Files\Blender Foundation\Blender\blender.exe
+```
+
+조감도작성에서 좌표계를 해석하고, Blender에는 도면 중심 기준 상대좌표로 넘깁니다. 그래서 Blender 장면 안에서는 지형, 선형, 해치, 이미지가 서로 맞게 열립니다. 원래 좌표계 정보는 Blender 스크립트 안에 EPSG, 원점 좌표, WGS84 중심값으로 함께 저장됩니다.
+
+Blender 자체 GIS 플러그인은 필수는 아닙니다. 필요하면 나중에 BlenderGIS 같은 플러그인을 추가해 고급 GIS/DEM 작업을 확장할 수 있습니다.
+
+## 주의사항
+
+- DWG는 직접 열기보다 DXF로 변환해서 사용합니다.
+- 경사분석 정확도는 DXF 등고선 Z값 품질에 영향을 받습니다.
+- Google Earth 연동은 Google Earth Pro 설치가 필요합니다.
+- Blender 연동은 Blender 설치가 필요합니다.
+- 참조 이미지는 실제 파일이 존재해야 화면과 Google Earth/Blender에 표시됩니다.
+- `cache`, `exports`, `data/uploads`, `__pycache__`, 로그 파일은 GitHub 업로드에서 제외합니다.

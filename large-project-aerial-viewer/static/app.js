@@ -10,24 +10,13 @@ const els = {
   editBtn: document.getElementById("editBtn"),
   undoBtn: document.getElementById("undoBtn"),
   exportDxfBtn: document.getElementById("exportDxfBtn"),
-  exportKmzBtn: document.getElementById("exportKmzBtn"),
+  blenderBtn: document.getElementById("blenderBtn"),
   googleEarthBtn: document.getElementById("googleEarthBtn"),
-  captureBtn: document.getElementById("captureBtn"),
-  captureDialog: document.getElementById("captureDialog"),
-  captureCloseBtn: document.getElementById("captureCloseBtn"),
-  captureAgainBtn: document.getElementById("captureAgainBtn"),
-  captureSaveBtn: document.getElementById("captureSaveBtn"),
-  captureCgBtn: document.getElementById("captureCgBtn"),
-  capturePreview: document.getElementById("capturePreview"),
-  captureEmpty: document.getElementById("captureEmpty"),
-  captureInfo: document.getElementById("captureInfo"),
-  captureCanvas: document.getElementById("captureCanvas"),
   dxfInput: document.getElementById("dxfInput"),
   stateInput: document.getElementById("stateInput"),
   regenBtn: document.getElementById("regenBtn"),
   fitBtn: document.getElementById("fitBtn"),
   viewBtn: document.getElementById("viewBtn"),
-  saveBtn: document.getElementById("saveBtn"),
   kmlLink: document.getElementById("kmlLink"),
   centerLat: document.getElementById("centerLat"),
   centerLon: document.getElementById("centerLon"),
@@ -109,10 +98,14 @@ const undoStack = [];
 let nextFeatureId = 1;
 let addedFeatureIds = new Set();
 let deletedFeatureIds = new Set();
-let capturedViewBlob = null;
-let capturedViewUrl = null;
 const satellite = {
   manifest: null,
+  images: new Map(),
+  generation: 0,
+  loaded: 0,
+  failed: 0,
+};
+const cadImages = {
   images: new Map(),
   generation: 0,
   loaded: 0,
@@ -249,55 +242,100 @@ function slopeClassLabel(index, breaks) {
 function slopeExportFeatures() {
   if (!slopeAnalysis.cells.length) return [];
   const opacity = Math.max(0.2, Math.min(0.85, Number(els.slopeOpacityRange.value || 0.58)));
-  const features = [];
-  let run = null;
-  const flushRun = () => {
+  const rectangles = [];
+  const active = new Map();
+
+  const closeRun = (key) => {
+    const run = active.get(key);
     if (!run) return;
-    const label = slopeClassLabel(run.classIndex, slopeAnalysis.breaks);
+    rectangles.push(run);
+    active.delete(key);
+  };
+
+  const sortedCells = [...slopeAnalysis.cells].sort((first, second) => {
+    if (Math.abs(first.y - second.y) > 0.0001) return first.y - second.y;
+    return first.x - second.x;
+  });
+  let rowKey = "";
+  let rowRuns = [];
+  let rowRun = null;
+
+  const flushRowRun = () => {
+    if (!rowRun) return;
+    rowRuns.push(rowRun);
+    rowRun = null;
+  };
+
+  const mergeRowRuns = () => {
+    if (!rowRuns.length) return;
+    const seen = new Set();
+    for (const run of rowRuns) {
+      const key = `${run.classIndex}:${run.x0.toFixed(4)}:${run.x1.toFixed(4)}`;
+      seen.add(key);
+      const existing = active.get(key);
+      if (existing && Math.abs(existing.y1 - run.y0) < 0.0001) {
+        existing.y1 = run.y1;
+      } else {
+        closeRun(key);
+        active.set(key, run);
+      }
+    }
+    for (const key of Array.from(active.keys())) {
+      if (!seen.has(key)) closeRun(key);
+    }
+    rowRuns = [];
+  };
+
+  for (const cell of sortedCells) {
+    const nextRowKey = `${cell.y.toFixed(4)}:${cell.h.toFixed(4)}`;
+    if (rowKey && nextRowKey !== rowKey) {
+      flushRowRun();
+      mergeRowRuns();
+    }
+    rowKey = nextRowKey;
+    const sameRun =
+      rowRun &&
+      rowRun.classIndex === cell.classIndex &&
+      Math.abs(rowRun.x1 - cell.x) < 0.0001;
+    if (sameRun) {
+      rowRun.x1 = cell.x + cell.w;
+    } else {
+      flushRowRun();
+      rowRun = {
+        classIndex: cell.classIndex,
+        x0: cell.x,
+        x1: cell.x + cell.w,
+        y0: cell.y,
+        y1: cell.y + cell.h,
+      };
+    }
+  }
+  flushRowRun();
+  mergeRowRuns();
+  for (const key of Array.from(active.keys())) closeRun(key);
+
+  return rectangles.map((rect, index) => {
+    const label = slopeClassLabel(rect.classIndex, slopeAnalysis.breaks);
     const points = [
-      [run.x0, run.y, 0],
-      [run.x1, run.y, 0],
-      [run.x1, run.y + run.h, 0],
-      [run.x0, run.y + run.h, 0],
-      [run.x0, run.y, 0],
+      [rect.x0, rect.y0, 0],
+      [rect.x1, rect.y0, 0],
+      [rect.x1, rect.y1, 0],
+      [rect.x0, rect.y1, 0],
+      [rect.x0, rect.y0, 0],
     ];
-    features.push({
-      id: `slope-${features.length}`,
+    return {
+      id: `slope-${index}`,
       kind: "hatch",
       layer: `경사분석 ${label}`,
-      color: SLOPE_COLORS[run.classIndex % SLOPE_COLORS.length],
+      color: SLOPE_COLORS[rect.classIndex % SLOPE_COLORS.length],
       text: `경사 ${label}`,
       closed: true,
       pattern: "SOLID",
       opacity,
       points,
       paths: [points],
-    });
-    run = null;
-  };
-
-  for (const cell of slopeAnalysis.cells) {
-    const sameRun =
-      run &&
-      run.classIndex === cell.classIndex &&
-      Math.abs(run.y - cell.y) < 0.0001 &&
-      Math.abs(run.h - cell.h) < 0.0001 &&
-      Math.abs(run.x1 - cell.x) < 0.0001;
-    if (sameRun) {
-      run.x1 = cell.x + cell.w;
-    } else {
-      flushRun();
-      run = {
-        classIndex: cell.classIndex,
-        x0: cell.x,
-        x1: cell.x + cell.w,
-        y: cell.y,
-        h: cell.h,
-      };
-    }
-  }
-  flushRun();
-  return features;
+    };
+  });
 }
 
 function isContourLayerName(layerName) {
@@ -583,14 +621,12 @@ function setProjectActionsEnabled(enabled) {
     els.projectSaveBtn,
     els.editBtn,
     els.exportDxfBtn,
-    els.exportKmzBtn,
+    els.blenderBtn,
     els.googleEarthBtn,
-    els.captureBtn,
     els.slopeAnalyzeBtn,
     els.regenBtn,
     els.fitBtn,
     els.viewBtn,
-    els.saveBtn,
   ]) {
     control.disabled = !enabled;
   }
@@ -602,6 +638,10 @@ function initializeEmptyProject() {
   bounds = null;
   visibleLayers.clear();
   layerInputs.clear();
+  cadImages.generation += 1;
+  cadImages.images.clear();
+  cadImages.loaded = 0;
+  cadImages.failed = 0;
   geometryEdits.clear();
   originalGeometry.clear();
   undoStack.length = 0;
@@ -795,6 +835,7 @@ function applyProject(data, options = {}) {
   const saved = options.savedState || null;
   restoreProjectChanges(saved);
   buildLayers(saved?.visibleLayers || null);
+  loadCadImages();
   slopeAnalysis = {
     visible: false,
     cells: [],
@@ -838,11 +879,16 @@ function applyProject(data, options = {}) {
     scheduleDraw();
   }
   const hatchCount = data.features.filter((feature) => feature.kind === "hatch").length;
+  const imageCount = data.features.filter((feature) => feature.kind === "image").length;
+  const missingImageCount = data.features.filter((feature) => feature.kind === "image" && !feature.image?.available).length;
   selectedFeatureId = null;
   selectedVertexIndex = -1;
   updateSelectionPanel();
+  const imageNotice = imageCount
+    ? ` · 이미지 ${imageCount.toLocaleString("ko-KR")}개${missingImageCount ? `(${missingImageCount.toLocaleString("ko-KR")}개 파일 없음)` : ""}`
+    : "";
   els.statusText.textContent =
-    `${data.stats.points.toLocaleString("ko-KR")}개 좌표 · 해치 ${hatchCount.toLocaleString("ko-KR")}개 · ${data.crsDetection?.reason || `EPSG:${data.epsg}`}`;
+    `${data.stats.points.toLocaleString("ko-KR")}개 좌표 · 해치 ${hatchCount.toLocaleString("ko-KR")}개${imageNotice} · ${data.crsDetection?.reason || `EPSG:${data.epsg}`}`;
   els.featureCount.textContent = project.features.length.toLocaleString("ko-KR");
 }
 
@@ -1039,6 +1085,47 @@ function showSatelliteError(error) {
   console.error(error);
 }
 
+function cadImageUrl(feature) {
+  const params = new URLSearchParams({
+    source: currentSourceId || "",
+    id: String(feature.id),
+  });
+  return `/api/image?${params}`;
+}
+
+function loadCadImage(feature, generation) {
+  if (!feature.image?.available) return;
+  const url = cadImageUrl(feature);
+  if (cadImages.images.has(url)) return;
+  const image = new Image();
+  image.decoding = "async";
+  image.onload = () => {
+    if (cadImages.generation === generation) {
+      cadImages.images.set(url, image);
+      cadImages.loaded += 1;
+      scheduleDraw();
+    }
+  };
+  image.onerror = () => {
+    if (cadImages.generation === generation) {
+      cadImages.failed += 1;
+      scheduleDraw();
+    }
+  };
+  image.src = url;
+}
+
+function loadCadImages() {
+  cadImages.generation += 1;
+  cadImages.images.clear();
+  cadImages.loaded = 0;
+  cadImages.failed = 0;
+  const generation = cadImages.generation;
+  for (const feature of project?.features || []) {
+    if (feature.kind === "image") loadCadImage(feature, generation);
+  }
+}
+
 function drawImageTriangle(image, source, destination) {
   const [s0, s1, s2] = source;
   const [d0, d1, d2] = destination;
@@ -1086,6 +1173,44 @@ function drawImageTriangle(image, source, destination) {
   ctx.clip();
   ctx.transform(a, b, c, d, e, f);
   ctx.drawImage(image, 0, 0);
+  ctx.restore();
+}
+
+function drawCadImage(feature) {
+  const points = feature.points.slice(0, 4).map(transformPoint);
+  if (points.length < 4) return;
+  const minX = Math.min(...points.map((point) => point.x));
+  const maxX = Math.max(...points.map((point) => point.x));
+  const minY = Math.min(...points.map((point) => point.y));
+  const maxY = Math.max(...points.map((point) => point.y));
+  if (maxX < -40 || minX > window.innerWidth + 40 || maxY < -40 || minY > window.innerHeight + 40) {
+    return;
+  }
+  const url = cadImageUrl(feature);
+  const image = cadImages.images.get(url);
+  ctx.save();
+  ctx.globalAlpha = Math.max(0.15, Math.min(1, Number(feature.opacity ?? 1)));
+  if (image) {
+    const width = image.naturalWidth || Number(feature.image?.pixelWidth) || 1;
+    const height = image.naturalHeight || Number(feature.image?.pixelHeight) || 1;
+    const source = [
+      { x: 0, y: height },
+      { x: width, y: height },
+      { x: width, y: 0 },
+      { x: 0, y: 0 },
+    ];
+    drawImageTriangle(image, [source[0], source[1], source[2]], [points[0], points[1], points[2]]);
+    drawImageTriangle(image, [source[0], source[2], source[3]], [points[0], points[2], points[3]]);
+  } else {
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (const point of points.slice(1)) ctx.lineTo(point.x, point.y);
+    ctx.closePath();
+    ctx.strokeStyle = feature.image?.available ? "rgba(243, 201, 105, 0.7)" : "rgba(235, 87, 87, 0.75)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 4]);
+    ctx.stroke();
+  }
   ctx.restore();
 }
 
@@ -1324,6 +1449,10 @@ function drawElevationLabel(feature, points) {
 
 function drawFeature(feature) {
   if (!visibleLayers.has(feature.layer)) return;
+  if (feature.kind === "image") {
+    drawCadImage(feature);
+    return;
+  }
   if (feature.kind === "hatch") {
     drawHatch(feature);
     return;
@@ -1434,6 +1563,8 @@ function draw() {
   drawSlopeAnalysis();
   elevationLabelCells = new Set();
   const drawables = project.features.slice().sort((first, second) => {
+    if (first.kind === "image" && second.kind !== "image") return -1;
+    if (first.kind !== "image" && second.kind === "image") return 1;
     if (first.kind === "hatch" && second.kind !== "hatch") return -1;
     if (first.kind !== "hatch" && second.kind === "hatch") return 1;
     const firstY = first.points.reduce((sum, point) => sum + point[1], 0) / first.points.length;
@@ -1491,6 +1622,7 @@ function currentExportPayload(visibleOnly = false) {
       closed: Boolean(feature.closed),
       pattern: feature.pattern || "",
       opacity: feature.opacity,
+      image: feature.image ? { ...feature.image } : undefined,
       points: clonePoints(feature.points),
       paths: feature.paths
         ? feature.paths.map((path) => clonePoints(path))
@@ -1519,14 +1651,23 @@ function exportEditedDxf() {
   postDownload("/api/export/dxf", currentExportPayload(false), filename).catch(showError);
 }
 
-function exportKmz() {
-  const filename = `${project.fileName.replace(/\.dxf$/i, "")}-GoogleEarth.kmz`;
-  const payload = currentExportPayload(true);
-  const slopeCount = payload.features.filter((feature) => String(feature.layer).startsWith("경사분석")).length;
-  if (slopeCount) {
-    els.statusText.textContent = `Google Earth KMZ에 경사분석 ${slopeCount.toLocaleString("ko-KR")}개 면을 포함합니다.`;
+async function openBlender() {
+  els.blenderBtn.disabled = true;
+  els.statusText.textContent = "Blender용 지형 모델 만드는 중";
+  try {
+    const response = await fetch("/api/blender/open", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(currentExportPayload(true)),
+    });
+    const result = await response.json().catch(() => ({ error: response.statusText }));
+    if (!response.ok) throw new Error(result.error || response.statusText);
+    els.statusText.textContent = result.message;
+  } catch (error) {
+    showError(error);
+  } finally {
+    els.blenderBtn.disabled = false;
   }
-  postDownload("/api/export/kmz", payload, filename).catch(showError);
 }
 
 async function openGoogleEarth() {
@@ -1549,106 +1690,6 @@ async function openGoogleEarth() {
     showError(error);
   } finally {
     els.googleEarthBtn.disabled = false;
-  }
-}
-
-function savePng() {
-  draw();
-  const link = document.createElement("a");
-  link.download = `${project.fileName.replace(/\.dxf$/i, "")}-조감도.png`;
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-}
-
-function captureFilename() {
-  const stem = project?.fileName?.replace(/\.dxf$/i, "") || "조감도";
-  const now = new Date();
-  const stamp = [
-    now.getFullYear(),
-    String(now.getMonth() + 1).padStart(2, "0"),
-    String(now.getDate()).padStart(2, "0"),
-    "-",
-    String(now.getHours()).padStart(2, "0"),
-    String(now.getMinutes()).padStart(2, "0"),
-  ].join("");
-  return `${stem}-GoogleEarth-뷰컷-${stamp}.png`;
-}
-
-function closeCaptureDialog() {
-  if (els.captureDialog.open) els.captureDialog.close();
-}
-
-function saveCapturedView() {
-  if (!capturedViewBlob) return;
-  downloadBlob(capturedViewBlob, captureFilename());
-  els.statusText.textContent = "Google Earth 조감도 캡처를 PNG로 저장했습니다.";
-}
-
-async function captureGoogleEarthView() {
-  if (!navigator.mediaDevices?.getDisplayMedia) {
-    throw new Error("이 브라우저에서는 화면 캡처를 지원하지 않습니다. Chrome 또는 Edge에서 실행해 주세요.");
-  }
-  if (!els.captureDialog.open) els.captureDialog.showModal();
-  els.captureEmpty.textContent =
-    "화면 공유 창에서 '창' 탭을 선택한 뒤 Google Earth Pro를 선택하세요.";
-  els.captureInfo.textContent = "Google Earth 창 선택 대기 중";
-  els.captureAgainBtn.disabled = true;
-  els.captureSaveBtn.disabled = true;
-
-  let stream = null;
-  try {
-    stream = await navigator.mediaDevices.getDisplayMedia({
-      video: {
-        displaySurface: "window",
-        cursor: "never",
-      },
-      audio: false,
-      preferCurrentTab: false,
-      selfBrowserSurface: "exclude",
-      surfaceSwitching: "exclude",
-    });
-    const video = document.createElement("video");
-    video.muted = true;
-    video.playsInline = true;
-    video.srcObject = stream;
-    await new Promise((resolve, reject) => {
-      video.addEventListener("loadedmetadata", resolve, { once: true });
-      video.addEventListener("error", reject, { once: true });
-    });
-    await video.play();
-    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-
-    const width = video.videoWidth;
-    const height = video.videoHeight;
-    if (!width || !height) throw new Error("선택한 창의 화면을 읽지 못했습니다.");
-    els.captureCanvas.width = width;
-    els.captureCanvas.height = height;
-    const captureContext = els.captureCanvas.getContext("2d", { alpha: false });
-    captureContext.drawImage(video, 0, 0, width, height);
-    const blob = await new Promise((resolve) => els.captureCanvas.toBlob(resolve, "image/png"));
-    if (!blob) throw new Error("캡처 이미지를 만들지 못했습니다.");
-
-    if (capturedViewUrl) URL.revokeObjectURL(capturedViewUrl);
-    capturedViewBlob = blob;
-    capturedViewUrl = URL.createObjectURL(blob);
-    els.capturePreview.src = capturedViewUrl;
-    els.capturePreview.classList.add("ready");
-    els.captureSaveBtn.disabled = false;
-    els.captureInfo.textContent = `${width.toLocaleString("ko-KR")} × ${height.toLocaleString("ko-KR")} PNG`;
-    els.statusText.textContent = "Google Earth 뷰컷을 캡처했습니다.";
-  } catch (error) {
-    if (error?.name === "NotAllowedError") {
-      els.captureEmpty.textContent = "캡처가 취소되었습니다. 다시 캡처를 눌러 Google Earth 창을 선택하세요.";
-      els.captureInfo.textContent = "캡처 취소됨";
-      els.statusText.textContent = "조감도 캡처를 취소했습니다.";
-      return;
-    }
-    throw error;
-  } finally {
-    if (stream) {
-      for (const track of stream.getTracks()) track.stop();
-    }
-    els.captureAgainBtn.disabled = false;
   }
 }
 
@@ -2341,12 +2382,8 @@ els.projectLoadBtn.addEventListener("click", () => els.stateInput.click());
 els.editBtn.addEventListener("click", toggleEditMode);
 els.undoBtn.addEventListener("click", undoLastAction);
 els.exportDxfBtn.addEventListener("click", exportEditedDxf);
-els.exportKmzBtn.addEventListener("click", exportKmz);
+els.blenderBtn.addEventListener("click", openBlender);
 els.googleEarthBtn.addEventListener("click", openGoogleEarth);
-els.captureBtn.addEventListener("click", () => captureGoogleEarthView().catch(showError));
-els.captureAgainBtn.addEventListener("click", () => captureGoogleEarthView().catch(showError));
-els.captureSaveBtn.addEventListener("click", saveCapturedView);
-els.captureCloseBtn.addEventListener("click", closeCaptureDialog);
 els.applyTransformBtn.addEventListener("click", applyFeatureTransform);
 els.duplicateBtn.addEventListener("click", duplicateSelectedFeature);
 els.deleteBtn.addEventListener("click", deleteSelectedFeature);
@@ -2368,8 +2405,6 @@ els.slopeOpacityRange.addEventListener("input", () => {
 els.regenBtn.addEventListener("click", () => regenerateProject().catch(showError));
 els.fitBtn.addEventListener("click", fitView);
 els.viewBtn.addEventListener("click", setViewMode);
-els.saveBtn.addEventListener("click", savePng);
-
 els.dxfInput.addEventListener("change", () => {
   const file = els.dxfInput.files?.[0];
   if (file) uploadDxf(file).catch(showError);

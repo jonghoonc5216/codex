@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 *.log
 
+build/
 cache/
 exports/
 data/uploads/

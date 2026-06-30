@@ -8,6 +8,7 @@ import math
 import mimetypes
 import re
 import subprocess
+import sys
 import time
 import urllib.request
 import zipfile
@@ -22,12 +23,14 @@ from dxf_parser import (
     features_to_kml,
     lonlat_to_projected,
     projected_to_lonlat,
+    resolve_image_path,
 )
 
 
-ROOT = Path(__file__).resolve().parent
-STATIC_ROOT = ROOT / "static"
-DEFAULT_DXF = ROOT / "data" / "sample_yulha.dxf"
+BUNDLE_ROOT = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent
+STATIC_ROOT = BUNDLE_ROOT / "static"
+DEFAULT_DXF = BUNDLE_ROOT / "data" / "sample_yulha.dxf"
 UPLOAD_ROOT = ROOT / "data" / "uploads"
 TILE_CACHE_ROOT = ROOT / "cache" / "vworld-satellite"
 EXPORT_ROOT = ROOT / "exports"
@@ -39,9 +42,17 @@ GOOGLE_EARTH_CANDIDATES = [
     Path(r"C:\Program Files\Google\Google Earth Pro\client\googleearth.exe"),
     Path(r"C:\Program Files (x86)\Google\Google Earth Pro\client\googleearth.exe"),
 ]
+BLENDER_CANDIDATES = [
+    Path(r"D:\Ai 프로그래밍\Blender\blender.exe"),
+    Path(r"C:\Program Files\Blender Foundation\Blender\blender.exe"),
+]
 DEFAULT_SLOPE_BREAKS = [5.0, 10.0, 16.0, 17.0, 25.0, 30.0]
 SLOPE_COLORS = ["#48b86f", "#96c75a", "#f2c94c", "#f2994a", "#eb5757", "#9b51e0", "#6d3a75"]
 MAX_KML_SLOPE_CELLS = 60000
+MAX_KML_SLOPE_FEATURES = 12000
+BLENDER_TERRAIN_MAX_GRID = 85
+BLENDER_MAX_LINE_POINTS = 120000
+BLENDER_MAX_HATCH_PATHS = 6000
 
 PROJECT_CACHE: dict[tuple[str, int | str, float], bytes] = {}
 TERRAIN_CACHE: dict[tuple[str, float], "ElevationModel"] = {}
@@ -441,6 +452,119 @@ def build_slope_sampler(samples: list[tuple[float, float, float]]):
     return sample_elevation
 
 
+def slope_feature_from_rect(rect: dict, breaks: list[float], opacity: float) -> dict:
+    label = slope_label(int(rect["class_index"]), breaks)
+    points = [
+        [rect["x0"], rect["y0"], 0.0],
+        [rect["x1"], rect["y0"], 0.0],
+        [rect["x1"], rect["y1"], 0.0],
+        [rect["x0"], rect["y1"], 0.0],
+        [rect["x0"], rect["y0"], 0.0],
+    ]
+    return {
+        "kind": "hatch",
+        "layer": f"Slope {label}",
+        "color": SLOPE_COLORS[int(rect["class_index"]) % len(SLOPE_COLORS)],
+        "text": f"Slope {label}",
+        "closed": True,
+        "pattern": "SOLID",
+        "opacity": opacity,
+        "points": points,
+        "paths": [points],
+    }
+
+
+def build_slope_features(
+    bounds: tuple[float, float, float, float],
+    sampler,
+    breaks: list[float],
+    opacity: float,
+    cell_size: float,
+) -> list[dict]:
+    xmin, ymin, xmax, ymax = bounds
+    width = max(1.0, xmax - xmin)
+    height = max(1.0, ymax - ymin)
+    columns = max(1, math.ceil(width / cell_size))
+    rows = max(1, math.ceil(height / cell_size))
+    node_columns = columns + 1
+    node_rows = rows + 1
+    elevations = [0.0] * (node_columns * node_rows)
+    for row in range(node_rows):
+        y = min(ymax, ymin + row * cell_size)
+        for column in range(node_columns):
+            x = min(xmax, xmin + column * cell_size)
+            elevations[row * node_columns + column] = sampler(x, y)
+
+    rectangles: list[dict] = []
+    active: dict[tuple[int, float, float], dict] = {}
+
+    def close_run(key: tuple[int, float, float]) -> None:
+        run = active.pop(key, None)
+        if run is not None:
+            rectangles.append(run)
+
+    for row in range(rows):
+        y = ymin + row * cell_size
+        cell_height = min(cell_size, ymax - y)
+        if cell_height <= 0:
+            continue
+        row_runs: list[dict] = []
+        run: dict | None = None
+
+        def flush_row_run() -> None:
+            nonlocal run
+            if run is not None:
+                row_runs.append(run)
+                run = None
+
+        for column in range(columns):
+            x = xmin + column * cell_size
+            cell_width = min(cell_size, xmax - x)
+            if cell_width <= 0:
+                continue
+            top_left = row * node_columns + column
+            z00 = elevations[top_left]
+            z10 = elevations[top_left + 1]
+            z01 = elevations[top_left + node_columns]
+            z11 = elevations[top_left + node_columns + 1]
+            dzdx = ((z10 + z11) - (z00 + z01)) / (2 * cell_width)
+            dzdy = ((z01 + z11) - (z00 + z10)) / (2 * cell_height)
+            degrees = math.degrees(math.atan(math.hypot(dzdx, dzdy)))
+            class_index = slope_class_index(degrees, breaks)
+            if run and run["class_index"] == class_index and abs(run["x1"] - x) < 0.0001:
+                run["x1"] = x + cell_width
+            else:
+                flush_row_run()
+                run = {
+                    "class_index": class_index,
+                    "x0": x,
+                    "x1": x + cell_width,
+                    "y0": y,
+                    "y1": y + cell_height,
+                }
+        flush_row_run()
+
+        row_keys: set[tuple[int, float, float]] = set()
+        for row_run in row_runs:
+            key = (int(row_run["class_index"]), round(row_run["x0"], 4), round(row_run["x1"], 4))
+            row_keys.add(key)
+            existing = active.get(key)
+            if existing and abs(existing["y1"] - row_run["y0"]) < 0.0001:
+                existing["y1"] = row_run["y1"]
+            else:
+                close_run(key)
+                active[key] = row_run
+
+        for key in list(active):
+            if key not in row_keys:
+                close_run(key)
+
+    for key in list(active):
+        close_run(key)
+
+    return [slope_feature_from_rect(rect, breaks, opacity) for rect in rectangles]
+
+
 def server_slope_features(payload: dict, epsg: int) -> list[dict]:
     if not slope_enabled(payload):
         return []
@@ -467,78 +591,21 @@ def server_slope_features(payload: dict, epsg: int) -> list[dict]:
         opacity = 0.58
     opacity = max(0.2, min(0.85, opacity))
 
-    xmin, ymin, xmax, ymax = sample_bounds(samples)
+    bounds = sample_bounds(samples)
+    xmin, ymin, xmax, ymax = bounds
     width = max(1.0, xmax - xmin)
     height = max(1.0, ymax - ymin)
     auto_cell_size = math.ceil(math.sqrt((width * height) / MAX_KML_SLOPE_CELLS))
     cell_size = max(1.0, requested_cell_size, float(auto_cell_size))
-    columns = max(1, math.ceil(width / cell_size))
-    rows = max(1, math.ceil(height / cell_size))
-    node_columns = columns + 1
-    node_rows = rows + 1
+
     sampler = build_slope_sampler(samples)
-    elevations = [0.0] * (node_columns * node_rows)
-    for row in range(node_rows):
-        y = min(ymax, ymin + row * cell_size)
-        for column in range(node_columns):
-            x = min(xmax, xmin + column * cell_size)
-            elevations[row * node_columns + column] = sampler(x, y)
-
-    features: list[dict] = []
-    for row in range(rows):
-        y = ymin + row * cell_size
-        cell_height = min(cell_size, ymax - y)
-        if cell_height <= 0:
-            continue
-        run: dict | None = None
-
-        def flush_run() -> None:
-            nonlocal run
-            if not run:
-                return
-            label = slope_label(int(run["class_index"]), breaks)
-            points = [
-                [run["x0"], run["y"], 0.0],
-                [run["x1"], run["y"], 0.0],
-                [run["x1"], run["y"] + run["h"], 0.0],
-                [run["x0"], run["y"] + run["h"], 0.0],
-                [run["x0"], run["y"], 0.0],
-            ]
-            features.append(
-                {
-                    "kind": "hatch",
-                    "layer": f"Slope {label}",
-                    "color": SLOPE_COLORS[int(run["class_index"]) % len(SLOPE_COLORS)],
-                    "text": f"Slope {label}",
-                    "closed": True,
-                    "pattern": "SOLID",
-                    "opacity": opacity,
-                    "points": points,
-                    "paths": [points],
-                }
-            )
-            run = None
-
-        for column in range(columns):
-            x = xmin + column * cell_size
-            cell_width = min(cell_size, xmax - x)
-            if cell_width <= 0:
-                continue
-            top_left = row * node_columns + column
-            z00 = elevations[top_left]
-            z10 = elevations[top_left + 1]
-            z01 = elevations[top_left + node_columns]
-            z11 = elevations[top_left + node_columns + 1]
-            dzdx = ((z10 + z11) - (z00 + z01)) / (2 * cell_width)
-            dzdy = ((z01 + z11) - (z00 + z10)) / (2 * cell_height)
-            degrees = math.degrees(math.atan(math.hypot(dzdx, dzdy)))
-            class_index = slope_class_index(degrees, breaks)
-            if run and run["class_index"] == class_index and abs(run["x1"] - x) < 0.0001:
-                run["x1"] = x + cell_width
-            else:
-                flush_run()
-                run = {"class_index": class_index, "x0": x, "x1": x + cell_width, "y": y, "h": cell_height}
-        flush_run()
+    features = build_slope_features(bounds, sampler, breaks, opacity, cell_size)
+    for _ in range(4):
+        if len(features) <= MAX_KML_SLOPE_FEATURES:
+            break
+        factor = math.sqrt(len(features) / MAX_KML_SLOPE_FEATURES)
+        cell_size = max(cell_size + 1.0, float(math.ceil(cell_size * max(1.2, factor))))
+        features = build_slope_features(bounds, sampler, breaks, opacity, cell_size)
     return features
 
 
@@ -595,21 +662,65 @@ def safe_feature_payload(payload: dict) -> list[dict]:
                         continue
                 if len(clean_path) >= 3:
                     clean_paths.append(clean_path)
-        result.append(
-            {
-                "kind": str(feature.get("kind", "polyline")),
-                "layer": str(feature.get("layer", "0"))[:120] or "0",
-                "color": str(feature.get("color", "#dfe6ef")),
-                "text": str(feature.get("text", ""))[:500],
-                "closed": bool(feature.get("closed", False)),
-                "pattern": str(feature.get("pattern", ""))[:120],
-                "opacity": max(0.05, min(0.9, opacity)),
-                "points": clean_points,
-                "paths": clean_paths or None,
+        clean_feature = {
+            "id": feature.get("id"),
+            "kind": str(feature.get("kind", "polyline")),
+            "layer": str(feature.get("layer", "0"))[:120] or "0",
+            "color": str(feature.get("color", "#dfe6ef")),
+            "text": str(feature.get("text", ""))[:500],
+            "closed": bool(feature.get("closed", False)),
+            "pattern": str(feature.get("pattern", ""))[:120],
+            "opacity": max(0.05, min(1.0, opacity)),
+            "points": clean_points,
+            "paths": clean_paths or None,
+        }
+        image = feature.get("image")
+        if clean_feature["kind"] == "image" and isinstance(image, dict):
+            clean_feature["image"] = {
+                "path": str(image.get("path", ""))[:1000],
+                "fileName": Path(str(image.get("fileName") or image.get("path") or "image")).name[:180],
+                "pixelWidth": image.get("pixelWidth"),
+                "pixelHeight": image.get("pixelHeight"),
+                "available": bool(image.get("available", False)),
+                "extension": str(image.get("extension", ""))[:20],
             }
-        )
+        result.append(clean_feature)
     if not result:
         raise ValueError("내보낼 수 있는 도면 객체가 없습니다.")
+    return result
+
+
+def compact_slope_features_for_kml(features: list[dict]) -> list[dict]:
+    result: list[dict] = []
+    grouped: dict[tuple[str, str, float], dict] = {}
+    for feature in features:
+        if not is_slope_feature(feature):
+            result.append(feature)
+            continue
+        opacity = feature["opacity"] if feature["kind"] == "hatch" else 0.4
+        key = (feature["layer"], feature["color"], round(opacity, 2))
+        group = grouped.get(key)
+        if group is None:
+            group = {
+                "kind": "hatch",
+                "layer": feature["layer"],
+                "color": feature["color"],
+                "text": feature["layer"],
+                "closed": True,
+                "pattern": "SOLID",
+                "opacity": opacity,
+                "points": [],
+                "paths": [],
+            }
+            grouped[key] = group
+        paths = feature["paths"] or [feature["points"]]
+        for path in paths:
+            if len(path) >= 3:
+                group["paths"].append(path)
+    for group in grouped.values():
+        if group["paths"]:
+            group["points"] = group["paths"][0]
+            result.append(group)
     return result
 
 
@@ -619,25 +730,73 @@ def payload_name(payload: dict, suffix: str) -> str:
     return Path(stem).stem
 
 
-def payload_to_kml(payload: dict) -> str:
+def kml_features_from_payload(payload: dict, epsg: int) -> list[dict]:
+    features = safe_feature_payload(payload)
+    slope_count = sum(1 for feature in features if is_slope_feature(feature))
+    if slope_enabled(payload) and (slope_count == 0 or slope_count > MAX_KML_SLOPE_FEATURES):
+        generated_slope = server_slope_features(payload, epsg)
+        if generated_slope:
+            features = [feature for feature in features if not is_slope_feature(feature)]
+            features.extend(generated_slope)
+    return compact_slope_features_for_kml(features)
+
+
+def image_feature_key(feature: dict) -> str:
+    image = feature.get("image") if isinstance(feature.get("image"), dict) else {}
+    if feature.get("id") is not None:
+        return f"id:{feature.get('id')}"
+    first = feature.get("points", [[0, 0]])[0]
+    return f"{feature.get('layer')}:{image.get('path')}:{first[0]:.3f}:{first[1]:.3f}"
+
+
+def resolve_payload_image_path(payload: dict, feature: dict) -> Path | None:
+    image = feature.get("image") if isinstance(feature.get("image"), dict) else None
+    if not image:
+        return None
+    source_id = str(payload.get("sourceId") or ViewerHandler.active_source)
+    try:
+        dxf_path = source_path(source_id)
+    except Exception:
+        dxf_path = ViewerHandler.dxf_path
+    resolved = resolve_image_path(str(dxf_path.resolve()), str(image.get("path", "")))
+    if not resolved:
+        return None
+    path = Path(resolved)
+    return path if path.is_file() else None
+
+
+def payload_to_kml(
+    payload: dict,
+    image_hrefs: dict[str, str] | None = None,
+    features: list[dict] | None = None,
+) -> str:
     epsg = int(payload.get("epsg", 5187))
     if epsg not in KOREA_CRS:
         epsg = 5187
-    features = safe_feature_payload(payload)
-    if not any(is_slope_feature(feature) for feature in features):
-        features.extend(server_slope_features(payload, epsg))
+    features = features if features is not None else kml_features_from_payload(payload, epsg)
+    image_hrefs = image_hrefs or {}
     name = html.escape(Path(str(payload.get("name", "project"))).stem)
-    style_ids: dict[tuple[str, float], str] = {}
+    style_ids: dict[tuple[str, float, bool], str] = {}
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
-        '<kml xmlns="http://www.opengis.net/kml/2.2">',
+        '<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">',
         "<Document>",
         f"<name>{name}</name>",
     ]
+
+    def feature_opacity(feature: dict) -> float:
+        return feature["opacity"] if feature["kind"] == "hatch" else 0.4
+
+    def feature_style_key(feature: dict) -> tuple[str, float, bool]:
+        return (feature["color"], round(feature_opacity(feature), 2), is_slope_feature(feature))
+
     for feature in features:
+        if feature["kind"] == "image":
+            continue
         color = feature["color"]
-        opacity = feature["opacity"] if feature["kind"] == "hatch" else 0.4
-        style_key = (color, round(opacity, 2))
+        opacity = feature_opacity(feature)
+        slope_style = is_slope_feature(feature)
+        style_key = feature_style_key(feature)
         if style_key in style_ids:
             continue
         style_id = f"style_{len(style_ids)}"
@@ -648,11 +807,13 @@ def payload_to_kml(payload: dict) -> str:
         kml_value = f"ff{clean[4:6]}{clean[2:4]}{clean[0:2]}"
         polygon_alpha = f"{round(opacity * 255):02x}"
         polygon_value = f"{polygon_alpha}{clean[4:6]}{clean[2:4]}{clean[0:2]}"
+        outline = 0 if slope_style else 1
+        line_width = 0.4 if slope_style else 2
         lines.extend(
             [
                 f'<Style id="{style_id}">',
-                f"<LineStyle><color>{kml_value}</color><width>2</width></LineStyle>",
-                f"<PolyStyle><color>{polygon_value}</color><fill>1</fill><outline>1</outline></PolyStyle>",
+                f"<LineStyle><color>{kml_value}</color><width>{line_width:g}</width></LineStyle>",
+                f"<PolyStyle><color>{polygon_value}</color><fill>1</fill><outline>{outline}</outline></PolyStyle>",
                 f"<IconStyle><color>{kml_value}</color><scale>0.55</scale></IconStyle>",
                 "</Style>",
             ]
@@ -681,7 +842,41 @@ def payload_to_kml(payload: dict) -> str:
     except (TypeError, ValueError):
         pass
 
-    for index, feature in enumerate(features):
+    def append_image_overlay(index: int, feature: dict) -> None:
+        href = image_hrefs.get(image_feature_key(feature))
+        if not href:
+            return
+        points = feature["points"][:4]
+        if len(points) < 4:
+            return
+        coords = []
+        for point in points:
+            lon, lat = projected_to_lonlat(point[0], point[1], epsg)
+            coords.append(f"{lon:.8f},{lat:.8f},0")
+        image = feature.get("image") if isinstance(feature.get("image"), dict) else {}
+        layer = html.escape(feature["layer"])
+        feature_name = html.escape(
+            str(feature.get("text") or image.get("fileName") or f"Image {index + 1}")
+        )
+        lines.extend(
+            [
+                "<GroundOverlay>",
+                f"<name>{feature_name}</name>",
+                f"<description>Layer: {layer}</description>",
+                "<Icon>",
+                f"<href>{html.escape(href)}</href>",
+                "</Icon>",
+                "<gx:LatLonQuad><coordinates>",
+                " ".join(coords),
+                "</coordinates></gx:LatLonQuad>",
+                "</GroundOverlay>",
+            ]
+        )
+
+    def append_placemark(index: int, feature: dict) -> None:
+        if feature["kind"] == "image":
+            append_image_overlay(index, feature)
+            return
         layer = html.escape(feature["layer"])
         feature_name = html.escape(feature["text"] or f"{feature['layer']} {index + 1}")
         points = feature["points"]
@@ -691,7 +886,7 @@ def payload_to_kml(payload: dict) -> str:
                 "<Placemark>",
                 f"<name>{feature_name}</name>",
                 f"<description>Layer: {layer}</description>",
-                f"<styleUrl>#{style_ids[(feature['color'], round(feature['opacity'] if feature['kind'] == 'hatch' else 0.4, 2))]}</styleUrl>",
+                f"<styleUrl>#{style_ids[feature_style_key(feature)]}</styleUrl>",
             ]
         )
         if feature["kind"] in ("point", "text") or len(points) == 1:
@@ -750,15 +945,61 @@ def payload_to_kml(payload: dict) -> str:
                 ]
             )
         lines.append("</Placemark>")
+
+    drawing_features = [feature for feature in features if not is_slope_feature(feature)]
+    slope_features = [feature for feature in features if is_slope_feature(feature)]
+
+    if drawing_features:
+        lines.extend(["<Folder>", "<name>Drawing Layers</name>", "<open>1</open>"])
+        for index, feature in enumerate(drawing_features):
+            append_placemark(index, feature)
+        lines.append("</Folder>")
+
+    if slope_features:
+        lines.extend(["<Folder>", "<name>Slope Analysis</name>", "<open>1</open>"])
+        grouped_slope: dict[str, list[dict]] = {}
+        for feature in slope_features:
+            grouped_slope.setdefault(feature["layer"], []).append(feature)
+        for layer, group in grouped_slope.items():
+            lines.extend(
+                [
+                    "<Folder>",
+                    f"<name>{html.escape(layer)}</name>",
+                    "<open>0</open>",
+                ]
+            )
+            for index, feature in enumerate(group):
+                append_placemark(index, feature)
+            lines.append("</Folder>")
+        lines.append("</Folder>")
     lines.extend(["</Document>", "</kml>"])
     return "\n".join(lines)
 
 
 def payload_to_kmz(payload: dict) -> bytes:
-    kml = payload_to_kml(payload).encode("utf-8")
+    epsg = int(payload.get("epsg", 5187))
+    if epsg not in KOREA_CRS:
+        epsg = 5187
+    features = kml_features_from_payload(payload, epsg)
+    image_hrefs: dict[str, str] = {}
+    image_files: list[tuple[str, Path]] = []
+    for index, feature in enumerate(features):
+        if feature["kind"] != "image":
+            continue
+        image_path = resolve_payload_image_path(payload, feature)
+        if image_path is None:
+            continue
+        suffix = image_path.suffix.lower() or ".jpg"
+        arcname = f"files/image_{index}{suffix}"
+        image_hrefs[image_feature_key(feature)] = arcname
+        image_files.append((arcname, image_path))
+
+    kml = payload_to_kml(payload, image_hrefs=image_hrefs, features=features).encode("utf-8")
     output = io.BytesIO()
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
         archive.writestr("doc.kml", kml)
+        for arcname, image_path in image_files:
+            archive.write(image_path, arcname)
     return output.getvalue()
 
 
@@ -838,8 +1079,384 @@ def payload_to_dxf(payload: dict) -> bytes:
     return ("\r\n".join(lines) + "\r\n").encode("utf-8")
 
 
+def rgb_from_hex(hex_color: str) -> tuple[float, float, float]:
+    match = re.fullmatch(r"#?([0-9a-fA-F]{6})", str(hex_color or ""))
+    value = match.group(1) if match else "dfe6ef"
+    return (
+        int(value[0:2], 16) / 255.0,
+        int(value[2:4], 16) / 255.0,
+        int(value[4:6], 16) / 255.0,
+    )
+
+
+def payload_feature_bounds(features: list[dict]) -> tuple[float, float, float, float] | None:
+    values: list[tuple[float, float]] = []
+    for feature in features:
+        for point in feature.get("points") or []:
+            if isinstance(point, list) and len(point) >= 2:
+                values.append((float(point[0]), float(point[1])))
+        for path in feature.get("paths") or []:
+            for point in path:
+                if isinstance(point, list) and len(point) >= 2:
+                    values.append((float(point[0]), float(point[1])))
+    if not values:
+        return None
+    xs = [item[0] for item in values]
+    ys = [item[1] for item in values]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def blender_origin(payload: dict, features: list[dict], epsg: int) -> tuple[float, float]:
+    center = payload.get("center")
+    if isinstance(center, dict):
+        try:
+            lon = float(center.get("lon"))
+            lat = float(center.get("lat"))
+            return lonlat_to_projected(lon, lat, epsg)
+        except (TypeError, ValueError):
+            pass
+    bounds = payload_feature_bounds(features)
+    if bounds:
+        xmin, ymin, xmax, ymax = bounds
+        return (xmin + xmax) / 2.0, (ymin + ymax) / 2.0
+    return 0.0, 0.0
+
+
+def blender_mesh_bounds(features: list[dict], samples: list[tuple[float, float, float]]) -> tuple[float, float, float, float] | None:
+    if samples:
+        bounds = sample_bounds(samples)
+    else:
+        bounds = payload_feature_bounds(features)
+    if not bounds:
+        return None
+    xmin, ymin, xmax, ymax = bounds
+    width = max(1.0, xmax - xmin)
+    height = max(1.0, ymax - ymin)
+    pad = max(width, height) * 0.03
+    return xmin - pad, ymin - pad, xmax + pad, ymax + pad
+
+
+def build_blender_terrain(
+    features: list[dict],
+    origin_x: float,
+    origin_y: float,
+    sample_elevation,
+    samples: list[tuple[float, float, float]],
+) -> dict | None:
+    bounds = blender_mesh_bounds(features, samples)
+    if bounds is None:
+        return None
+    xmin, ymin, xmax, ymax = bounds
+    width = max(1.0, xmax - xmin)
+    height = max(1.0, ymax - ymin)
+    longest = max(width, height)
+    columns = max(2, min(BLENDER_TERRAIN_MAX_GRID, int(round(width / longest * (BLENDER_TERRAIN_MAX_GRID - 1))) + 1))
+    rows = max(2, min(BLENDER_TERRAIN_MAX_GRID, int(round(height / longest * (BLENDER_TERRAIN_MAX_GRID - 1))) + 1))
+    vertices = []
+    for row in range(rows):
+        y = ymin + height * row / (rows - 1)
+        for column in range(columns):
+            x = xmin + width * column / (columns - 1)
+            z = sample_elevation(x, y) if sample_elevation else 0.0
+            vertices.append([round(x - origin_x, 3), round(y - origin_y, 3), round(z, 3)])
+    faces = []
+    for row in range(rows - 1):
+        for column in range(columns - 1):
+            index = row * columns + column
+            faces.append([index, index + 1, index + columns + 1, index + columns])
+    return {
+        "name": "Existing terrain from DXF contours",
+        "vertices": vertices,
+        "faces": faces,
+        "color": [0.22, 0.34, 0.26, 0.62],
+    }
+
+
+def blender_transform_point(
+    point: list[float],
+    origin_x: float,
+    origin_y: float,
+    sample_elevation=None,
+    drape_zero_z: bool = False,
+    z_offset: float = 0.0,
+) -> list[float]:
+    x = float(point[0])
+    y = float(point[1])
+    z = float(point[2]) if len(point) > 2 else 0.0
+    if drape_zero_z and sample_elevation and abs(z) <= 0.001:
+        z = sample_elevation(x, y)
+    return [round(x - origin_x, 3), round(y - origin_y, 3), round(z + z_offset, 3)]
+
+
+def build_blender_line_groups(
+    features: list[dict],
+    origin_x: float,
+    origin_y: float,
+    sample_elevation,
+) -> list[dict]:
+    line_features = [
+        feature for feature in features
+        if feature.get("kind") == "polyline" and isinstance(feature.get("points"), list)
+    ]
+    total_points = sum(len(feature.get("points") or []) for feature in line_features)
+    stride = max(1, math.ceil(total_points / BLENDER_MAX_LINE_POINTS)) if total_points else 1
+    groups: dict[tuple[str, str], dict] = {}
+    for feature in line_features:
+        raw_points = feature.get("points") or []
+        points = raw_points[::stride]
+        if raw_points and points[-1] != raw_points[-1]:
+            points.append(raw_points[-1])
+        if len(points) < 2:
+            continue
+        key = (str(feature.get("layer", "0")), str(feature.get("color", "#dfe6ef")))
+        group = groups.setdefault(
+            key,
+            {
+                "name": key[0],
+                "color": [*rgb_from_hex(key[1]), 1.0],
+                "paths": [],
+            },
+        )
+        group["paths"].append(
+            [
+                blender_transform_point(point, origin_x, origin_y, sample_elevation, True, 0.45)
+                for point in points
+            ]
+        )
+    return list(groups.values())
+
+
+def build_blender_hatch_groups(
+    features: list[dict],
+    origin_x: float,
+    origin_y: float,
+    sample_elevation,
+) -> list[dict]:
+    groups: dict[tuple[str, str, float], dict] = {}
+    path_count = 0
+    for feature in features:
+        if feature.get("kind") != "hatch":
+            continue
+        raw_paths = feature.get("paths") or [feature.get("points") or []]
+        try:
+            opacity = float(feature.get("opacity", 0.45) or 0.45)
+        except (TypeError, ValueError):
+            opacity = 0.45
+        key = (str(feature.get("layer", "0")), str(feature.get("color", "#dfe6ef")), round(opacity, 2))
+        group = groups.setdefault(
+            key,
+            {
+                "name": key[0],
+                "color": [*rgb_from_hex(key[1]), max(0.08, min(1.0, key[2]))],
+                "paths": [],
+            },
+        )
+        for raw_path in raw_paths:
+            if path_count >= BLENDER_MAX_HATCH_PATHS:
+                break
+            if not isinstance(raw_path, list) or len(raw_path) < 3:
+                continue
+            path = [
+                blender_transform_point(point, origin_x, origin_y, sample_elevation, True, 0.65)
+                for point in raw_path
+                if isinstance(point, list) and len(point) >= 2
+            ]
+            if len(path) >= 3:
+                if path[0] == path[-1]:
+                    path = path[:-1]
+                group["paths"].append(path)
+                path_count += 1
+        if path_count >= BLENDER_MAX_HATCH_PATHS:
+            break
+    return [group for group in groups.values() if group["paths"]]
+
+
+def build_blender_images(
+    payload: dict,
+    features: list[dict],
+    origin_x: float,
+    origin_y: float,
+    sample_elevation,
+) -> list[dict]:
+    images = []
+    for feature in features:
+        if feature.get("kind") != "image":
+            continue
+        image_path = resolve_payload_image_path(payload, feature)
+        if image_path is None:
+            continue
+        points = feature.get("points") or []
+        if len(points) < 4:
+            continue
+        images.append(
+            {
+                "name": str(feature.get("text") or image_path.name),
+                "path": str(image_path),
+                "corners": [
+                    blender_transform_point(point, origin_x, origin_y, sample_elevation, True, 0.25)
+                    for point in points[:4]
+                ],
+            }
+        )
+    return images
+
+
+def payload_to_blender_script(payload: dict) -> bytes:
+    epsg = int(payload.get("epsg", 5187))
+    if epsg not in KOREA_CRS:
+        epsg = 5187
+    features = compact_slope_features_for_kml(safe_feature_payload(payload))
+    origin_x, origin_y = blender_origin(payload, features, epsg)
+    samples = collect_slope_samples({"features": features})
+    sample_elevation = build_slope_sampler(samples) if samples else None
+    data = {
+        "name": str(payload.get("name", "Aerial Viewer Project")),
+        "epsg": epsg,
+        "originProjected": [round(origin_x, 3), round(origin_y, 3)],
+        "originWgs84": payload.get("center"),
+        "terrain": build_blender_terrain(features, origin_x, origin_y, sample_elevation, samples),
+        "lineGroups": build_blender_line_groups(features, origin_x, origin_y, sample_elevation),
+        "hatchGroups": build_blender_hatch_groups(features, origin_x, origin_y, sample_elevation),
+        "images": build_blender_images(payload, features, origin_x, origin_y, sample_elevation),
+    }
+    script_data = json.dumps(data, ensure_ascii=False)
+    script = f'''# -*- coding: utf-8 -*-
+"""
+Generated by 조감도작성.
+Open Blender, go to Scripting, paste/run this file or start Blender with:
+blender --python this_file.py
+"""
+import math
+import os
+import bpy
+
+DATA = {script_data}
+
+
+def clear_scene():
+    bpy.ops.object.select_all(action="SELECT")
+    bpy.ops.object.delete()
+
+
+def material(name, rgba):
+    mat = bpy.data.materials.new(name[:63])
+    mat.diffuse_color = rgba
+    mat.use_nodes = True
+    mat.blend_method = "BLEND" if rgba[3] < 0.99 else "OPAQUE"
+    mat.show_transparent_back = True
+    bsdf = next((node for node in mat.node_tree.nodes if node.type == "BSDF_PRINCIPLED"), None)
+    if bsdf:
+        if "Base Color" in bsdf.inputs:
+            bsdf.inputs["Base Color"].default_value = rgba
+        if "Alpha" in bsdf.inputs:
+            bsdf.inputs["Alpha"].default_value = rgba[3]
+    return mat
+
+
+def image_material(name, path):
+    mat = bpy.data.materials.new(name[:63])
+    mat.diffuse_color = (1, 1, 1, 1)
+    mat.use_nodes = True
+    mat.blend_method = "BLEND"
+    nodes = mat.node_tree.nodes
+    links = mat.node_tree.links
+    bsdf = next((node for node in nodes if node.type == "BSDF_PRINCIPLED"), None)
+    tex = nodes.new(type="ShaderNodeTexImage")
+    if os.path.isfile(path):
+        tex.image = bpy.data.images.load(path, check_existing=True)
+    if bsdf:
+        if "Base Color" in bsdf.inputs:
+            links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+        if "Alpha" in bsdf.inputs:
+            links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
+    return mat
+
+
+def make_mesh(name, vertices, faces, mat):
+    mesh = bpy.data.meshes.new(name[:63] + "Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name[:63], mesh)
+    bpy.context.collection.objects.link(obj)
+    if mat:
+        obj.data.materials.append(mat)
+    return obj
+
+
+def make_curve_group(group):
+    curve = bpy.data.curves.new(("CAD " + group["name"])[:63], "CURVE")
+    curve.dimensions = "3D"
+    curve.resolution_u = 1
+    curve.bevel_depth = 0.12
+    curve.bevel_resolution = 1
+    for path in group["paths"]:
+        if len(path) < 2:
+            continue
+        spline = curve.splines.new("POLY")
+        spline.points.add(len(path) - 1)
+        for point, coord in zip(spline.points, path):
+            point.co = (coord[0], coord[1], coord[2], 1.0)
+    obj = bpy.data.objects.new(("CAD " + group["name"])[:63], curve)
+    bpy.context.collection.objects.link(obj)
+    obj.data.materials.append(material("Line " + group["name"], group["color"]))
+    return obj
+
+
+def make_hatch_group(group):
+    vertices = []
+    faces = []
+    for path in group["paths"]:
+        start = len(vertices)
+        vertices.extend(path)
+        faces.append(list(range(start, start + len(path))))
+    return make_mesh("Hatch " + group["name"], vertices, faces, material("Hatch " + group["name"], group["color"]))
+
+
+def make_image_plane(item):
+    obj = make_mesh("Image " + item["name"], item["corners"], [[0, 1, 2, 3]], image_material("Image " + item["name"], item["path"]))
+    uv_layer = obj.data.uv_layers.new(name="UVMap")
+    uv_values = [(0, 1), (1, 1), (1, 0), (0, 0)]
+    for loop, uv in zip(obj.data.polygons[0].loop_indices, uv_values):
+        uv_layer.data[loop].uv = uv
+    return obj
+
+
+clear_scene()
+terrain = DATA.get("terrain")
+if terrain:
+    make_mesh(terrain["name"], terrain["vertices"], terrain["faces"], material("Existing Terrain", terrain["color"]))
+for image in DATA.get("images", []):
+    make_image_plane(image)
+for hatch_group in DATA.get("hatchGroups", []):
+    make_hatch_group(hatch_group)
+for line_group in DATA.get("lineGroups", []):
+    make_curve_group(line_group)
+
+diameter = 1000
+if terrain and terrain["vertices"]:
+    xs = [point[0] for point in terrain["vertices"]]
+    ys = [point[1] for point in terrain["vertices"]]
+    diameter = max(max(xs) - min(xs), max(ys) - min(ys), 100)
+bpy.ops.object.light_add(type="SUN", location=(0, -diameter, diameter))
+bpy.context.object.name = "Sun"
+bpy.ops.object.camera_add(location=(0, -diameter * 1.25, diameter * 0.85), rotation=(math.radians(58), 0, 0))
+bpy.context.scene.camera = bpy.context.object
+bpy.context.scene.unit_settings.system = "METRIC"
+print("조감도작성 Blender scene loaded:", DATA["name"])
+print("Origin EPSG", DATA["epsg"], DATA["originProjected"], DATA.get("originWgs84"))
+'''
+    return script.encode("utf-8")
+
+
 def google_earth_executable() -> Path | None:
     for candidate in GOOGLE_EARTH_CANDIDATES:
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def blender_executable() -> Path | None:
+    for candidate in BLENDER_CANDIDATES:
         if candidate.is_file():
             return candidate
     return None
@@ -895,6 +1512,30 @@ class ViewerHandler(BaseHTTPRequestHandler):
                 ViewerHandler.dxf_path = path
                 ViewerHandler.active_source = source_id
                 return self.send_bytes(project_json(path, epsg, source_id), "application/json; charset=utf-8")
+            if parsed.path == "/api/image":
+                source_id = query.get("source", [self.active_source])[0]
+                raw_id = query.get("id", [""])[0]
+                path = source_path(source_id)
+                project = json.loads(project_json(path, None, source_id))
+                feature = next(
+                    (
+                        item for item in project.get("features", [])
+                        if str(item.get("id")) == str(raw_id) and item.get("kind") == "image"
+                    ),
+                    None,
+                )
+                if not feature or not isinstance(feature.get("image"), dict):
+                    return self.send_json({"error": "이미지 객체를 찾을 수 없습니다."}, 404)
+                image_path = resolve_image_path(str(path.resolve()), str(feature["image"].get("path", "")))
+                if not image_path:
+                    return self.send_json({"error": "DXF가 참조한 이미지 파일을 찾을 수 없습니다."}, 404)
+                resolved = Path(image_path)
+                content_type = mimetypes.guess_type(str(resolved))[0] or "application/octet-stream"
+                return self.send_bytes(
+                    resolved.read_bytes(),
+                    content_type,
+                    headers={"Cache-Control": "public, max-age=86400"},
+                )
             if parsed.path == "/api/export.kml":
                 requested_epsg = parse_epsg(query)
                 source_id = query.get("source", [self.active_source])[0]
@@ -932,7 +1573,7 @@ class ViewerHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         query = parse_qs(parsed.query)
         try:
-            if parsed.path in ("/api/export/dxf", "/api/export/kmz", "/api/google-earth/open"):
+            if parsed.path in ("/api/export/dxf", "/api/export/blender", "/api/blender/open", "/api/export/kmz", "/api/google-earth/open"):
                 length = int(self.headers.get("Content-Length", "0"))
                 if length <= 0 or length > MAX_JSON_BYTES:
                     return self.send_json({"error": "내보내기 데이터 크기가 올바르지 않습니다."}, 413)
@@ -946,6 +1587,41 @@ class ViewerHandler(BaseHTTPRequestHandler):
                         headers={
                             "Content-Disposition": 'attachment; filename="edited_project.dxf"'
                         },
+                    )
+                if parsed.path == "/api/export/blender":
+                    body = payload_to_blender_script(payload)
+                    return self.send_bytes(
+                        body,
+                        "text/x-python; charset=utf-8",
+                        headers={
+                            "Content-Disposition": f'attachment; filename="{base_name}_blender.py"'
+                        },
+                    )
+                if parsed.path == "/api/blender/open":
+                    executable = blender_executable()
+                    if executable is None:
+                        return self.send_json(
+                            {
+                                "error": "Blender를 찾을 수 없습니다. D:\\Ai 프로그래밍\\Blender\\blender.exe 설치를 확인해 주세요.",
+                                "scriptAvailable": True,
+                            },
+                            404,
+                        )
+                    EXPORT_ROOT.mkdir(parents=True, exist_ok=True)
+                    output_path = EXPORT_ROOT / f"{base_name}_blender_{int(time.time())}.py"
+                    output_path.write_bytes(payload_to_blender_script(payload))
+                    subprocess.Popen(
+                        [str(executable), "--python", str(output_path)],
+                        cwd=str(executable.parent),
+                        close_fds=True,
+                    )
+                    return self.send_json(
+                        {
+                            "ok": True,
+                            "path": str(output_path),
+                            "blender": str(executable),
+                            "message": "Blender에서 현재 도면을 열었습니다.",
+                        }
                     )
                 kmz = payload_to_kmz(payload)
                 if parsed.path == "/api/export/kmz":
