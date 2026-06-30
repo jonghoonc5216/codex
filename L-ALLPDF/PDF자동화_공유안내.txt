@@ -1,0 +1,24 @@
+PDF자동화 공유 안내
+
+1. PDF자동화_소스코드_메모장용.txt
+   - 현재 PDF자동화.exe를 만든 전체 C# 소스코드입니다.
+   - Python 변환 helper 코드는 이 C# 파일 안에 문자열로 포함되어 있습니다.
+
+2. FilePathCheckerModuleExample.dll
+   - 한글(HWP) 자동화 보안 경고를 줄이기 위한 공식 Hancom 보안모듈입니다.
+   - 현재 PDF자동화.exe에는 이 DLL이 내장되어 있고, 실행 시 자동으로 현재 사용자 레지스트리에 등록합니다.
+
+3. 직접 빌드할 때 참고
+   - C# 컴파일러가 있는 PC에서 아래와 같은 방식으로 빌드합니다.
+   - csc.exe /target:winexe /platform:x64 /out:PDF자동화.exe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /resource:FilePathCheckerModuleExample.dll,FilePathCheckerModuleExample.dll PDFAutomation.cs
+
+4. 필요한 환경
+   - Python
+   - pywin32
+   - pypdf
+   - Pillow
+   - Microsoft Office 또는 한컴오피스
+
+5. 주의
+   - 현재 프로그램은 순수 Python 파일 하나가 아니라 Windows GUI용 C# 프로그램입니다.
+   - 실제 문서 변환은 내부 Python helper가 담당합니다.
