@@ -1,0 +1,29 @@
+PDF 엑셀변환 프로그램 공유용 안내
+
+1. 처음 사용하는 PC
+   - 폴더 안의 처음실행_필수설치.bat를 먼저 실행합니다.
+   - Python 필수 모듈이 설치됩니다.
+   - Python이 없다는 안내가 나오면 Python 3 설치 후 다시 실행합니다.
+
+2. 프로그램 실행
+   - PDF_엑셀변환_실행.bat를 실행합니다.
+   - 변환할 PDF를 추가하거나 끌어다 놓습니다.
+   - 용역명, 사업위치, 사업면적, 기준년도, 발주처, 과업기간, 추가선택 등을 입력합니다.
+   - 저장명칭과 저장위치를 확인한 뒤 변환 실행을 누릅니다.
+
+3. 공유 시 주의
+   - 이 폴더 안의 파일명과 위치 관계를 유지해 주세요.
+   - template.xlsx, cover_summary_template.xlsx, optional_sheet_templates.xlsx, final_sheet_template.xlsx는 프로그램 실행에 필요합니다.
+   - 네트워크 드라이브 저장은 오류가 날 수 있으므로 로컬 PC 폴더 저장을 권장합니다.
+   - 결과 엑셀 파일이 열려 있으면 같은 이름으로 저장되지 않을 수 있습니다.
+
+4. 포함 파일
+   - auto_converter_gui.ps1: 변환기 화면
+   - pdf_formula_converter.py: 변환 엔진
+   - PDF_엑셀변환_실행.bat: 프로그램 실행
+   - 처음실행_필수설치.bat: 최초 설치
+   - requirements.txt: Python 모듈 목록
+   - template.xlsx: 금액/작업량 기본 템플릿
+   - cover_summary_template.xlsx: 갑지/총괄 템플릿
+   - optional_sheet_templates.xlsx: 추가선택 템플릿
+   - final_sheet_template.xlsx: 손배 템플릿
